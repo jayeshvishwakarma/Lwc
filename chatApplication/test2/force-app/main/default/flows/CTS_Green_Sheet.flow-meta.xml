@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <assignments>
+        <name>Assign_Green_Sheet_Values</name>
+        <label>Assign Green Sheet Values</label>
+        <locationX>630</locationX>
+        <locationY>150</locationY>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Opportunity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Quote_Number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Quote_Number</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Ship_Month__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Forecast_Ship_Month</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Frame__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FramePL</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Production_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ProductionSitePL</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Motor_Frequency__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>MotorFrequencyPL</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Gearing__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>GearingPL</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.No_of_Stage_No_of_Coolers__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>No_of_Stages_No_of_Coolers</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Stock_Unit__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>StockUnitPL</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjOpportunity.Green_Sheet_Completed__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Full_Model_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Full_Model_Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sObjGreenSheet.Opportunity_Product_Offering__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OppProductOfferingList</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Green_Sheet_Record</targetReference>
+        </connector>
+    </assignments>
+    <choices>
+        <name>FrameChoice</name>
+        <choiceText>Please select the Frame</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Please select the Frame</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>GearingChoice</name>
+        <choiceText>Please select the Gearing</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Please select the Gearing</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>MotorFrequencyChoice</name>
+        <choiceText>Please select the Motor Frequency</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Please select the Motor Frequency</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>OppProductOfferingChoice</name>
+        <choiceText>&lt;p style=&quot;user-select: auto;&quot;&gt;Please select the Centrifugal Product this QFR is for&lt;/p&gt;</choiceText>
+        <dataType>String</dataType>
+    </choices>
+    <choices>
+        <name>OtherFrameChoice</name>
+        <choiceText>If Frame is Other - Please select the Other Frame</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>If Frame is Other - Please select the Other Frame</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>ProductionSiteChoice</name>
+        <choiceText>Please select the Production Site</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Please select the Production Site</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>StagesCoolersChoice</name>
+        <choiceText>Please select the No. of Stages / No. of Coolers</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Please select the No. of Stages / No. of Coolers</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>StockUnitChoice</name>
+        <choiceText>&lt;p style=&quot;user-select: auto;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14.6667px; font-family: Calibri, sans-serif; color: rgb(0, 0, 0); user-select: auto;&quot;&gt;Is this an MSG Turbo Air Rapid Response Stock Unit?&lt;/span&gt;&lt;/p&gt;</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Is this a Stock Unit?</stringValue>
+        </value>
+    </choices>
+    <decisions>
+        <name>Check_for_Other_Frame</name>
+        <label>Check for Other Frame</label>
+        <locationX>656</locationX>
+        <locationY>370</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Green_Sheet_Values</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Frame_Type_not_Other</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FramePL</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Other Frame</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>OtherFrameChoice</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AlertScreen</targetReference>
+            </connector>
+            <label>Frame Type not Other</label>
+        </rules>
+    </decisions>
+    <dynamicChoiceSets>
+        <name>FramePL</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Frame__c</picklistField>
+        <picklistObject>CTS_Green_Sheet__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>GearingPL</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Gearing__c</picklistField>
+        <picklistObject>CTS_Green_Sheet__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>MotorFrequencyPL</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Motor_Frequency__c</picklistField>
+        <picklistObject>CTS_Green_Sheet__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>OppProductOfferingList</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <filters>
+            <field>Green_Sheet__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>Opportunity_Line_Item__c</object>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>OtherFramePL</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Other_Frame__c</picklistField>
+        <picklistObject>CTS_Green_Sheet__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>ProductionSitePL</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Production_Site__c</picklistField>
+        <picklistObject>CTS_Green_Sheet__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>StagesCoolersPL</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>No_of_Stage_No_of_Coolers__c</picklistField>
+        <picklistObject>CTS_Green_Sheet__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>StockUnitPL</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Stock_Unit__c</picklistField>
+        <picklistObject>CTS_Green_Sheet__c</picklistObject>
+    </dynamicChoiceSets>
+    <interviewLabel>Green Sheet {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Green Sheet</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_Green_Sheet_Record</name>
+        <label>Create Green Sheet Record</label>
+        <locationX>828</locationX>
+        <locationY>150</locationY>
+        <connector>
+            <targetReference>Update_Opportunity</targetReference>
+        </connector>
+        <inputReference>sObjGreenSheet</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <name>Lookup_Opportunity</name>
+        <label>Lookup Opportunity</label>
+        <locationX>254</locationX>
+        <locationY>145</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Green_Sheet</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>Opportunity</object>
+        <outputReference>sObjOpportunity</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Green_Sheet_Completed__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Opportunity</name>
+        <label>Update Opportunity</label>
+        <locationX>1012</locationX>
+        <locationY>148</locationY>
+        <inputReference>sObjOpportunity</inputReference>
+    </recordUpdates>
+    <screens>
+        <name>AlertScreen</name>
+        <label>AlertScreen</label>
+        <locationX>346</locationX>
+        <locationY>395</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Green_Sheet</targetReference>
+        </connector>
+        <fields>
+            <name>Alert</name>
+            <fieldText>&lt;b&gt;&lt;font size=&quot;3&quot;&gt;***Please do NOT make a selection for &apos;Other Frame&apos; unless the Frame selected is Other Frame. Press the Previous button below to return to the previous screen and make the correction***&lt;/font&gt;&lt;/b&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Green_Sheet</name>
+        <label>Green Sheet</label>
+        <locationX>399</locationX>
+        <locationY>153</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Check_for_Other_Frame</targetReference>
+        </connector>
+        <fields>
+            <name>Header</name>
+            <fieldText>&lt;p style=&quot;user-select: auto;&quot;&gt;&lt;b style=&quot;user-select: auto;&quot;&gt;Plant Air Forecast Details&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>BlankSpace1</name>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Opportunity_Product_Offering</name>
+            <choiceReferences>OppProductOfferingList</choiceReferences>
+            <choiceReferences>OppProductOfferingChoice</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>OppProductOfferingChoice</defaultSelectedChoiceReference>
+            <fieldText>Opportunity Product Offering</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>BlankSpace</name>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Quote_Number</name>
+            <dataType>String</dataType>
+            <fieldText>ETO Quote Number</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Full_Model_Name</name>
+            <dataType>String</dataType>
+            <fieldText>Full Model Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>&lt;p style=&quot;user-select: auto;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14.6667px; font-family: Calibri, sans-serif; color: rgb(0, 0, 0);&quot;&gt;Refer to Compressor Performance Curve, i.e. C80055M3EHD or TURBO-AIR 2000, 350/125&lt;/span&gt;&lt;/p&gt;</helpText>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Forecast_Ship_Month</name>
+            <dataType>Date</dataType>
+            <fieldText>Forecast Ship Month</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;Close Month plus quoted Lead Time = Forecast Ship Month&lt;/p&gt;</helpText>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Frame</name>
+            <choiceReferences>FramePL</choiceReferences>
+            <choiceReferences>FrameChoice</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>FrameChoice</defaultSelectedChoiceReference>
+            <fieldText>Frame</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Production_Site</name>
+            <choiceReferences>ProductionSitePL</choiceReferences>
+            <choiceReferences>ProductionSiteChoice</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>ProductionSiteChoice</defaultSelectedChoiceReference>
+            <fieldText>Production Site</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Other_Frame</name>
+            <choiceReferences>OtherFramePL</choiceReferences>
+            <choiceReferences>OtherFrameChoice</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>OtherFrameChoice</defaultSelectedChoiceReference>
+            <fieldText>Other Frame</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Motor_Frequency</name>
+            <choiceReferences>MotorFrequencyPL</choiceReferences>
+            <choiceReferences>MotorFrequencyChoice</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>MotorFrequencyChoice</defaultSelectedChoiceReference>
+            <fieldText>Motor Frequency</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Gearing</name>
+            <choiceReferences>GearingPL</choiceReferences>
+            <choiceReferences>GearingChoice</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>GearingChoice</defaultSelectedChoiceReference>
+            <fieldText>Gearing</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>No_of_Stages_No_of_Coolers</name>
+            <choiceReferences>StagesCoolersPL</choiceReferences>
+            <choiceReferences>StagesCoolersChoice</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>StagesCoolersChoice</defaultSelectedChoiceReference>
+            <fieldText>No. of Stages / No. of Coolers</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Stock_Unit</name>
+            <choiceReferences>StockUnitPL</choiceReferences>
+            <choiceReferences>StockUnitChoice</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>StockUnitChoice</defaultSelectedChoiceReference>
+            <fieldText>Stock Unit?</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <startElementReference>Lookup_Opportunity</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>sObjGreenSheet</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CTS_Green_Sheet__c</objectType>
+    </variables>
+    <variables>
+        <name>sObjOpportunity</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+</Flow>

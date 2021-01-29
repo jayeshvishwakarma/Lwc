@@ -1,0 +1,83 @@
+<template>
+
+    <div class="slds-p-around_small">
+
+        <div class="slds-is-relative slds-p-vertical_small" if:true={loading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </div>
+
+        <div class="slds-text-color_error" if:true={errorMessage}>
+            {errorMessage}
+        </div>
+
+        <template if:true={loaded}>
+
+            <div class="slds-grid slds-grid_align-end">
+                <ul class="slds-list_horizontal slds-has-dividers_right slds-has-block-links">
+                    <li class="slds-item" onclick={handleRefresh}>
+                        <a href="javascript:void(0);">Refresh</a>
+                    </li>
+                    <li class="slds-item" if:false={showCollapseAll} onclick={handleExpandAll}>
+                        <a href="javascript:void(0);">Expand All</a>
+                    </li>
+                    <li class="slds-item" if:true={showCollapseAll} onclick={handleCollapseAll}>
+                        <a href="javascript:void(0);">Collapse All</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class={upcomingSectionCls}>
+                <h3 class="slds-section__title">
+                    <button aria-controls="upcoming_tasks" aria-expanded="true"
+                        class="slds-button slds-section__title-action" onclick={toogleUpcomingSection}>
+                        <lightning-icon class="slds-section__title-action-icon" icon-name="utility:chevrondown"
+                            size="x-small" alternative-text="Expanded" if:false={collapseUpcomingSection}>
+                        </lightning-icon>
+                        <lightning-icon class="slds-section__title-action-icon" icon-name="utility:chevrondown"
+                            size="x-small" alternative-text="Collapsed" if:true={collapseUpcomingSection}>
+                        </lightning-icon>
+                        <span class="slds-truncate slds-p-horizontal_x-small" title="Upcoming & Overdue">
+                            Upcoming & Overdue</span>
+                    </button>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content" id="upcoming_tasks">
+                    <ul class="slds-timeline slds-p-around_small slds-p-top_none">
+                        <li for:each={upcomingTasks} for:item="task" key={task.Id} if:true={upcomingTasks.length}>
+                            <c-custom-activity-timeline-item task={task} is-upcoming onview={handleView}
+                                onedit={handleEdit}>
+                            </c-custom-activity-timeline-item>
+                        </li>
+                        <li if:false={upcomingTasks.length}>No upcoming activities found.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class={pastSectionCls}>
+                <h3 class="slds-section__title">
+                    <button aria-controls="past_tasks" aria-expanded="true"
+                        class="slds-button slds-section__title-action" onclick={tooglePastSection}>
+                        <lightning-icon class="slds-section__title-action-icon" icon-name="utility:chevrondown"
+                            size="x-small" alternative-text="Expanded" if:false={collapsePastSection}>
+                        </lightning-icon>
+                        <lightning-icon class="slds-section__title-action-icon" icon-name="utility:chevrondown"
+                            size="x-small" alternative-text="Collapsed" if:true={collapsePastSection}>
+                        </lightning-icon>
+                        <span class="slds-truncate slds-p-horizontal_x-small" title="Past">Past</span>
+                    </button>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content" id="past_tasks">
+                    <ul class="slds-timeline slds-p-around_small slds-p-top_none">
+                        <li for:each={pastTasks} for:item="task" key={task.Id} if:true={pastTasks.length}>
+                            <c-custom-activity-timeline-item task={task} onview={handleView} onedit={handleEdit}>
+                            </c-custom-activity-timeline-item>
+                        </li>
+                        <li if:false={pastTasks.length}>No past activities found.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </template>
+
+    </div>
+
+</template>

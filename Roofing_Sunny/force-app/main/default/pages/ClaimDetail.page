@@ -1,0 +1,499 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" standardStylesheets="false" applyHtmlTag="false" Controller="twod_CTClaimPublicController"  cache="true" expires="10" contentType="{! renderedContentType }" renderAs="{! renderingService }">
+    <html>
+        <head>
+            <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8"/>
+            
+            <style type="text/css">                   
+                .tooltiptext {
+                visibility: hidden;                
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+                
+                /* Position the tooltip */
+                position: absolute;
+                z-index: 1;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -60px;
+                }
+                
+                .tooltip1:hover .tooltiptext {
+                visibility: visible;
+                }
+                
+                li.dropdown-submenu:hover ul{
+                display: block;
+                left: 100%;
+                }
+                .dropdown-submenu{
+                position:relative;
+                }
+                
+                .dropdown-submenu:hover .dropdown-menu{
+                top:0;
+                }
+                
+                @page{
+                size:A4 portrait;
+                
+                @bottom-right {
+                content: "Page " counter(page) " - " counter(pages);
+                font-family: 'Arial', 'Helvetica', sans-serif;
+                font-size:10px;
+                }
+                }
+                
+                @media print
+                {    
+                .no-print, .no-print *
+                {
+                display: none !important;
+                }
+                .no-Screen
+                {
+                display: block !important;
+                }
+                }
+                
+                @media screen
+                {
+                .no-print, .no-print *{}
+                .no-Screen{display:none !important;}
+                }                  
+                #modalWindow {display: block; position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; }        
+            </style>
+            
+            
+            <script type="text/javascript" src="{!$Resource.jqueryCT}"></script>
+            <script src="{!$Resource.bootstrapjss}"></script>
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+            
+            
+            <style>
+                .red{
+                color:red;
+                }
+                .form-area
+                {
+                background-color: #FAFAFA;
+                padding: 10px 40px 60px;
+                margin: 10px 0px 60px;
+                border: 1px solid GREY;
+                }
+                .company-name
+                {
+                font-size: 14px;
+                font-style: italic;
+                border-bottom: solid 1px #d3d3d3;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+                }
+                .webform-confirmation {
+                padding-top: 20px;
+                }
+                .webform-confirmation {
+                text-align: center;
+                }
+                
+                .receipt-output {
+                background-color: #f5f5f5;
+                border: solid 1px #d3d3d3;
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 10px;
+                margin-bottom: 20px;
+                list-style-type: none;
+                text-align: left;
+                }
+                .receipt-heading {
+                font-size: 22px;
+                font-weight: bold;
+                }
+                .right-side{
+                text-align: right;
+                }
+            </style>
+            
+        </head>
+        <script type="text/javascript">
+        function printFunc(){
+            var p=document.getElementsByClassName("print")[0];            
+            // p.style.display='none';
+            window.print();
+        }
+        
+        function closeWindow(){
+            window.close();
+        }
+        
+        </script>
+        <div style="background-color: #027cc5;">        
+            <div class="container" style="background-color: #027cc5;" >
+                <div class="row logo" style="padding-bottom: 22px;">
+                    <div class="col-sm-2" style="cursor:pointer" onclick="window.location.assign('https://www.certainteed.com')" >
+                        <br/>
+                        <apex:image url="{!$Resource.certainteedLogo}" style="height: 50px;cursor:pointer" styleClass="logo no-print" />
+                        <apex:image url="{!$Resource.certainteedLogoPrint}" style="height: 50px;cursor:pointer" styleClass="logo no-screen" />
+                    </div>
+                    <div class="col-sm-8">
+                        
+                    </div>
+                    <div class="col-sm-2 no-print" style="padding-top: 22px;">
+                        <div style="cursor:pointer" onclick="window.location.assign('{!url}')">                        
+                            <apex:image url="{!$Resource.HomePage}" style="height: 50px;cursor:pointer"  />
+                            <span style="color: white;font-weight: bold;">HOME</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <apex:form styleClass="content">  
+            <apex:inputHidden value="{!formName}" id="formName"/>
+            <apex:inputHidden value="{!modalRender}" id="modalRender"/>
+            <apex:inputHidden value="{!AttachmentId}" id="AttachmentId"/>
+            <apex:inputHidden value="{!downloadURL}" id="downloadURL"/>
+            <apex:actionFunction name="download" action="{!download}"/>
+            <apex:actionFunction name="downloadTest" action="{!downloadTest}"/>
+            
+            <apex:pageBlock >                
+                
+                {!doc}
+            </apex:pageBlock>
+            <div class="container">               
+                <div class="webform-confirmation">
+                    <apex:pageBlock rendered="{! renderingService != 'PDF' }"> <div class="row no-print" style="display:none">
+                        <div class="col-xs-6" style="text-align: left;">
+                            <apex:commandLink action="{! saveToPdf }">
+                                <apex:image url="http://www.va.gov/BLUEBUTTON/images/09_BlueButton_Icon_Grayscale_Transparent_NoShadow_72dpi_720x720.png" style="height: 40px;cursor:pointer" styleClass="logo" />
+                                <apex:param assignTo="{! renderedFileName }" value="ClaimInformation.pdf"/>
+                            </apex:commandLink>                        <span>Download</span>
+                            
+                        </div>  
+                        <div class="col-xs-6" style="text-align: right;">
+                            <apex:image url="http://3.bp.blogspot.com/-W3mGn7FPg2c/VLsnm026nBI/AAAAAAAACzo/MFfA2Qh-ZoU/s1600/print-button.png" style="height: 40px;cursor:pointer" styleClass="logo"  onclick="printFunc();return false;"/>
+                            <span>Print</span>
+                        </div>
+                        
+                        </div>
+                    </apex:pageBlock>
+                    <apex:pageBlock rendered="{! renderingService != 'PDF' }">
+                        <div class="no-print">
+                            <!-- CERP-58 : Updating to CertainTeed's -->
+                            <apex:outputpanel rendered="{!!tracking}">
+                                <h2>THANK YOU</h2>
+                                <p>Thank you for using CertainTeed's online claim submission portal.  Your initial claim notification was successfully submitted on &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!claim.createdDate}" /> </apex:outputText></p>  
+                                <p>Your claim number is <b>{!claim.Name}</b>.  You will receive an email confirmation shortly. You can also print this page for your records.</p>
+                                <p><mark style="background-color: yellow;"><b>To complete the submittal process</b>, please download and complete your product group's specific claim form with instructions and return it along with all required claim materials to the address shown at the top of the form.</mark></p>
+                                <p>All requested information is required and necessary for your claim to be processed; incomplete forms or missing items may delay the process.</p>
+                                <p>Upon receipt, we will begin processing your claim. Please allow 3-4 weeks for notification status or resolution of your warranty claim.</p>
+                               <apex:pageBlock rendered="{!isSiding}"> <p>For questions, please contact 800-999-3654</p> </apex:pageBlock>
+                               <apex:pageBlock rendered="{!isRoofing}"> <p>For questions, please contact 800-345-1145</p> </apex:pageBlock> 
+                            </apex:outputpanel> 
+                            <apex:outputpanel rendered="{!tracking}">
+                                <h2>THANK YOU</h2>
+                                <p>Thank you for using CertainTeed's Online Claim Tracking Portal. Please see status below.If additional information is requested, you will receive notification within the next 10 business days. If the status is marked as complete, you will receive the final disposition within 10 business days.</p>  
+                                <apex:pageBlock rendered="{!isSiding}"> <p>For questions, please contact 800-999-3654</p> </apex:pageBlock>
+                                <apex:pageBlock rendered="{!isRoofing}"> 
+                                    <p>For any questions, please email us at rpg.t.services@saint-gobain.com or call 1-800-345-1145.</p>
+                                </apex:pageBlock> 
+                            </apex:outputpanel> 
+                        </div>                                                
+                        <apex:pageBlock rendered="{!tracking}">                    
+                            <div class="container" style="max-width: 600px;">
+                                
+                                <table class="table table-hover table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th  class="table-head"> Claim Number</th>
+                                            <th  class="table-head"> Status</th>
+                                            <th  class="table-head"> Last Update</th>
+                                        </tr>
+                                        <apex:repeat value="{!claimTracking}" var="c">
+                                            <tr>
+                                                <td class="table-Label" >{!claim.Name}</td>
+                                                <td class="table-Label" >{!c.Claim_Status__c}</td>
+                                                <td>
+                                                    <apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!c.Modified_Date__c}" /> </apex:outputText>                                            
+                                                </td>                                    
+                                            </tr>
+                                        </apex:repeat>
+                                    </tbody>
+                                </table>
+                                
+                            </div>                    
+                        </apex:pageBlock>
+                    </apex:pageBlock>
+                    
+                    <apex:pageBlock rendered="{! renderingService == 'PDF' }">                    
+                        <p>Thank you for Registering with us.<br/>
+                            Your Claim number is  {!claim.Name}</p>
+                        <apex:pageBlock rendered="{!isRoofing}">
+                            <p>If you need a copy of the warranty for the year the shingles were installed, please visit <a href="http://www.ctroof.com" target="_blank">www.ctroof.com</a></p>
+                        </apex:pageBlock>
+                    </apex:pageBlock>
+                    
+                    <h3>Mailing Address</h3>
+                    <div class="container receipt-output">
+                        
+                        <div class="row">
+                            <div class="col-xs-12 receipt-heading"> 
+                                {!claim.First_Name__c} {!claim.Last_Name__c}                               
+                                <div class="company-name"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-7">{!claim.Address_1__c}<br/>                                
+                                <apex:outputText rendered="{!claim.Address_2__c != '' }">
+                                    {!claim.Address_2__c}<br/>                                
+                                </apex:outputText>
+                                {!claim.City__c}, {!claim.State__c} {!claim.Postal_Code__c}<br/>
+                                {!claim.Country__c}</div>
+                            <div class="col-xs-5 right-side">{!claim.Phone__c}<br/>{!claim.Email__c}</div>
+                        </div>
+                    </div>
+                    <h3>Building Location</h3>
+                    <div class="container receipt-output">
+                        <div class="row">
+                            <div class="col-xs-12 receipt-heading">
+                                <apex:pageBlock rendered="{!propertyType == 'Commercial'}">
+                                    {!claim.Organization__c}<br/>
+                                </apex:pageBlock> 
+                                {!claim.First_Name_BL__c} {!claim.Last_Name_BL__c}
+                                <div class="company-name"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{!claim.Address_1_BL__c}<br/>
+                                <apex:outputText rendered="{!claim.Address_2_BL__c != '' }">
+                                    {!claim.Address_2_BL__c}<br/>                                
+                                </apex:outputText>
+                                {!claim.City_BL__c}, {!claim.State_BL__c} {!claim.Postal_Code_BL__c}<br/>
+                                {!claim.Country_BL__c}</div>                            
+                        </div>
+                    </div>
+                    <apex:pageBlock rendered="{!!tracking}">    
+                        <h3>Product Information</h3>
+                        <div class="container receipt-output">
+                            <div class="row">
+                                <div class="col-xs-12"><b>Date Installed: </b><apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!claim.Install_Date__c}" /> </apex:outputText>                                                               
+                                    <br/>
+                                    <b>Product Group: </b>{!claim.Product_Group__c}<br/>
+                                    
+                                    <apex:outputPanel rendered="{!isRoofing}">
+                                    <b>Number of Squares Applied : </b>{!claim.material_quantity__c} <apex:outputPanel rendered="{!claim.Unit_of_Measure__c != '' }"> in {!claim.Unit_of_Measure__c}</apex:outputPanel><br/>
+                                    <b>Number of Squares Affected by Concern: </b>{!claim.Quantity__c} <apex:outputPanel rendered="{!claim.Unit_of_Measure__c != '' }"> in {!claim.Unit_of_Measure__c}</apex:outputPanel><br/>
+                                    </apex:outputPanel>
+                                    
+                                    <apex:outputPanel rendered="{!isSiding}">
+                                        <b>Affected Quantity: </b>{!claim.Quantity__c} <apex:outputPanel rendered="{!claim.Unit_of_Measure__c != '' }"> in {!claim.Unit_of_Measure__c}</apex:outputPanel><br/>
+                                    </apex:outputPanel>
+                                    
+                                    <b>Product Details: </b>{!claim.Product_Detail__c}<br/>                                
+                                    <b>Nature of Problem: </b>{!claim.Nature_of_Problem__c}<br/>                                
+                                    <!--<b>Claim Number:</b> {!claim.Name}<br/>  -->
+                                    <!-- <b>Claim Status:</b> {!claim.twod__Claim_Status__c} --></div>
+                            </div>
+                        </div>
+                    </apex:pageBlock>
+                </div>
+                <apex:pageBlock rendered="{! renderingService != 'PDF' }"> 
+                    <div class="row no-print">
+                        <center>
+                            <!--
+                            <button type="button" class="btn btn-primary" onclick="printFunc()">Print</button>         
+                            &nbsp;
+                            <apex:commandLink action="{! saveToPdf }">                      
+                                <apex:commandButton styleClass="btn btn-success" value="Download" /> 
+                                <apex:param assignTo="{! renderedFileName }" value="{! 'Claim Information-('+ claim.Name + ').pdf'}"/>
+                            </apex:commandLink>                             
+                            <br/>
+                            -->
+                            <apex:pageBlock rendered="{! isRoofing && !tracking}">
+                            <h3>Instructions</h3>
+                            <ul style="list-style-type:none">
+                                <li>1 . Please disable your pop-up blocker on this site in order to Download/Print the Claim Form and Instructions.</li>
+                                <li>	a. To allow pop-ups for this site, please follow the instructions for your browser below:</li>
+                                 <li>   <a href="https://support.google.com/chrome/answer/95472?co=GENIE.Platform%3DDesktop&hl=en" target="_blank">Google Chrome</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://support.microsoft.com/en-us/help/17479/windows-internet-explorer-11-change-security-privacy-settings" target="_blank">Microsoft Internet Explorer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://support.mozilla.org/en-US/kb/pop-blocker-settings-exceptions-troubleshooting" target="_blank">Mozilla Firefox</a>
+                                </li>
+                                <li>2 . Select one of the Claim Forms and Instructions from the Blue Box below</li>
+                                <li>3 . Click the Green ‘Download Claim Form’ Button </li>
+                                <li>4 . Your Claim Form will Download and then you can Print your Claim Form</li>
+                            </ul>  
+                            </apex:pageBlock>
+                            <apex:pageBlock rendered="{! isRoofing && tracking}">
+                            <h3>Instructions</h3>
+                            <ul style="list-style-type:none">
+                                <li>If you need to reprint your claim forms and instructions, please select the appropriate forms, download, and print</li>
+                            </ul>  
+                            </apex:pageBlock>
+                            <apex:pageBlock rendered="{!isSiding}">
+                            <h3>Instructions</h3>
+                            <ul style="list-style-type:none">
+                                <li>1 . Please disable your pop-up blocker on this site in order to Download/Print the Claim Form and Instructions</li>      
+                                <li>2 . Click the Green ‘Download Claim Form’ Button </li>
+                                <li>3 . Your Claim Form will Download and then you can Print your Claim Form</li>
+                            </ul>  
+                            </apex:pageBlock>
+                            <br/>                            
+                            <div>   
+                                <apex:outputPanel rendered="{!(claim.Product_Group__c == '') || (isRoofing)}"> 
+                                    <div class="btn-group tooltip1 dropup">
+                                        <a class="btn btn-primary dropdown-toggle " data-toggle="dropdown" href="#">{!formList[0].Name}<span class="caret"></span></a>
+                                        <ul class="dropdown-menu dropup">
+                                            <apex:repeat value="{!formList}" var="form">
+                                                <li class="dropup"><a>{!form.Name}</a></li>    
+                                            </apex:repeat>                                                                               
+                                        </ul>
+                                        <apex:outputPanel rendered="{!isRoofing}"><span class="tooltiptext">Select the form as per the Product type</span></apex:outputPanel>
+                                        <apex:outputPanel rendered="{!!isRoofing}"><span class="tooltiptext">Select the form as per the Product type</span></apex:outputPanel> 
+                                    </div>
+                                    <apex:outputPanel rendered="{!isRoofing}">
+                                        <span>&nbsp;</span>                               
+                                        <apex:commandButton styleClass="btn btn-success SubmitButton" value="Download Claim Form" action="{!downloadTest}" />
+                                    </apex:outputPanel>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!!isRoofing}">
+                                    <span>&nbsp;</span>                               
+                                    <apex:commandButton styleClass="btn btn-success SubmitButton" value="Download {!claim.Product_Group__c} Claim Form" action="{!downloadTest}" />   
+                                </apex:outputPanel>
+                            </div>
+                            <script>
+                            $(".dropdown-menu li a").click(function(){
+                                var selText = $(this).text();
+                                $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+                                jQuery('[id$=formName]').val(selText);
+                            });
+                            </script>
+                        </center>
+                    </div>
+                </apex:pageBlock>
+            </div>
+            
+            
+            <apex:actionPoller id="actionPoll" action="{!actionPoller}" interval="5" rendered="{!EnablePoller}" enabled="{!EnablePoller}" reRender="modal,pollerUpdate,AttachmentId,formName,downloadURL" oncomplete="DowloadDoc();"/>           
+            <apex:outputPanel id="modal" rendered="{!EnablePoller}">             
+                <div class="no-print" id="modalWindow" style="position: fixed;">
+                    <div class="modalBackground"></div>
+                    <div  style=" position: fixed; z-index: 750; left: 40%; top: 42%; padding: 20px; border: solid 2px #ccc; background-color: #fff;">
+                        <div>                       
+                            <div style="color: #6a6a6a;font-size: 26px;font-family: calibri;">
+                                Generating the Document
+                            </div>
+                            <br/>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="100"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                    <span id="generate">Fetching the Document</span>
+                                </div>
+                            </div>
+                            <div style="color: #6a6a6a;font-size: 26px;font-family: calibri;" >
+                                <div id='internetSlow' style="display:none">
+                                    Our Server is busy with so many requestes.
+                                    <br/>Please wait
+                                </div>
+                                Download will begin in <span id="counter">few</span> Seconds...
+                            </div>
+                            <br/>                            
+                        </div>  
+                    </div>
+                </div>
+                <script type="text/javascript">              
+                function DowloadDoc()
+                {
+                    var att = jQuery('[id$=AttachmentId]').val() ;
+                    var downloadURL=jQuery('[id$=downloadURL]').val()
+                    console.log(downloadURL);
+                    if(downloadURL!='')
+                    {
+                        document.getElementById('generate').innerText='Document has been Generated';
+                        $('#counter').html('15');
+                        timer();    
+                        /*setTimeout(function(){ UnrevealModal('modalWindow'); 
+                                              window.open(downloadURL);                                              
+                                             }, 15000);                                                
+                                             */
+                        //var totalPageURL = window.location.toString();
+                        //var protocalType= totalPageURL.split("//")[0];
+                        //var tempbaseURL = totalPageURL.split("//")[1].split("/");
+                        //var finalBaseURL = protocalType+'//'+tempbaseURL[0] + "{!$Site.Prefix}";
+                        
+                    }
+                }
+                </script>
+            </apex:outputPanel>
+        </apex:form>
+        
+        <script type="text/javascript">
+        
+        function revealModal(divID) {
+            if(jQuery('[id$=formName]').val()=='')
+            {
+                window.alert('Please select a form');
+                return null;
+            }
+            window.onscroll = function () { document.getElementById(divID).style.top = document.body.scrollTop; };    
+            downloadTest()
+            document.getElementsByClassName('SubmitButton')[0].style.display = "none";
+            document.getElementById('modalWindow').style.display = "block";
+            document.getElementById('modalWindow').style.top = document.body.scrollTop;
+            timer();                        
+        }
+        
+        function UnrevealModal(divID) {
+            var downloadURL=jQuery('[id$=downloadURL]').val()
+            window.open(downloadURL);
+            window.onscroll = function () { document.getElementById(divID).style.top = document.body.scrollTop; };           
+            document.getElementsByClassName('SubmitButton')[0].style = "";
+            document.getElementById('modalWindow').style.display = "none";
+            document.getElementById('modalWindow').style.top = document.body.scrollTop;            
+        }
+        
+        $( window ).load(function() {
+        });
+        
+        function timer(){
+            var time = new Date();
+            Date.prototype.toShortString = function(){
+                var x = this.getSeconds();
+                return x;
+            };
+            time.countDown = function(){
+                var z = this.getSeconds();
+                var a = 0;
+                if(z == 0){
+                    return;
+                }
+                if(z==10){
+                    $('#generate').html('Processing the Documnet');
+                }
+                if(z==8){
+                    $('#generate').html('Replacing the content');
+                }
+                if(z==6){
+                    $('#generate').html('Compiling');
+                }
+                if(z==4){
+                    $('#generate').html('Downloading');
+                }                                
+                a = z-1;
+                this.setSeconds(a);
+                $('#counter').html(time.toShortString());
+                if (a==0) {
+                    $('#generate').html('Fetching the Document');
+                    document.getElementById('internetSlow').style.display='none';
+                    UnrevealModal('modalWindow');
+                    //window.open(downloadURL);
+                    $('#counter').html('15');
+                }
+                setTimeout(function(){time.countDown();}, 1000);
+            };
+            time.setSeconds(14);
+            setTimeout(function(){time.countDown();}, 1000);
+        }
+        </script>
+    </html>
+</apex:page>

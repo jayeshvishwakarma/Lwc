@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Account by Name" icon-name="standard:account">
+        <lightning-input 
+         label="Enter Account Name" 
+         onchange={handleChange} 
+         value={searchAccount}
+        >
+        </lightning-input><br/>
+        <lightning-button
+         label="Submit"
+         onclick={handleClick}
+        >
+        </lightning-button><br/>
+
+        <template if:true={accountRecords}><br/>
+        <lightning-datatable
+         key-field = "id"
+         columns = {fieldNames}
+         data = {accountRecords}
+        >
+        </lightning-datatable>
+    </template>
+    </lightning-card>
+</template>

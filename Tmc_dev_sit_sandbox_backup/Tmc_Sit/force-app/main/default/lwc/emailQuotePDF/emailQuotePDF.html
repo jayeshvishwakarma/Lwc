@@ -1,0 +1,22 @@
+<template>
+
+    <!-- =======     FOR SPINNER USE ONLY     ======= -->
+    <div if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+
+    <!-- =======     SECTION HEADER USE ONLY     ======= -->
+    <!--
+    <div class="slds-align_absolute-center" style="font-weight: 300;font-size: 1.25rem;line-height: 1.25;">
+        Generate PDF ...
+    </div>
+    -->
+
+    
+    <br><br><br>
+    <div class="slds-align_absolute-center" >
+        <button class="slds-button slds-button_brand" onclick={cancelBtn}>Cancel</button>
+    </div>
+    
+
+</template>

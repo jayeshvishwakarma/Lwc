@@ -1,0 +1,15 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" >
+    <aura:html tag="style">
+    	.cuf-scroller-content{
+        	background:#fff;
+        }
+        .slds-modal__container { 
+            width: 65%;
+            max-width: 55rem; 
+        }
+    </aura:html>
+     
+      
+    <c:sVOCDetailCmp svocsection="Car Details" typeOfSection="Display" recordId="{!v.recordId}"></c:sVOCDetailCmp>
+    <!--<c:sVOCDetailCmp svocsection="Car Details" typeOfSection="Display" recordId="{!v.recordId}"></c:sVOCDetailCmp>-->
+</aura:component>

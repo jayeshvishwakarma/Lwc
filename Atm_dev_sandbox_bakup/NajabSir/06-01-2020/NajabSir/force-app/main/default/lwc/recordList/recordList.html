@@ -1,0 +1,51 @@
+<template>
+    <div >
+        <div class="slds-grid slds-wrap 
+                        slds-dropdown_length-with-icon-7 
+                        slds-dropdown_fluid
+                        slds-p-left_small"
+                 >
+                <div class="slds-col slds-size_4-of-4">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <li role="presentation" class="slds-listbox__item">
+                            <div class="slds-media slds-listbox__option 
+                                                        slds-listbox__option_entity 
+                                                        slds-listbox__option_has-meta" 
+                                                        role="option"
+                                onclick={handleSelect}>
+                                <span class="slds-media__figure slds-listbox__option-icon">
+                                    <lightning-icon icon-name={iconname} size="small"></lightning-icon>
+                                </span>
+                                <span class="slds-media__body" style="padding-top: 2px;">
+                                    
+                                    <span if:true={isAccessories}>
+                                        <span style="font-size: 12px; font-weight: bold;"> {record.Name}</span> <br>
+                                        <span style="font-size: 11px;"> {record.ProductCode}  </span>
+                                        <span style="font-size: 11px; padding-left: 5%" if:true={record.Variant_LKP__c}>
+                                            <ul style="list-style-type: circle; display: inline-block;"> <li> {record.Variant_LKP__r.Name} </li> </ul>
+                                        </span>
+                                    </span>
+
+                                    <span if:false={isAccessories}>
+                                        <span if:true={forproductcode} class="slds-listbox__option-text 
+                                                                    slds-listbox__option-text_entity">
+                                            {record.ProductCode}
+                                        </span>
+                                        <div>
+                                            <span if:false={forproductcode} style="font-weight: 600;">
+                                            {record.Name}
+                                            </span>
+                                            &nbsp;
+                                            <span if:true={outletConsingneeCode} style="font-weight: 600;">
+                                                {record.Consingnee_Code__c}
+                                            </span>
+                                        </div>
+                                    </span>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+</template>

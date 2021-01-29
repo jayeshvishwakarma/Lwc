@@ -1,0 +1,397 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Saving"></lightning-spinner>
+    </template>
+
+    <template if:false={formCompleted}>
+        <div class="content-section">
+
+
+
+            <lightning-layout multiple-rows="true">
+
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <center>
+                        <h3 style="color:#3399ff;font-weight:bold;font-size:medium">SNEL</h3>
+                    </center>
+                    <div class="plans formpadding">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" size="6" small-device-size="6"
+                                medium-device-size="12" large-device-size="12">
+
+                                Downloadsnelheid<br />
+                                <b>100 Mbit/s</b><br /><br />
+                                Uploadsnelheid<br />
+                                <b>100 Mbit/s</b><br /><br />
+
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" size="6" small-device-size="6"
+                                medium-device-size="12" large-device-size="12">
+                                <center><img width="150px"
+                                        src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/amount-snel.png" />
+                                    <br /> <input type="radio" class="input" value="SNEL" name="cource"
+                                        onchange={handleChange}></input></center>
+
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </lightning-layout-item>
+
+
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <center>
+                        <h3 style="color:#3399ff;font-weight:bold;font-size:medium">SNELLER</h3>
+                    </center>
+                    <div class="plans middle formpadding">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" size="6" small-device-size="6"
+                                medium-device-size="12" large-device-size="12">
+
+                                Downloadsnelheid<br />
+                                <b>200 Mbit/s</b><br /><br />
+                                Uploadsnelheid<br />
+                                <b>200 Mbit/s</b><br /><br />
+
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" size="6" small-device-size="6"
+                                medium-device-size="12" large-device-size="12">
+                                <center> <img width="150px"
+                                        src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/amount-sneller.png" />
+                                    <br /><input type="radio" class="input" value="SNELLER" onchange={handleChange}
+                                        name="cource"></input></center>
+
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </lightning-layout-item>
+
+
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <center>
+                        <h3 style="color:#3399ff;font-weight:bold;font-size:medium">RAZENDSNEL</h3>
+                    </center>
+                    <div class="plans middle formpadding" style="background-color:#FFFFE0;">
+                        <lightning-layout multiple-rows="true" style="background-color:#FFFFE0;">
+                            <lightning-layout-item flexibility="auto" size="6" small-device-size="6"
+                                medium-device-size="12" large-device-size="12">
+
+                                Downloadsnelheid<br />
+                                <b>500 Mbit/s</b><br /><br />
+                                Uploadsnelheid<br />
+                                <b>500 Mbit/s</b><br /><br />
+
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" size="6" small-device-size="6"
+                                medium-device-size="12" large-device-size="12">
+                                <center> <img width="150px"
+                                        src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/amount-razendsnel.png" />
+                                    <br /><input type="radio" id="razen" class="input" onchange={handleChange}
+                                        value="RAZENDSNEL" data-value="RAZENDSNEL" name="cource"
+                                        checked={defaultValue}></input>
+                                </center>
+
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+            <br />
+            <center>
+                <h3 style="color:#3399ff;font-weight:bold;font-size:medium">
+                    GRATIS INBEGREPEN
+                </h3>
+            </center>
+            <lightning-layout multiple-rows="true" style="border:3px solid #009900;padding:0.5rem">
+
+                <lightning-layout-item flexibility="auto" size="6" small-device-size="6" medium-device-size="4"
+                    large-device-size="4">
+                    <img width="22px"
+                        src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/tickmark.png" />
+                    4G Back-up
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="6" small-device-size="6" medium-device-size="4"
+                    large-device-size="4">
+                    <img width="22px"
+                        src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/tickmark.png" />
+                    Installatie
+                </lightning-layout-item>
+
+                <lightning-layout-item flexibility="auto" size="6" small-device-size="6" medium-device-size="4"
+                    large-device-size="4">
+                    <img width="22px"
+                        src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/tickmark.png" />Extra
+                    Veilig Internet
+                </lightning-layout-item>
+
+                <lightning-layout-item flexibility="auto" size="6" small-device-size="6" medium-device-size="4"
+                    large-device-size="4">
+                    <img width="22px"
+                        src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/tickmark.png" />Vast
+                    IP-adres
+                </lightning-layout-item>
+
+                <lightning-layout-item flexibility="auto" size="6" small-device-size="6" medium-device-size="4"
+                    large-device-size="4">
+                    <img width="22px"
+                        src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/tickmark.png" />
+                    WiFi router
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="6" small-device-size="6" medium-device-size="4"
+                    large-device-size="4">
+
+                </lightning-layout-item>
+
+            </lightning-layout>
+            <br />
+            <center>
+                <h3 style="color:#3399ff;font-weight:bold;font-size:medium">
+                    KPN ÉÉN TV
+                </h3>
+            </center>
+
+            <lightning-layout multiple-rows="true" vertical-align="stretch">
+
+                <lightning-layout-item flexibility="grow" size="6" small-device-size="6" medium-device-size="4"
+                    large-device-size="4" class="slds-grid--vertical-stretch plans rightborder">
+
+                    <div class="formpadding">
+                        <span style="font-weight:bold;"> Standaard pakket </span><br /><br /><br />
+                        •30+ HD tv-zenders<br />
+                        •14 regionale tv-zenders<br />
+                        •20+ radiozenders<br /><br />
+                        <img width="150px"
+                            src="https://www.cloudeen.nl/resource/glasvezel_resources/glasvezel_resources/images/amount-pakket.png" /><br /><br /><br />
+                        
+                            <div style="margin-top:1rem">
+                            Aantal<input style="width:75px;height:30px;margin-left:1rem;" type="number" value={aantal}
+                            min="0"
+                            onchange={handleaantalchange}></input>
+                            </div>
+
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-grid--vertical-stretch plans middle" flexibility="grow" size="6" small-device-size="6" medium-device-size="4"
+                    large-device-size="4">
+
+                    <div class="formpadding">
+
+                        <span style="font-weight:bold;"> Fox Sports </span><br /><br /><br />
+                        <center> <span style="font-weight:bold;color:#3399ff"> € 7,50 p/mnd </span> <br />
+                            <!--checkbox-->
+                            <input style="margin-top:3px" type="checkbox" onchange={handlecheckboxfoxsports}
+                                class="input" name="foxSports" value={foxSports}></input>
+                            <br /></center>
+                        <span style="font-weight:bold;"> Ziggo Sports </span> <br /><br /><br />
+                        <center><span style="font-weight:bold;color:#3399ff"> € 12,39 p/mnd </span><br />
+                            <input type="checkbox" onchange={handlecheckboxziggosports} class="input" name="ziggoSports"
+                                value={ziggoSports}></input>
+                            <br /> </center>
+
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item class="plans borders"  flexibility="grow" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div class="formpadding">
+                        <lightning-layout multiple-rows="true" vertical-align="stretch">
+                            <lightning-layout-item flexibility="auto" size="6" small-device-size="6"
+                                medium-device-size="12" large-device-size="12">
+                                <span style="font-weight:bold;">Interactieve features </span><br />
+                                • Live tv pauzeren<br />
+                                • Opnemen<br />
+                                • Vooruit- en terugspoelen<br />
+                                • Begin gemist<br />
+                                • Uitzending terugkijken<br /><br />
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" size="6" small-device-size="6"
+                                medium-device-size="12" large-device-size="12">
+                                <span style="font-weight:bold;"> Zakelijke features</span><br />
+                                • Tekstbalk voor eigen of<br />
+                                externe content<br />
+                                • Eigen video- en<br />
+                                informatiepagina<br />
+                                • Eigen logo in tv menu<br />
+
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+              <br />
+
+<!--Modification new changes-->
+
+        <center>
+            <h3 style="color:#3399ff;font-weight:bold;font-size:medium">
+                GRATIS KPN ÉÉN TELEFOONCENTRALE
+            </h3>
+        </center>
+            <lightning-layout multiple-rows="true" style="border:3px solid #009900;padding:0.5rem">
+
+                <lightning-layout-item  padding="around-small" flexibility="auto" size="12" small-device-size="12" medium-device-size="12"
+                    large-device-size="12">
+                    {gratisKpnLabel}<br/><br/><br/>
+                </lightning-layout-item>
+                
+                <lightning-layout-item  class=" slds-text-align_left" flexibility="auto" size="12" small-device-size="12" medium-device-size="1"
+                    large-device-size="1">
+                    <label style="line-height:2.5;">Aantal</label>
+                </lightning-layout-item>
+                <lightning-layout-item  class="slds-text-align_left" flexibility="auto" size="12" small-device-size="12" medium-device-size="3"
+                    large-device-size="3">
+                   <lightning-combobox
+                       name="aantal"
+                       value={aantalOptionValue}
+                       style="float:left; margin-top:-17px;"
+                       options={aantalOptions}
+                       onchange={aantalChange} >
+                    </lightning-combobox>
+                </lightning-layout-item>
+
+                <lightning-layout-item  class=" slds-text-align_left" flexibility="auto" size="12" small-device-size="12" medium-device-size="2"
+                    large-device-size="2">
+                    <label class="custom-label-vast-nummer">Vast nummer</label>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-text-align_left" flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                   <lightning-combobox
+                       style="float:left;margin-top:-17px;"
+                       name="progress"
+                       value={vastNummer}
+                       options={vastNummerOptions}
+                       onchange={vastNummerChange} >
+                    </lightning-combobox>
+                </lightning-layout-item>
+        </lightning-layout>
+        <br/>
+
+
+            <h3 style="color: #009900;">UW GEGEVENS</h3>
+            <br />
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                        <lightning-input type="text" value={bedrijfsnaam} name="Bedrijfsnaam" label="Bedrijfsnaam"
+                            ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                        <lightning-input type="text" value={kvk_nummer} name="kvk_number" label="kvk number" >
+                        </lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="3"
+                    large-device-size="3">
+                    <div>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="3"
+                    large-device-size="3">
+                    <div>
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout><br />
+            <b>Aansluitadres</b><br />
+            <br />
+            {straat} &nbsp; {huisnummer} &nbsp; {toevoeging} <br/> 
+            {postcode} &nbsp; {plaats}   <br/><br/>                  
+
+            <b>Contactpersoon</b><br />
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                        <lightning-input type="text" value={voornaam} onchange={voornaamchange} name="Voornaam"
+                            label="Voornaam" ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                        <lightning-input type="text" value={achternaam} name="Achternaam" onchange={achternaamchange}
+                            label="Achternaam" ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                        <lightning-input onchange={emailchange} type="text" value={emailadres} name="Emailadres"
+                            label="E-mailadres" ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                        <lightning-input type="text" value={phone} onchange={phonechange} name="Phone"
+                            label="Telefoonnr" ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                        <lightning-input type="text" value={bankrekeningnummer} onchange={bankrekeningnummerchange}
+                            name="Bankrekeningnummer" label="IBAN"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+                    large-device-size="4">
+                    <div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <br />
+            <p>
+                Handtekening
+            </p><br />
+            <c-signature onclear={handleClear}></c-signature><br />
+            <template if:true={isError}>
+                <div class="customerror">Error : {errorMessage} </div>
+            </template>
+            &nbsp; <button class="btn" style="background-color:#3399ff;color:#fff"
+                onclick={handleClick}>Verzenden</button>
+        </div>
+    </template>
+</template>

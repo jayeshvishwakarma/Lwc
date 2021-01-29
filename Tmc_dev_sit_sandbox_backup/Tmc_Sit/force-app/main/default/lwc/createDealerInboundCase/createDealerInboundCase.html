@@ -1,0 +1,664 @@
+<template>
+        <template if:true={isSpinnerShow}>
+                <lightning-spinner variant="brand" size="large" alternative-text="loading"></lightning-spinner>
+        </template>
+        <div class={mainCss}>
+                <div class="slds-template__container">
+                        <div class="inlinePanel oneRecordActionWrapper">
+                                <div class="slds-clearfix slds-card1 groupDependentFieldEnabled full-width ">
+                                        <div></div>
+                                        <!-- Header-->
+                                        <div>
+                                                <h4
+                                                        class=" slds-p-top--large slds-p-horizontal--medium slds-p-bottom--medium slds-text-heading--medium">
+                                                        {newCaseLabel}
+                                                </h4>
+                                        </div>
+                                        <template if:true={isFormReadyToShow}>
+                                                <!--onsuccess={handleSuccess}
+                                                onerror={handleError}-->
+                                                <lightning-record-edit-form object-api-name={sObjectName}
+                                                        onsubmit={handleSubmitRec} record-type-id={recordTypeId}
+                                                        record-id={caseId}>
+                                                        <lightning-messages>
+                                                        </lightning-messages>
+                                                        <!--Start of Fields Section -->
+                                                        <!-- Customer Information Section -->
+                                                        <div id="customer-information-section"
+                                                                class="slds-section slds-is-open">
+                                                                <h3
+                                                                        class="slds-section__title slds-theme_shade backgroundColor">
+                                                                        <span class="slds-truncate slds-p-horizontal_small"
+                                                                                title="Customer Information">Customer
+                                                                                Information </span>
+                                                                </h3>
+                                                                <div aria-hidden="false" class="slds-section__content">
+                                                                        <lightning-layout multiple-rows>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field name=""
+                                                                                                field-name="First_Name__c"
+                                                                                                required
+                                                                                                value={valuesObj.customerFirstName}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field name=""
+                                                                                                field-name="Middle_Name__c">
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field name=""
+                                                                                                field-name="Last_Name__c"
+                                                                                                required
+                                                                                                value={valuesObj.customerLastName}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field name=""
+                                                                                                field-name="Mobile_Number__c"
+                                                                                                required
+                                                                                                value={valuesObj.customerMobile}
+                                                                                                autocomplete="off">
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field name=""
+                                                                                                field-name="Email__c"
+                                                                                                required
+                                                                                                value={valuesObj.customerEmail}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                        </lightning-layout>
+                                                                </div>
+                                                        </div>
+
+                                                        <!-- Case Information Section -->
+                                                        <div id="case-information-section"
+                                                                class="slds-section slds-is-open">
+                                                                <h3
+                                                                        class="slds-section__title slds-theme_shade backgroundColor">
+                                                                        <span class="slds-truncate slds-p-horizontal_small"
+                                                                                title="Case Information">Case
+                                                                                Information </span>
+                                                                </h3>
+                                                                <div aria-hidden="false" class="slds-section__content">
+                                                                        <lightning-layout multiple-rows>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                onchange={handleFieldChange}
+                                                                                                name="Channel__c"
+                                                                                                field-name="Channel__c"
+                                                                                                required
+                                                                                                value={valuesObj.channelValue}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                onchange={handleFieldChange}
+                                                                                                name="Case_Type__c"
+                                                                                                field-name="Case_Type__c"
+                                                                                                value={valuesObj.caseType}
+                                                                                                required>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                onchange={handleFieldChange}
+                                                                                                name="Business_Area__c"
+                                                                                                field-name="Business_Area__c"
+                                                                                                data-id="bsinessArea"
+                                                                                                value={valuesObj.businessArea}
+                                                                                                required
+                                                                                                disabled={businessAreaReadOnly}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                onchange={handleFieldChange}
+                                                                                                name="Case_Stage__c"
+                                                                                                field-name="Case_Stage__c"
+                                                                                                value={valuesObj.caseStage}
+                                                                                                placeholder="Please select"
+                                                                                                data-id="resteData">
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <!-- Start of Categories Fields -->
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="12"
+                                                                                        large-device-size="12"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-combobox
+                                                                                                class="slds-p-horizontal--xx-small"
+                                                                                                name="primaryCategory"
+                                                                                                label="Primary Category"
+                                                                                                value={valuesObj.primaryCategoryValue}
+                                                                                                placeholder="Please select"
+                                                                                                required
+                                                                                                disabled={isPrimaryCategoryDisabled}
+                                                                                                options={primaryCategoryOptions}
+                                                                                                onchange={handlePrimaryCategoryChange}>
+                                                                                        </lightning-combobox>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="12"
+                                                                                        large-device-size="12"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-combobox
+                                                                                                class="slds-p-horizontal--xx-small"
+                                                                                                name={secondaryCategory}
+                                                                                                label="Secondary Category"
+                                                                                                value={valuesObj.secondaryCategoryValue}
+                                                                                                placeholder="Please select"
+                                                                                                disabled={isSecondaryCategoryDisabled}
+                                                                                                options={secondaryCategoryOptions}
+                                                                                                onchange={handleSecondaryCategoryChange}>
+                                                                                        </lightning-combobox>
+                                                                                </lightning-layout-item>
+
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="12"
+                                                                                        large-device-size="12"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-combobox
+                                                                                                class="slds-p-horizontal--xx-small"
+                                                                                                name={tertiaryCategory}
+                                                                                                label="Tertiary Category"
+                                                                                                value={valuesObj.tertiaryCategoryValue}
+                                                                                                placeholder="Please select"
+                                                                                                disabled={isTertiaryCategoryDisabled}
+                                                                                                options={tertiaryCategoryOptions}
+                                                                                                onchange={handleTertiaryCategoryChange}>
+                                                                                        </lightning-combobox>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                placeholder="Please select"
+                                                                                                name="Preferred_Mode_Of_Communication__c"
+                                                                                                field-name="Preferred_Mode_Of_Communication__c">
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                placeholder="Please select"
+                                                                                                name="Mode__c"
+                                                                                                value="Phone"
+                                                                                                field-name="Mode__c"
+                                                                                                required>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                placeholder="Please select"
+                                                                                                name="Origin"
+                                                                                                field-name="Origin"
+                                                                                                value="Dealer Inbound"
+                                                                                                required>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                placeholder="Please select"
+                                                                                                name="Policy_No__c"
+                                                                                                field-name="Policy_No__c"
+                                                                                                value={policyNumber}
+                                                                                                data-id="PolicyData"
+                                                                                                if:true={insuranceBusinessArea}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Registration_No__c"
+                                                                                                field-name="Registration_No__c"
+                                                                                                data-id="PolicyData"
+                                                                                                if:true={insuranceBusinessArea}
+                                                                                                autocomplete="off"
+                                                                                                onchange={handleRegistrationNumberChange}
+                                                                                                required>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                placeholder="Please select"
+                                                                                                name="FCR_Conducted__c"
+                                                                                                field-name="FCR_Conducted__c"
+                                                                                                if:true={insuranceBusinessArea}
+                                                                                                data-id="PolicyData"
+                                                                                                required
+                                                                                                onchange={handleFieldChange}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                placeholder="Please select"
+                                                                                                name="FCR_Conducted__c"
+                                                                                                field-name="FCR_Conducted__c"
+                                                                                                if:true={accessoriesBusinessArea}
+                                                                                                data-id="resteData"
+                                                                                                required
+                                                                                                onchange={handleFieldChange}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="12"
+                                                                                        large-device-size="12"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Subject"
+                                                                                                field-name="Subject"
+                                                                                                required>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="12"
+                                                                                        large-device-size="12"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Description"
+                                                                                                field-name="Description"
+                                                                                                required>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="12"
+                                                                                        large-device-size="12"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Additional_Information__c"
+                                                                                                field-name="Additional_Information__c">
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                        </lightning-layout>
+                                                                </div>
+                                                        </div>
+
+                                                        <!-- Transaction Information Section -->
+                                                        <div id="transaction-information-section"
+                                                                class="slds-section slds-is-open"
+                                                                if:true={salesAccesoriesBusinessArea}>
+                                                                <h3
+                                                                        class="slds-section__title slds-theme_shade backgroundColor">
+                                                                        <span class="slds-truncate slds-p-horizontal_small"
+                                                                                title="Transaction Information">Transaction
+                                                                                Information </span>
+                                                                </h3>
+                                                                <div aria-hidden="false" class="slds-section__content">
+                                                                        <lightning-layout multiple-rows>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Enquiry__c"
+                                                                                                field-name="Enquiry__c"
+                                                                                                value={valuesObj.enquiryId}
+                                                                                                data-id="resteTransactionData"
+                                                                                                onchange={handleFieldChange}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Booking_No__c"
+                                                                                                field-name="Booking_No__c"
+                                                                                                data-id="resteTransactionData"
+                                                                                                value={valuesObj.Booking_No__c}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Invoice_No__c"
+                                                                                                field-name="Invoice_No__c"
+                                                                                                data-id="resteTransactionData"
+                                                                                                value={valuesObj.Invoice_No__c}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Model__c"
+                                                                                                placeholder="Please select"
+                                                                                                field-name="Model__c"
+                                                                                                data-id="resteTransactionData"
+                                                                                                value={valuesObj.Model__c}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Variant__c"
+                                                                                                field-name="Variant__c"
+                                                                                                data-id="resteTransactionData"
+                                                                                                value={valuesObj.Variant__c}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Color__c"
+                                                                                                field-name="Color__c"
+                                                                                                data-id="resteTransactionData"
+                                                                                                value={valuesObj.Color__c}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Registration_No__c"
+                                                                                                field-name="Registration_No__c"
+                                                                                                data-id="resteTransactionData"
+                                                                                                value={valuesObj.Registration_No__c}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="VIN_No__c"
+                                                                                                field-name="VIN_No__c"
+                                                                                                data-id="resteTransactionData"
+                                                                                                value={valuesObj.VIN_No__c}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Product_Group__c"
+                                                                                                field-name="Product_Group__c"
+                                                                                                data-id="resteData"
+                                                                                                if:true={accessoriesBusinessArea}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                        </lightning-layout>
+                                                                </div>
+                                                        </div>
+
+                                                        <div id="asset-information-section"
+                                                                class="slds-section slds-is-open"
+                                                                if:true={serviceBusinessArea}>
+                                                                <h3
+                                                                        class="slds-section__title slds-theme_shade backgroundColor">
+                                                                        <span class="slds-truncate slds-p-horizontal_small"
+                                                                                title="Customer Information">Asset
+                                                                                Information </span>
+                                                                </h3>
+                                                                <div aria-hidden="false" class="slds-section__content">
+                                                                        <lightning-layout multiple-rows>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Job_Card_Details__c"
+                                                                                                field-name="Job_Card_Details__c"
+                                                                                                data-id="AssetData"
+                                                                                                value={serviceHistory.jobCardNumber}>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input-field
+                                                                                                name="Registration_No__c"
+                                                                                                field-name="Registration_No__c"
+                                                                                                data-id="AssetData"
+                                                                                                value={serviceHistory.registrationNumber}
+                                                                                                required>
+                                                                                        </lightning-input-field>
+                                                                                </lightning-layout-item>
+                                                                        </lightning-layout>
+                                                                </div>
+                                                        </div>
+
+
+
+                                                        <div id="dealer-information-section"
+                                                                class="slds-section slds-is-open">
+                                                                <h3
+                                                                        class="slds-section__title slds-theme_shade backgroundColor">
+                                                                        <span class="slds-p-horizontal_small"
+                                                                                title="Customer Information">Dealer
+                                                                                Information </span>
+                                                                </h3>
+                                                                <div aria-hidden="false" class="slds-section__content">
+                                                                        <lightning-layout multiple-rows>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="12"
+                                                                                        large-device-size="12"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-combobox
+                                                                                                class="slds-p-horizontal--xx-small"
+                                                                                                name="dealerName"
+                                                                                                label="Dealer Outlet Name"
+                                                                                                value={valuesObj.dealerOutletName}
+                                                                                                placeholder="--None--"
+                                                                                                options={dealerOutletOptions}
+                                                                                                onchange={handleFieldChange}
+                                                                                                disabled={dealerReadonly}
+                                                                                                dropdown-alignment="bottom-left"
+                                                                                                required>
+                                                                                        </lightning-combobox>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input name="forCode"
+                                                                                                label="City" disabled
+                                                                                                value={dealerCityData}>
+                                                                                        </lightning-input>
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small"
+                                                                                        if:true={manulOwnerAssign}>
+                                                                                        <template if:false={ownerData}>
+                                                                                                <c-search-component
+                                                                                                        name="caseOwner"
+                                                                                                        label="Case Owner"
+                                                                                                        onchange={handleOwnerSearch}
+                                                                                                        place-holder-name="Search Case Owner"
+                                                                                                        class="customRequired"
+                                                                                                        onclick={handleOwnerSearch}
+                                                                                                        required>
+                                                                                                </c-search-component>
+                                                                                        </template>
+                                                                                        <template if:false={ownerData}>
+                                                                                                <div
+                                                                                                        if:true={caseOwnerSearchResult}>
+                                                                                                        <div for:each={caseOwnerSearchResult}
+                                                                                                                for:item="record"
+                                                                                                                key={record.Id}>
+                                                                                                                <c-record-list
+                                                                                                                        key={record.Id}
+                                                                                                                        record={record}
+                                                                                                                        onselect={handleOwnerSelection}
+                                                                                                                        iconname="standard:employee"
+                                                                                                                        case-owner-data=true>
+                                                                                                                </c-record-list>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                        </template>
+                                                                                        <template if:true={ownerData}>
+                                                                                                <label
+                                                                                                        class="slds-form-element__label customRequired">Case
+                                                                                                        Owner</label>
+                                                                                                <input class="slds-input slds-combobox__input
+                                                                                       slds-combobox__input-value"
+                                                                                                        id="combobox-id-5"
+                                                                                                        aria-controls="listbox-id-5"
+                                                                                                        autocomplete="off"
+                                                                                                        role="textbox"
+                                                                                                        type="text"
+                                                                                                        placeholder="Select an Option"
+                                                                                                        value={caseOwnerName} />
+                                                                                                <button class="sicon_container slds-button slds-button_icon 
+                                                                                                        slds-input__icon slds-input__icon_right"
+                                                                                                        title="Remove selected option"
+                                                                                                        style="padding-left: 88%; margin-top: -18%;"
+                                                                                                        onclick={handleRemove}>
+                                                                                                        <lightning-icon
+                                                                                                                icon-name="utility:close"
+                                                                                                                size="small"
+                                                                                                                style="margin-top: inherit;">
+                                                                                                        </lightning-icon>
+                                                                                                        <span
+                                                                                                                class="slds-assistive-text">Remove
+                                                                                                                selected
+                                                                                                                option</span>
+                                                                                                </button>
+                                                                                        </template>
+
+                                                                                </lightning-layout-item>
+                                                                                <lightning-layout-item size="12"
+                                                                                        small-device-size="12"
+                                                                                        medium-device-size="6"
+                                                                                        large-device-size="6"
+                                                                                        padding="horizontal-small">
+                                                                                        <lightning-input type="text"
+                                                                                                label="Service Advisor Name"
+                                                                                                value={serviceHistory.serviceAdvisor}
+                                                                                                if:true={serviceHistory.serviceAdvisor}
+                                                                                                disabled>
+                                                                                        </lightning-input>
+                                                                                </lightning-layout-item>
+                                                                        </lightning-layout>
+                                                                </div>
+                                                        </div>
+
+                                                        <!--End of Fields Section-->
+                                                        <lightning-button class="submit-btn slds-hide" type="submit"
+                                                                label="submit">
+                                                        </lightning-button>
+                                                </lightning-record-edit-form>
+                                        </template>
+                                </div>
+
+                                <!--Button Section-->
+                                <div class="inlineFooter slds-border--top"
+                                        style="position: sticky; background-color: rgb(255, 255, 255);">
+                                        <div class="slds-m-top_small"></div>
+                                        <div class="button-container slds-text-align_center forceRecordEditActions">
+                                                <div class="actionsContainer">
+                                                        <div class="button-container-inner">
+                                                                <lightning-button class="slds-m-horizontal--xxx-small"
+                                                                        label={cancelButtonLabel}
+                                                                        onclick={closeCreateCase}>
+                                                                        <!--closeModal-->
+                                                                </lightning-button>
+                                                                <lightning-button class="slds-m-horizontal--xxx-small"
+                                                                        variant="brand" label="Save" onclick={saveCase}
+                                                                        disabled={disableSaveButton}>
+                                                                </lightning-button>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                                <!--End of Button Section -->
+
+                        </div>
+                </div>
+        </div>
+</template>

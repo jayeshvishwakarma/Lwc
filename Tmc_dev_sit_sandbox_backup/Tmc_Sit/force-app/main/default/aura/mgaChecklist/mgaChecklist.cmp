@@ -1,0 +1,5 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" >
+	<c:preliminaryChecklist recordId="{!v.recordId}" checklistType="MGA Manager Checklist" selectedType=""
+        onclose="{!c.closeQuickAction}">
+    </c:preliminaryChecklist>
+</aura:component>

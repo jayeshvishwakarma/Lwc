@@ -1,0 +1,241 @@
+<template>
+    <template if:true={isSpinnerShow}>
+        <lightning-spinner variant="brand" size="large" alternative-text="loading"></lightning-spinner>
+    </template>
+    <div class="slds-text-color_error" if:true={errorMessage}>
+        {errorMessage}
+    </div>
+    <div if:true={miUpdateCmp}>
+        <lightning-record-edit-form record-id={recordId} object-api-name="Case" onsuccess={handleSuccess}
+            onsubmit={handleSubmitRec}>
+            <lightning-messages></lightning-messages>
+
+            <template if:true={showPolicyDelivery}>
+                <div id="policy-delivery-info" class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade backgroundColor">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Policy Delivery Info">Policy Delivery
+                            Info.</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Mode_of_Delivery__c" name="Mode_of_Delivery__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Date_of_Delivery__c" name="Date_of_Delivery__c"
+                                    required onchange={handleOnChange}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Tracking_Number__c" name="Tracking_Number__c"
+                                    onchange={handleOnChange} placeholder="For Courier or Speedpost">
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Courier_Company__c" name="Courier_Company__c"
+                                    onchange={handleOnChange} placeholder="For Courier only">
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Hand_Delivered__c" name="Hand_Delivered__c"
+                                    onchange={handleOnChange}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Customer_Intimated__c" name="Customer_Intimated__c"
+                                    onchange={handleOnChange}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </template>
+            <template if:true={showEndorse}>
+                <div id="endorsement-info" class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade backgroundColor">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Endorsement Info">Endorsement
+                            Info.</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Endorsement_Type__c" name="Endorsement_Type__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Endorsement_Status__c" name="Endorsement_Status__c"
+                                    onchange={handleOnChange}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Documents_Pending__c" name="Documents_Pending__c"
+                                    onchange={handleOnChange}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Endorsement_Date__c" name="Endorsement_Date__c"
+                                    onchange={handleOnChange}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Endorsement_Sent__c" name="Endorsement_Sent__c"
+                                    onchange={handleOnChange}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </template>
+            <template if:true={showNCB}>
+                <div id="ncb-info" class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade backgroundColor">
+                        <span class="slds-truncate slds-p-horizontal_small" title="NCB Info">NCB Info.</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="NCB_Sent_Date__c" name="NCB_Sent_Date__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </template>
+            <template if:true={showClaim}>
+                <div id="claim-info" class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade backgroundColor">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Claim Info">Claim Info.</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Claim_Final_Status__c" name="Claim_Final_Status__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Claim_Not_Honoured_Reason__c"
+                                    onchange={handleOnChange} name="Claim_Not_Honoured_Reason__c">
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </template>
+            <template if:true={showRenewal}>
+                <div id="renewal-info" class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade backgroundColor">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Renewal Info">Policy Renewal
+                            Info.</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Policy_Renewal_Status__c" onchange={handleOnChange}
+                                    name="Policy_Renewal_Status__c" required></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Reason_for_non_renewal__c" onchange={handleOnChange}
+                                    name="Reason_for_non_renewal__c"></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="MI_Renewal_Remarks__c" name="MI_Renewal_Remarks__c"
+                                    onchange={handleOnChange}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </template>
+            <template if:true={showRefund}>
+                <div id="refund-info" class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade backgroundColor">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Refund Info">Refund Info.</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Refund_Date__c" name="Refund_Date__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Refund_Amount__c" name="Refund_Amount__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <!--<lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                            large-device-size="6" padding="horizontal-small">
+                            <lightning-input-field field-name="Bank_Reference_No__c" name="Bank_Reference_No__c"
+                                onchange={handleOnChange}>
+                            </lightning-input-field>
+                        </lightning-layout-item>-->
+                        </lightning-layout>
+                    </div>
+                </div>
+            </template>
+            <template if:true={showWebsite}>
+                <div id="website-info" class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade backgroundColor">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Refund Info">Refund Info.</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Refund_Date__c" name="Refund_Date__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Refund_Amount__c" name="Refund_Amount__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                                large-device-size="6" padding="horizontal-small">
+                                <lightning-input-field field-name="Bank_Reference_No__c" name="Bank_Reference_No__c"
+                                    onchange={handleOnChange} required>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </template>
+            <div class="slds-m-top_medium slds-text-align_center">
+                <lightning-button class="slds-m-horizontal--xxx-small" variant="brand" label="Save"
+                    onclick={mandatoryCheck} if:true={showButton}>
+                </lightning-button>
+            </div>
+            <lightning-button class="submit-btn slds-hide" type="submit" label="Save">
+            </lightning-button>
+        </lightning-record-edit-form>
+    </div>
+    <div if:true={dealerResltion}>
+        <c-dealer-Resolution caseupdate={processNameData} record-id={recordId}></c-dealer-Resolution>
+   </div>
+</template>

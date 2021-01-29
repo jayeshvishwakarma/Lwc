@@ -1,0 +1,45 @@
+<apex:component >
+    <h2>
+        9 Service Level Agreement
+    </h2>    
+    <p>
+        Voor eventuele storingen is Mobile Miles 24 uur per dag en 7 dagen per week bereikbaar. 
+        Hiervoor gelden de volgende bepalingen:
+    </p>
+    <ul>
+<li>De aanduiding van storingen bestaat minimaal uit de probleemomschrijving en de locatie. 
+In voorkomende gevallen kan een serienummer en/of licentienummer worden verlangd</li> 
+<li>Mobile Miles herstelt de storing conform het overeengekomen
+Service Level Agreement met de hieronder vermelde oplostijden</li>
+<li>Onder Responstijd wordt verstaan: de tijd tussen het moment van het vastleggen van een
+storingsmelding of aanvraag voor dienstverlening bij de Business Servicedesk. En het moment waarop Mobile Miles aanvangt met de dienstverlening. Responstijd
+wordt gerekend in uren die vallen binnen het overeengekomen Service Window</li>
+<li>Onder Hersteltijd wordt verstaan: de tijd van het moment van het vastleggen van de
+storingsmelding bij Mobile Miles en het moment waarop Mobile Miles de storingsopheffing gereed heeft gemeld</li>
+<li>De hersteltijd geldt niet in geval van een calamiteit. Mobile Miles
+zorgt ervoor het probleem zo spoedig mogelijk geheel of gedeeltelijk op te lossen</li>
+<li>KPN garandeert niet dat de programmatuur zonder onderbrekingen of geheel foutloos functioneert noch dat alle fouten worden verbeterd</li>
+<li>Maintenance Window: maandag tot en met zondag tussen 00.00 uur en 07.00 uur</li>
+<li>De Beschikbaarheidsgarantie staat voor 99,8% beschikbaarheid van de KPN-oplossing</li>
+    </ul>
+
+
+<table width="100%">
+    <tr>
+        <th width="20%">Service-Window</th>
+        <th width="20%">Openingstijden</th>
+        <th width="20%">Herstelgarantie Bedrijfskritisch</th>
+        <th width="20%">Herstelgarantie niet Bedrijfskritisch</th>
+        <th width="20%">Herstelgarantie niet Bedrijfskritisch</th>
+    </tr>
+    <tr>
+        <td>24 x 7</td>
+        <td>24 x 7</td>
+        <td>&lt; 8 klokuren</td>
+        <td>&lt; 16 klokuren</td>
+        <td>Ja</td>
+    </tr>
+</table>
+
+
+</apex:component>

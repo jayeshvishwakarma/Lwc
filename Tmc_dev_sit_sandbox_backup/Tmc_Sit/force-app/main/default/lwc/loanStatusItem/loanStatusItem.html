@@ -1,0 +1,89 @@
+<!--
+  @File Name          : loanStatusItem.html
+  @Description        : Showing the table for loan status
+  @Author             : Satish Kumar
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 19/5/2020, 4:37:16 pm
+  @Modification Log   : 
+  
+-->
+<template>
+
+
+    <br/><br/><br/><br/><br/>
+    <div class="slds-table_view_container">
+      
+      <div if:true={load}>
+        <div class="spinnerHolder">
+          <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </div>
+      </div>
+      
+
+      <div if:false={load} class="slds-table_view_container slds-is-relative">
+        
+
+
+        <div if:true={isEnquiryBlank}  class="slds-table_view_container slds-is-relative" >
+          
+          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_bordered">
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Enquiry">Enquiry</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="DealerCode">DealerCode</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="DealerForCode">DealerForCode</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="LoanStatus">LoanStatus</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="actionTime">ActionTime</div>
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="slds-hint-parent">
+                <th data-label="Enquiry" scope="row">
+
+                  <div class="slds-truncate" title="Enquiry" >
+                    {enquiryNumber}</div>
+
+                </th>
+                <td data-label="DealerCode">
+                  <div class="slds-truncate" title="DealerCode" >
+                    {dealerCode}</div>
+                </td>
+                <td data-label="DealerForCode">
+                  <div class="slds-truncate" title="DealerForCode" >
+                    {dealerForCode}</div>
+                </td>
+                <td data-label="LoanStatus">
+                  <div class="slds-truncate" title="LoanStatus" >
+                    {loanStatus}</div>
+                </td>
+                <td data-label="actionTime">
+                  <div class="slds-truncate" title="actionTime" >
+                    {actionTime}</div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        
+      </div>
+      
+
+
+    </div>
+
+
+</template>

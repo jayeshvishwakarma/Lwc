@@ -1,0 +1,100 @@
+<apex:page standardController="Warranty_Transfer__c" extensions="twod_WarrantyTransferCntrl" id="wt" >
+    <apex:form id="form">
+        <script>       
+        if({!isEdit}){
+            window.onload = disableFields;
+        }
+        function disableFields() {
+            var disable=document.getElementsByClassName('noEdit');            
+            for(var i=0;i<=disable.length;i++){                
+                try{
+                    disable[i].disabled=true;
+                }
+                catch(e){}
+            }   
+        }
+        
+        function copyAddress(){
+            if({!isCommercial}){
+                document.getElementById('wt:form:pageBlock:BuildingInfo:Organisation_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:Organisation__c').value;
+            }
+            document.getElementById('wt:form:pageBlock:BuildingInfo:First_Name_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:name').value;
+            document.getElementById('wt:form:pageBlock:BuildingInfo:Last_Name_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:Last_Name__c').value;
+            document.getElementById('wt:form:pageBlock:BuildingInfo:Address_1_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:Address_1__c').value;
+            document.getElementById('wt:form:pageBlock:BuildingInfo:Address_2_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:Address_2__c').value;
+            document.getElementById('wt:form:pageBlock:BuildingInfo:City_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:City__c').value;
+            document.getElementById('wt:form:pageBlock:BuildingInfo:Country_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:Country__c').value;            
+            document.getElementById('wt:form:pageBlock:BuildingInfo:State_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:State__c').value;
+            document.getElementById('wt:form:pageBlock:BuildingInfo:Postal_Code_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:Postal_Code__c').value;            
+        }
+        function copyState(){
+            document.getElementById('wt:form:pageBlock:BuildingInfo:Country_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:Country__c').value;            
+            document.getElementById('wt:form:pageBlock:BuildingInfo:State_BL__c').value=document.getElementById('wt:form:pageBlock:PropertyInfo:State__c').value;            
+        }
+        </script>
+        <apex:pageBlock id="pageBlock">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!quickSave}" reRender="PropertyInfo,BuildingInfo,ProductInfo,messages" status="status" />
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            <apex:pageMessages id="messages"></apex:pageMessages>
+            <!-- <apex:pageMessage severity="warning" id="message"></apex:pageMessage>-->
+            <apex:actionstatus id="status">
+                <apex:facet name="start">
+                    <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                                                                         height: 100%;opacity:0.65;width:100%;"> 
+                        <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                            <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                            <span class="waitingDescription">Please Wait...</span>
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:actionstatus>
+            <apex:pageBlockSection columns="2" showHeader="true" title="Mailing Address" collapsible="false" id="PropertyInfo">
+                <apex:inputField value="{!wt.Organisation__c}" id="Organisation__c" rendered="{!isCommercial}" required="true"/>
+                <apex:pageBlockSectionItem rendered="{!AND(!isNewConsEnableMailing && isCommercial)}" />
+                <apex:pageBlockSectionItem rendered="{!AND(isNewConsEnableMailing && !isCommercial)}" />
+                <apex:inputField value="{!wt.Is_New_Construction_Mailing_Address__c}" id="Is_New_Construction_Mailing_Address__c" rendered="{!isNewConsEnableMailing}" />     
+                <apex:inputField value="{!wt.First_Name__c}" required="{!!isCommercial}" id="name"/>
+                <apex:inputField value="{!wt.Last_Name__c}" required="{!!isCommercial}" id="Last_Name__c"/>
+                <apex:inputField value="{!wt.Address_1__c}" required="true" id="Address_1__c"/>
+                <apex:inputField value="{!wt.Address_2__c}" id="Address_2__c"/>
+                <apex:inputField value="{!wt.City__c}" required="true" id="City__c"/>
+                <apex:inputField value="{!wt.Postal_Code__c}" required="true" id="Postal_Code__c"/>
+                <apex:inputField value="{!wt.Country__c}" required="true" id="Country__c"/>
+                <apex:inputField value="{!wt.State__c}" required="true" id="State__c"/>
+                <apex:inputField value="{!wt.Email__c}" id="Email__c"/>
+                <apex:inputField value="{!wt.Phone__c}" id="Phone__c"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="2" showHeader="true" title="Building Location" collapsible="false" id="BuildingInfo" >
+                
+                <apex:pageBlockSectionItem >
+                    <apex:commandLink value="Copy Mailing Address to Building Address" onclick="copyAddress();" reRender="BuildingInfo" oncomplete="copyState();" />                    
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem rendered="{!!isNewConsEnable}" />
+                <apex:inputField value="{!wt.Is_New_Construction__c}" id="Is_New_Construction__c" rendered="{!isNewConsEnable}" styleClass="noEdit"/>                
+                <apex:inputField value="{!wt.Building_Type__c}" required="true" id="Building_Type__c" />
+                <apex:inputField value="{!wt.Organisation_BL__c}" id="Organisation_BL__c" rendered="{!isCommercial}" required="true" styleClass="noEdit"/>
+                <apex:pageBlockSectionItem rendered="{!!isCommercial}"/>
+                <apex:inputField value="{!wt.First_Name_BL__c}" required="{!!isCommercial}" id="First_Name_BL__c" styleClass="noEdit"/>
+                <apex:inputField value="{!wt.Last_Name_BL__c}" required="{!!isCommercial}" id="Last_Name_BL__c" styleClass="noEdit"/>
+                <apex:inputField value="{!wt.Address_1_BL__c}" required="true" id="Address_1_BL__c" styleClass="noEdit"/>
+                <apex:inputField value="{!wt.Address_2_BL__c}" id="Address_2_BL__c" styleClass="noEdit"/>
+                <apex:inputField value="{!wt.City_BL__c}" required="true" id="City_BL__c" styleClass="noEdit"/>
+                <apex:inputField value="{!wt.Postal_Code_BL__c}" required="true" id="Postal_Code_BL__c" styleClass="noEdit"/>
+                <apex:inputField value="{!wt.Country_BL__c}" required="true" id="Country_BL__c" styleClass="noEdit"/>
+                <apex:inputField value="{!wt.State_BL__c}" required="true" id="State_BL__c" styleClass="noEdit"/>                
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="2" showHeader="true" title="Product Information" collapsible="false" id="ProductInfo">
+                <apex:inputField value="{!wt.Transfered_Date__c}" required="true"/>
+                <apex:inputField value="{!wt.Install_Date__c}" required="true"/>                
+                <apex:inputField value="{!wt.Product_Detail__c}"/>
+                <apex:inputField value="{!wt.Installation_Location__c}"/>
+                <apex:inputField value="{!wt.Product_Group__c}"/>
+                <apex:inputField value="{!wt.Installation_Location_other__c}"/>
+                <apex:inputField value="{!wt.Quantity__c}"/>
+                <apex:inputField value="{!wt.Unit_of_Measure__c}"/>                          
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

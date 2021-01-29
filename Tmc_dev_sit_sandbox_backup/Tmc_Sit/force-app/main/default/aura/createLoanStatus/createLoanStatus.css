@@ -1,0 +1,22 @@
+.THIS .custom-box {
+    text-align: center;
+    background-color: #f4f6f9;
+    padding: 1rem;
+}
+.THIS.exampleHolder{
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    width: 55px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.THIS.x-large {
+    height: 200px;
+}
+.THIS .spinner {
+    position: absolute;
+}
+.THIS .spinnerHolder {
+    position: relative;
+}

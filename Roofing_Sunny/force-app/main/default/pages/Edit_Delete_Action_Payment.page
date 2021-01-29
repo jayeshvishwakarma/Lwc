@@ -1,0 +1,24 @@
+<apex:page standardController="Payment__c">
+  <html>
+        <head> 
+            <style>
+                <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8" />
+                <script  src="{!$Resource.jqueryCT}"></script>
+                <script src="{!$Resource.bootstrapjss}"></script>
+                <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system-vf.css')}"/>
+                <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system.css')}"/>
+                <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system.min.css')}"/>
+                <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/>
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+            </style> 
+         </head>
+                <script>   
+                   window.onload = function () {
+                   
+                   
+
+                            window.location.href='/{!Payment__c.Id}';
+                      }
+              </script>  
+  </html>
+</apex:page>

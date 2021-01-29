@@ -1,0 +1,141 @@
+<apex:page lightningStylesheets="true" controller="DetailOfProductController">
+    <apex:slds />
+    <apex:form >
+        
+        <style>
+            .column {
+            float: left;
+            width: 33.33%;
+            padding: 0px;
+            height: 70px;
+            }
+            
+            .column3
+            {
+            float: left;
+            width: 25%;
+            padding: 0px;
+            height: 70px;
+            
+            }
+            
+            
+        </style>
+        <apex:pageBlock id="mainPgBlock">
+            <apex:pageMessages />
+            
+            <apex:repeat value="{!lstProduct}" var="objProduct">
+                <apex:repeat value="{!objProduct.ContentDocumentLinks}" var="objImage" >
+                    
+                    <apex:pageBlock id="pgBlock1" rendered="{!ispgBlock1}">
+                        <div class="column" style="background-color:yellow" >
+                        </div>
+                        
+                        <div class="column" align='center' style="background-color:yellow" >
+                            <h1 style="font-weight: bold;font-size:46px;margin-left:10%">E-MarT</h1>
+                        </div>
+                        
+                        <div class="column" align='center' style="background-color:yellow"><br/>
+                            <apex:commandButton value="Login" action="{!login}"/>
+                        </div>
+                    </apex:pageBlock>
+                    
+                    <apex:pageBlock id="pgBlock2" rendered="{!isPgBlock2}">
+                        
+                        <div class="column3" style="background-color:yellow" >
+                        </div>
+                        
+                        <div class="column3" style="background-color:yellow" >
+                            <h1 style="font-weight: bold;font-size:46px;margin-left:10%">E-MarT</h1>
+                        </div>
+                        
+                        <div class="column3" align='right' style="background-color:yellow"><br/>
+                            <h1 style="font-weight:bold;font-size:20px;">{!nameOfContact}</h1>
+                        </div>
+                        
+                        <div class="column3" align="center" style="font-weight:bold;background-color:yellow"><br/>
+                            <apex:commandbutton styleClass="slds-button" value="Cart" action="{!openCart}" reRender="mainpgBlock" >
+                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                                <i class="fa fa-shopping-cart" style="color:black;font-size:30px"></i>
+                                <apex:param name="a1" value="{!EmailIdFromShoppingPage2}" assignTo="{!EmailIdFromShoppingPage}"/>
+                            </apex:commandbutton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <apex:commandbutton styleClass="slds-button" value="Logout" action="{!logout}" />
+                        </div>
+                        
+                    </apex:pageBlock>
+                    
+                    
+                    
+                    
+                    <apex:pageBlock id="pgBlock">
+                        
+                        <div class="slds-grid slds-wrap">
+                            <div id="col1" class="slds-col slds-size_2-of-6">
+                                <apex:pageblock ><br/>
+                                    <apex:outputPanel layout="Block" >  
+                                        <figure align="center" class="slds-image slds-image--card">
+                                            <apex:image url="/sfc/servlet.shepherd/version/download/{!objImage.ContentDocument.LatestPublishedVersionId}" width="80%" height="100%" />
+                                        </figure><br/>
+                                    </apex:outputPanel>
+                                </apex:pageblock>
+                            </div>
+                            <div id="col2" class="slds-col slds-size_4-of-6" >
+                                <apex:pageblock >
+                                    <h2  style="font-size:28px;">
+                                        <b> {!objProduct.Product_name__C} </b>  
+                                    </h2><br/>
+                                    <h2  style="font-size:23px;">
+                                        INR-{!objProduct.Price__c}/-
+                                    </h2><br/>
+                                    <h2  style="font-size:20px;">
+                                        Brand : {!objProduct.Company__c}
+                                    </h2><br/>
+                                    
+                                    <h2  style="font-size:20px;">
+                                        Extra Discount : 10% Through DEBIT CARD/CREDIT CARD
+                                    </h2><br/>
+                                    
+                                    <h2  style="font-size:20px;">
+                                        Warranty : 1 Year
+                                    </h2><br/>
+                                    
+                                    <apex:pageBlock >
+                                        <h2  style="font-size:30px;">
+                                            <b> Specifications</b>  
+                                        </h2><br/>
+                                        
+                                        <h2  style="font-size:20px;">
+                                            Brand : {!objProduct.Company__c}
+                                        </h2><br/>
+                                        
+                                        <h2  style="font-size:20px;">
+                                            Warranty : 1 Year
+                                        </h2><br/>
+                                        
+                                    </apex:pageBlock>
+                                    
+                                    <apex:pageBlock >
+                                        <h2  style="font-size:30px;">
+                                            <b> Product Description</b>
+                                        </h2><br/>
+                                        <h2  style="font-size:15px;">
+                                            {!objProduct.description__c}
+                                        </h2><br/>
+                                        
+                                    </apex:pageBlock>
+                                    
+                                </apex:pageblock>
+                            </div>
+                        </div>
+                    </apex:pageBlock>
+                    <div align="center">
+                        <apex:commandButton style="width:180px;height:50px;font-size:20px;" value="AddTo Cart" action="{!addToCart}" reRender="mainPgBlock">
+                            <apex:param assignTo="{!ProductId}" value="{!objProduct.id}" name="aa"/>
+                        </apex:commandButton>
+                    </div>
+                </apex:repeat>
+            </apex:repeat>
+        </apex:pageBlock>
+        
+    </apex:form>
+</apex:page>

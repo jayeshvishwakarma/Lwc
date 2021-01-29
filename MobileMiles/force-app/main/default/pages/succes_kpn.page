@@ -1,0 +1,75 @@
+<apex:page docType="html-5.0" showHeader="false" cache="false" standardController="EZSign__Signature__c" extensions="updateSigQuote">
+    <html>
+        <head>
+
+            <apex:includeScript value="{!URLFOR($Resource.jquerymin, 'jquerymin.js')}"/>
+            <style>
+                body{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;}
+                table td{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+                table th{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}        
+                table th.blauw {font-weight: bold; font-size: 11px; color: #003366; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+                table th.blauw2 {font-weight: bold; font-size: 11px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#003366; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+                </style>
+                <script>
+                    $( document ).ready(function() {
+                         $('.uploadbutton').prop("disabled", true); 
+                         $('.uploadbutton').addClass('btnDisabled');
+                    });
+                    function validate() {
+                    var isError = true;
+                    $(".jSF_File").each(function(){
+                        
+                        if($(this).val() != ''){ 
+                            exts = ['.jpg', '.gif', '.png', '.pdf'];
+                            
+                            if( !( (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test($(this).val().toLowerCase() ) ) ){
+                                
+                                isError = false;
+                                alert("Only pdf, gif, png, pdf files can be uploaded");
+                                $('.uploadbutton').prop("disabled", true); 
+                                $('.uploadbutton').addClass('btnDisabled');
+                                return false; 
+                            }
+                            else{
+                                $('.uploadbutton').prop("disabled", false); 
+                                $('.uploadbutton').removeClass('btnDisabled');
+                                return true;
+                            }
+                        }
+                    });
+                }
+                
+                
+                </script>
+        </head>
+        <apex:pageMessages />
+        <apex:form id="frm">
+            <body>
+            <apex:actionStatus id="stu" startText="processing..."></apex:actionStatus>
+            <apex:actionFunction name="uploadAttach" action="{!uploadAttachment}" status="stu" />
+                <div style="width:970px;height:20px;margin:0 auto;background:url(http://www.mobilemiles.nl/images/layout/header-bg.png) no-repeat left top;"></div>
+                <div  style="width:910px;margin:0 auto;padding:20px 30px;overflow:hidden;background:url(https://www.cloudeen.nl/servlet/servlet.ImageServer?id=015570000054YTd&oid=00D20000000I5DP&lastMod=1520686170000) repeat-y;">
+                    <table width="640px" align="center">
+                        <tr><td width="640px"  >
+                            <apex:image id="header" value="https://www.cloudeen.nl/servlet/servlet.ImageServer?id=0152o000005uf4b&oid=00D20000000I5DP&lastMod=1565091065000" width="730" height="86"/><br/>
+                            
+                            
+                            Hartelijk dank voor uw opdracht! Om deze te kunnen verwerken ontvangen wij graag nog van u een kopie/foto van een geldig legitimatiebewijs van de ondertekenaar. Dit mag zijn een paspoort, rijbewijs of identiteitskaart. Gelieve deze via onderstaande knop te selecteren op uw pc en naar ons te uploaden. Wanneer u deze pagina bezoekt vanaf een mobiel apparaat (smartphone of tablet) kunt u ook eenvoudig een foto maken van het legitimatiebewijs via de "bladeren" knop.<br/><br/> Na ontvangst zullen wij uw aanvraag onmiddellijk in behandeling nemen. Betreft deze opdracht uitbreiding op een reeds lopend contract? Dan is het niet nodig om opnieuw een kopie legitimatiebewijs aan te leveren.<br/><br/>
+                            <center><div>
+                                <apex:inputFile value="{!upfileBody}"  filename="{!filename}" styleclass="jSF_File" onchange="return validate()"/>
+                                <apex:commandButton styleclass="uploadbutton"  value="Upload File" action="{!uploadAttachment}" />
+                            </div></center>
+                            <br /><br />
+                            Heeft u vragen, dan kunt u contact opnemen met onze Servicedesk. Wij zijn per e-mail bereikbaar via service@cloudeen.nl of telefonisch op 085 486 5555. <br/>
+                            <br/>
+                            Met vriendelijke groet,<br/><br/>
+                            
+                            Cloud ÉÉN<br/>
+                            
+                            </td></tr></table>
+                </div>
+                <div style="width:970px;height:20px;margin:0 auto;background:url(http://www.mobilemiles.nl/images/layout/footermenu-bg.png) no-repeat left top;"></div>
+            </body>
+        </apex:form>
+    </html>
+</apex:page>

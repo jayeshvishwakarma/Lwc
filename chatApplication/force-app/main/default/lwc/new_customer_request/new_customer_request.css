@@ -1,0 +1,16 @@
+.error{
+    border: 1px solid red;
+}
+
+.processing{
+    display: none;
+    width: 80px;
+    height: 80px;
+}
+
+.show{
+    display: inline-block;
+}
+.slds-form-element_compound label, .slds-form-element_compound p, .slds-form-element_compound legend{
+    font-size: .875rem;
+}

@@ -1,0 +1,89 @@
+<template>
+
+<template if:true={isSpinnerShow}>
+    <lightning-spinner variant="brand" size="medium" alternative-text="loading"></lightning-spinner>
+</template>
+
+<template if:true={showFirstScreen}>
+<lightning-combobox
+        name="Choose"
+        label="Choose"
+        placeholder="Select An Option"
+        options={options}
+        onchange={handleChange}
+        required></lightning-combobox>   
+</template>
+<!--Added for Suzuki connect-->  
+<template if:true={suzukiconnect}>
+    <template if:true={selectedCloseWithoutSN}>
+        <lightning-combobox
+                name="Closed Without SN Subtype"
+                label="Closed Without SN Subtype"
+                placeholder="Select An Option"
+                options={closedWithoutSNList.values}
+                onchange={handleChange}
+                required></lightning-combobox> 
+    </template>
+    <lightning-input name='remark' type='text' label='Remark' value={remarks} onchange={handleremarkchange}></lightning-input>
+    <template if:true={uploadClarification}>
+        <lightning-file-upload label="" name="fileUploader" accept=".jpg,.jpeg,.png,.pdf,.docx,.xls,.csv,.txt" record-id={recordId} onuploadfinished={handleUploadFinished} >
+        </lightning-file-upload>
+        <div if:true={uploadedFiles} class="slds-grid slds-gutters slds-m-horizontal_x-small ">
+            <div class="slds-size_2-of-3 slds-text-title_caps">
+                 <div class="slds-m-top_xx-small">&nbsp;<i>{uploadedFiles.name}</i></div>
+            </div>
+            <div class="slds-size_1-of-3 slds-clearfix ">
+              <div class="slds-m-left_medium slds-float_left slds-m-top_xx-small">
+                   <a onclick={preview} data-index={uploadedFiles.documentId}>View</a> 
+                   <template if:true={candelete}>&nbsp;| <a onclick={deletedoc} data-index={uploadedFiles.documentId}>Del</a></template>
+              </div>
+            </div>
+        </div>
+    </template>
+</template>
+<!--*************************-->
+<div class=" slds-p-top_medium"></div>
+<template if:true={showNextScreen}>
+<button class="slds-button slds-button_brand" onclick={handleNext}>Next</button>
+</template>
+
+<template if:true={showScreen}>
+    
+    <lightning-record-edit-form record-id={recordId} object-api-name="Case" onload={handleOnload} onsubmit={handleSubmit}  onerror={handleError} onsuccess={handleSuccess} >
+        <lightning-messages></lightning-messages>
+    <template if:true={showReassigntoCCMScreen}>
+        <lightning-input type='text' 
+        label='Case Owner'  
+        value='CRM 1 SPOCs'
+        disabled></lightning-input>
+    </template>
+    <template if:true={showstatusField}>
+        <lightning-input type='text' 
+        label='Status'  
+        value={value}
+        disabled></lightning-input>
+    </template>
+    <template if:true={showsendBacktoPreviousScreen}>
+        <div class=" slds-p-left_x-large slds-m-vertical_small" if:true={message}> {message} </div>
+        <lightning-input type='text' 
+        label='Case Owner'  
+        value={value}
+        disabled></lightning-input>
+        <div class=" slds-p-top_medium"></div>
+        <lightning-textarea name="Remarks" label="Remarks" value={remarks} onchange={handleremarkchange}></lightning-textarea>
+    </template>
+
+                    <div class=" slds-p-top_medium"></div>
+
+                    <lightning-button class="submit-btn slds-hide" type="submit" label="save" variant="brand"></lightning-button>
+                </lightning-record-edit-form>
+
+<button class="slds-button slds-button_brand" onclick={handlePrevious}>Previous</button>
+<button class="slds-button slds-button_brand" onclick={saveOwner}>Save</button>
+</template>
+
+<template if:true={showUpdateCategoryDetailsScreen}>
+<c-update-case-category case-id={recordId} ></c-update-case-category>
+</template>
+
+</template>

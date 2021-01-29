@@ -1,0 +1,75 @@
+.plans{
+
+    border:3px solid #009900;
+ }
+ .accInput{
+    margin-left:8rem
+ }
+ .alignment{
+    margin-left: 15rem;
+    margin-right: 7rem;
+    height:30rem;
+    width:50rem;
+ }
+    .customerror{
+        background-color:#c23934;color:#fff;padding:1rem;margin:1rem;
+        margin-left:0;
+    }
+    .middle{
+    
+        border-left:none;
+          
+    }
+    .borders{
+        border-left:none;
+          
+    }
+    .btn{
+        width: 100px;
+        padding: 5px;
+        border: none;
+        cursor:pointer;
+        }
+    .formpadding {
+        padding : .5rem;
+       
+    }
+    .input{
+        width:30px;
+        height:50px;
+        }
+       
+        .content-section{
+            margin-left: 15rem;
+            margin-right: 7rem;
+            height:100%;
+            width:50rem;
+          }
+        @media only screen and (max-width: 600px) {
+            .accInput{
+                margin-left:4rem
+             }
+            .borders{
+                border-left:3px solid #009900;
+                border-top : none;
+                
+            }
+            .rightborder{
+                border-right: none;
+            }
+            .middle {
+                border-left:3px solid #009900;
+            }
+            .alignment{
+                margin-left: 0;
+                margin-right: 0;
+                height:20rem;
+                width:100%;
+             }
+            .content-section{
+                margin-left: 0;
+                margin-right: 0;
+                height:100%;
+                width:100%;
+              }
+          }

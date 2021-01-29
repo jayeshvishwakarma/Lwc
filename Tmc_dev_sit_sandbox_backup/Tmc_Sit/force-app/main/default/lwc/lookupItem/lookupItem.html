@@ -1,0 +1,16 @@
+<template>
+    <template if:true={record}>  
+        <lightning-layout vertical-align="center">  
+          <div style="cursor:pointer" key={record.Id} data-contact-id={record.Id} onclick={handleSelect}>  
+            <lightning-layout-item padding="around-small"> 
+                <lightning-icon icon-name="standard:product" size="x-small" alternative-text="Approved" ></lightning-icon>&nbsp;
+              {record.Family}  
+            </lightning-layout-item>
+            <br/>  
+          </div>  
+        </lightning-layout>  
+      </template>  
+      <template if:false={record}>  
+        <p>No data available.</p>  
+      </template>  
+</template>

@@ -1,0 +1,1129 @@
+<template>
+
+    <!-- =======     FOR SPINNER USE ONLY     ======= -->
+    <div if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+
+    <div class="slds-page-header communitySectionColor" style="box-shadow: 0 0px 0px 0;">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-task" title="task">
+                            <lightning-icon icon-name="standard:task" alternative-text="Approved"></lightning-icon>
+                            <span class="slds-assistive-text">task</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate"
+                                        title="Enquiry Follow Up">{mainHeader}</span>
+                                </h1>
+                            </div>
+                        </div>
+                        <p class="slds-page-header__name-meta">{subHeader}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Show PreBooking Follow Up Screen Here -->
+    <template if:true={preBooking}>
+        <!--    <div class="slds-m-around_medium">  -->
+
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Enquiry Details</span>
+                </div>
+            </h3>
+        </div>
+
+
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Name</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={enqName}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Current Follow Up Plan</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Date &amp; Time</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-date-time value={openTaskActivityDate} year="2-digit" month="short"
+                                day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Action</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={openTaskType}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Follow Up Taken</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Enquiry_Scoring__c" label="Follow Up Status"
+                            placeholder="Select An Option" value={updateTaskDetail.Enquiry_Scoring__c}
+                            options={enquiryScoringOptions} onchange={handleUpdateTaskData} required>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div if:true={makeReasonRequired}>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-combobox name="Reason__c" label="Reason" value={updateTaskDetail.Reason__c}
+                                placeholder="Select An Option" options={reasonOptions} onchange={handleUpdateTaskData}
+                                required={makeReasonRequired}></lightning-combobox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div if:true={makeSubReasonRequired}>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-combobox name="SubReason__c" label="Sub Reason"
+                                value={updateTaskDetail.SubReason__c} placeholder="Select An Option"
+                                options={subReasonOptions} onchange={handleUpdateTaskData}
+                                required={makeSubReasonRequired}></lightning-combobox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="type" label="Action" value={updateTaskDetail.type}
+                            placeholder="Select An Option" options={taskTypeOptions} onchange={handleUpdateTaskData}
+                            required={makeRequiredNextAction}></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Enquiry_Stage__c" label="Enquiry/Booking Stage"
+                            value={updateTaskDetail.Enquiry_Stage__c} placeholder="Select An Option"
+                            options={enquiryStageOptions} onchange={handleUpdateTaskData} required></lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input name='remark' label="Comments" value={remarkValue}
+                            onchange={handleUpdateTaskRemarkData} required></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Next Follow Up To Be Taken</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input type='DateTime' label={showReminderLabel} name='ReminderDateTime'
+                            value={newTaskDetail.ReminderDateTime} onchange={handleNewTaskData}
+                            required={makeRequiredNextAction} class="inputCmp"></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="type" label="Action" value={newTaskDetail.type}
+                            placeholder="Select An Option" options={taskTypeOptions} onchange={handleNewTaskData}
+                            required={makeRequiredNextAction}></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Enquiry_Stage__c" label="Enquiry/Booking Stage"
+                            value={newTaskDetail.Enquiry_Stage__c} placeholder="Select An Option"
+                            options={enquiryStageOptions} onchange={handleNewTaskData}
+                            required={makeRequiredNextAction}></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_large"></div>
+
+        <!--       </div>   -->
+
+        <footer class="slds-align_absolute-center">
+            <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+            <template if:true={isPending}>
+                <!--<button class="slds-button slds-button_brand" onclick={handleSaveMethod}>Save</button>-->
+                <lightning-button class="slds-m-left_x-small" variant="brand" label="Save" onclick={handleSaveMethod}
+                    disabled={isButtonDisabled}></lightning-button>
+            </template>
+        </footer>
+    </template>
+    <template if:true={error}>
+
+        <div class="slds-align_absolute-center"
+            style="padding-top:10px; height: 4rem; font-size: 20px; font-weight: bolder; color: #003A7A;">
+            Insufficient privileges on enquiry. Please Contact your administrator.
+        </div>
+
+        <div class="slds-m-around_medium" style="text-align: center">
+            <footer class="slds-align_absolute-center">
+                <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+            </footer>
+        </div>
+
+    </template>
+    <!-- End Of PreBooking Follow Up Screen -->
+
+
+
+    <!-- Show Post Booking Follow Up Screen Here -->
+    <template if:true={postBooking}>
+        <!--     <div class="slds-m-around_medium">    -->
+
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Enquiry Details</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Name</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={enqName}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Current Follow Up Plan</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Date &amp; Time</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-date-time value={openTaskActivityDate} year="2-digit" month="short"
+                                day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Action</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={openTaskType}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Follow Up Taken</span>
+                </div>
+            </h3>
+        </div>
+
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="type" label="Action" placeholder="Select An Option"
+                            value={post_updateTaskDetail.type} options={post_actionType} onchange={handlePostUpdateTask}
+                            required></lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Enquiry_Stage__c" label="Enquiry/Booking Stage"
+                            value={post_updateTaskDetail.Enquiry_Stage__c} placeholder="Select An Option"
+                            options={post_Booking_Stage} onchange={handlePostUpdateTask} required></lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input name='Description' label="Comments" value={post_updateTaskDetail.Description}
+                            onchange={handlePostUpdateTask} required></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Next Follow Up To Be Taken</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input type='DateTime' label={showReminderLabel} name='ReminderDateTime'
+                            value={post_newTaskDetail.ReminderDateTime} onchange={handlePostNewTask} required
+                            class="inputCmp2"></lightning-input>
+                        <!--        <lightning-input type='Date'
+                                                     label="Date &amp; Time"
+                                                     name='ReminderDateTime'
+                                                     value={post_newTaskDetail.ReminderDateTime}
+                                                     onchange={handlePostNewTask}
+                                                     required></lightning-input>
+                            -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="type" label="Action" value={post_newTaskDetail.type}
+                            placeholder="Select An Option" options={post_actionType} onchange={handlePostNewTask}
+                            required></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Enquiry_Stage__c" label="Enquiry/Booking Stage"
+                            value={post_newTaskDetail.Enquiry_Stage__c} placeholder="Select An Option"
+                            options={post_Booking_Stage} onchange={handlePostNewTask} required></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="slds-p-top_large"></div>
+
+        <div class="slds-m-around_medium" style="text-align: center">
+            <footer class="slds-align_absolute-center">
+                <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+                <template if:true={isPending}>
+                    <!--<button class="slds-button slds-button_brand" onclick={handlePostFollowSaveMethod}>Save</button>-->
+                    <lightning-button class="slds-m-left_x-small" variant="brand" label="Save"
+                        onclick={handlePostFollowSaveMethod} disabled={isButtonDisabled}></lightning-button>
+                </template>
+            </footer>
+        </div>
+
+        <!--     </div>   -->
+    </template>
+
+    <!-- End Of Post Booking Follow Up Screen -->
+
+    <!-- Show General Follow Up Screen Here -->
+    <template if:true={generalFollowUp}>
+        <!--     <div class="slds-m-around_medium">    -->
+
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Enquiry Details</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Name</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={enqName}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Current Follow Up Plan</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Date &amp; Time</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-date-time value={generalopenTaskActivityDate} year="2-digit"
+                                month="short" day="2-digit" hour="2-digit" minute="2-digit">
+                            </lightning-formatted-date-time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Action</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={generalOpenTaskType}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Follow Up Taken</span>
+                </div>
+            </h3>
+        </div>
+
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Enquiry_Scoring__c" label="Status" placeholder="Select An Option"
+                            value={generalUpdateTaskDetail.Enquiry_Scoring__c} options={generalStatusOptions}
+                            onchange={handleGeneralUpdateTask} required></lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters" if:true={isReasonRequired}>
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Reason__c" label="Reason" value={generalUpdateTaskDetail.Reason__c}
+                            placeholder="Select An Option" options={partsReasonOptions}
+                            onchange={handleUpdatePartsTaskData} required={isReasonRequired}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters" if:true={isOtherRemark}>
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input name='SubReason__c' label="Other Reason"
+                            value={generalUpdateTaskDetail.SubReason__c} onchange={handleUpdatePartsTaskData}
+                            required={isOtherRemark}></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Type" label="Action" placeholder="Select An Option"
+                            value={generalUpdateTaskDetail.Type} options={generalActionOptions}
+                            onchange={handleGeneralUpdateTask} required></lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Enquiry_Stage__c" label="Enquiry/Booking Stage"
+                            value={generalUpdateTaskDetail.Enquiry_Stage__c} placeholder="Select An Option"
+                            options={generalEnquiryStageOptions} onchange={handleGeneralUpdateTask} required>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input name='Description' label="Comments" value={generalUpdateTaskDetail.Description}
+                            onchange={handleGeneralUpdateTask}></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Next Follow Up To Be Taken</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input type='DateTime' label={showReminderLabel} name='ReminderDateTime'
+                            value={generalNewTaskDetail.ReminderDateTime} onchange={handleGeneralNewTask}
+                            required={isPartNextFollowUpRequired} class="inputCmp3"></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Type" label="Action" value={generalNewTaskDetail.Type}
+                            placeholder="Select An Option" options={generalActionOptions}
+                            onchange={handleGeneralNewTask} required={isPartNextFollowUpRequired}></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Enquiry_Stage__c" label="Enquiry/Booking Stage"
+                            value={generalNewTaskDetail.Enquiry_Stage__c} placeholder="Select An Option"
+                            options={generalEnquiryStageOptions} onchange={handleGeneralNewTask}
+                            required={isPartNextFollowUpRequired}>
+                        </lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="slds-p-top_large"></div>
+
+        <div class="slds-m-around_medium" style="text-align: center">
+            <footer class="slds-align_absolute-center">
+                <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+                <!--<button class="slds-button slds-button_brand" onclick={handleGeneralFollowSaveMethod}>Save</button>-->
+                <lightning-button class="slds-m-left_x-small" variant="brand" label="Save"
+                    onclick={handleGeneralFollowSaveMethod} if:true={isShowPartsSave} disabled={isButtonDisabled}>
+                </lightning-button>
+            </footer>
+        </div>
+
+        <!--     </div>   -->
+    </template>
+
+    <!-- End Of General Follow Up Screen -->
+
+    <!-- Show Loyality Follow Up Screen Here -->
+    <template if:true={isLoyalty}>
+        <!--     <div class="slds-m-around_medium">    -->
+
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Loyalty Details</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Name</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={enqName}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Mobile</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={mobile}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input name='Email' type='email' label="Email" value={email} onchange={populateEmail}>
+                        </lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Current Follow Up Plan</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Subject</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={subject}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Date &amp; Time</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-date-time value={loyaltyopenTaskActivityDate} year="2-digit"
+                                month="short" day="2-digit" hour="2-digit" minute="2-digit">
+                            </lightning-formatted-date-time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Type" label="Action" placeholder="Select An Option"
+                            value={updateLoyaltyTaskDetail.Type} options={loyaltyActionOptions}
+                            onchange={handleLoyaltyUpdateTask} required></lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input name='Description' label="Comments" value={updateLoyaltyTaskDetail.Description}
+                            onchange={handleLoyaltyUpdateTask}></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Follow Up Taken</span>
+                </div>
+            </h3>
+        </div>
+
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Interested_In_loyalty__c" label="Interested In loyalty"
+                            placeholder="Select An Option" value={updateLoyaltyTaskDetail.Interested_In_loyalty__c}
+                            options={loyaltyInterstedInLoyality} onchange={retrieveNotInterestedReason} required>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Reason_not_Interested_in_loyalty__c"
+                            label="Reason not Interested in loyalty" placeholder="Select An Option"
+                            value={updateLoyaltyTaskDetail.Reason_not_Interested_in_loyalty__c}
+                            options={loyaltyNotInterestedReason} required={NotInterestedReasonRequired}
+                            disabled={NotInterestedReasonDisabled} onchange={enableDisableNextFollowSection}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Next Follow Up To Be Taken</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input type='DateTime' label={showReminderLabel} name='ReminderDateTime'
+                            value={newLoyaltyTaskDetail.ReminderDateTime} required={isNextSectionRequired}
+                            disabled={isNextSectionDisabled} onchange={handleLoyaltyNewTask} class="inputCmp3">
+                        </lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Next_Steps__c" label="Next Step"
+                            value={newLoyaltyTaskDetail.Next_Steps__c} placeholder="Select An Option"
+                            options={loyaltyNextStep} required={isNextSectionRequired} disabled={isNextSectionDisabled}
+                            onchange={handleLoyaltyNewTask}></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Type" label="Action" value={newLoyaltyTaskDetail.Type}
+                            placeholder="Select An Option" options={loyaltyActionOptions}
+                            required={isNextSectionRequired} disabled={isNextSectionDisabled}
+                            onchange={handleLoyaltyNewTask}></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input name='Description' label="Comments" value={newLoyaltyTaskDetail.Description}
+                            disabled={isNextSectionDisabled} onchange={handleLoyaltyNewTask}></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="slds-p-top_large"></div>
+
+        <div class="slds-m-around_medium" style="text-align: center">
+            <footer class="slds-align_absolute-center">
+                <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={handleLoyaltyFollowSaveMethod}>Save</button>
+            </footer>
+        </div>
+
+        <!--     </div>   -->
+    </template>
+
+    <!-- End Of Loyality Follow Up Screen -->
+
+
+    <!-- Show MDS Follow Up Screen Here -->
+    <template if:true={mdsFollowUp}>
+        <!--    <div class="slds-m-around_medium">  -->
+
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Enquiry Details</span>
+                </div>
+            </h3>
+        </div>
+
+
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Name</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={enqName}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Current Follow Up Plan</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Date &amp; Time</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-date-time value={generalopenTaskActivityDate} year="2-digit"
+                                month="short" day="2-digit" hour="2-digit" minute="2-digit">
+                            </lightning-formatted-date-time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label">Action</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-text value={generalOpenTaskType}></lightning-formatted-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Follow Up Taken</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="MSDS_Enquiry_Status__c" label="Follow Up Status"
+                            placeholder="Select An Option" value={generalUpdateTaskDetail.MSDS_Enquiry_Status__c}
+                            options={generalStatusOptions} onchange={handleUpdateMSDSTaskData} required>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div if:true={makeMSDSReasonRequired}>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-combobox name="Reason__c" label="Reason"
+                                value={generalUpdateTaskDetail.Reason__c} placeholder="Select An Option"
+                                options={msdsReasonField} onchange={handleUpdateMSDSTaskData}
+                                required={makeMSDSReasonRequired}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div if:true={msdsOtherReason}>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-input name='SubReason__c' label="Other Reason"
+                                value={generalUpdateTaskDetail.SubReason__c} onchange={handleUpdateMSDSTaskData}
+                                required={msdsOtherReason}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Type" label="Action" placeholder="Select An Option"
+                            value={generalUpdateTaskDetail.Type} options={generalActionOptions}
+                            onchange={handleUpdateMSDSTaskData} required></lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="MSDS_Enquiry_Stage__c" label="Enquiry/Booking Stage"
+                            value={generalUpdateTaskDetail.MSDS_Enquiry_Stage__c} placeholder="Select An Option"
+                            options={generalEnquiryStageOptions} onchange={handleUpdateMSDSTaskData} required>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input name='Description' label="Comments" value={generalUpdateTaskDetail.Description}
+                            onchange={handleUpdateMSDSTaskData} required></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="slds-p-top_medium"></div>
+        <div class="slds-section">
+            <h3 class="slds-section__title">
+                <div aria-controls="expando-unique-id" aria-expanded="true"
+                    class="slds-section__title-action communitySectionColor">
+                    <span class="slds-truncate" title="Section Title">Next Follow Up To Be Taken</span>
+                </div>
+            </h3>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input type='DateTime' label={showReminderLabel} name='ReminderDateTime'
+                            value={generalNewTaskDetail.ReminderDateTime} onchange={handleGeneralNewTask}
+                            required={makeRequiredMSDSNextAction} class="inputCmp3"></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="Type" label="Action" value={generalNewTaskDetail.Type}
+                            placeholder="Select An Option" options={generalActionOptions}
+                            onchange={handleGeneralNewTask} required={makeRequiredMSDSNextAction}></lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox name="MSDS_Enquiry_Stage__c" label="Enquiry/Booking Stage"
+                            value={generalNewTaskDetail.MSDS_Enquiry_Stage__c} placeholder="Select An Option"
+                            options={generalEnquiryStageOptions} onchange={handleGeneralNewTask}
+                            required={makeRequiredMSDSNextAction}>
+                        </lightning-combobox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-p-top_large"></div>
+
+        <!--       </div>   -->
+
+        <footer class="slds-align_absolute-center">
+            <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+            <button class="slds-button slds-button_brand" onclick={handleMSDSFollowSaveMethod}>Save</button>
+
+        </footer>
+    </template>
+    <!-- End Of MDS Follow Up Screen -->
+
+    <!-- Show MDS Error if stage is not equle to Enquiry -->
+    <template if:true={msdsErrorFollowup}>
+
+        <div class="slds-align_absolute-center"
+            style="padding-top:10px; height: 4rem; font-size: 20px; font-weight: bolder; color: #003A7A;">
+            Follow-ups can be added at the Enquiry stage only.
+        </div>
+
+        <div class="slds-m-around_medium" style="text-align: center">
+            <footer class="slds-align_absolute-center">
+                <button class="slds-button slds-button_brand" onclick={closeModal}>Cancel</button>
+            </footer>
+        </div>
+
+    </template>
+</template>

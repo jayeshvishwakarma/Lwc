@@ -1,0 +1,44 @@
+<template>
+
+    <c-lookup-container class="slds-container_x-large slds-container_center">
+        <div class="slds-p-around_small">
+            <lightning-record-edit-form record-id={recordId} object-api-name={objectName} density="comfy"
+                if:true={loaded}>
+                <template for:each={fields} for:item="field">
+                    <template if:false={field.isReadOnly}>
+                        <template if:false={field.referenceTo}>
+                            <lightning-input key={field.name} data-field-name={field.name} field-name={field.name}
+                                label={field.label} value={field.value} required={field.required}
+                                max-length={field.length} onchange={handleValueChange} if:true={field.isTextField}>
+                            </lightning-input>
+                            <lightning-input-field key={field.name} data-field-name={field.name} field-name={field.name}
+                                value={field.value} required={field.required} onchange={handleValueChange}
+                                if:false={field.isTextField} class="slds-is-editing">
+                            </lightning-input-field>
+                        </template>
+                        <c-lookup-input-field key={field.name} data-field-name={field.name} custom-key={field.name}
+                            object-name={field.referenceTo} label={field.label} value={field.value}
+                            required={field.required} is-mobile={mobileFormFactor} is-custom-search
+                            oncustomsearch={handleCustomSearch} onchange={handleValueChange}
+                            if:true={field.referenceTo}>
+                        </c-lookup-input-field>
+                    </template>
+                    <template if:true={field.isReadOnly}>
+                        <div class="slds-form-element slds-form-element_readonly slds-size_1-of-1 slds-m-bottom_small"
+                            key={field.name}>
+                            <label class="slds-form-element__label" for="text-input-id-1">{field.label}</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <lightning-formatted-text field-name={field.name} data-field-name={field.name}
+                                        value={field.value}>
+                                    </lightning-formatted-text>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </lightning-record-edit-form>
+        </div>
+    </c-lookup-container>
+
+</template>

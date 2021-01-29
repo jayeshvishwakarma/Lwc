@@ -1,0 +1,4 @@
+<design:component label="Tile Content Form">
+	<design:attribute name="Category" default="All" datasource="apex://MyCategoryPickList"/>
+    <design:attribute name="HeaderText" default="Dienstbeschrijvingen"/>
+</design:component>

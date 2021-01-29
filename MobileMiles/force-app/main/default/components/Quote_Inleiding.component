@@ -1,0 +1,53 @@
+<apex:component >
+    <h2>
+        1. Inleiding
+    </h2>    
+    
+    <p>
+        Hartelijk dank voor uw belangstelling in KPN ÉÉN.
+        Technologische ontwikkelingen, diverse behoeften en veeleisendheid van gebruikers en systemen 
+        leveren vaak een dynamische maar ook complexe situatie op. 
+        Daarom maakt KPN het u, samen met Mobile Miles, zo eenvoudig mogelijk.
+    </p>
+    <p>
+        Dat doen we met KPN ÉÉN.
+    </p>
+    
+    <p>
+        KPN ÉÉN is de oplossing van KPN op het gebied van totaalcommunicatie waar
+        vaste en mobiele telefonie- en internetdiensten volledig zijn geïntegreerd.
+    </p>
+    <p>
+        Op grond van de door u verstrekte gegevens hebben wij een offerte samengesteld 
+        voor het leveren en beheren van KPN ÉÉN. 
+        Goede bereikbaarheid en optimale samenwerking zijn essentieel bij modern zakendoen. 
+        Onder de huidige marktomstandigheden en met het ‘nieuwe werken’ is de behoefte 
+        aan een flexibele telefonie-oplossing groot. 
+        Een oplossing die het mogelijk maakt om slagvaardig in te spelen op 
+        veranderingen binnen en buiten de organisatie. 
+        KPN ÉÉN biedt die flexibiliteit en de zekerheid dat u alleen
+        betaalt voor wat u nodig hebt. Maar bovenal biedt KPN ÉÉN overzicht en eenvoud,
+        zodat u meer tijd hebt voor uw kernactiviteiten.        
+    </p>    
+    
+    <p style="text-align:center;">
+        <img src="{!URLFOR($Resource.Vier_Keer_Een)}" style="height:6cm;" />
+    </p>
+    
+    <h2>1.1 Inventarisatie van uw wensen.</h2>
+    <p>
+        Dit voorstel is gebasseerd op de volgende uitgangspunten en de door u gewenste situatie:
+    </p>
+    
+    <ul>
+        <li>Aantal medewerkers met vaste telefoon:</li>
+        <li>Aantal medewerkers met een mobiele telefoon:</li>
+        <li>Een hoofdvestiging en nevenvestigingen</li>
+        <li>Doorschakelen naar voicemail na openingstijden</li>
+        <li>Receptioniste/telefoniste voorzien van dashboard en uitgebreide schakelmogelijkheden</li>
+        <li>Keuzemenu voor het hoofdnummer</li>
+        <li>Geen onderhoud aan centrale</li>
+        <li>Zekerheid en kwaliteit met betrekking tot werking centrale en beschikbaarheid</li>
+        <li>Verschillende groepen waar naar moet worden doorgeschakeld</li>        
+    </ul>
+</apex:component>

@@ -1,0 +1,40 @@
+.white-theme{
+    background-color: #FFF;
+    padding: .5rem;
+    font-family: "Salesforce Sans", Arial, sans-serif !important;
+}
+
+.custom-btn{
+    font-size: .875rem;
+    color: #09f;
+    border-color: aliceblue;
+    border: 1px solid #09f;
+    padding: 2px 33px;
+    line-height: 1;
+    border-radius: 20px;
+    background-color: #fff;
+    float: right;
+}
+
+.btn-css{
+    font-size: .875rem !important;
+    color: #09f !important;
+    border-color: aliceblue !important;
+    border: 1px solid #09f !important;
+    padding: 2px 22px!important;
+    line-height: 1 !important;
+    border-radius: 20px !important; 
+    background-color: #fff !important;   
+}
+
+.modal-div{
+    font-family: "Salesforce Sans", Arial, sans-serif !important;
+    height: 640px;
+}
+
+.custom-pointer{
+    cursor: pointer;
+}
+.custom-label{
+    font-weight: 700;
+}

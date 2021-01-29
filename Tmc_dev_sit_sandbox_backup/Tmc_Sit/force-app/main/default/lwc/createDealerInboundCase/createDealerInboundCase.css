@@ -1,0 +1,10 @@
+.backgroundColor{
+    background-color:rgba(215, 218, 233, 1);
+}
+.customRequired{
+    font-weight: 400; } .customRequired:before{    
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; } .none{
+    display:none; }

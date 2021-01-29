@@ -1,0 +1,25 @@
+<apex:component >
+    <h2>
+        10. Betaling
+    </h2>    
+
+    <p>
+        Na de oplevering ontvangt u een factuur met de eenmalige kosten voor de levering en werkzaamheden. 
+        Daarnaast de maandelijkse kosten. U ontvangt maandelijks een factuur voor deze dienst met daarop: 
+    </p>
+    <ul>
+        <li>De abonnementkosten voor de komende maand</li>
+        <li>De verbruikskosten (internationaal, betaalde servicenummers, betaalde sms-diensten e.d.) die buiten het onbeperkt bellen en sms’en vallen, van de voorgaande maand</li>
+        <li>Eventuele kosten van op uw verzoek door Mobile Miles uitgevoerde wijzigingen aan uw KPN ÉÉN-oplossing</li>
+    </ul>
+    <p>
+        U ontvangt de KPN ÉÉN-factuur vanuit KPN via Mobile Miles. 
+        Zij stellen voor u één gezamenlijke factuur op waarop zowel de KPN ÉÉN factuur vanuit KPN als de 
+        diensten vanuit Mobile Miles staan. 
+        U hoeft dan ook alleen de gezamenlijke factuur van Mobile Miles te betalen aan Mobile Miles en dus niet aan KPN. 
+        Mobile Miles zorgt voor betaling van de KPN ÉÉN factuur aan KPN.
+    </p>
+    <p>
+        Voor uw btw administratie dient u de btw bedragen van zowel de originele KPN ÉÉN-factuur als de btw specificaties op de gezamenlijke factuur van Mobile Miles te verwerken.
+    </p>    
+</apex:component>

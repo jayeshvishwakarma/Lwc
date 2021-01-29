@@ -1,0 +1,18 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<lightning:recordEditForm aura:id="mossfolloup"
+                              objectApiName="Task"
+                              onsubmit="{!c.handleSubmit}"
+                              onsuccess="{!c.handleSuccess}"
+                              recordTypeId="">
+        <lightning:messages />
+        <lightning:inputField fieldName="Call_Origin__c" />
+        <lightning:inputField fieldName="Call_Purpose__c" />
+        <lightning:inputField fieldName="Description" />
+        <lightning:inputField fieldName="Next_Follow_Up_time__c" />
+        <lightning:inputField fieldName="Repeat_Call_Notification__c" />
+        <lightning:inputField fieldName="Customer_Mobile__c" />
+        
+        
+        <lightning:button class="slds-m-top_small" type="submit" label="SAVE" />
+    </lightning:recordEditForm>
+</aura:component>

@@ -1,0 +1,13 @@
+<aura:component implements="flexipage:availableForAllPageTypes,lightning:availableForFlowScreens" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="infoMessage" type="String"/>
+    
+    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert" style="margin-top: 1%;">
+        <span class="slds-assistive-text">info</span>
+        <p style="font-size: 15px;">
+            {!v.infoMessage}
+        </p>
+    </div>
+    
+</aura:component>

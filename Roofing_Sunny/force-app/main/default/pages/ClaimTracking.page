@@ -1,0 +1,193 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" standardStylesheets="false" controller="twod_CTClaimPublicController" cache="true" expires="10">
+    <apex:includeScript value="/support/console/35.0/integration.js"/>    
+    <html>
+        <head>
+            <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8"/>            
+            <style>
+                .tooltipcss
+                {
+                color: cornflowerblue;
+                cursor: pointer;
+                left:12px;
+                }
+                @media (max-width: 767px) { 
+                .mandatory:after
+                {
+                top: -5px !important; 
+                }
+                .tooltipcss
+                {
+                //top: -6px !important; 
+                }
+                }
+                
+            </style>
+        </head>             
+        <c:CTHeader /> 
+        <!-- CERP-58 : Updating to CertainTeed's -->      
+        <div class="row field field-name-body field-type-text-with-summary field-label-hidden " style="    background-color: #fff;    margin-bottom: 30px;    text-align: center;"><div class="field-items"><div class="field-item even" property="content:encoded"><h2>Claim Tracking</h2>
+            <p>Thank you for using CertainTeed's Online Claim Search Form. This form is to be used for Checking Claim Status only.</p>
+            <p><span style="font-size:10px">Failure to register any warranty shall not void the warranty or any of its terms.</span></p>
+            </div></div></div>
+        <apex:form >
+            <apex:inputHidden value="{!lastName}" id="lastName"/>
+            <apex:inputHidden value="{!postalcode}" id="postalcode"/>
+            <apex:inputHidden value="{!claimId}" id="claimId"/>
+            <apex:actionFunction action="{!check}" name="check" reRender="pageError"/> 
+            <div style="background-color: #e5e5e5;">            
+                <div class="container" style="background-color: #e5e5e5;max-width: 800px;" id="first">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <apex:outputPanel id="message-container">                                
+                                    <center>
+                                        <h3>Claim Tracking</h3>
+                                    </center>                                                               
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                    <apex:pageBlock id="pageError"  >
+                        <apex:outputPanel rendered="{!(errorMessage1!=null)}">
+                            <div class="alert alert-danger error" id="error">
+                                <center>
+                                    <Strong>{!errorMessage1}</Strong>
+                                </center> 
+                            </div>          
+                        </apex:outputPanel>
+                    </apex:pageBlock>
+                </div>
+            </div>
+        </apex:form> 
+        <div style="background-color: #e5e5e5;">            
+            <div class="container" style="background-color: #e5e5e5;max-width: 800px;" id="first">
+                <form  id="contact_form">                            
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <apex:form rendered="{!(errorMessage1!=null)}" >                                 
+                                <apex:pageBlock id="pageError">
+                                    <div class="alert alert-danger error" id="error">
+                                        <center>
+                                            <Strong>{!errorMessage1}</Strong>
+                                        </center> 
+                                    </div>          
+                                </apex:pageBlock>
+                            </apex:form>                            
+                        </div>
+                    </div>                  
+                    <div class="row" style="height: 0px;">
+                        <div class="col-sm-12">
+                            <apex:outputPanel id="message-container">
+                                <apex:form rendered="true">  
+                                    <center>
+                                        <h3></h3>
+                                    </center>                               
+                                </apex:form>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                    
+                    <div class="row" style="background-color: #e5e5e5;">
+                        <form id="registration-form" class="form-horizontal">
+                            <div class="container" style="background-color: #e5e5e5;max-width: 500px;">          
+                                <div>                                        
+                                    <div class="row" id="residentialDiv" style="max-width: 500px;">
+                                        <div class="col-sm-12  form-group">
+                                            <label class="control-label" for="ClaimID"><span class="mandatory">Claim Number</span><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Claim Number provided by CertainTeed"></span></label>                                               
+                                            <div class="input-group">
+                                                <span class="input-group-addon "><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>                                                            
+                                                <span Class="input-group-addon" style="color: #555555;border-right-width: 0px;padding-right: 0px;background-color: white;">CR</span>                                                 
+                                                <input id="ClaimID" name="ClaimID" placeholder="XXXXXXX" Class="form-control input-md"  type="text" style="border-left-width: 0px;padding-left: 0px;box-shadow: 0 0 5px rgb(231, 231, 231)"/>                                                
+                                            </div>
+                                        </div>                                                            
+                                    </div>
+                                    <div class="row" style="max-width: 500px;">
+                                        <div class="col-sm-12 form-group">
+                                            <label class="control-label" for="LastName"><span class="mandatory">Last Name</span><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Last Name of the Building Owner"></span>    </label>  
+                                            
+                                            <div class="input-group">
+                                                <span class="input-group-addon "><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>                                        
+                                                <input id="LastName" name="LastName" placeholder="Last Name" Class="form-control input-md" type="text" style="box-shadow: 0 0 5px rgb(231, 231, 231)"/>                                                
+                                            </div></div>
+                                    </div>
+                                    <div class="row" style="max-width: 500px;">
+                                        <div class="col-sm-12 form-group">
+                                            <label class="control-label" for="PostalCode"><span class="mandatory">Zip/Postal Code</span><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Zip/Postal Code of the Building Address"></span>     </label>                                            
+                                            <div class="input-group" >
+                                                <span class="input-group-addon "><i class="glyphicon glyphicon-phone-alt" aria-hidden="true"></i></span>
+                                                <input id="PostalCode" name="PostalCode" placeholder="Zip/Postal Code" Class="form-control input-md" type="text" style="box-shadow: 0 0 5px rgb(231, 231, 231)"/>  
+                                                
+                                            </div>                                
+                                        </div> 
+                                    </div>                                      </div>
+                                
+                                <br/>
+                                <br/>
+                                <center>
+                                    <button type="submit" id="next1" class="btn btn-success" disabled="false">Search</button>
+                                </center>
+                            </div>          
+                        </form>
+                    </div>
+                </form>
+            </div>
+        </div>                    
+        <script type="text/javascript">
+        
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        
+        $(document).ready(function () {
+            var validator = $("#registration-form").bootstrapValidator({
+                feedbackIcons: {
+                    valid: "glyphicon glyphicon-ok",
+                    invalid: "glyphicon glyphicon-remove", 
+                    validating: "glyphicon glyphicon-refresh"
+                }, 
+                fields : {                  
+                    LastName :{
+                        message : "Last Name is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please enter Last Name of the Claimant" 
+                            },                                                          
+                        }
+                    },
+                    ClaimID :{
+                        message : "Claim ID is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please enter a valid Claim Number"
+                            }, 
+                        }
+                    },
+                    PostalCode :{
+                        message : "PostalCode is required",
+                        validators : {                          
+                            notEmpty : {
+                                message : "Please enter a valid Zip/Postal Code of the Claim Location"
+                            },                       
+                        }
+                    },                                                           
+                }
+            });
+            
+            validator.on("success.form.bv", function (e) {
+                var LastName=document.getElementById("LastName").value;
+                jQuery('[id$=lastName]').val(LastName);
+                var ClaimID=document.getElementById("ClaimID").value;
+                jQuery('[id$=claimId]').val(ClaimID);
+                var PostalCode=document.getElementById("PostalCode").value;
+                jQuery('[id$=postalcode]').val(PostalCode);
+                e.preventDefault();
+                $('button.btn').prop('disabled', false);
+                check();               
+            });
+            
+        });
+        function error()
+        {
+            $('#error').show();
+        }
+        </script>
+    </html>
+</apex:page>

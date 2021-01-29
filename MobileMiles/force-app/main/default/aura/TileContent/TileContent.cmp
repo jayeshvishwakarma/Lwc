@@ -1,0 +1,40 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" controller="TileContentController">
+	<aura:attribute type="TileContentController.CustomTileContent[]" name="contentsList" access="public" />
+    <aura:attribute type="boolean" name="tileFound" access="private" default="false"/>
+    <aura:attribute type="String" name="Category" default="All"/>
+    <aura:attribute type="String" name="HeaderText" default="Dienstbeschrijvingen"/>
+    <aura:handler event="c:SearchTileEvent" action="{!c.handleComponentEvent}"/>
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    
+    <aura:if isTrue="{!(v.HeaderText != '')}">
+    	<p><b style="color: rgb(0, 138, 0); font-size: 22px;">{!v.HeaderText}</b></p>
+        <aura:set attribute="else">
+            <p><b style="color: rgb(0, 138, 0); font-size: 22px;">Dienstbeschrijvingen</b></p>
+        </aura:set>
+    </aura:if>
+    
+    <lightning:layout multipleRows="true" >        
+    	<aura:if isTrue="{!v.tileFound}">
+        	<aura:iteration items="{!v.contentsList}" var="cont">
+               
+                <aura:if isTrue="{!cont.isVisible}">
+            	<lightning:layoutItem padding="horizontal-small" size="12"
+                                      smallDeviceSize="12" 
+                                      mediumDeviceSize="4" 
+                                      largeDeviceSize="3">
+                	<!--calling tilecomponent in loop to display all Tile Content result -->
+                    <div class="lower-class">
+                    	<c:TileContentChild content="{#cont}" />
+                    </div>
+                </lightning:layoutItem> 
+                    </aura:if>
+            </aura:iteration>
+            <aura:set attribute="else">
+            	<div class="slds-align_absolute-center">
+                	No Tile Content found
+                </div>
+            </aura:set>
+        </aura:if>
+    </lightning:layout>
+</aura:component>

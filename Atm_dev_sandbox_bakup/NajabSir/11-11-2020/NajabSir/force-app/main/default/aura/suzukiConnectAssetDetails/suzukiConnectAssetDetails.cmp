@@ -1,0 +1,13 @@
+<aura:component
+    implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForAllPageTypes">
+    <!-- Call the Component here  -->
+    <aura:html tag="style">
+        .slds-modal__container {
+        max-width : 100% !important;
+        width : 55% !important;
+        }
+    </aura:html>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <c:suzukiConnectAssetDetailsLWC recordId="{!v.recordId}" onclosecmp="{!v.handleCloseEvent}">
+    </c:suzukiConnectAssetDetailsLWC>
+</aura:component>

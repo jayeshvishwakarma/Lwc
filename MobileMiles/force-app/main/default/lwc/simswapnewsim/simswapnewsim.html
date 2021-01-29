@@ -1,0 +1,55 @@
+<template>
+        <div class="processing">
+           <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </div>
+        <article class="slds-card">
+           <div class="slds-card__header slds-grid">
+              <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                 <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:phone_portrait" size="small"></lightning-icon>
+                 </div>
+                 <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                       <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                       <span>Nieuwe SIM-kaart activeren</span>
+                       </a>
+                    </h2>
+                 </div>
+              </header>
+           </div>
+           <div class="slds-card__body slds-card__body_inner">
+              <template if:false={isSuccess}>
+                 <div class="slds-form-element slds-m-bottom_small">
+                    <template if:true={errMsg}>
+                       <label class="slds-form-element__label errMsg" for="form-element-01">{errMsg}</label>
+                    </template>
+                 </div>                 
+                                  
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="form-element-01">SIM-kaartnummer</label>
+                       <div class="slds-form-element__control">
+                          <input type="text" name="simKaartNum" class="simKaartNum" value={inputSimKaartNumber} onchange={setInputValueOnChange} onkeypress={isNumberKey} />
+                       </div>
+                    </div>                          
+                 <br/>
+                 <button class="slds-button slds-button_brand" onclick={handleSubmit}>Verstuur</button>
+              </template>
+              <template if:true={isSuccess}>
+                 <div class="demo-only" style="height:4rem;  ">
+                    <div class="slds-notify_container slds-is-relative">
+                       <div class="errMsg">
+                          {errMsg}
+                       </div>
+                       <div class="slds-notify slds-notify_toast slds-theme_success success-msg" role="status">
+                          <span class="slds-assistive-text">success</span>
+                          <div class="slds-notify__content">
+                             <h2 class="slds-text-heading_small ">uw aanvraag is in behandeling</h2>
+                          </div>
+                          <div class="slds-notify__close"></div>
+                       </div>
+                    </div>
+                 </div>
+              </template>
+           </div>
+        </article>
+</template>

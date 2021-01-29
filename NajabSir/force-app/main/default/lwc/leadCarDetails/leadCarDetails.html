@@ -1,0 +1,234 @@
+<template>
+    <lightning-card>
+        <h3 slot="title">aCRM Flow - Shaji</h3>
+        <hr class="border"/>
+        <div class="slds-p-horizontal_small">
+            <p class="outputText"> SIR/MADAM my name is  &lt;Advisor Name>. </p>
+            <p class="outputText"> I am calling from Maruti Suzuki India Ltd. </p>
+            <p class="outputText"> May I Speak with Shaji M Abdulla? </p>
+
+            <lightning-combobox
+                name="lead"
+                label="Sir/Madam, Hope this is the right time to speak with you"
+                value={leadValue}
+                placeholder="Select Option"
+                options={options}
+                onchange={handleChangeLead}
+                class="validate-inputs"
+                required
+            ></lightning-combobox>
+            
+            <template if:true={isLeadIntrested}>
+               <p class="outputText topSpace"> 
+                   <i>
+                       Sir/Madam, as per our records you have been driving a &lt; C_MODEL > that you purchased from our dealer &lt; C_PUR_DEALER >, and you are using it for the last &lt; C_VEHICLE_AGE > years bearing registration number &lt;    C_REG_NO >. 
+                    </i>
+                </p>
+               <lightning-combobox
+                    name="lead"
+                    label="Are you still using the same car"
+                    value={sameCar}
+                    placeholder="Select Option"
+                    options={options}
+                    onchange={handleChangeSameCar}
+                    class="validate-inputs"
+                    required
+                ></lightning-combobox>
+
+                <template if:true={isNotSameCar}>
+                    <p class="outputText topSpace"> <i> Which car are you using and since when </i></p>
+                    <lightning-input type="text" label="Purchased Model"></lightning-input>
+    
+                    <lightning-input type="date" name="input1" label="Purchased Date" ></lightning-input>
+                </template>
+    
+                <template if:true={isSameCar}>
+                    <p class="outputText topSpace"> Sir/Mam, as you are using a &lt;C_Model> So I would like to tell you,We have a new car &lt; Target Model No.> which comes with new features and specifications.</p>
+    
+                    <lightning-combobox
+                        name="lead"
+                        label="If customer is interested"
+                        value={customerIntrstVal}
+                        placeholder="Select Option"
+                        options={options}
+                        onchange={handleInterestedCustomer}
+                        class="validate-inputs"
+                        required
+                    ></lightning-combobox>
+
+                    <template if:true={customerInterested}>
+                        <lightning-combobox
+                            name="lead"
+                            label="Could you share which variant/fuel option are you planning to buy?"
+                            value={fuelTypeVal}
+                            placeholder="Select Option"
+                            options={fuelOptions}
+                            onchange={handleFuelType}
+                            class="validate-inputs topSpace"
+                            required
+                        ></lightning-combobox>
+
+                        <p class="outputText topSpace"><i>// If customer seems confused and is not sure of variant/Fuel then ask customer</i></p>
+
+                        <p class="outputText topSpace"><i>// To help you choose the right product and give you the correct information that will save you time and money, we need some details on usage of the car. How many kilometers you drive in a day?</i></p>
+
+                        <lightning-input type="text" label="Model" required class="validate-inputs"></lightning-input>
+                        <lightning-input type="text" label="Variant"></lightning-input>
+                        <lightning-input type="text" label="Color"></lightning-input>
+
+                        <p class="outputText">Based on customer response on product variant being evaluated, share high 5s and key differentiators across variants.</p>
+
+                        <p class="outputText topSpace">Based on customer response please share price of specific product. Also share the additional components that would add up to give you on road price. If Price is shared then also inform the customer about disclaimer:</p>
+
+                        <p class="outputText topSpace"><i>Sir/Madam This is ex-showroom price which does not include road tax, insurance charges, registration fees and some other miscellaneous charges</i></p>
+
+                        <p class="outputText topSpace"><i>Sir/ Mam as you are a resident of &lt;City Name>, we have some fabulous offers running in your city.</i></p>
+
+                        <p class="outputText topSpace">Educate the customer on the consumer Offers in the city.</p>
+
+                        <lightning-combobox
+                            name="lead"
+                            label="Sir/Madam would you like to exchange your old car with the new car?"
+                            value={carExchangeVal}
+                            placeholder="Select Option"
+                            options={options}
+                            onchange={handleExchangeCar}
+                            class="validate-inputs topSpace"
+                            required
+                        ></lightning-combobox>
+                        
+                        <template if:true={isCarExchange}>
+                            <lightning-textarea name="input1" label="Exchange Remarks" class="topSpace"></lightning-textarea>
+                        </template>
+
+                        <p class="outputText topSpace">// If customer is interested in exchanging his/her current Maruti car// explain to customer on norms for claiming loyalty bonus (refer loyalty points) and guide him that dealer will help in getting the evaluation of your existing vehicle for exchange.</p>
+
+
+                        <lightning-input type="text" label="May I know your profession?"></lightning-input>
+                        <p>// Capture details of profession accordingly explain corporate and rural schemes- (This will be an optional question.)</p>
+
+                        <lightning-combobox
+                            name="lead"
+                            label="Sir/Ma’am would you like to go for a test drive in this new car?"
+                            value={testDriveVal}
+                            placeholder="Select Option"
+                            options={options}
+                            onchange={handleTestDrive}
+                            class="validate-inputs topSpace"
+                            required
+                        ></lightning-combobox>
+
+                        <template if:true={isTestDrive}>
+                            <lightning-combobox
+                                name="lead"
+                                value={testDriveTypeVal}
+                                placeholder="Select Option"
+                                options={testDriveOptions}
+                                onchange={handleTestDriveType}
+                                class="validate-inputs topSpace"
+                                required
+                            ></lightning-combobox>
+                        </template>
+
+                        <lightning-combobox
+                            name="lead"
+                            label="So, when are you planning to buy the car?"
+                            value={carPlanVal}
+                            placeholder="Select Option"
+                            options={carPlanOptions}
+                            onchange={handleCarPlanning}
+                            class="validate-inputs topSpace"
+                            required
+                        ></lightning-combobox>
+
+                        <lightning-combobox
+                            name="lead"
+                            label="Customer Type"
+                            value={customerTypeVal}
+                            placeholder="Select Option"
+                            options={customerTypeOptions}
+                            onchange={handleCustomerType}
+                            class="validate-inputs topSpace"
+                            required
+                        ></lightning-combobox>
+
+                        <p class="outputText topSpace"><i>Sir/Madam Last time you purchased the car from &lt;C_PUR_Dealer> so would you like to purchase a new car from the same dealer or you want to purchase it from any other Maruti Dealer nearby your locality of your choice?</i></p>
+
+                        <p class="outputText topSpace">I would like to know on whose name would you like to purchase the new car and what would be his/her contact no. </p>
+
+                        <lightning-input type="text" label="Name" class="topSpace"></lightning-input>
+                        
+                        <lightning-input type="number" label="Contact" class="topSpace"></lightning-input>
+
+                        <lightning-input type="email" label="May I know your email ID" placeholder="you@example.com" class="topSpace"></lightning-input>
+
+                        <lightning-input type="text" label="Sir would you like to share any other alternate contact number of yours" class="topSpace"></lightning-input>
+
+                        <p class="outputText topSpace">We are forwarding your request to </p>
+
+                        <lightning-input type="text" label="Dealer Name" class="topSpace"></lightning-input>
+
+                        <p> and they will get in touch with you shortly.</p>
+
+                        <p class="outputText topSpace"><i>Sir/Madam, thanks for showing your interest in purchasing a new car, &lt;ADDFLD3> {editable},&lt;ADDFLD4> {editable}.</i></p>
+
+                        <lightning-textarea name="voc" label="Voice of Customer" class="topSpace"></lightning-textarea>
+
+                        <p class="outputText topSpace"> Thanks for your valuable time and information, you were speaking with <u>Advisor Name</u>, have a nice day</p>
+                    </template>
+                    <template if:true={customerNotInterested}>
+                        <p class="outputText topSpace"><i>Sir, May I know the budget for car purchase?</i></p>
+
+                        <lightning-combobox
+                            name="lead"
+                            label="Car Budget"
+                            value={carBudgetVal}
+                            placeholder="Select Option"
+                            options={carBudgetOptions}
+                            onchange={handleCarBudget}
+                            class="topSpace"
+                        ></lightning-combobox>
+
+                        <p class="outputText topSpace"><i>Sir, I would also request you to consider Pre Owned Cars of Maruti, if you are interested I shall arrange for call back from our True Value outlet</i></p>
+
+                        <p class="outputText topSpace">Align the lead with the True value outlet of sales dealer parent.</p>
+
+                        <p class="outputText topSpace">Capture appointment </p>
+
+                        <p class="outputText topSpace"><i>Sir, you can always call us in case of change in purchase plan</i></p>
+
+                        <p class="outputText topSpace">Pitch customer cross sell opportunities listed under Field name - “Up_CrossSell_Telecaller”</p>
+
+                        <p class="outputText topSpace"><i>Sir, as you are happy with your existing car, I would recommend you to purchase the Maruti Genuine Accessories to enhance the look of your car and also, we have disinfectant & safety gears for your protection, Shall I arrange a call back from the concerned person.</i></p>
+
+                        <p class="outputText topSpace"><i>Sir, is there anything else, I can help you with?</i></p>
+
+                        <lightning-combobox
+                            name="lead"
+                            label="Can I help you?"
+                            value={customerQueries}
+                            placeholder="Select Option"
+                            options={options}
+                            onchange={handleCustomerQueries}
+                            class="topSpace"
+                        ></lightning-combobox>
+
+                       <p class="outputText topSpace">Yes – please ask & resolve customer queries </p>
+
+                        <p class="outputText topSpace"> Thanks for your valuable time and information, you were speaking with <u>Advisor Name</u>, have a nice day</p>
+                    </template>
+                </template>
+            </template>
+
+            <template if:true={isLeadNotIntrested}>
+                <p class="outputText topSpace"> 
+                   <i>Ask for the convenient time to schedule a call back end the call</i> 
+                </p>
+            </template>
+
+        </div>
+        <p slot="footer" class="slds-text-align_right">
+            <lightning-button variant="brand" label="Finish" title="Finish" onclick={submitLeadResponce}></lightning-button>
+        </p>
+    </lightning-card>
+</template>

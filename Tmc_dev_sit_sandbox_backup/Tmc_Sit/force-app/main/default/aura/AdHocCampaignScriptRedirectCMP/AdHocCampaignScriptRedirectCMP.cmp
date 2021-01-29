@@ -1,0 +1,20 @@
+<aura:component
+    implements="flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:availableForFlowScreens"
+    access="global"
+    controller="AdHocCampaignScriptController">
+    <aura:attribute type="string" name="surveyFormURL" />
+    <aura:attribute type="string" name="surveyId" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="slds-box slds-theme_default">
+        <div class="slds-section slds-is-open">
+            <!-- <h3 class="slds-section__title slds-theme_shade">
+                <span class="slds-truncate slds-p-horizontal_small" title="Section Title"></span>
+            </h3> -->
+            <div aria-hidden="false" class="slds-section__content">
+              <!--  <iframe src="{!v.surveyFormURL}" height="250" class="responsive" frameBorder="0" /> -->
+              <iframe src="{!v.surveyFormURL}" class="responsive" frameBorder="0" />
+            </div>
+        </div>
+    </div>
+</aura:component>

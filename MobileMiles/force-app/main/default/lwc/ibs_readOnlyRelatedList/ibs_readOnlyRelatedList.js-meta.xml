@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="Ibs_readOnlyRelatedList">
+    <apiVersion>48.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage, lightning__HomePage,lightning__RecordPage,lightningCommunity__Default">
+            <property name="objectName" label="Object API Name" type="String"/>
+            <property name="paretnFieldApiName" label="Parent Field ApiName" type="String"/>
+            <property name="parentType" label="Parent Type" type="String" datasource="Record Detail, Current User, Current Contact, Current Account"/>
+            <property name="fieldsApiName" label="Fields API Name" type="String"/>
+            <property name="whereClause" label="Where Clause" type="String"/>
+            <property name="orderBy" label="Order By" type="String" placeholder="Enter name of field"/>
+            <property name="fieldsForEdit" label="Fields for edit" type="String" placeholder="field1,field2,.."/>
+            <property name="relatedListTitle" label="Title" type="String"/>
+            <property name="iconName" label="Icon Name" type="String"/>
+            <property name="whichFieldNeedToTotal" label="Name of Total Field" type="String"/>
+            <property name="labelOfTotalField" label="Label the Total Field" type="String"/>
+            <property name="design" type="String" label="Table Color Theme" datasource="Grey theme, Lightning theme"/>
+            <property name="formualFld1" label="Progress 1" placeholder="Name of field label, Name of field progress Bar" type="String"/>
+            <property name="formualFld2" label="Progress 2" placeholder="Name of field label, Name of field progress Bar" type="String"/>
+            <property name="tableHeight" label="Enter table height" type="String"/>
+            <property name="firstColumnClickable" label="First Column Clickable" type="Boolean"/>
+            <property name="hideTableHeader" label="Hide Table Header" type="Boolean"/>
+            <property name="isSortable" label="Sortable Columns" type="Boolean"/>
+            <property name="withinSF" label="Redirect within SF" type="Boolean"/>
+            <property name="urlRedirect" label="URL" placeholder="Enter a URL" type="String"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,5 @@
+<design:component label="Tile Menu">
+     
+    <design:attribute name="title" label="Title"  />
+    <design:attribute name="titleimage" label="titleimage" /> 
+</design:component>

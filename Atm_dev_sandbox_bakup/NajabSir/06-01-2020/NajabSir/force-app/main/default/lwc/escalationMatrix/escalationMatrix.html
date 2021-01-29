@@ -1,0 +1,31 @@
+<template>
+    <lightning-card>
+        <div class="slds-p-horizontal_small">
+    <div class="slds-section" data-id="detail-section">
+
+        <h3 class="slds-section__title">
+            <button aria-controls="section" aria-expanded="true" class="slds-button slds-section__title-action"
+                onclick={handleToggleSection}>
+                <lightning-icon size="xx-small" icon-name={activeIcon} alternative-text="Expand"></lightning-icon>
+                <span class="slds-truncate slds-p-left_x-small" title='Escalation Matrix'> 
+                    Escalation Matrix
+                </span>  
+            </button>
+        </h3>
+
+        <div aria-hidden="false" class="slds-section__content" id="section">
+            <div class="spinner" if:true={showSpinner}>
+                <lightning-spinner alternative-text="Loading" variant="brand" size="small"></lightning-spinner>
+            </div>
+
+            <div class="slds-text-color_destructive slds-p-left_x-large" if:true={errorMessage}> {errorMessage} </div>
+
+            <lightning-datatable key-field="id" columns={Columns} data={responseResult}
+                            class="slds-max-medium-table_stacked" hide-checkbox-column show-row-number-column
+                            if:true={responseResult.length} >
+                        </lightning-datatable>
+            </div>
+            </div>
+            </div>
+            </lightning-card>
+</template>

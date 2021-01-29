@@ -1,0 +1,21 @@
+<template>
+
+    <div class={classList}>
+        <div class={contentClass}>
+            <slot></slot>
+        </div>
+        <div class="slds-p-around_small" if:true={showScreen}>
+            <lightning-button-icon icon-name="utility:back" variant="container" size="large" alternative-text="Back"
+                onclick={handleCancel}>
+            </lightning-button-icon>
+            <div class="slds-p-vertical_small">
+                <c-lookup-input-field variant="stacked" custom-key={parentInputField.customKey}
+                    object-name={parentInputField.objectName} record-type={parentInputField.recordType}
+                    min-length={parentInputField.minLength} is-custom-search={parentInputField.isCustomSearch}
+                    scroll-after-n-items=200 oncustomsearch={handleCustomSearch} onchange={handleChange}>
+                </c-lookup-input-field>
+            </div>
+        </div>
+    </div>
+
+</template>

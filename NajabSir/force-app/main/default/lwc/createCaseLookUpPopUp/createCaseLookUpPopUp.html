@@ -1,0 +1,124 @@
+<template>
+    <div>
+        <section role="dialog"  class="slds-modal slds-fade-in-open slds-modal--large" >
+            <div class="slds-modal__container modal-custom-width" >
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseModal}>
+                        <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="Close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{modelTitle}</h2>
+                </header> 
+                    <div class="slds-modal__content slds-p-around_medium" >
+                        <div id="input-box-section" class="slds-size--1-of-2">
+                            <lightning-input label={fieldLabel}  value={searchKey} type="search"  required={isRequired}
+                             onchange={handleChange} placeholder="Enter text" is-loading={isSearching}></lightning-input> 
+                        </div>
+                        <div id="result-section" class="slds-m-top--large" style="min-height: 300px;">
+                            <div class="slds-page-header">
+                                <div class="slds-page-header__row">
+                                  <div class="slds-page-header__col-title">
+                                    <div class="slds-media">
+                                      <div class="slds-media__body">
+                                        <div class="slds-page-header__name">
+                                          <div class="slds-page-header__name-title">
+                                            <h1>
+                                              <span class="slds-page-header__title slds-truncate">{sectionHeader}</span>
+                                            </h1>
+                                          </div>
+                                        </div>
+                                        <p class="slds-page-header__name-meta">{recordsLength} Result(s)</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="scroller actionBarPlugin fixedHeaderPlugin slds-scrollable slds-scrollable_x">
+                              <template if:true={isAccountObject}>
+                                  <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                      <thead>
+                                        <tr class="slds-line-height_reset">
+                                          <th class="" scope="col">
+                                            <div class="slds-truncate" >Name</div>
+                                          </th>
+                                          <th class="" scope="col">
+                                            <div class="slds-truncate" >Dealer Type</div>
+                                          </th>
+                                          <th class="" scope="col">
+                                            <div class="slds-truncate" >Dealer Code</div>
+                                          </th>
+                                          <th class="" scope="col">
+                                            <div class="slds-truncate" >City</div>
+                                          </th>
+                                          <th class="" scope="col">
+                                            <div class="slds-truncate" >State</div>
+                                          </th> 
+                                          <th class="" scope="col">
+                                            <div class="slds-truncate" >Pin Code</div>
+                                          </th> 
+                                                                
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                          <template for:each={sObjectList} for:item="record" for:index="index">
+                                              <tr key={record.Id} class="slds-hint-parent">
+                                                  <th  scope="row">
+                                                  <div class="slds-truncate" >
+                                                      <div  id={record.Id} style="cursor: pointer; color: #0000EE" onclick={handleSelect}>{record.Name} </div>
+                                                      <!-- <lightning-button variant="base" label={record.Name} name={record} onclick={handleSelect} ></lightning-button> -->
+                                                  </div>
+                                                  </th>
+                                                  <td >
+                                                  <div class="slds-truncate" title={record.Dealer_Type__c} >{record.Dealer_Type__c}</div>
+                                                  </td>
+                                                  <td >
+                                                      <div class="slds-truncate" title={record.Dealer_Code__c} >{record.Dealer_Code__c}</div>
+                                                  </td>
+                                                  <td >
+                                                      <div class="slds-truncate" title={record.City__c} >{record.BillingCity}</div>
+                                                  </td>
+                                                  <td >
+                                                    <div class="slds-truncate" title={record.City__c} >{record.BillingState}</div>
+                                                  </td>
+                                                  <td >
+                                                    <div class="slds-truncate" title={record.City__c} >{record.BillingPostalCode}</div>
+                                                  </td>
+                                              </tr>
+                                          </template>
+                                      </tbody>
+                                    </table>
+                                 </template>
+                                 <template if:false={isAccountObject}>
+                                  <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                    <thead>
+                                      <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                          <div class="slds-truncate" >Name</div>
+                                        </th>                
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={sObjectList} for:item="record" for:index="index">
+                                            <tr key={record.Id} class="slds-hint-parent">
+                                                <th  scope="row">
+                                                <div class="slds-truncate" >
+                                                    <div  id={record.Id} style="cursor: pointer; color: #0000EE" onclick={handleSelect}>{record.Name} </div>
+                                                </div>
+                                                </th>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                  </table>
+                                  </template>
+                            </div>
+                        </div>
+                    </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" variant="neutral" onclick={handleCloseModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

@@ -1,0 +1,17 @@
+<apex:page Controller="TaskEditController" lightningStylesheets="true">
+   <apex:form >
+       <apex:sectionHeader title="Task" subtitle="Edit"/>
+  <apex:pageBlock id="page1">
+      <apex:pageMessages />
+   <apex:pageBlockSection columns="1">
+       <apex:inputField value="{!objTask.Subject}" />
+       <apex:inputField value="{!objTask.Status}" />
+       <apex:inputField value="{!objTask.Priority}"/>
+       
+      </apex:pageBlockSection>
+      <apex:commandButton action="{!SaveTask}" value="Save">
+          <apex:param assignTo="{!objTask}" name="saved" value="{!objTask}"/>
+      </apex:commandButton>
+   </apex:pageBlock>
+       </apex:form>
+</apex:page>

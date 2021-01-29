@@ -1,0 +1,94 @@
+<apex:page standardController="Account" extensions="CustomInteractionLog" tabStyle="Task"> 
+      
+    <apex:includeScript value="/support/console/32.0/integration.js"/>
+    <script type="text/javascript">
+        
+        var callObjectId = null;
+        
+        var onFocusedSubtabCallback = function (result) {
+            var entityId = result.objectId;
+            
+            if (entityId.substr(0,3) === '001') {
+                updateWhoWhatIdJS(result.objectId);
+            }
+        };
+
+        sforce.console.onFocusedSubtab(onFocusedSubtabCallback);
+
+        var getCallAttachedDataCallback = function (result) {     
+            setCallAttachedDataJS(callObjectId, JSON.parse(result.data).ANI);
+        };
+    
+        /* Retrieving call id of first call that came in and
+        * calling getCallAttachedData() to retrieve call data.
+        * Note that we are using the cti submodule here
+        */                  
+        var getCallObjectIdsCallback = function (result) {        
+            if (result.id!== 'null') {       
+                var ids = result.ids.split(',');        
+                if (ids.length > 0) {   
+                    callObjectId = ids[0];     
+                    sforce.console.cti.getCallAttachedData(callObjectId, getCallAttachedDataCallback);        
+                }        
+            }        
+        };
+
+        sforce.console.cti.getCallObjectIds(getCallObjectIdsCallback);
+                       
+        var onCallBeginCallback = function (result) {
+            callObjectId = result.id;
+            sforce.console.cti.getCallAttachedData(result.id, getCallAttachedDataCallback);
+        };
+
+        sforce.console.cti.onCallBegin(onCallBeginCallback);
+
+        var onCallEndCallback = function (result) {
+            setCallEndDataJS(result.duration, result.disposition);
+        };
+
+        sforce.console.cti.onCallEnd(onCallEndCallback);
+        
+        
+    </script>
+    <apex:form >
+        <apex:pageBlock id="thePageBlock" mode="edit">
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}" />
+                <apex:commandButton value="Save And New" action="{!saveAndNew}" />
+            </apex:pageBlockButtons>
+            <apex:actionFunction action="{!updateWhoWhatId}" name="updateWhoWhatIdJS" reRender="updateable">
+                <apex:param name="newCaseId" assignTo="{!accId}" value=""/>
+            </apex:actionFunction>               
+            <apex:actionFunction action="{!setCallAttachedData}" name="setCallAttachedDataJS" reRender="updateable">
+                <apex:param name="CallObject" assignTo="{!CallObject}" value=""/>
+                <apex:param name="ANI" assignTo="{!ANI}" value=""/>
+                
+            </apex:actionFunction> 
+            <apex:actionFunction action="{!setCallEndData}" name="setCallEndDataJS" reRender="updateable, relatedList">
+                <apex:param name="CallDuration" assignTo="{!CallDurationInSeconds}" value=""/>
+                <apex:param name="CallDisposition" assignTo="{!CallDisposition}" value="" />
+            </apex:actionFunction>            
+            <apex:outputPanel id="updateable">
+                <apex:pageBlockSection columns="1" id="mainTable">
+                    <!-- <apex:inputField value="{!task.whoId}"/>-->                        
+                    <!-- <apex:inputField value="{!task.whatId}"/>-->
+                    <!-- <apex:inputField style="width:230px;" value="{!task.subject}"/>--> 
+                    <apex:inputField value="{!task.Type_gesprek__c}" />
+                    <apex:inputField value="{!task.Gespreksresultaat__c}"/> 
+                    <apex:inputField value="{!task.Gespreksresultaat_detail__c}"/>  
+                    
+                    <apex:inputField style="height:80px;width:250px;" value="{!task.description}"/>                
+                    <!-- <apex:inputField value="{!task.ANI__c}"/> -->                    
+                </apex:pageBlockSection>
+                <apex:pageBlockSection columns="1">                  
+                                                          
+                    <br/><apex:outputText value="{!statusMessage}" />                                       
+                </apex:pageBlockSection>
+            </apex:outputPanel>            
+        </apex:pageBlock>
+    </apex:form>
+    <apex:outputPanel id="relatedList">
+        <!-- <apex:relatedList list="OpenActivities"/>-->
+    </apex:outputPanel>
+</apex:page>

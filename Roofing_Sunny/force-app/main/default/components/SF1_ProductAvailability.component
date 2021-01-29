@@ -1,0 +1,527 @@
+<apex:component >
+    <style type="text/css">
+            body {
+            font-family: Arial, Helvetica, Sans-Serif;
+            font-size: 11pt;
+            }
+            #report {
+            border-collapse: collapse;
+            }
+            #report th {
+            background: #7CB8E2 repeat-x scroll center left;
+            color: #fff;
+            padding: 2px 5px;
+            text-align: left;
+            text-decoration: underline;
+            cursor: pointer;
+            }
+            #report td {
+            background: #C7DDEE none repeat-x scroll center left;
+            color: #000;
+            padding: 2px 5px;
+            cursor: default;
+            }
+            #report tr.odd td {
+            background: #fff repeat-x scroll center left;
+            }
+            
+            #report tr.detailRow td{
+                cursor: pointer !important;
+                background: #80F870 repeat-x scroll center left;
+            }
+            
+            .sf1Table {
+            border-collapse: collapse;
+            }
+            .sf1Table th {
+            background: #7CB8E2 repeat-x scroll center left;
+            color: #fff;
+            padding: 2px 5px;
+            text-align: left;
+            text-decoration: underline;
+            cursor: pointer;
+            }
+            .sf1Table td {
+            background: #C7DDEE none repeat-x scroll center left;
+            color: #000;
+            padding: 2px 5px;
+            cursor: default;
+            }
+            .sf1Table tr.odd td {
+            background: #fff repeat-x scroll center left;
+            }
+            
+            .sf1Table tr.detailRow td{
+                cursor: pointer !important;
+            }
+            
+            .sf1InputTable{
+                font-size: font-size: 12pt;
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+            
+            .sf1InputTable td {
+                padding-bottom: 10px;
+                padding-top: 10px;
+                padding-right: 10px;
+            }
+            
+            .sf1InputTable td select{
+                font-size: 12pt;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+                        
+            .sf1InputTableTwoCol{
+                font-size: font-size: 12pt;
+                padding-bottom: 1%;
+                width: 100%;
+            }
+            
+            .sf1InputTableTwoCol td {
+                padding-right: 1%;
+                padding-left: 1%;
+                width: 50%;
+            }
+            
+            .sf1InputTableTwoCol td select{
+                font-size: 12pt;
+                margin-top: 1%;
+                margin-bottom: 1%;
+                width: 95%
+            }
+            
+            .sf1InputTableThreeCol{
+                font-size: font-size: 12pt;
+                padding-bottom: 1%;
+                width: 100%;
+            }
+            
+            .sf1InputTableThreeCol td {
+                padding-right: 1%;
+                padding-left: 1%;
+                width: 33%;
+            }
+            
+            .sf1InputTableThreeCol td select{
+                font-size: 12pt;
+                margin-top: 1%;
+                margin-bottom: 1%;
+                width: 95%
+            }
+            
+            .sf1RequiredInput{
+                border: 1px solid red !important;
+            }
+            
+            .sf1Error{
+                color: red;
+            }
+            
+            h1{
+                font-size: 14pt;
+                color: #0755A8;
+            }
+            
+            .h1Div{
+                //background-color:#AAAAAA;
+                border-bottom: 1px solid #EEE;
+                width:98%;
+                padding:1%;
+            }
+            
+            .sf1label {
+                font-family: 'ProximaNovaSoft-Regular','Helvetica Neue' !important;
+                font-size: 12pt !important;
+                color: #19191A !important;
+                margin: 0 !important;
+                padding-top: 1% !important;
+                padding-bottom: 1% !important;
+                white-space: nowrap !important;
+                vertical-align: middle !important;
+            }
+            
+            .sf1ReadOnlyText {
+                font-family: 'ProximaNovaSoft-Regular','Helvetica Neue' !important;
+                font-size: 12pt !important;
+                color: #696e71 !important;
+                margin: 0 !important;
+                padding-top: 1% !important;
+                padding-bottom: 1% !important;
+                white-space: nowrap !important;
+                vertical-align: middle !important;
+            }
+            
+            .sf1DateInput {
+                font-family: 'ProximaNovaSoft-Regular','Helvetica Neue' !important;
+                font-size: 12pt !important;
+                color: #696e71 !important;
+                margin: 0 !important;
+                padding-top: 1% !important;
+                padding-bottom: 1% !important;
+                white-space: nowrap !important;
+                vertical-align: middle !important;
+                line-height: 25px;
+                height: 25px;
+            }
+            
+            .sf1select {
+                -webkit-appearance: none;
+                border: 1px solid #bbc0c4;
+                background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9ImRvd25fMV8iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNjRweCIgaGVpZ2h0PSI2NHB4IiB2aWV3Qm94PSIwIDAgNjQgNjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDY0IDY0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJEb3duX3g0MF8yeC5wbmdfMV8iPg0KCTxnIGlkPSJkaXJlY3Rkb3duX2NvcHkiPg0KCQk8Zz4NCgkJCTxwYXRoIGZpbGw9IiM5Njk4OTkiIGQ9Ik01NS4wNjYsMTcuODY2Yy0wLjUzMy0wLjkzNC0xLjQ2Ny0xLjUzMy0yLjUzMy0xLjZDNTIuMzk4LDE2LjE5OSw0Mi4zOTgsMTUuNiwzMiwxNS42DQoJCQkJYy0xMC4zOTksMC0yMC40LDAuNi0yMC41MzMsMC42NjdjLTEuMDY2LDAuMDY2LTIuMDY2LDAuNjY2LTIuNTMzLDEuNmMtMC41MzMsMC45MzQtMC41MzMsMi4wNjYsMCwzDQoJCQkJYzcuOTMzLDE0LjA2NiwyMC40LDI2LjI2NywyMC45MzMsMjYuNzMyYzEuMiwxLjA2NiwzLjA2NiwxLjA2Niw0LjI2NywwYzAuNTMzLTAuNDY3LDEzLTEyLjY2NiwyMC45MzMtMjYuNzMyDQoJCQkJQzU1LjYsMTkuOTMzLDU1LjYsMTguOCw1NS4wNjYsMTcuODY2eiIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=);
+                background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9ImRvd25fMV8iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNjRweCIgaGVpZ2h0PSI2NHB4IiB2aWV3Qm94PSIwIDAgNjQgNjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDY0IDY0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJEb3duX3g0MF8yeC5wbmdfMV8iPg0KCTxnIGlkPSJkaXJlY3Rkb3duX2NvcHkiPg0KCQk8Zz4NCgkJCTxwYXRoIGZpbGw9IiM5Njk4OTkiIGQ9Ik01NS4wNjYsMTcuODY2Yy0wLjUzMy0wLjkzNC0xLjQ2Ny0xLjUzMy0yLjUzMy0xLjZDNTIuMzk4LDE2LjE5OSw0Mi4zOTgsMTUuNiwzMiwxNS42DQoJCQkJYy0xMC4zOTksMC0yMC40LDAuNi0yMC41MzMsMC42NjdjLTEuMDY2LDAuMDY2LTIuMDY2LDAuNjY2LTIuNTMzLDEuNmMtMC41MzMsMC45MzQtMC41MzMsMi4wNjYsMCwzDQoJCQkJYzcuOTMzLDE0LjA2NiwyMC40LDI2LjI2NywyMC45MzMsMjYuNzMyYzEuMiwxLjA2NiwzLjA2NiwxLjA2Niw0LjI2NywwYzAuNTMzLTAuNDY3LDEzLTEyLjY2NiwyMC45MzMtMjYuNzMyDQoJCQkJQzU1LjYsMTkuOTMzLDU1LjYsMTguOCw1NS4wNjYsMTcuODY2eiIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=),-moz-linear-gradient(#ffffff,#f1f1f1);
+                background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9ImRvd25fMV8iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNjRweCIgaGVpZ2h0PSI2NHB4IiB2aWV3Qm94PSIwIDAgNjQgNjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDY0IDY0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJEb3duX3g0MF8yeC5wbmdfMV8iPg0KCTxnIGlkPSJkaXJlY3Rkb3duX2NvcHkiPg0KCQk8Zz4NCgkJCTxwYXRoIGZpbGw9IiM5Njk4OTkiIGQ9Ik01NS4wNjYsMTcuODY2Yy0wLjUzMy0wLjkzNC0xLjQ2Ny0xLjUzMy0yLjUzMy0xLjZDNTIuMzk4LDE2LjE5OSw0Mi4zOTgsMTUuNiwzMiwxNS42DQoJCQkJYy0xMC4zOTksMC0yMC40LDAuNi0yMC41MzMsMC42NjdjLTEuMDY2LDAuMDY2LTIuMDY2LDAuNjY2LTIuNTMzLDEuNmMtMC41MzMsMC45MzQtMC41MzMsMi4wNjYsMCwzDQoJCQkJYzcuOTMzLDE0LjA2NiwyMC40LDI2LjI2NywyMC45MzMsMjYuNzMyYzEuMiwxLjA2NiwzLjA2NiwxLjA2Niw0LjI2NywwYzAuNTMzLTAuNDY3LDEzLTEyLjY2NiwyMC45MzMtMjYuNzMyDQoJCQkJQzU1LjYsMTkuOTMzLDU1LjYsMTguOCw1NS4wNjYsMTcuODY2eiIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=),-webkit-linear-gradient(#ffffff,#f1f1f1);
+                background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9ImRvd25fMV8iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNjRweCIgaGVpZ2h0PSI2NHB4IiB2aWV3Qm94PSIwIDAgNjQgNjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDY0IDY0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJEb3duX3g0MF8yeC5wbmdfMV8iPg0KCTxnIGlkPSJkaXJlY3Rkb3duX2NvcHkiPg0KCQk8Zz4NCgkJCTxwYXRoIGZpbGw9IiM5Njk4OTkiIGQ9Ik01NS4wNjYsMTcuODY2Yy0wLjUzMy0wLjkzNC0xLjQ2Ny0xLjUzMy0yLjUzMy0xLjZDNTIuMzk4LDE2LjE5OSw0Mi4zOTgsMTUuNiwzMiwxNS42DQoJCQkJYy0xMC4zOTksMC0yMC40LDAuNi0yMC41MzMsMC42NjdjLTEuMDY2LDAuMDY2LTIuMDY2LDAuNjY2LTIuNTMzLDEuNmMtMC41MzMsMC45MzQtMC41MzMsMi4wNjYsMCwzDQoJCQkJYzcuOTMzLDE0LjA2NiwyMC40LDI2LjI2NywyMC45MzMsMjYuNzMyYzEuMiwxLjA2NiwzLjA2NiwxLjA2Niw0LjI2NywwYzAuNTMzLTAuNDY3LDEzLTEyLjY2NiwyMC45MzMtMjYuNzMyDQoJCQkJQzU1LjYsMTkuOTMzLDU1LjYsMTguOCw1NS4wNjYsMTcuODY2eiIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=),-ms-linear-gradient(#ffffff,#f1f1f1);
+                background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9ImRvd25fMV8iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNjRweCIgaGVpZ2h0PSI2NHB4IiB2aWV3Qm94PSIwIDAgNjQgNjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDY0IDY0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJEb3duX3g0MF8yeC5wbmdfMV8iPg0KCTxnIGlkPSJkaXJlY3Rkb3duX2NvcHkiPg0KCQk8Zz4NCgkJCTxwYXRoIGZpbGw9IiM5Njk4OTkiIGQ9Ik01NS4wNjYsMTcuODY2Yy0wLjUzMy0wLjkzNC0xLjQ2Ny0xLjUzMy0yLjUzMy0xLjZDNTIuMzk4LDE2LjE5OSw0Mi4zOTgsMTUuNiwzMiwxNS42DQoJCQkJYy0xMC4zOTksMC0yMC40LDAuNi0yMC41MzMsMC42NjdjLTEuMDY2LDAuMDY2LTIuMDY2LDAuNjY2LTIuNTMzLDEuNmMtMC41MzMsMC45MzQtMC41MzMsMi4wNjYsMCwzDQoJCQkJYzcuOTMzLDE0LjA2NiwyMC40LDI2LjI2NywyMC45MzMsMjYuNzMyYzEuMiwxLjA2NiwzLjA2NiwxLjA2Niw0LjI2NywwYzAuNTMzLTAuNDY3LDEzLTEyLjY2NiwyMC45MzMtMjYuNzMyDQoJCQkJQzU1LjYsMTkuOTMzLDU1LjYsMTguOCw1NS4wNjYsMTcuODY2eiIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=),linear-gradient(#ffffff,#f1f1f1);
+                background-repeat: no-repeat;
+                background-position: 95% 50%;
+                background-size: 16px 16px,100% 100%;
+                color: #3c3d3e;
+                padding: 7px 14px;
+                line-height: 25px;
+                font-family: 'ProximaNovaSoft-Regular', 'Helvetica Neue';
+                font-size: 12pt; 
+                margin:2px 20px 2px 2px;
+                border: 1px solid #cfd0d2;
+                border-radius: 5px;
+                width: 90%
+            }
+ 
+            .sf1Input{
+                -webkit-appearance: none;
+                border: 1px solid #bbc0c4;
+                color: #3c3d3e;
+                padding: 7px 14px;
+                line-height: 25px;
+                font-family: 'ProximaNovaSoft-Regular', 'Helvetica Neue';
+                font-size: 12pt;
+                padding: 7px 14px;
+                margin:2px 20px 2px 2px;
+                border: 1px solid #cfd0d2;
+                border-radius: 5px;
+                width: 90%
+            }
+            
+         .sf1buttonSFBlue {
+             font-size: 15pt; 
+             color: #44596c;
+             text-shadow: none;
+             margin-top: 10px;
+             margin-left: 5px;
+             margin-right: 5px;
+             margin-bottom: 0px;
+             padding: 4px 14px;
+             height: 40px; 
+             font-family: 'ProximaNovaSoft-Regular', 'Helvetica Neue';
+             font-weight: normal;
+             border: 1px solid #bbc0c4;
+             border-radius: 5px;
+             background: -moz-linear-gradient(#2a93d5,#107abb);
+             background: -webkit-linear-gradient(#2a93d5,#107abb);
+             background: -ms-linear-gradient(#2a93d5,#107abb);
+             background: linear-gradient(#2a93d5,#107abb);
+             box-shadow: none;
+             text-align: center;
+             cursor: pointer;
+             box-sizing: border-box;
+             color:white;
+         }
+         
+         .sf1buttonPDF{
+                line-height: 35px;
+                padding-left: 36px;
+                background: url("{!URLFOR($Resource.SF1_Resources, 'i/pdf-32.png')}") 2px 0% no-repeat;
+                display: block;
+                float: left;
+                height: 35px;
+                color: #000;
+                font-size: 16px;
+                font-weight: bold;
+                margin: 5px;
+                border: 0;
+                vertical-align: baseline;
+                cursor: pointer;
+         }
+         
+         .sf1buttonMail{
+                line-height: 35px;
+                padding-left: 36px;
+                background: url("{!URLFOR($Resource.SF1_Resources, 'i/mail-32.png')}") 2px 0% no-repeat;
+                display: block;
+                float: left;
+                height: 35px;
+                color: #000;
+                font-size: 16px;
+                font-weight: bold;
+                margin: 5px;
+                border: 0;
+                vertical-align: baseline;
+                cursor: pointer;
+         }
+         
+         .sf1buttonEdit{
+                line-height: 35px;
+                padding-left: 36px;
+                background: url("{!URLFOR($Resource.SF1_Resources, 'i/edit_32.png')}") 2px 0% no-repeat;
+                display: block;
+                float: left;
+                height: 35px;
+                color: #000;
+                font-size: 16px;
+                font-weight: bold;
+                margin: 5px;
+                border: 0;
+                vertical-align: baseline;
+                cursor: pointer;
+         }
+         
+         .sf1buttonDelete{
+                line-height: 35px;
+                padding-left: 36px;
+                background: url("{!URLFOR($Resource.SF1_Resources, 'i/delete_32.png')}") 2px 0% no-repeat;
+                display: block;
+                float: left;
+                height: 35px;
+                color: #000;
+                font-size: 16px;
+                font-weight: bold;
+                margin: 5px;
+                border: 0;
+                vertical-align: baseline;
+                cursor: pointer;
+         }
+         
+         .errorMessage{
+                line-height: 35px;
+                padding-left: 25%;
+                text-align: center;
+                float: left;
+                display: block;
+                color: #900;
+                font-size: 16px;
+                font-weight: bold;
+                margin: 5px;
+                border: 0;
+                vertical-align: baseline;
+         }
+         
+         .infoMessage{
+                line-height: 35px;
+                padding-left: 25%;
+                text-align: center;
+                float: left;
+                display: block;
+                color: #090;
+                font-size: 16px;
+                font-weight: bold;
+                margin: 5px;
+                border: 0;
+                vertical-align: baseline;
+         }
+         
+         div.clear{
+            clear: both;
+         }
+         
+         .headerLabelClass {
+         width: 100%;
+         background-color: #e2e2e2;
+         height: 25px;
+         font-weight: 600;
+         padding-top: 5px;
+     }
+     .divBlock {
+         border:1px solid #d3d3d3;
+         height:300px;
+         margin: 10px;
+     }
+
+     .divBlockTable {
+         max-height: 269px;
+         min-height: 269px;
+         overflow-y: auto;
+     }
+     .pbSubheader{margin-top : 0px;}
+     .labelClass {width:500px;}
+     
+     .sf1headerLabel {
+        width: 100%;
+                background-color: #e2e2e2;
+                line-height: 25px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                font-weight: bold;
+                font-size: 12pt;
+                color: #000000;
+     }
+     .sf1divBlock {
+         border:1px solid #d3d3d3;
+         margin: 1%;
+         width: 98% !important;
+     }
+     
+     .sf1divBlockTable {
+         text-align: left;
+         margin-left: 10px; 
+     }
+     
+     .pagination {
+          font-size: 80%;
+      }
+
+     .pagination a {
+         text-decoration: none;
+         border: solid 1px #AAE;
+         color: #15B;
+     }
+
+     .pagination a, .pagination span {
+         display: block;
+         float: left;
+         padding: 0.3em 0.5em;
+         margin-right: 5px;
+         margin-bottom: 5px;
+     }
+
+     .pagination .current {
+         background: #5E82A3;
+         color: #fff;
+         border: solid 1px #AAE;
+         text-decoration:none;
+     }
+
+     .pagination .notPrevious, .pagination .notNext{
+         color:#999;
+         border-color:#999;
+         background:#fff;
+         text-decoration:none;
+         pointer-events: none;
+         cursor: default;
+     }
+     .next {
+         text-decoration:underline
+     }
+     .prev {
+         text-decoration:underline
+     }
+     
+     .hiddenDiv{
+        display: none;
+     }
+     
+     .HiddenInputField{
+        visibility: hidden;
+        width=0px;
+     }
+     
+     span.dateFormat{
+        display: none;
+     }
+     
+     .invalidTableRow{
+        border: 1px RED solid;
+     }
+     
+     .sf1BlockDisplay {
+        display: block;
+     }
+     
+     .sf1CenterAlign{
+        text-align: left;
+            margin-left: 40%;
+     }
+     
+     .sf1ButtonDesc{
+            min-width: 115px;
+            max-width: 250px;
+     }
+     
+     .message{
+        border-color: #dfe0e1 !important;
+            background-color: #e8eaeb !important; 
+         }
+         
+         .messageText span{
+            color: #222 !important;
+         }
+         
+         .messageText span h4{
+            padding-top: 5px;
+         }
+         
+         .messageText span h4:after {
+              content: 'Looks like there's a problem';
+            }
+         .msgIcon{
+            background: url("{!URLFOR($Resource.SF1Style, 'error.png')}") 2px 0% no-repeat !important;
+         }
+         
+         .sf1tabs {
+        width:100%;
+        display:inline-block;
+         }
+     
+     .sf1tab-links:after {
+        display:block;
+        clear:both;
+        content:'';
+    }
+ 
+    .sf1tab-links li {
+        margin:0px;
+        float:left;
+        list-style:none;
+        
+        padding:9px 15px;
+        display:inline-block;
+        border-radius: 0px;
+            background:#D2CFCF;
+        font-size:16px;
+        font-weight:600;
+        color:#4c4c4c;
+        transition:all linear 0.15s;
+    }
+ 
+    .sf1tab-links a {
+        padding:9px 15px;
+        display:inline-block;
+        border-radius: 3px 3px 0px 0px;
+            background:#D2CFCF;
+        font-size:16px;
+        font-weight:600;
+        color:#4c4c4c;
+        transition:all linear 0.15s;
+    }
+ 
+    .sf1tab-links a:hover {
+        background:#a7cce5;
+        text-decoration:none;
+    }
+ 
+    li.active a, li.active a:hover {
+        background:#7FB5DA;
+        color:#4c4c4c;
+    }
+    
+    .Completed{
+        background-color: rgb(112, 216, 112) !important;
+    }
+    
+    .In-progress{
+        background-color: rgb(237, 174, 58) !important;
+    }
+    
+    .sf1tab-status{
+        font-size: 12px;
+        float: left !important; 
+        text-align: left !important;
+        clear: both;
+    }
+    
+    .sf1tab-detail{
+        float: left !important; 
+        text-align: left !important;
+    }
+        </style>        
+</apex:component>

@@ -1,0 +1,151 @@
+<template>
+    <lightning-card title="User Search" icon-name="custom:custom14">
+        <lightning-input style="width:50%;margin-left:5%" 
+                        placeholder="Search user" 
+                        type="text" 
+                        value={searchUser} 
+                        onchange={handleChange}
+        ></lightning-input>
+        <br/>
+        <template for:each={wrapper} for:item="ObjWrapper">
+            <lightning-layout padding="3rem" key={ObjWrapper.objUser.Id} >
+            <lightning-layout-item size="6" large-device-size="2">
+         <center style="margin-top:1px">  <img src={ObjWrapper.objUser.FullPhotoUrl} width="38px"/> </center>
+       
+            </lightning-layout-item>
+            <lightning-layout-item size="6" large-device-size="6">  
+                    <b style="font-size:16px">{ObjWrapper.objUser.Name}</b><br/>
+                    <p>{ObjWrapper.objUser.Email}</p>
+                    <lightning-progress-bar value={ObjWrapper.progressBar} 
+                            size="medium" 
+                            variant="circular">
+                    </lightning-progress-bar>
+                    
+                    <hr>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" large-device-size="4">
+                <span class="slds-badge slds-m-left--medium slds-shrink-none slds-align-middle badge--dev-ready"
+                >{ObjWrapper.count}</span>&nbsp;&nbsp;
+                <lightning-icon icon-name="utility:text_template" 
+                                size="small" onclick={handleOpenModel}
+                                data-id="img" 
+                                class="pointer"
+                                data-user-id={ObjWrapper.objUser.Id} 
+                                alternative-text="Notes" 
+                                title="Notes"></lightning-icon>
+                </lightning-layout-item> 
+        </lightning-layout>  
+        
+        </template>
+
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </template>
+
+        <template if:true={openmodel}>
+           
+                <section role="dialog" 
+                        tabindex="-1" 
+                        aria-labelledby="modal-heading-01"
+                        aria-modal="true" 
+                        aria-hidden="true"
+                        aria-describedby="modal-content-id-1" 
+                        class="slds-modal slds-fade-in-open"
+                        >
+                    <div class="slds-modal__container slds-scrollable">
+                        <header class="slds-modal__header">
+                            <center><b>Tasks</b></center>
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close" onclick = {handleCloseModal} size="medium">
+                                </lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                           <lightning-layout>
+                            
+                               <lightning-layout-item size="6" large-device-size="8">
+                                <span onkeypress={keycheck}>
+                                    <lightning-input style="margin-left:5%"
+                                                placeholder="Enter subject for adding task" 
+                                                type="text" 
+                                                value={searchTask} 
+                                                onchange={handleAddSubject}>
+                                            </lightning-input></span>
+                                     </lightning-layout-item>
+
+                                 <lightning-layout-item size="4" large-device-size="4">
+                                    <lightning-icon icon-name="action:new"
+                                                style="margin-top:10%" 
+                                                onclick={handleAddTask}
+                                                class="pointer" 
+                                                action="slot"
+                                                size="x-small">
+                                    </lightning-icon>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                               
+                                 </header>
+                            
+                            <template if:true={isLoading}>
+                                <lightning-spinner
+                                    alternative-text="Loading..." variant="brand">
+                                </lightning-spinner>
+                           </template>
+                        <lightning-card>
+                            <lightning-layout  class="slds-box slds-theme_shade slds-theme_alert-texture" padding="1rem" >
+                                <lightning-layout-item  size="4" large-device-size="4">
+                                    <center><b>Subject</b>
+                                    </center>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" large-device-size="4">  
+                                    <center><b>Date</b></center>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4" large-device-size="4">
+                                    <center><b>Action</b></center>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <template if:true={tasks} for:each={tasks} for:item="task">
+                               
+                                <div class={task.styleClass} key={task.Id} >
+                                   <div class="slds-col" style="width:30%">
+                                        <center>{task.Subject}</center>
+                                    </div>
+
+                                    <div class="slds-col" style="width:30%">  
+                                        <center>{task.ActivityDate}</center>
+                                    </div>
+
+                                    <div class="slds-col" style="width:30%">
+                                        <center><input onchange={handleCheckboxChange}  
+                                            hidden={task.hidden}
+                                            data-task-id={task.Id} 
+                                            style="height:1rem;width:1rem;" 
+                                            value={isCompleted} 
+                                            type="checkbox"/>&nbsp;&nbsp;
+
+                                                <lightning-icon icon-name="action:delete" 
+                                                onclick={handleDelete} 
+                                                size="small"
+                                                class="pointer"
+                                                value="task.Id"
+                                                data-id="deleteIcon"
+                                                data-task-id={task.Id} 
+                                                >
+                                            </lightning-icon>
+                                        </center>
+                                    </div>
+                                </div>
+                            </template>
+                        <footer class="slds-modal__footer">
+                            <lightning-button label="Close" variant="neutral" onclick={handleCloseModal}></lightning-button>
+                        </footer>
+                    </lightning-card>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+    </lightning-card>
+   
+</template>

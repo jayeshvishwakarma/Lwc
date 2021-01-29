@@ -1,0 +1,74 @@
+<!--
+/**
+ * Copyright (c) 2017, Andrew Fawcett
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, 
+ *   are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice, 
+ *      this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice, 
+ *      this list of conditions and the following disclaimer in the documentation 
+ *      and/or other materials provided with the distribution.
+ * - Neither the name of the Andrew Fawcett, nor the names of its contributors 
+ *      may be used to endorse or promote products derived from this software without 
+ *      specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
+ *  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ *  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ *  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+**/ 
+ -->
+<aura:component controller="FlowController" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+
+    <aura:attribute name="loaded" type="Boolean" />
+    <aura:attribute name="minimizeUtility" type="Boolean" />
+    <aura:attribute name="currentFlow" type="String" />
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>   
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="metadataRecordName" type="String"/>   
+    <aura:attribute name="metadataRecord" type="Object"/>
+    <aura:attribute name="metadataRecordError" type="String"/> 
+    <aura:attribute name="setupNameRequired" type="String"/>  
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.onRecordIdChange}"/>
+    
+    <lightning:utilityBarAPI aura:id="utilitybar"/>
+
+    <aura:if isTrue="{!v.setupNameRequired}">
+        <div class="slds-m-around_small slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark" role="status">
+            <div class="slds-media__figure"><lightning:icon iconName="utility:info" variant="inverse" size="small"/></div>
+            <div class="slds-media__body"><p>Configure this component through the <b>Dynamic Flow Component</b> Custom Metadata Type under Setup. Specify <b>{!v.setupNameRequired}</b> in the Dynamic Flow Component Name field.</p></div>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.recordId==null}">
+        <div class="slds-m-around_small slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark" role="status">
+            <div class="slds-media__figure"><lightning:icon iconName="utility:info" variant="inverse" size="small"/></div>
+            <div class="slds-media__body"><p>This <b>Dynamic Flow Component</b> is only activated when viewing records. It can be placed in the <b>Utility Bar</b> via <b>App Manager</b> or any <b>Record Page</b> via <b>Lightning App Builder</b>.</p></div>
+        </div>
+    </aura:if>
+
+    <force:recordData aura:id="recordLoader"
+        recordId="{!v.recordId}"
+        layoutType="FULL"
+        targetRecord="{!v.record}"
+        targetFields="{!v.simpleRecord}"
+        targetError="{!v.recordError}"
+        recordUpdated="{!c.onRecordUpdated}"/>
+                
+    <c:metadataRecordData aura:id="metadataRecordLoader"
+        recordFullName="{!v.metadataRecordName}"
+        targetRecord="{!v.metadataRecord}"
+        targetFields="DeveloperName, Label, Flow__c"
+        recordUpdated="{!c.onMetadataRecordUpdated}"
+        readOnly="true"/>
+     
+    <div class="slds-m-around_small">{!v.body}</div>
+    
+</aura:component>

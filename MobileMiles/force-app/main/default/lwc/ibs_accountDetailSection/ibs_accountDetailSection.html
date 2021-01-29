@@ -1,0 +1,70 @@
+<template>
+    <c-ibs_edit-info-section layoutytype="3 Cols" header-title="VESTIGINGSADRES"
+        fields-to-show="Straat__c,Huisnummer__c,Huisnummer_toevoeging__c,ShippingPostalCode,ShippingCity,Phone"
+        object-name="Account">
+    </c-ibs_edit-info-section>
+    <c-ibs_edit-info-section layoutytype="2 Cols" header-title="FACTUURADRES"
+        fields-to-show="BillingStreet,E_mail_factuuradres__c,BillingPostalCode,BillingCity,Betalingscondities__c,Bankrekeningnummer__c"
+        object-name="Account">
+    </c-ibs_edit-info-section>
+    <!-- <template if:true={recordId}>
+        <div class="slds-grid slds-wrap slds-m-top_xx-small white-theme">
+            <div class="slds-col slds-size_1-of-1">
+                <span class="slds-p-bottom_x-small" style="font-size: .875rem;color:#54698d"><b>MOBILEMILES</b></span>
+                <span class="slds-p-right_x-small">
+
+
+
+                    <lightning-record-edit-form record-id={recordId} object-api-name="Account" density="comfy"
+                        layout="Compact">
+                        <div class="slds-grid slds-wrap">
+                            <template for:each={moblieMilesFlds} for:item="items">
+                                <div key={items} class="slds-size_3-of-12">
+                                    <lightning-output-field field-name={items} class="custom-label"></lightning-output-field>
+                                </div>
+                            </template>
+                            <div class="slds-size_3-of-12">
+                                <lightning-button class="slds-button slds-button_neutral custom-btn" variant="base"
+                                    type="button" label="Uitkeren MobileMiles" onclick={showMobileModal}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+
+                   
+                </span>
+            </div>
+        </div>
+    </template>
+    <template if:true={displayModal}>
+        <div class="modal-div" id="modelForCheckBox">
+            <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content"
+                aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                      
+                        <lightning-icon class="slds-button slds-button_icon slds-modal__close custom-pointer"
+                            icon-name="utility:close" variant="inverse" onclick={hideMobileModal}></lightning-icon>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Bevestig</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <span class="slds-grid slds-wrap"><br />Uw MobileMiles saldo wordt uitgekeerd op uw
+                            rekeningnummer
+                            <lightning-record-view-form record-id={recordId} object-api-name="Account">
+                                <lightning-output-field field-name="Bankrekeningnummer__c" variant="label-hidden">
+                                </lightning-output-field>
+                            </lightning-record-view-form>
+                        </span>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="slds-button slds-button_neutral btn-css" variant="base" type="button"
+                            label="Bevestig" onclick={hideMobileModal}>
+                        </lightning-button>
+                        
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template> -->
+</template>

@@ -1,0 +1,1596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <decisions>
+        <name>isChangedDecision2_myRule_1_Status</name>
+        <label>isChangedDecision2_myRule_1_Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>isChangedDecision9_myRule_8_Status</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>isChangedRule_2_myRule_1_Status</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>myVariable_old.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>myVariable_current.Status</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>isChangedDecision9_myRule_8_Status</targetReference>
+            </connector>
+            <label>isChangedRule_2_myRule_1_Status</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isChangedDecision9_myRule_8_Status</name>
+        <label>isChangedDecision9_myRule_8_Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>isChangedRule_9_myRule_8_Status</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>myVariable_old.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>myVariable_current.Status</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myDecision</targetReference>
+            </connector>
+            <label>isChangedRule_9_myRule_8_Status</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>(1 OR 4) AND 2 AND 3</conditionLogic>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.RecordType.DeveloperName</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>CTS_OM</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>isChangedRule_2_myRule_1_Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Escalated</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CTS_Non_Warranty_Claims</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>OM R/T - Change to Escalated?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>3.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision11</name>
+        <label>myDecision11</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision14</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_12</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_12</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_12_A1</targetReference>
+            </connector>
+            <label>CTS OM R/T - From Reopen (+TT)</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>4.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision14</name>
+        <label>myDecision14</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision17</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_15</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_15</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_15_A1</targetReference>
+            </connector>
+            <label>CTS OM R/T - From New (+TT)</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>5.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision17</name>
+        <label>myDecision17</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision20</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_18</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_18</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_18_A1</targetReference>
+            </connector>
+            <label>CTS OM R/T - From In Progress (+TT)</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>6.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision20</name>
+        <label>myDecision20</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision23</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_21</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_21</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_21_A1</targetReference>
+            </connector>
+            <label>CTS OM R/T - From Waiting (+TT)</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>7.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision23</name>
+        <label>myDecision23</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_24</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_24</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_24_A1</targetReference>
+            </connector>
+            <label>CTS OM R/T - From On Hold (+TT)</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision4</name>
+        <label>myDecision4</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision7</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_5</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_5</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_5_A1</targetReference>
+            </connector>
+            <label>OM R/T - From Escalated (+TT)</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>2.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision7</name>
+        <label>myDecision7</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision11</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_8</name>
+            <conditionLogic>(1 OR 4) AND 2 AND 3</conditionLogic>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.RecordType.DeveloperName</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>CTS_OM</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>isChangedRule_9_myRule_8_Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Reopen</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CTS_Non_Warranty_Claims</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_8_A1</targetReference>
+            </connector>
+            <label>OM R/T &amp; Change to Reopen?</label>
+        </rules>
+    </decisions>
+    <description>CTS OM - Update Case Metric fields on Status Changes</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF( 
+     ISBLANK([Case].CTS_OM_Metric_of_Reopens__c),
+     1, 
+     ([Case].CTS_OM_Metric_of_Reopens__c) + 1 
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_10_myRule_8_A1_2549632016</name>
+        <dataType>Number</dataType>
+        <expression>IF( 
+     ISBLANK({!myVariable_current.CTS_OM_Metric_of_Reopens__c}),
+     1, 
+     ({!myVariable_current.CTS_OM_Metric_of_Reopens__c}) + 1 
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF( 
+     ISBLANK([Case].CTS_OM_Metric_Time_Reopened__c),
+     NOW() - [Case].Last_Status_Change__c, 
+     [Case].CTS_OM_Metric_Time_Reopened__c + (NOW() - [Case].Last_Status_Change__c) 
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_13_myRule_12_A1_2603738185</name>
+        <dataType>Number</dataType>
+        <expression>IF( 
+     ISBLANK({!myVariable_current.CTS_OM_Metric_Time_Reopened__c}),
+     NOW() - {!myVariable_current.Last_Status_Change__c}, 
+     {!myVariable_current.CTS_OM_Metric_Time_Reopened__c} + (NOW() - {!myVariable_current.Last_Status_Change__c}) 
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF( 
+     ISBLANK([Case].CTS_OM_Metric_Time_New__c),
+     NOW() - [Case].Last_Status_Change__c, 
+     [Case].CTS_OM_Metric_Time_New__c + (NOW() - [Case].Last_Status_Change__c) 
+) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_16_myRule_15_A1_9332908907</name>
+        <dataType>Number</dataType>
+        <expression>IF( 
+     ISBLANK({!myVariable_current.CTS_OM_Metric_Time_New__c}),
+     NOW() - {!myVariable_current.Last_Status_Change__c}, 
+     {!myVariable_current.CTS_OM_Metric_Time_New__c} + (NOW() - {!myVariable_current.Last_Status_Change__c}) 
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF( 
+     ISBLANK([Case].CTS_OM_Metric_Time_In_Progress__c),
+     NOW() - [Case].Last_Status_Change__c, 
+     [Case].CTS_OM_Metric_Time_In_Progress__c + (NOW() - [Case].Last_Status_Change__c) 
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_19_myRule_18_A1_6733149440</name>
+        <dataType>Number</dataType>
+        <expression>IF( 
+     ISBLANK({!myVariable_current.CTS_OM_Metric_Time_In_Progress__c}),
+     NOW() - {!myVariable_current.Last_Status_Change__c}, 
+     {!myVariable_current.CTS_OM_Metric_Time_In_Progress__c} + (NOW() - {!myVariable_current.Last_Status_Change__c}) 
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF( 
+     ISBLANK([Case].CTS_OM_Metric_Time_Waiting__c),
+     NOW() - [Case].Last_Status_Change__c, 
+     [Case].CTS_OM_Metric_Time_Waiting__c + (NOW() - [Case].Last_Status_Change__c) 
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_22_myRule_21_A1_3582828057</name>
+        <dataType>Number</dataType>
+        <expression>IF( 
+     ISBLANK({!myVariable_current.CTS_OM_Metric_Time_Waiting__c}),
+     NOW() - {!myVariable_current.Last_Status_Change__c}, 
+     {!myVariable_current.CTS_OM_Metric_Time_Waiting__c} + (NOW() - {!myVariable_current.Last_Status_Change__c}) 
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF( 
+     ISBLANK([Case].CTS_OM_Metric_Time_On_Hold__c),
+     NOW() - [Case].Last_Status_Change__c, 
+     [Case].CTS_OM_Metric_Time_On_Hold__c + (NOW() - [Case].Last_Status_Change__c) 
+) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_25_myRule_24_A1_8403940670</name>
+        <dataType>Number</dataType>
+        <expression>IF( 
+     ISBLANK({!myVariable_current.CTS_OM_Metric_Time_On_Hold__c}),
+     NOW() - {!myVariable_current.Last_Status_Change__c}, 
+     {!myVariable_current.CTS_OM_Metric_Time_On_Hold__c} + (NOW() - {!myVariable_current.Last_Status_Change__c}) 
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF( 
+     ISBLANK([Case].CTS_OM_Metric_of_Escalations__c),
+     1, 
+     ([Case].CTS_OM_Metric_of_Escalations__c) + 1 
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_3_myRule_1_A1_4574402057</name>
+        <dataType>Number</dataType>
+        <expression>IF( 
+     ISBLANK({!myVariable_current.CTS_OM_Metric_of_Escalations__c}),
+     1, 
+     ({!myVariable_current.CTS_OM_Metric_of_Escalations__c}) + 1 
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF( 
+     ISBLANK([Case].CTS_OM_Metric_Time_Escalated__c),
+     NOW() - [Case].Last_Status_Change__c, 
+     [Case].CTS_OM_Metric_Time_Escalated__c + (NOW() - [Case].Last_Status_Change__c) 
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_6_myRule_5_A1_8331387140</name>
+        <dataType>Number</dataType>
+        <expression>IF( 
+     ISBLANK({!myVariable_current.CTS_OM_Metric_Time_Escalated__c}),
+     NOW() - {!myVariable_current.Last_Status_Change__c}, 
+     {!myVariable_current.CTS_OM_Metric_Time_Escalated__c} + (NOW() - {!myVariable_current.Last_Status_Change__c}) 
+)</expression>
+        <scale>18</scale>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+     OR(
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Closed&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Problem&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Incident&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Transfers&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE([Case].Status ) = &apos;Reopen&apos;,
+     NOT ISPICKVAL([Case].Status, &apos;Reopen&apos;)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_12</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+     OR(
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Closed&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Problem&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Incident&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Transfers&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE({!myVariable_current.Status} ) = &apos;Reopen&apos;,
+     NOT ISPICKVAL({!myVariable_current.Status}, &apos;Reopen&apos;)
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+     OR(
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Closed&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Problem&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Incident&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Transfers&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE([Case].Status ) = &apos;New&apos;,
+     NOT ISPICKVAL([Case].Status, &apos;New&apos;)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_15</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+     OR(
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Closed&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Problem&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Incident&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Transfers&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE({!myVariable_current.Status} ) = &apos;New&apos;,
+     NOT ISPICKVAL({!myVariable_current.Status}, &apos;New&apos;)
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+     OR(
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Closed&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Problem&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Incident&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Transfers&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE([Case].Status ) = &apos;In Progress&apos;,
+     NOT ISPICKVAL([Case].Status, &apos;In Progress&apos;)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_18</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+     OR(
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Closed&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Problem&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Incident&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Transfers&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE({!myVariable_current.Status} ) = &apos;In Progress&apos;,
+     NOT ISPICKVAL({!myVariable_current.Status}, &apos;In Progress&apos;)
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+     OR(
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Closed&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Problem&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Incident&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Transfers&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE([Case].Status ) = &apos;Waiting&apos;,
+     NOT ISPICKVAL([Case].Status, &apos;Waiting&apos;)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_21</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+     OR(
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Closed&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Problem&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Incident&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Transfers&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE({!myVariable_current.Status} ) = &apos;Waiting&apos;,
+     NOT ISPICKVAL({!myVariable_current.Status}, &apos;Waiting&apos;)
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+     OR(
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Closed&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Problem&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Incident&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Transfers&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE([Case].Status ) = &apos;On Hold&apos;,
+     NOT ISPICKVAL([Case].Status, &apos;On Hold&apos;)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_24</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+     OR(
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Closed&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Problem&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Incident&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Transfers&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE({!myVariable_current.Status} ) = &apos;On Hold&apos;,
+     NOT ISPICKVAL({!myVariable_current.Status}, &apos;On Hold&apos;)
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+     OR(
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Closed&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Problem&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Account_Management_Incident&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_OM_Transfers&apos;,
+        [Case].RecordType.DeveloperName = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE([Case].Status ) = &apos;Escalated&apos;,
+     NOT ISPICKVAL([Case].Status, &apos;Escalated&apos;)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_5</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+     OR(
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Closed&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Problem&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Account_Management_Incident&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_OM_Transfers&apos;,
+        {!myVariable_current.RecordType.DeveloperName} = &apos;CTS_Non_Warranty_Claims&apos;
+     ),
+     PRIORVALUE({!myVariable_current.Status} ) = &apos;Escalated&apos;,
+     NOT ISPICKVAL({!myVariable_current.Status}, &apos;Escalated&apos;)
+)</expression>
+    </formulas>
+    <interviewLabel>CTS_OM_Update_Case_Metrics-4_InterviewLabel</interviewLabel>
+    <label>CTS OM Update Case Status Metrics</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>Case</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_12_A1</name>
+        <label>Increment TT in Reopened</label>
+        <locationX>1200</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>CTS OM Metric - Time Reopened</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_OM_Metric_Time_Reopened__c</field>
+            <value>
+                <elementReference>formula_13_myRule_12_A1_2603738185</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_15_A1</name>
+        <label>Increment TT in New</label>
+        <locationX>1500</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>CTS OM Metric - Time New</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_OM_Metric_Time_New__c</field>
+            <value>
+                <elementReference>formula_16_myRule_15_A1_9332908907</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_18_A1</name>
+        <label>Increment TT in In Progress</label>
+        <locationX>1800</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>CTS OM Metric - Time In Progress</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_OM_Metric_Time_In_Progress__c</field>
+            <value>
+                <elementReference>formula_19_myRule_18_A1_6733149440</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>Increment # of Escalations</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myDecision4</targetReference>
+        </connector>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>CTS OM Metric - # of Escalations</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_OM_Metric_of_Escalations__c</field>
+            <value>
+                <elementReference>formula_3_myRule_1_A1_4574402057</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_21_A1</name>
+        <label>Increment TT in Waiting</label>
+        <locationX>2100</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>CTS OM Metric - Time Waiting</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_OM_Metric_Time_Waiting__c</field>
+            <value>
+                <elementReference>formula_22_myRule_21_A1_3582828057</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_24_A1</name>
+        <label>Increment TT in On Hold</label>
+        <locationX>2400</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>CTS OM Metric - Time On Hold</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_OM_Metric_Time_On_Hold__c</field>
+            <value>
+                <elementReference>formula_25_myRule_24_A1_8403940670</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_5_A1</name>
+        <label>Increment TT in Escalation</label>
+        <locationX>500</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>CTS OM Metric - Time Escalated</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_OM_Metric_Time_Escalated__c</field>
+            <value>
+                <elementReference>formula_6_myRule_5_A1_8331387140</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_8_A1</name>
+        <label>Increment # of Reopens</label>
+        <locationX>800</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myDecision11</targetReference>
+        </connector>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>CTS OM Metric - # of Reopens</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_OM_Metric_of_Reopens__c</field>
+            <value>
+                <elementReference>formula_10_myRule_8_A1_2549632016</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <startElementReference>isChangedDecision2_myRule_1_Status</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+</Flow>

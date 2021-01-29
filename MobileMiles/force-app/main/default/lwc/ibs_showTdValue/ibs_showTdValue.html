@@ -1,0 +1,121 @@
+<template>
+    <template if:false={showAnchorTag}>
+        <div class={customCls}>
+            <template if:true={showCurrencyFld}>
+                <lightning-formatted-number value={fieldVal} format-style="currency" currency-code="EUR"
+                    minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+            </template>
+            <template if:false={showCurrencyFld}>
+                {fieldVal}
+            </template>
+            <template if:true={showFormulaFld}>
+                <lightning-progress-bar value={formulaVal} size="large" variant="circular"></lightning-progress-bar>
+            </template>
+            <template if:true={fieldEditable}>
+                <span class="slds-float_right edit-icon">
+                    <lightning-icon icon-name="utility:edit" size="xx-small" onclick={toggleEditModal}>
+                    </lightning-icon>
+                </span>
+            </template>
+            <template if:true={showAlertButton}>
+                <br />
+                <button class="slds-button slds-button_destructive custom-btn" title="Nieuwe simkaart aanvragen" onclick={showSimsModal}>Nieuwe simkaart aanvragen</button>                
+            </template>
+        </div>
+    </template>
+    <template if:true={showAnchorTag}>
+        <div class={customCls}>
+            <a target="_blank" href={fullUrl}>
+                {fieldVal}
+            </a>
+        </div>
+    </template>
+    <!----===========SimsModal=========---->
+    <template if:true={isSimsModalVisable}>
+        <div class="modal modal-tab1">           
+            <div class="modal-content modal-tab1-content">
+                <div class="modal-header modal-tab1-header">
+                    <lightning-icon class="slds-button slds-button_icon slds-modal__close custom-pointer"
+                        icon-name="utility:close" variant="inverse" onclick={showSimsModal}></lightning-icon>
+                    <center>
+                        <h1>SIM-kaart swap</h1>
+                    </center>
+                </div>
+                <div class="modal-body modal-tab1-body">
+                    <div class="slds-form-element__group">
+                        <c-simswapnewsim selected-port-mob-id={recid}></c-simswapnewsim>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!----===========End=========---->
+
+    <!----===========Update Modal=========---->
+    <template if:true={showModal}>
+        <div class="modal modal-tab1">   
+            <template if:true={spinner}>
+                <lightning-spinner variant="brand"></lightning-spinner>
+            </template>        
+            <div class="modal-content modal-tab1-content">
+                <div class="modal-header modal-tab1-header">
+                    <center>
+                        <h1>{label} aanpassen </h1>
+                    </center>
+                </div>
+                <div class="modal-body modal-tab1-body">
+                    <div class="slds-form-element__group">
+                        <lightning-record-edit-form record-id={recid} object-api-name={objectName} density="compact"
+                        onsuccess={setEvent} onsubmit={handleSubmit} onerror={handleError} layout="Compact">
+                        <div class="modal-body">
+    
+                            <lightning-messages></lightning-messages>
+                            <lightning-input-field field-name={column} class="custom-font"></lightning-input-field>
+    
+                        </div>
+                        <div class="modal-footer">
+                            <center>
+                                <lightning-button class="slds-button slds-button_neutral btn-css" variant="base"
+                                    type="submit" label="Opslaan">
+                                </lightning-button>
+                                <lightning-button class="slds-button slds-button_neutral btn-css" variant="base"
+                                    type="button" label="Annuleren" onclick={toggleEditModal}>
+                                </lightning-button>
+                            </center>
+                        </div>
+                    </lightning-record-edit-form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="modal descriptionModal">
+            <template if:true={spinner}>
+                <lightning-spinner variant="brand"></lightning-spinner>
+            </template>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>{column}</h1>
+                </div>
+                <lightning-record-edit-form record-id={recid} object-api-name={objectName} density="compact"
+                    onsuccess={setEvent} onsubmit={handleSubmit} onerror={handleError} layout="Compact">
+                    <div class="modal-body">
+
+                        <lightning-messages></lightning-messages>
+                        <lightning-input-field field-name={column} class="custom-font"></lightning-input-field>
+
+                    </div>
+                    <div class="modal-footer">
+                        <center>
+                            <lightning-button class="slds-button slds-button_neutral btn-css" variant="base"
+                                type="submit" label="Opslaan">
+                            </lightning-button>
+                            <lightning-button class="slds-button slds-button_neutral btn-css" variant="base"
+                                type="button" label="Annuleren" onclick={toggleEditModal}>
+                            </lightning-button>
+                        </center>
+                    </div>
+                </lightning-record-edit-form>
+            </div>
+        </div> -->
+    </template>
+</template>

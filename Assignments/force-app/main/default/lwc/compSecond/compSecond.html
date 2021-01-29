@@ -1,0 +1,27 @@
+<template>
+    <div class="slds-m-around__large">
+        <lightning-card title="Student List" icon-name="custom:custom3">
+            <template if:true={lstStudents.data} for:each={lstStudents.data} for:item="objStudent">
+                <div key={objStudent.city__c} class="slds-m-around__large">
+                    <lightning-card title={objStudent.Last_Name__c} icon-name="custom:custom4">
+                        <div style="margin-left:20px;">
+                        <p><b>Residence : {objStudent.City__c}</b></p>
+                        </div>
+                        <lightning-button
+                            data-my-id="button"
+                            value={objStudent.EmailId__c}
+                            label="Show Detail"
+                            name="Show"
+                            onclick={handleClick}
+                            slot="actions"
+                        >
+                        </lightning-button>
+                    </lightning-card>
+                    <hr>
+
+                </div>
+
+            </template>
+        </lightning-card>
+    </div>
+</template>

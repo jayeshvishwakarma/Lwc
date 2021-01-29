@@ -1,0 +1,21 @@
+<apex:page >
+    <apex:includeLightning />   
+    <div style="width:100%;" id="appContainer" />
+
+ <script>
+ $Lightning.use("c:CustomerOnboardingApp", function() {
+ $Lightning.createComponent("c:CustomerOnboarding",
+ { 
+ borderColor : "#16325c", 
+ bgColor : "#16325c" ,
+ fontColor : "#FFF",
+ frontText : "Customer Onboarding",
+ backText : "Customer Onboarding"
+ },
+ "appContainer",
+ function(cmp) {
+ console.log('Component created!!');
+ });
+ });
+ </script>
+</apex:page>

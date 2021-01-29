@@ -1,0 +1,4 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <c:rfcApproval recordId="{!v.recordId}" approvalType="SM" onclose="{!c.closeQuickAction}">
+    </c:rfcApproval>
+</aura:component>

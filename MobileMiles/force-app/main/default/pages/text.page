@@ -1,0 +1,19 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" showHeader="false">
+
+<html>
+	 <head>
+		<style>
+           @page { 
+				@top-center { content: element(header); } 
+				@bottom-center { content: element(footer); }
+				margin-top:9em; margin-bottom:8em; 
+			}		
+		</style>
+        </head>
+	<body>
+                <div class="header">Header here</div>
+        <footer><div class="footer">Footer here</div></footer>
+                
+        </body>
+</html>
+</apex:page>

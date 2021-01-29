@@ -1,0 +1,18 @@
+<aura:component  implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" controller="CaseRedirectController">
+	<aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    
+  <force:recordData layoutType="FULL"
+                  recordId="{!v.recordId}"
+                  targetFields="{!v.record}"
+                  recordUpdated="{!c.recordUpdate}" />
+    
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:if isTrue="{! v.loaded }">
+        <aura:set attribute="else">
+            <lightning:spinner alternativeText="Loading" variant="brand"/>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

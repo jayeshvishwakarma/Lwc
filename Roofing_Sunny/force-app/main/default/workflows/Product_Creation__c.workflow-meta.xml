@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Email_on_Product_Submit</fullName>
+        <description>twod Email on Product Submit</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Warranty_Admin</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Email_on_Product_Submission</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_WA_on_new_product_creation_request_submitted</fullName>
+        <description>twod Notify WA on new product creation request submitted</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Warranty_Admin</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/New_Product_Creation_Request_Submitted</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_WP_when_new_product_creation_request_is_rejected</fullName>
+        <description>twod Notify WP when new product creation request is rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/New_Product_Creation_Request_rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_WP_when_new_product_creation_request_need_more_info</fullName>
+        <description>twod Notify WP when new product creation request need more info</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/New_Product_Creation_Request_Under_Review</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_WP_when_product_creation_request_is_completed</fullName>
+        <description>twod Notify WP when product creation request is completed</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/New_Product_Creation_Request_Approved</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Status_to_Approved</fullName>
+        <field>Status__c</field>
+        <literalValue>Completed</literalValue>
+        <name>twod Status to Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_to_Draft</fullName>
+        <field>Status__c</field>
+        <literalValue>Draft</literalValue>
+        <name>twod Status to Draft</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_to_Rejected</fullName>
+        <field>Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>twod Status to Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_to_Submitted</fullName>
+        <field>Status__c</field>
+        <literalValue>Submitted</literalValue>
+        <name>twod Status to Submitted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_To_View_Record_Type</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Warranty_Product_View</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>twod Update To View Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_to_Admin_Record_Type</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Admin_RecordType</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>twod Update to Admin Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_to_Create_Record_Type</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Warranty_Product_Create</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>twod Update to Create Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>twod Update To View Record Type</fullName>
+        <actions>
+            <name>Update_To_View_Record_Type</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Product_Creation__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Completed,Rejected</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Update to Admin Record Type</fullName>
+        <actions>
+            <name>Update_to_Admin_Record_Type</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Product_Creation__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Submitted</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Update to Create Record Type</fullName>
+        <actions>
+            <name>Update_to_Create_Record_Type</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Product_Creation__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Need Additional Information</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

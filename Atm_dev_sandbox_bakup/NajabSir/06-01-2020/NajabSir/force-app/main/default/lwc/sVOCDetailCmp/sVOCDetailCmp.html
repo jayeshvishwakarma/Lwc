@@ -1,0 +1,42 @@
+<template>
+
+    <div class="slds-section" data-id="detail-section">
+
+        <h3 class="slds-section__title">
+            <button aria-controls="section" aria-expanded="true" class="slds-button slds-section__title-action"
+                onclick={handleToggleSection}>
+                <lightning-icon size="xx-small" icon-name={activeIcon} alternative-text="Expand"></lightning-icon>
+                <span class="slds-truncate slds-p-left_x-small" title={svocsection}> 
+                    {svocsection} <span if:true={recordsCount}> ({recordsCount}) </span>
+                </span>
+            </button>
+        </h3>
+
+        <div aria-hidden="false" class="slds-section__content" id="section">
+
+            <div class="spinner" if:true={showSpinner}>
+                <lightning-spinner alternative-text="Loading" variant="brand" size="small"></lightning-spinner>
+            </div>
+
+            
+            <div class=" slds-m-horizontal_x-small slds-m-vertical_small slds-grid slds-gutters">
+            <template for:each={filterWrapper} for:item="child" for:index="index">
+                <div key = {child.name} >
+                        <lightning-input type={child.datatype} name={child.name} label={child.label} onchange ={filterData}></lightning-input>
+                    
+                </div>
+                <div if:true='{child.showOR}' key = {child.name} class='slds-m-top_x-large slds-m-around_medium'>OR</div>
+            </template>
+        </div>
+        <div class="slds-text-color_destructive slds-p-left_x-large slds-m-vertical_small" if:true={errorMessage}> {errorMessage} </div>
+            <lightning-datatable key-field="id" columns={columns} data={data} onrowaction={handleClick} class="slds-max-medium-table_stacked"
+                hide-checkbox-column show-row-number-column  if:true={data.length}>
+            </lightning-datatable>
+           
+
+            
+        </div>
+
+    </div>
+
+</template>

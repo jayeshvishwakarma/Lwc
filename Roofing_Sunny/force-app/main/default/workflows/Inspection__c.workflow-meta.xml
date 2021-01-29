@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Claim_Inspection_Completed</fullName>
+        <description>Claim Inspection Completed</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>peter.j.kish@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>LastModifiedById</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Inspection_Completed_Notification_VF</template>
+    </alerts>
+    <alerts>
+        <fullName>Inspection_assigned_to_new_inspector</fullName>
+        <description>twod Inspection assigned to new inspector</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Inspection_Inspection_assignment_notification_to_inspector</template>
+    </alerts>
+    <alerts>
+        <fullName>SendEmail</fullName>
+        <description>twod Send Email to Queue</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Inspection_Inspection_assignment_notification</template>
+    </alerts>
+    <alerts>
+        <fullName>X5_Star_Inspection_Completed</fullName>
+        <description>5-Star Inspection Completed</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>greg.nardi@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>LastModifiedById</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Inspection_Completed_Notification_VF</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Assign_to_Queue</fullName>
+        <field>OwnerId</field>
+        <lookupValue>kishore.rk@tavant.com.rpg</lookupValue>
+        <lookupValueType>User</lookupValueType>
+        <name>twod Assign to Queue</name>
+        <notifyAssignee>true</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>5-Star Inspection Completed Notification</fullName>
+        <actions>
+            <name>X5_Star_Inspection_Completed</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Send Notification to Warranty Admin when Inspection is Completed</description>
+        <formula>AND( text(Inspection_Status__c)==&apos;Inspection-Completed&apos;,ISBLANK( Claim__c ), NOT(ISBLANK( Registration__c )))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Inspection completed notification</fullName>
+        <actions>
+            <name>Claim_Inspection_Completed</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>send notification to WP when inspection is completed</description>
+        <formula>AND( text(Inspection_Status__c)==&apos;Inspection-Completed&apos; ,NOT(ISBLANK(Claim__c )))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Inspection details from non ct Inpsector</fullName>
+        <actions>
+            <name>Ask_For_Inspection_Details_from_Non_Ct_Inspector</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Inspection__c.CertainTeed_Inspector__c</field>
+            <operation>equals</operation>
+            <value>No</value>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Inspection owner change%3ASend email to new owner</fullName>
+        <actions>
+            <name>Inspection_assigned_to_new_inspector</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>when inspection assigned to new owner - notify new inspector</description>
+        <formula>(OwnerId  &lt;&gt;  Owner:Queue.OwnerId) &amp;&amp; ISCHANGED(OwnerId) &amp;&amp; (PRIORVALUE(OwnerId )  &lt;&gt; OwnerId)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Inspection_Send Email to Queue</fullName>
+        <actions>
+            <name>SendEmail</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Inspection_Send Email to Queue</description>
+        <formula>(Name  &lt;&gt; null)</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Schedule Appointment with Home Owner</fullName>
+        <actions>
+            <name>Schedule_Inspection_with_HO</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <formula>(OwnerId  &lt;&gt;  Owner:Queue.OwnerId) &amp;&amp; ISCHANGED(OwnerId) &amp;&amp; (PRIORVALUE(OwnerId )  &lt;&gt; OwnerId)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <tasks>
+        <fullName>Ask_For_Inspection_Details_from_Non_Ct_Inspector</fullName>
+        <assignedToType>owner</assignedToType>
+        <description>Please fill in inspection details</description>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>Ask for Inspection Details from Non CT Inspector</subject>
+    </tasks>
+    <tasks>
+        <fullName>Schedule_Inspection_with_HO</fullName>
+        <assignedToType>owner</assignedToType>
+        <description>Please Schedule an appointment with homeowner for inspection</description>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>Schedule Inspection with Homeowner</subject>
+    </tasks>
+</Workflow>

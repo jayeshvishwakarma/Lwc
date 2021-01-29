@@ -1,0 +1,53 @@
+<apex:page standardController="Quote" tabStyle="quote" extensions="EditAllPorteringenMobielController">
+    <!-- Heading -->
+    <apex:sectionHeader title="Edit Porteringen Mobiels for" subtitle="{!Quote.name}"/>
+    
+    <apex:form id="frm">
+        <apex:pagemessages />
+        
+        <apex:pageBlock rendered="{!mobielList.size == 0}">
+            No record found for {!quote.name} 
+        </apex:pageBlock>
+        <!-- Block / Section -->
+        <apex:pageBlock rendered="{!mobielList.size > 0}">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockTable value="{!mobielList}" var="obj">
+                
+                <apex:column headerValue="06-">
+                    <apex:inputField value="{!obj.name}"/>
+                </apex:column>
+                <apex:column headerValue="Datum eind contract">
+                    <apex:inputField value="{!obj.Datum_eind_contract__c}"/>
+                </apex:column>
+                <apex:column headerValue="Profieltype">
+                    <apex:inputField value="{!obj.Profieltype__c}"/>
+                </apex:column>
+                
+                <apex:column headerValue="Mobiel bellen naar buiten EU">
+                    <apex:inputField value="{!obj.Mobiel_bellen_naar_buiten_EU__c}"/>
+                </apex:column>
+                <apex:column headerValue="Naam huidige provider">
+                    <apex:inputField value="{!obj.Huidige_provider__c }"/>
+                </apex:column>
+                
+                <apex:column headerValue="Type huidig abonnement">
+                    <apex:inputField value="{!obj.Type_huidig_abonnement__c}"/>
+                </apex:column>
+                <apex:column headerValue="Klant- nummer">
+                    <apex:inputField value="{!obj.Klant_nummer__c}"/>
+                </apex:column>
+                <apex:column headerValue="Huidig SIM-kaart nummer bij consument">
+                    <apex:inputField value="{!obj.Huidig_SIM_kaart_nummer_bij_consument__c}"/>
+                </apex:column>
+                <apex:column headerValue="Naam donor abonnement">
+                    <apex:inputField value="{!obj.Naam_huidig_abonnement__c}"/>
+                </apex:column>
+                
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

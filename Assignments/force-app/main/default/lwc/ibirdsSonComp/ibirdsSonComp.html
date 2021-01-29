@@ -1,0 +1,28 @@
+<template>
+    <div class="slds-m-around__large">
+        <lightning-card title={sonDetail} icon-name="custom:custom3">
+            <div class="slds-m-around__large">
+                
+                <template if:true={message}>
+                    <h1><b>{message}</b></h1><br/>
+                    <lightning-input
+                        label="Reply"
+                        data-my-id="txtMessage"
+                        size="5"
+                    >
+                    </lightning-input><br/>
+                    <div style="margin-left:50%">
+                    <lightning-button
+                        name="reply"
+                        label="Reply"
+                        onclick={handleReply}
+                    >
+
+                    </lightning-button>
+                </div>
+                </template>
+            </div>
+        </lightning-card>
+    </div>
+    
+</template>

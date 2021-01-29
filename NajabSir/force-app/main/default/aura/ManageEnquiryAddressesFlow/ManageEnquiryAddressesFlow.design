@@ -1,0 +1,9 @@
+<design:component>
+    <design:attribute name="recordId" label="Record Id" description="Opportunity Record Id" />
+    <design:attribute name="fieldSetName" label="Field Set Name" description="Address Field Set Name" />
+    <design:attribute name="record" label="Record" description="Opportunity Record" />
+    <design:attribute name="outCity" label="Output City" description="Selected city" />
+    <design:attribute name="outPincode" label="Output Pincode" description="Selected pincode" />
+    <design:attribute name="outVillage" label="Output Village" description="Selected village" />
+    <design:attribute name="outTehsil" label="Output Tehsil" description="Selected tehsil" />
+</design:component>

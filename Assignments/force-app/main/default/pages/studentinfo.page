@@ -1,0 +1,47 @@
+<apex:page controller="StudentInfoController" lightningStylesheets="true">
+    <apex:sectionHeader title="Student" subtitle="Details" />
+    <apex:form >
+    <apex:pageBlock id="pgBlockSearch">
+        <apex:inputText html-placeholder="Enter City for Search" id="txtCity" value="{!searchCity}" />
+        <apex:commandButton value="Search" action="{!findCityRecords}" reRender="pgBlockSection1" />
+        <apex:commandButton value="Clear" action="{!ClearAll}" reRender="pgBlockResult	,pgBlockSearch" />
+        
+        </apex:pageBlock>
+        
+        <apex:pageBlock id="pgBlockResult" >
+        <apex:pageBlockSection id="pgBlockSection1" columns="1" rendered="{!lstStudents.size>0}">
+            
+            <table>
+                <tHead>
+                    <tr>
+                        <th>Ids</th>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Age</th>
+                    </tr>
+                </tHead>
+                <tBody>
+                    <apex:repeat value="{!lstStudents}" var="objStudent">
+                        <tr>
+                            <td>{!objStudent.id}</td>
+                        	<td>{!objStudent.First_Name__c}</td>
+                            <td>{!objStudent.City__c}</td>
+                            <td>{!objStudent.Age__c}</td>
+                        </tr>
+                    </apex:repeat> 
+                </tBody>
+                <tFoot>
+                    <tr>
+                    	<td>Total Students : {!lstStudents.size}</td>
+                        <td></td>
+                        <td>Average age:{!avgAge}</td>
+                    </tr>
+                    
+                </tFoot>
+            </table>
+            
+        </apex:pageBlockSection>
+        </apex:pageBlock>
+    
+        </apex:form>
+</apex:page>

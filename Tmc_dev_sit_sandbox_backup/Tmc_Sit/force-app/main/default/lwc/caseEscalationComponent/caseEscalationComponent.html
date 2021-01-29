@@ -1,0 +1,41 @@
+<template>
+<lightning-card title="Escalation Time" icon-name="custom:custom63">
+<div class="slds-m-around_medium">
+    <template if:true={showList}>
+        <table>
+        <tr>
+            <td style="text-align: center;"><b>Type</b></td>
+            <td style="text-align: center;"><b>Time remaining before next Escalation</b></td>
+            <td style="text-align: center;"><b>Next Escalation Level</b></td>
+            <td style="text-align: center;"><b>Status</b></td>
+            
+            
+        </tr>    
+        <template for:each={escalationList} for:item="esc">
+            <tr key={esc.escalationName}>  
+                    <td style="text-align: center;">
+                    {esc.escalationName}
+                    </td>
+                    <td style="text-align: center;">
+                        {esc.escalatingToNextLevelIn}  
+                    </td>
+                    <td style="text-align: center;">
+                        {esc.level}  
+                        </td>
+                    <td style="text-align: center;">
+                    {esc.status}  
+                    </td>
+            </tr>
+        </template>
+    </table>
+    </template>
+    <br/>
+    <template if:false={showList}>
+        <h3>No Escalation running currently</h3>
+    </template>
+    <template if:true={showNote}>
+        <p style="color:red;">Note: {details}</p>
+    </template>
+</div>
+</lightning-card> 
+</template>

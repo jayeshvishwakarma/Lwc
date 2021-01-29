@@ -1,0 +1,1 @@
+public class twod_IntegrationException extends Exception{}

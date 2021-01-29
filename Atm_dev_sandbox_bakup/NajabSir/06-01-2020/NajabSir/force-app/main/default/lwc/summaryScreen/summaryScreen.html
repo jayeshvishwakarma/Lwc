@@ -1,0 +1,578 @@
+<template>
+
+    <!-- =======     FOR SPINNER USE ONLY     ======= -->
+    <lightning-spinner alternative-text="Loading" size="medium" if:true={isLoading}></lightning-spinner>
+
+    <!--Section Header-->
+    <c-section-header section-heading="Vehicle Summary" section-sub-heading={state.headerValue}
+        icon-name="standard:product_item" id="extwarranty"></c-section-header>
+
+    <!--#DE622 Start -->
+    <div class="c-container" if:true={showPreBooking}>
+        <lightning-layout>
+            <lightning-layout-item padding="around-small" size="6">
+                <div class="slds-form-element">
+                    <!--<label class="slds-form-element__label" for="form-element-01">Form Label</label>-->
+                    <div class="slds-form-element__control">
+                        <lightning-input type="text" name="FIRST_NAME" label="Enquiry First Name" value={state.addSchemes.firstName}  onchange={handleOppChange} required  ></lightning-input>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="6">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input type="text" name="MIDDLE_FIELD" label="Enquiry Middle Name" value={state.addSchemes.middleName} onchange={handleOppChange}  ></lightning-input>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            
+        </lightning-layout>
+        <lightning-layout>
+            <lightning-layout-item padding="around-small" size="6">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input type="text" name="LAST_NAME" label="Enquiry Last Name" value={state.addSchemes.lastName} onchange={handleOppChange}  ></lightning-input>
+                    </div>
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" size="6">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input type="text" name="MOBILE_FIELD" label="Enquiry Mobile" value={state.addSchemes.phoneNumber} onchange={handleOppChange} required  ></lightning-input>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout> 
+    </div>
+
+
+    <!--#DE622 End-->
+
+
+    <!-- =======     SHOW ADD VEHICLE     ======= -->
+    <div class="slds-section">
+        <h3 class="slds-section__title">
+            <button class="slds-button slds-section__title-action" onclick={showHideVehicleSection}>
+                <span class="slds-icon_container slds-icon-utility-chevrondown" title="chevrondown">
+                    <lightning-icon icon-name="utility:chevrondown" alternative-text="Approved" size="x-small"
+                        if:true={showVehicle}></lightning-icon>
+                    <lightning-icon icon-name="utility:chevronright" alternative-text="Approved" size="x-small"
+                        if:false={showVehicle}></lightning-icon>
+                    <span class="slds-assistive-text">task</span>
+                </span>
+                <span class="slds-truncate slds-align_absolute-center"> &nbsp; Vehicle</span>
+            </button>
+            &nbsp;
+            <lightning-button-icon icon-name="utility:edit" alternative-text="edit" onclick={showVehicleCmp}>
+            </lightning-button-icon>
+
+        </h3>
+    </div>
+
+
+    <div class="slds-p-horizontal_medium slds-p-right_medium">
+        <div if:true={showVehicle}>
+            <div class="slds-grid slds-gutters slds-p-right_large">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <label class="slds-form-element__label" for="text-input-id-1">Ex Showroom</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-formatted-number label="Ex Showroom"
+                                    value={state.exShowRoomVariant.UnitPrice} format-style="currency"
+                                    currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters ">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-input name="Registration Amount" label="Registration Amount" type="number"
+                                step="1.00" formatter="currency" value={state.registrationAmountVariant.UnitPrice}
+                                onchange={calculateRegistrationAmount}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-right_large">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label" for="text-input-id-1">Sub Total</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-number label="Sub Total" value={vehicleSubTotal}
+                                format-style="currency" currency-code="INR" currency-display-as="symbol">
+                            </lightning-formatted-number>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- =======     SHOW ADD COMPONENT     ======= -->
+    <div class="slds-section">
+        <h3 class="slds-section__title">
+            <button class="slds-button slds-section__title-action" onclick={showHideComponentSection}>
+                <span class="slds-icon_container slds-icon-utility-chevrondown" title="chevrondown">
+                    <lightning-icon icon-name="utility:chevrondown" alternative-text="Approved" size="x-small"
+                        if:true={showComponent}></lightning-icon>
+                    <lightning-icon icon-name="utility:chevronright" alternative-text="Approved" size="x-small"
+                        if:false={showComponent}></lightning-icon>
+                    <span class="slds-assistive-text">task</span>
+                </span>
+                <span class="slds-truncate slds-align_absolute-center"> &nbsp; Components</span>
+            </button>
+            &nbsp;
+            <lightning-button-icon icon-name="utility:edit" alternative-text="edit" onclick={showComponents}>
+            </lightning-button-icon>
+
+        </h3>
+    </div>
+
+    <div class="slds-p-horizontal_medium slds-p-right_medium">
+        <div if:true={showComponent}>
+
+            <!-- ExShow room and Reg Amount  -->
+
+            <div for:each={updated_AddComponent} for:item='item' key={item.label}>
+                <div class="slds-grid slds-gutters slds-p-right_large" if:true={item.isChecked}>
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-form-element">
+                            <!--<label class="slds-form-element__label" for="text-input-id-1">{item.label}</label>-->
+                            <div class="slds-form-element__control" if:false={item.isDisabled}>
+                                <!--<div class="slds-form-element__static">-->
+                                <!--<lightning-formatted-number label={item.label} value={item.value} format-style="currency" currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>-->
+                                <lightning-input name={item.label} class="validateComponents" label={item.label}
+                                    type="number" step="1.00" formatter="currency" value={item.value}
+                                    onchange={handleComponanetChange} required></lightning-input>
+                                <!--</div>-->
+                            </div>
+                            <div class="slds-grid slds-gutters slds-p-right_large" if:true={item.isDisabled}>
+                                <div class="slds-col slds-size_1-of-1">
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                        <label class="slds-form-element__label"
+                                            for="text-input-id-1">{item.label}</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                                <lightning-formatted-number label={item.label} value={item.value}
+                                                    format-style="currency" currency-code="INR"
+                                                    currency-display-as="symbol"></lightning-formatted-number>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-p-right_large">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-input name='otherCharge' label="Other Charges" type="number" step="1.00"
+                                formatter="currency" value={state.otherCharge.UnitPrice} onchange={handleData}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-p-right_large">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-input name='otherChargeRemarks' label="Other Charges Remarks" type="text"
+                                value={state.otherCharge.Description} onchange={handleRemarksData} 
+                                required={remarksRequired}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="slds-grid slds-gutters slds-p-right_large">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label" for="text-input-id-1">Sub Total</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-number label="Sub Total" value={componentSubTotal}
+                                format-style="currency" currency-code="INR" currency-display-as="symbol">
+                            </lightning-formatted-number>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br />
+
+    <!-- =======     SHOW ACCESSORIES     ======= -->
+    <div class="slds-section">
+        <h3 class="slds-section__title">
+            <button class="slds-button slds-section__title-action" onclick={showHideAccessoriesSection}>
+                <span class="slds-icon_container slds-icon-utility-chevrondown" title="chevrondown">
+                    <lightning-icon icon-name="utility:chevrondown" alternative-text="Approved" size="x-small"
+                        if:true={showAccessories}></lightning-icon>
+                    <lightning-icon icon-name="utility:chevronright" alternative-text="Approved" size="x-small"
+                        if:false={showAccessories}></lightning-icon>
+                    <span class="slds-assistive-text">task</span>
+                </span>
+                <span class="slds-truncate slds-align_absolute-center"> &nbsp; Accessories</span>
+            </button>
+            &nbsp;
+            <lightning-button-icon icon-name="utility:edit" alternative-text="edit" onclick={showAccessoriescmp}>
+            </lightning-button-icon>
+            <!--<button class="slds-button slds-button_brand" style="font-size: 12px;" onclick={showAccessoriescmp}>Edit</button>
+                    -->
+        </h3>
+    </div>
+
+
+
+    <div class="slds-p-horizontal_medium slds-p-right_medium">
+        <div if:true={showAccessories}>
+
+            <div for:each={state.addAccessories} for:item='item' key={item.Id}>
+
+                <div class="slds-grid slds-gutters slds-p-right_large">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-form-element slds-form-element_readonly">
+                            <label class="slds-form-element__label" for="text-input-id-1">{item.Name}</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <lightning-formatted-number label={item.Name} value={item.price}
+                                        format-style="currency" currency-code="INR" currency-display-as="symbol">
+                                    </lightning-formatted-number>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-p-right_large">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <label class="slds-form-element__label" for="text-input-id-1">Other Accessories Offers</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-formatted-number label="Other Accessories Offers"
+                                    value={state.otherAccessoriesDiscount.UnitPrice} format-style="currency"
+                                    currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-right_large">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label" for="text-input-id-1">Sub Total</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-number label="Sub Total" value={accessoriesSubTotal}
+                                format-style="currency" currency-code="INR" currency-display-as="symbol">
+                            </lightning-formatted-number>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <!-- =======     SHOW Schemes And Offers     ======= -->
+    <div class="slds-section">
+        <h3 class="slds-section__title">
+            <button class="slds-button slds-section__title-action" onclick={showHideOfferSection}>
+                <span class="slds-icon_container slds-icon-utility-chevrondown" title="chevrondown">
+                    <lightning-icon icon-name="utility:chevrondown" alternative-text="Approved" size="x-small"
+                        if:true={showOffer}></lightning-icon>
+                    <lightning-icon icon-name="utility:chevronright" alternative-text="Approved" size="x-small"
+                        if:false={showOffer}></lightning-icon>
+                    <span class="slds-assistive-text">task</span>
+                </span>
+                <span class="slds-truncate slds-align_absolute-center"> &nbsp; Offer</span>
+            </button>
+            &nbsp;
+            <lightning-button-icon icon-name="utility:edit" alternative-text="edit" onclick={showSchemeOfferCmp}>
+            </lightning-button-icon>
+            <!-- <button class="slds-button slds-button_brand" style="font-size: 12px;" onclick={showSchemeOfferCmp}>Edit</button> -->
+        </h3>
+    </div>
+
+    <div class="slds-p-horizontal_medium">
+        <div if:true={showOffer}>
+        <!--
+            <div class="slds-grid slds-gutters slds-p-right_large">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-input name='OfferData' label="Offer" type="number" step="1.00"
+                                formatter="currency" value={state.addSchemes.OfferData} onchange={handleData}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        -->
+            <div class="slds-grid slds-gutters slds-p-right_large">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <label class="slds-form-element__label" for="text-input-id-1">Offer</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-formatted-number label="Offer"
+                                    value={state.addSchemes.OfferData} format-style="currency"
+                                    currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-p-right_large" if:true={state.addSchemes.exchangeValue}>
+                <div class="slds-col slds-size_1-of-1">
+                    <!-- Read Only field Info -->
+                    <div class="slds-form-element slds-form-element_readonly" if:false={Exchange_Value_editable}>
+                        <label class="slds-form-element__label" for="text-input-id-1">Exchange Value</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-formatted-number label="Exchange Value"
+                                    value={state.addSchemes.exchangeData} format-style="currency"
+                                    currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Editable field Info -->
+                    <div class="slds-form-element" if:true={Exchange_Value_editable}>
+                        <div class="slds-form-element__control">
+                            <lightning-input name='exchangeData' label="Exchange Value" type="number" step="1.00"
+                                formatter="currency" value={state.addSchemes.exchangeData} onchange={handleData}
+                                required></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-p-right_large" if:true={state.addSchemes.exchangeBonusValue}>
+
+                <div class="slds-col slds-size_1-of-1">
+                    <!-- Read Only field Info -->
+                    <div class="slds-form-element slds-form-element_readonly" if:false={Exchange_Bonus_editable}>
+                        <label class="slds-form-element__label" for="text-input-id-1">Exchange Bonus</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-formatted-number label="Exchange Bonus"
+                                    value={state.addSchemes.exchangeBonusData} format-style="currency"
+                                    currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Editable field Info -->
+                    <div class="slds-form-element" if:true={Exchange_Bonus_editable}>
+                        <div class="slds-form-element__control">
+                            <lightning-input name='exchangeBonusData' label="Exchange Bonus" type="number" step="1.00"
+                                formatter="currency" value={state.addSchemes.exchangeBonusData} onchange={handleData}
+                                required></lightning-input>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-p-right_large" if:true={state.addSchemes.corporateDiscountValue}>
+
+                <div class="slds-col slds-size_1-of-1">
+                    <!-- Read Only field Info -->
+                     <div class="slds-form-element slds-form-element_readonly" if:false={Corporate_Offers_editable}>
+                        <label class="slds-form-element__label" for="text-input-id-1">Corporate Offers</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-formatted-number label="Corporate Offers"
+                                    value={state.addSchemes.corporateDiscountData} format-style="currency"
+                                    currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Editable field Info -->
+                    <div class="slds-form-element" if:true={Corporate_Offers_editable}>
+                        <div class="slds-form-element__control">
+                            <lightning-input name='corporateDiscountData' label="Corporate Offers" type="number" step="1.00"
+                                formatter="currency" value={state.addSchemes.corporateDiscountData} onchange={handleData}
+                                required></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-p-right_large" if:true={state.addSchemes.ruralOffersValue}>
+
+                <div class="slds-col slds-size_1-of-1">
+                    <!-- Read Only field Info -->
+                    <div class="slds-form-element slds-form-element_readonly" if:false={Rural_Offers_editable}>
+                        <label class="slds-form-element__label" for="text-input-id-1">Rural Discount</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-formatted-number label="Rural Discount"
+                                    value={state.addSchemes.ruralDiscountData} format-style="currency"
+                                    currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Editable field Info -->
+                    <div class="slds-form-element" if:true={Rural_Offers_editable}>
+                        <div class="slds-form-element__control">
+                            <lightning-input name='ruralDiscountData' label="Rural Discount" type="number" step="1.00"
+                                formatter="currency" value={state.addSchemes.ruralDiscountData} onchange={handleData}
+                                required></lightning-input>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-p-right_large" if:true={state.addSchemes.otherDiscountValue}>
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <lightning-input name='otherDiscountData' class="inputCmp" label="Other Offers"
+                                type="number" step="1.00" formatter="currency"
+                                value={state.addSchemes.otherDiscountData} onchange={handleData}
+                                max={state.otherValidAmount} required></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--OFFER SUBTOTAL ADDED BY (Prabhat)-->
+        <div class="slds-grid slds-gutters slds-p-right_large">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <label class="slds-form-element__label" for="text-input-id-1">Sub Total</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <lightning-formatted-number label="Sub Total" value={offersSubTotal} format-style="currency"
+                                currency-code="INR" currency-display-as="symbol"></lightning-formatted-number>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <br />
+
+    <div class="slds-grid slds-gutters ">
+        <div class="slds-col slds-size_1-of-1">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <lightning-input name="Finance Amount" label="Finance Amount" type="number" step="1.00"
+                        formatter="currency" value={state.addSchemes.financeAmountData}
+                        onchange={calculateCashPayemntTotal}>
+                    </lightning-input>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_1-of-1">
+            <div class="slds-form-element slds-form-element_readonly">
+                <label class="slds-form-element__label" for="text-input-id-1">Cash Payment</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static">
+                        <lightning-formatted-number step="1.00" label="Cash Payment"
+                            value={state.addSchemes.cashPaymentData} format-style="currency" currency-code="INR"
+                            currency-display-as="symbol"></lightning-formatted-number>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_1-of-1">
+            <div class="slds-form-element slds-form-element_readonly">
+                <label class="slds-form-element__label" for="text-input-id-1">Total On Road Price</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static">
+                        <lightning-formatted-number label="Total On Road Price" value={totalOnRoadPrice}
+                            format-style="currency" currency-code="INR" currency-display-as="symbol">
+                        </lightning-formatted-number>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-p-top_medium"></div>
+    <div class="slds-p-top_medium"></div>
+  
+    <div class="slds-grid slds-gutters" if:true={browserFormFactor}>
+        <div class="slds-col slds-size_1-of-2" if:true={showCreateQuotation}>
+            <lightning-button label="Create Quotation" variant="brand"
+                title="Create Quotation" onclick={createQuotationMethod} class="slds-m-left_x-small">
+            </lightning-button>
+        </div>
+        <div class="slds-col slds-size_1-of-2" style="text-align: left;" if:true={showPreBooking}>
+            <lightning-button  label="Pre-Booking" icon-name="utility:check"
+                variant="brand" title="Pre-Booking" onclick={confirmPreBookingBtnMethod}
+                class="slds-m-left_x-small"></lightning-button>
+        </div>
+        <div class="slds-col slds-size_1-of-2" style="text-align: right;">
+            <lightning-button label="Cancel" icon-name="utility:close" title="Cancel" onclick={handleReload}
+                class="slds-m-left_x-small" variant="brand"></lightning-button>
+        </div>
+        
+    </div>
+
+    <div class="slds-grid slds-gutters" if:false={browserFormFactor}>
+        <div class="slds-col slds-size_1-of-1">
+            <button class="slds-button slds-button_brand" title="Cancel" style="width:100%" onclick={handleReload}>Cancel</button>
+        </div>
+    </div>
+    <div class="slds-p-top_small"></div>
+    <div class="slds-grid slds-gutters" if:false={browserFormFactor}>
+        <div class="slds-col slds-size_1-of-1" if:true={showCreateQuotation}>
+            <button class="slds-button slds-button_brand" title="Create Quotation" style="width:100%" onclick={createQuotationMethod}>Create
+                Quotation</button>
+        </div>
+    </div>
+    <div class="slds-p-top_small"></div>
+
+    <div class="slds-grid slds-gutters" if:false={browserFormFactor}>
+        <div class="slds-col slds-size_1-of-1" if:true={showPreBooking}>
+            <button class="slds-button slds-button_brand" title="Pre-Booking" style="width:100%"
+                onclick={confirmPreBookingBtnMethod}>Pre-Booking</button>
+        </div>
+    </div>
+
+</template>

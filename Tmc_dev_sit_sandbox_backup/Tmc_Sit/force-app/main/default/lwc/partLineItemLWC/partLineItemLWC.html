@@ -1,0 +1,541 @@
+<template>
+    
+    <!-- =======     FOR SPINNER USE ONLY     ======= -->
+    <div if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+
+    <div if:true={showData}>
+        
+        <c-section-header section-heading={sectionName} section-sub-heading={headerValue}
+                icon-name="standard:product_item"></c-section-header>
+    
+
+        <lightning-input id="prName" type="search" required="True" onchange={handleNameChange}
+            class="slds-m-bottom_small" label="Part Description" isloading=true value={selectedName}>
+        </lightning-input>
+
+        <template if:true={selectedRecord}>
+                <template if:true={allAccesList}>
+                        <template for:each={allAccesList} for:item="record">
+                                <c-record-list key={record.Id} record={record} onselect={handleSelect}
+                                        iconname={iconname} fieldname={searchfield} is-accessories=true>
+                                </c-record-list>
+                        </template>
+                </template>
+        </template>
+
+        <div class="slds-align_absolute-center" style="font-size: 20px; font-weight: bolder;">
+                OR
+        </div>
+
+        <lightning-input id="prCode" type="search" required="True" onchange={handleNumberChange}
+                class="slds-m-bottom_small" label="Part Number" isloading=true value={selectedCode}>
+        </lightning-input>
+
+        <template if:true={selectedRecordCode}>
+                <template if:true={allAccesList}>
+                        <template for:each={allAccesList} for:item="record">
+                                <c-record-list key={record.Id} record={record} onselect={handleSelect}
+                                        iconname={iconname} fieldname={searchfieldCode} forproductcode=true>
+                                </c-record-list>
+                        </template>
+                </template>
+        </template>
+
+        <lightning-input id="prQty" type="number" min={deafaultMinimumQty} max={maxQuantity} required="True"
+                onchange={handleQuantityChange} class="slds-m-bottom_small" label="Quantity" isloading=true
+                value={selectedQuantity}>
+        </lightning-input>
+        
+        <div class="slds-align_absolute-center slds-border_bottom">
+
+            <div if:false={showAccesList}>
+                    <lightning-button label="Cancel" icon-name="utility:close" title="Cancel" variant="brand"
+                            onclick={handleReload} class="slds-m-left_x-small"></lightning-button>
+            </div>
+
+            <lightning-button variant="brand" label="Add" title="Add" icon-name="utility:add" onclick={addAccessory}
+                    class="slds-m-left_x-small"></lightning-button>
+
+            <br/>
+        </div>
+        
+        <div if:true={showAccesList}>
+            <table if:true={browserFormFactor} aria-multiselectable="true"
+                    class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols slds-table_col-bordered"
+                    role="grid">
+                    <thead>
+                            <tr class="slds-line-height_reset">
+                                    <th aria-label="Action" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable widthcls" scope="col">
+                                            <a class="slds-th__action slds-text-link_reset"
+                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                    <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate slds-align_absolute-center">
+                                                            <span title="Action">Action</span>
+                                                    </div>
+                                            </a>
+                                    </th>
+                                    <th aria-label="Part No" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col">
+                                            <a class="slds-th__action slds-text-link_reset"
+                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                    <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span title="Part No">Part No</span>
+                                                    </div>
+                                            </a>
+                                    </th>
+                                    <th aria-label="Name" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col">
+                                            <a class="slds-th__action slds-text-link_reset"
+                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                    <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span title="Name">Name</span>
+                                                    </div>
+                                            </a>
+                                    </th>
+                                    <th aria-label="Status" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col">
+                                            <a class="slds-th__action slds-text-link_reset"
+                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                    <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span title="Status">Status</span>
+                                                    </div>
+                                            </a>
+                                    </th>
+                                    <th aria-label="Invoice#" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col" if:true={showInvoiceDetail}>
+                                            <a class="slds-th__action slds-text-link_reset"
+                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                    <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span title="Invoice#">Invoice#</span>
+                                                    </div>
+                                            </a>
+                                    </th>
+                                    <th aria-label="Invoice Date" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col" if:true={showInvoiceDetail}>
+                                            <a class="slds-th__action slds-text-link_reset"
+                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                    <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span title="Invoice Date">Invoice Date</span>
+                                                    </div>
+                                            </a>
+                                    </th>
+                                    <th aria-label="Quantity" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col">
+                                            <a class="slds-th__action slds-text-link_reset"
+                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                    <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span title="Quantity">Quantity</span>
+                                                    </div>
+                                            </a>
+                                    </th>
+                                    <th aria-label="Price" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col">
+                                            <a class="slds-th__action slds-text-link_reset"
+                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                    <div
+                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span title="Price">Price</span>
+                                                    </div>
+                                            </a>
+                                    </th>
+
+                            </tr>
+                    </thead>
+                    <tbody for:each={accesList} for:item='item' key={item.Id}>
+                            <tr aria-selected="false" class="slds-hint-parent rowStyle">
+                                    <td role="gridcell">
+                                            <div class="slds-truncate slds-align_absolute-center" title="Action">
+                                                    <lightning-button-icon class="bottomMargin"
+                                                            icon-name="utility:delete" data-id={item.Id}
+                                                            alternative-text="Delete" onclick={deleteAccessory}>
+                                                    </lightning-button-icon>
+                                            </div>
+                                    </td>
+                                    <td role="gridcell">
+                                            <div class="slds-truncate" title={item.ProductCode}>
+                                                    <lightning-input id="proNo" class="bottomMargin" type="text"
+                                                            readonly value={item.ProductCode}>
+                                                    </lightning-input>
+                                            </div>
+                                    </td>
+                                    <td role="gridcell">
+                                            <div class="slds-truncate" title={item.Name}>
+                                                    <lightning-input id="proName" class="bottomMargin" type="text"
+                                                            readonly value={item.Name}>
+                                                    </lightning-input>
+                                            </div>
+                                    </td>
+                                    <td role="gridcell">
+                                            <div class="slds-truncate" title="Status">
+                                                    <lightning-input id="status" class="bottomMargin" type="text"
+                                                            readonly value={item.Status__c}>
+                                                    </lightning-input>
+                                            </div>
+                                    </td>
+                                    <td role="gridcell" if:true={showInvoiceDetail}>
+                                        <div class="slds-truncate" title="Invoice#">
+                                                <lightning-input id="Invoice_Number__c" class="bottomMargin" type="text"
+                                                        readonly value={item.Invoice_Number__c}>
+                                                </lightning-input>
+                                        </div>
+                                    </td>
+                                    <td role="gridcell" if:true={showInvoiceDetail}>
+                                        <div class="slds-truncate" title="Invoice Date">
+                                                <lightning-input id="Invoice_Date__c" class="bottomMargin" type="text"
+                                                        readonly value={item.Invoice_Date__c}>
+                                                </lightning-input>
+                                        </div>
+                                    </td>   
+                                    <td role="gridcell">
+                                            <div class="slds-truncate" title="Quantity">
+                                                    <lightning-input id="Quantity" class="inputCmp"
+                                                            min={deafaultMinimumQty}
+                                                            max={item.Maximum_Quantity__c} 
+                                                            required
+                                                            type="number" onchange={quantityChange}
+                                                            data-id={item.Id} name="forQuantity" isloading=true
+                                                            value={item.quantity}>
+                                                    </lightning-input>
+                                            </div>
+                                    </td>
+                                    <td role="gridcell">
+                                            <div class="slds-truncate" title="Price">
+                                                    <lightning-input id="prPrice" class="bottomMargin" type="number"
+                                                            formatter="Currency" readonly value={item.price}>
+                                                    </lightning-input>
+                                            </div>
+                                    </td>
+                            </tr>
+                    </tbody>
+            </table>
+
+            <div class="slds-p-top_medium" if:true={browserFormFactor}></div>
+
+            <table if:true={browserFormFactor} aria-multiselectable="true"
+                    class="slds-table slds-table_fixed-layout" role="grid">
+                    <tbody>
+                            <tr aria-selected="false" class="slds-hint-parent rowStyle">
+                                    <td role="gridcell" class="widthcls">
+                                            <div class="slds-truncate" title="Part No">
+                                                    &nbsp;
+                                            </div>
+                                    </td>
+                                    <td role="gridcell" class="widthcls">
+                                            <div class="slds-truncate" title="Name">
+                                                    &nbsp;
+                                            </div>
+                                    </td>
+                                    <td role="gridcell" class="widthcls">
+                                            <div class="slds-truncate" title="Status">
+                                                    &nbsp;
+                                            </div>
+                                    </td>
+                                    <td role="gridcell" class="widthcls" if:true={showInvoiceDetail}>
+                                        <div class="slds-truncate" title="Invoice#">
+                                                &nbsp;
+                                        </div>
+                                    </td>
+                                    <td role="gridcell" class="widthcls" if:true={showInvoiceDetail}>
+                                        <div class="slds-truncate" title="Invoice Date">
+                                                &nbsp;
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                            <div class="slds-truncate" title="Quantity">
+                                                    &nbsp;
+                                            </div>
+                                    </td>
+                                    <td role="gridcell" style="float:right;">
+                                            <div title="Price">
+                                                    <lightning-input id="prAmt" class="boldFont" readonly
+                                                            value="Total Amount"></lightning-input>
+                                            </div>
+                                    </td>
+                                    <td role="gridcell">
+                                            <div title="Action">
+                                                    <lightning-input id="prTAmt" type="number" formatter="Currency"
+                                                            readonly value={totalAmount}></lightning-input>
+                                            </div>
+                                    </td>
+                            </tr>
+                    </tbody>
+            </table>
+
+
+            <!--PHONE DEVICE-->
+
+            <div if:false={browserFormFactor} for:each={accesList} for:item='item' key={item.Id}>
+                    <!--    <lightning-card>   -->
+                    <div class="slds-box">
+                            <div class="slds-p-horizontal_medium">
+
+                                    <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                    <div class="slds-form-element slds-form-element_readonly">
+                                                            <label class="slds-form-element__label"
+                                                                    for="text-input-id-1">Part No</label>
+                                                            <div class="slds-form-element__control">
+                                                                    <div class="slds-form-element__static">
+                                                                            {item.ProductCode}
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+
+                                    <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                    <div class="slds-form-element slds-form-element_readonly">
+                                                            <label class="slds-form-element__label"
+                                                                    for="text-input-id-1">Name</label>
+                                                            <div class="slds-form-element__control">
+                                                                    <div class="slds-form-element__static">
+                                                                            {item.Name}
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                    <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                    <div class="slds-form-element slds-form-element_readonly">
+                                                            <label class="slds-form-element__label"
+                                                                    for="text-input-id-1">Status</label>
+                                                            <div class="slds-form-element__control">
+                                                                    <div class="slds-form-element__static">
+                                                                            {item.Status__c}
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_1-of-1">
+                                                <div class="slds-form-element slds-form-element_readonly">
+                                                        <label class="slds-form-element__label"
+                                                                for="text-input-id-1">Invoice#</label>
+                                                        <div class="slds-form-element__control">
+                                                                <div class="slds-form-element__static">
+                                                                        {item.Invoice_Number__c}
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_1-of-1">
+                                                <div class="slds-form-element slds-form-element_readonly">
+                                                        <label class="slds-form-element__label"
+                                                                for="text-input-id-1">Invoice Date</label>
+                                                        <div class="slds-form-element__control">
+                                                                <div class="slds-form-element__static">
+                                                                        {item.Invoice_Date__c}
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                    <lightning-input id="mQty" class="inputCmp" label="Quantity"
+                                                            max={item.Maximum_Quantity__c}
+                                                            min={deafaultMinimumQty}
+                                                            required="True"
+                                                            type="number" onchange={quantityChange}
+                                                            data-id={item.Id} name="forQuantity" isloading=true
+                                                            value={item.quantity}>
+                                                    </lightning-input>
+                                            </div>
+                                    </div>
+
+                                    <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                    <div class="slds-form-element slds-form-element_readonly">
+                                                            <label class="slds-form-element__label"
+                                                                    for="text-input-id-1">Price</label>
+                                                            <div class="slds-form-element__control">
+                                                                    <div class="slds-form-element__static">
+                                                                            <lightning-formatted-number
+                                                                                    value={item.price}
+                                                                                    format-style="currency"
+                                                                                    currency-code="INR"
+                                                                                    currency-display-as="symbol">
+                                                                            </lightning-formatted-number>
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+
+
+                                    <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                    <div class="slds-form-element slds-form-element_readonly">
+                                                            <label class="slds-form-element__label"
+                                                                    for="text-input-id-1">Action</label>
+                                                            <div class="slds-form-element__control">
+                                                                    <div class="slds-form-element__static">
+                                                                            <a onclick={deleteAccessory}
+                                                                                    style="color:brickred">Remove</a>
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                    <div class="slds-p-top_small"></div>
+
+                            </div>
+                    </div> <br>
+                    <!--     </lightning-card>  -->
+            </div>
+
+            <div class="slds-p-top_medium"></div>
+
+            <div if:false={browserFormFactor}>
+                    <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1">
+                                    <div class="slds-form-element slds-form-element_readonly">
+                                            <label class="slds-form-element__label" for="text-input-id-1">Total
+                                                    Amount</label>
+                                            <div class="slds-form-element__control">
+                                                    <div class="slds-form-element__static">
+                                                            <lightning-formatted-number data-id="totalAmountPayable"
+                                                                    label="Total Amount" value={totalAmount}
+                                                                    format-style="currency" currency-code="INR"
+                                                                    currency-display-as="symbol">
+                                                            </lightning-formatted-number>
+                                                    </div>
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+
+            <br />
+            
+
+            <div class="slds-grid slds-gutters ">
+                    <div class="slds-col slds-size_1-of-1">
+                            <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                            <lightning-input name="Other Accessories Offers" class="checkValid"
+                                                    label='Offer' type="number" step="0.01"
+                                                    formatter="currency"
+                                                    value={partOfferAmount}
+                                                    max={maxQuantity}
+                                                    onchange={calculateTotalAmount}>
+                                            </lightning-input>
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1">
+                            <div class="slds-form-element slds-form-element_readonly">
+                                    <label class="slds-form-element__label" for="text-input-id-1">
+                                        Total Amount
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                            <!--     <lightning-input id="finalTAmt" type="number" formatter="Currency"
+                                                            readonly value={finalAccAmount}></lightning-input>
+                                                          -->  
+                                                    <lightning-formatted-number step="1.00" label="Cash Payment"
+                                                            value={finalAccAmount} format-style="currency"
+                                                            currency-code="INR" currency-display-as="symbol">
+                                                    </lightning-formatted-number>
+                                                   
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+
+
+            <div class="slds-p-top_medium"></div>
+            
+            <div if:true={browserFormFactor}>
+                    <br/>
+                    <div class="slds-grid slds-gutters" if:true={isQuote}>
+                            <div class="slds-col slds-size_1-of-2" style="text-align: left;">
+                                    <lightning-button label="Create Quote" icon-name="utility:quote" title="Create Quote" variant="brand"
+                                    onclick={createQuotation} 
+                                    class="slds-m-left_x-small" if:true={showConfirm}></lightning-button>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2" style="text-align: right;">
+                                    <lightning-button label="Cancel" icon-name="utility:close" title="Cancel" variant="brand"
+                                            onclick={handleReload} class="slds-m-left_x-small"></lightning-button>
+                            </div>
+                    </div>
+                    <div class="slds-grid slds-gutters" if:false={isQuote}>
+                            <div class="slds-col slds-size_1-of-3">
+                                    <lightning-button label="Save" if:true={showConfirm}
+                                            variant="brand" title="Save" onclick={handleSave}
+                                            class="slds-m-left_x-small">
+                                    </lightning-button>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" style="text-align: center;">
+                                    <lightning-button label="Cancel" icon-name="utility:close" title="Cancel" variant="brand"
+                                            onclick={handleReload} class="slds-m-left_x-small"></lightning-button>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" style="text-align: right;">
+                                    <lightning-button label="Submit To DMS" if:true={showConfirm} icon-name="utility:check"
+                                            variant="brand" title="Submit To DMS" onclick={handleSubmitToDMS}
+                                            class="slds-m-left_x-small">
+                                    </lightning-button>
+                            </div>
+                    </div>
+            </div>
+                <div if:false={browserFormFactor}>
+                    <div if:false={isQuote}>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1">
+                                    <button class="slds-button slds-button_brand" title="Cancel" style="width:100%" onclick={handleReload}>Cancel</button>
+                            </div>
+                        </div>
+                        <div class="slds-p-top_small"></div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1" if:true={showConfirm}>
+                                    <button class="slds-button slds-button_brand" title="Save" style="width:100%" onclick={handleSave}>Save</button>
+                            </div>
+                        </div>
+                        <div class="slds-p-top_small"></div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1" if:true={showConfirm}>
+                                    <button class="slds-button slds-button_brand" title="Submit To DMS" style="width:100%" onclick={handleSubmitToDMS}>Submit To DMS</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div if:true={isQuote}>
+
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1" if:true={showConfirm}>
+                                <button class="slds-button slds-button_brand" title="Create Quote" style="width:100%" onclick={createQuotation}>Create Quote</button>
+                            </div>
+                        </div>
+                        <div class="slds-p-top_small"></div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1">
+                                    <button class="slds-button slds-button_brand" title="Cancel" style="width:100%" onclick={handleReload}>Cancel</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+    </div>
+</template>

@@ -1,0 +1,262 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" standardStylesheets="false" applyHtmlTag="false" controller="twod_CTInventoryTransferController"  cache="true" expires="10"  contentType="{! renderedContentType }" renderAs="{! renderingService }">
+    <html>
+        <head>
+            <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8"/>
+            
+            <style type="text/css">
+                @page{
+                size:A4 portrait;
+                
+                @bottom-right {
+                content: "Page " counter(page) " - " counter(pages);
+                font-family: 'Arial', 'Helvetica', sans-serif;
+                font-size:10px;
+                }
+                }
+                
+                @media print
+                {    
+                .no-print, .no-print *
+                {
+                display: none !important;
+                }
+                .no-Screen
+                {
+                display: block !important;
+                }
+                }
+                
+                @media screen
+                {
+                .no-print, .no-print *{}
+                .no-Screen{display:none !important;}
+                }
+                
+            </style>
+            
+            <script type="text/javascript" src="{!$Resource.jqueryCT}"></script>
+            <script src="{!$Resource.bootstrapjss}"></script>
+            
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+            <style>
+                .red{
+                color:red;
+                }
+                .form-area
+                {
+                background-color: #FAFAFA;
+                padding: 10px 40px 60px;
+                margin: 10px 0px 60px;
+                border: 1px solid GREY;
+                }
+                .company-name
+                {
+                font-size: 14px;
+                font-style: italic;
+                border-bottom: solid 1px #d3d3d3;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+                }
+                .webform-confirmation {
+                padding-top: 20px;
+                }
+                .webform-confirmation {
+                text-align: center;
+                }
+                
+                .receipt-output {
+                background-color: #f5f5f5;
+                border: solid 1px #d3d3d3;
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 10px;
+                margin-bottom: 20px;
+                list-style-type: none;
+                text-align: left;
+                }
+                .receipt-heading {
+                font-size: 22px;
+                font-weight: bold;
+                }
+                .right-side{
+                text-align: right;
+                }
+            </style>
+            
+        </head>
+        <script type="text/javascript">
+        function printFunc(){           
+            window.print();
+        }
+        
+        function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
+        
+        $(document).ready(function(){
+            $(document).on("keydown", disableF5);
+        });
+        
+        window.onbeforeunload = function() {
+        jQuery('[id$=sessionId ]').val("duplicate");
+        window.location.assign("http://www.w3schools.com");
+            return false;
+        }
+        </script>
+        <div style="background-color: #027cc5;">        
+            <div class="container" style="background-color: #027cc5;" >
+                <div class="row logo" style="padding-bottom: 22px;">
+                    <div class="col-sm-2" style="cursor:pointer" onclick="window.location.assign('https://www.certainteed.com')" >
+                        <br/>
+                        <apex:image url="{!$Resource.certainteedLogo}" style="height: 50px;cursor:pointer" styleClass="logo no-print" />
+                        <apex:image url="{!$Resource.certainteedLogoPrint}" style="height: 50px;cursor:pointer" styleClass="logo no-screen" />
+                    </div>
+                    <div class="col-sm-8">
+                        
+                    </div>
+                    <div class="col-sm-2 no-print" style="padding-top: 22px;">
+                        <div style="cursor:pointer" onclick="window.location.assign('{!url}')">                        
+                            <apex:image url="{!$Resource.HomePage}" style="height: 50px;cursor:pointer"  />
+                            <span style="color: white;font-weight: bold;">HOME</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <apex:form >     
+            <div class="container">                
+                <div class="webform-confirmation">
+                    <apex:pageBlock rendered="{!render}">
+                        <apex:pageBlock rendered="{! renderingService != 'PDF' }">
+                            <div class="no-print">
+                                
+                                <h2>Thank You</h2>
+                                <!-- CERP-58 : Updating to CertainTeed's -->
+                                <p>Thank you for using CertainTeed's online Warranty Transfer. Your Warranty Transfer number is <b>{!wtt.Name}</b>. <br/>
+                                    You will receive an email confirmation shortly; if not, please contact us at 1-800-345-1145.</p>
+                                <p><i>Please note that the use of this online warranty transfer does not guarantee that your warranty allows coverage to transfer to a subsequent owner.</i><br />
+                                    <i>The limited warranties contain restrictions on the transfer of warranty coverage, as a result not all coverage will be transferable.</i> <br />
+                                    <i>Please see the warranty applicable to the year the products were installed on the roof. Please keep this information for future reference.</i> <br />
+                                </p>
+                                <apex:pageBlock rendered="{!isRoofing}"><p>If you need a copy of the warranty for the year the shingles were installed, please visit <a href="http://www.ctroof.com" target="_blank">www.ctroof.com</a></p></apex:pageBlock>
+                                <p>&nbsp;</p>                       
+                            </div>
+                        </apex:pageBlock>
+                        
+                        <apex:pageBlock rendered="{! renderingService == 'PDF' }">                    
+                            Product Transfer is successfully completed for your product. And your product transfer number is  <b>{!wtt.Name}</b>
+                            <apex:pageBlock rendered="{!isRoofing}"><p>If you need a copy of the warranty for the year the shingles were installed, please visit <a href="http://www.ctroof.com" target="_blank">www.ctroof.com</a></p></apex:pageBlock>
+                            <p>&nbsp;</p> 
+                        </apex:pageBlock>
+                    </apex:pageBlock>
+                    
+                    
+                    <apex:pageBlock rendered="{!!render}">
+                        <apex:pageBlock rendered="{! renderingService != 'PDF' }">
+                            <div class="no-print">                                
+                                <h2>Thank You</h2>
+                                <p>Thank you for selecting a CertainTeed product for your roof. Your Warranty Registration number is  <b>{!wrt.Tracking_Number__c}</b><br/>
+                                    You will receive an email confirmation shortly; if not, please contact us at 1-800-345-1145.<br />
+                                    <i>Please keep the email, a copy of the Limited Warranty and your paid roofer's invoice for future reference.</i><br />
+                                    If you need a copy of the warranty for the year the shingles were installed, please visit <a href="http://www.ctroof.com" target="_blank">www.ctroof.com</a>
+                                </p>                               
+                            </div>
+                        </apex:pageBlock>                        
+                        <apex:pageBlock rendered="{! renderingService == 'PDF' }">                    
+                            Warranty Registration is successfully completed for your product. And your product registration number is  <b>{!wrt.Tracking_Number__c}</b>
+                            <apex:pageBlock rendered="{!isRoofing}"><p>If you need a copy of the warranty for the year the shingles were installed, please visit <a href="http://www.ctroof.com" target="_blank">www.ctroof.com</a></p></apex:pageBlock>
+                            
+                        </apex:pageBlock>
+                    </apex:pageBlock>
+                    <h3>Mailing Address</h3>
+                    <p>&nbsp;</p>
+                    <div class="container receipt-output">
+                        <div class="row">
+                            <div class="col-xs-12 receipt-heading"> 
+                                <apex:pageBlock rendered="{!!render}">
+                                    {!warrantyRegistration['Name']} {!warrantyRegistration['Last_Name__c']}
+                                </apex:pageBlock>
+                                <apex:pageBlock rendered="{!render}">
+                                    {!warrantyRegistration['First_Name__c']} {!warrantyRegistration['Last_Name__c']}
+                                </apex:pageBlock>
+                                <div class="company-name"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-7">{!warrantyRegistration['Address_1__c']}<br/>   
+                                <apex:outputText rendered="{!address2 != ''}">
+                                    {!warrantyRegistration['Address_2__c']}<br/>                                
+                                </apex:outputText>                                
+                                {!warrantyRegistration['City__c']}, {!warrantyRegistration['State__c']} {!warrantyRegistration['Postal_Code__c']}<br/>
+                                {!warrantyRegistration['Country__c']}</div>
+                            <div class="col-xs-5 right-side">{!warrantyRegistration['Phone__c']}<br/>{!warrantyRegistration['Email__c']}</div>
+                        </div>
+                    </div>
+                    <p>&nbsp;</p>
+                    <h3>Building Location</h3>
+                    <p>&nbsp;</p>
+                    <div class="container receipt-output">
+                        <div class="row">
+                            <div class="col-xs-12 receipt-heading">
+                                <apex:pageBlock rendered="{!propertyType == 'Commercial'}">
+                                    {!warrantyRegistration['Organisation__c']}<br/>
+                                </apex:pageBlock>                                
+                                {!warrantyRegistration['First_Name_BL__c']} {!warrantyRegistration['Last_Name_BL__c']}                              
+                                <div class="company-name"></div>
+                            </div>
+                        </div>                     
+                        <div class="row">
+                            <div class="col-xs-12">{!warrantyRegistration['Address_1_BL__c']}<br/>   
+                                <apex:outputText rendered="{!BL_address2 != '' }">
+                                    {!warrantyRegistration['Address_2_BL__c']}<br/>                                
+                                </apex:outputText>
+                                {!warrantyRegistration['City_BL__c']}, {!warrantyRegistration['State_BL__c']} {!warrantyRegistration['Postal_Code_BL__c']}<br/>
+                                {!warrantyRegistration['Country_BL__c']}</div>                            
+                        </div>
+                    </div>
+                    <p>&nbsp;</p>
+                    <h3>Product Information</h3>
+                    <p>&nbsp;</p>
+                    <div class="container receipt-output">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <apex:pageBlock rendered="{!!render}">
+                                    <b>Date Installed: </b><apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!warrantyRegistration['Install_Date__c']}" /> </apex:outputText>                                
+                                </apex:pageBlock>
+                                <apex:pageBlock rendered="{!render}">
+                                    <b>Date Installed: </b><apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!warrantyRegistration['Install_Date__c']}" /> </apex:outputText>                                
+                                </apex:pageBlock>
+                                <apex:pageBlock rendered="{!render}">
+                                    <b>Date Transferred: </b><apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!warrantyRegistration['Transfered_Date__c']}" /> </apex:outputText> 
+                                </apex:pageBlock>                                
+                                <b>Product Group: </b>{!warrantyRegistration['Product_Group__c']}<br/>
+                                <b>Quantity: </b>{!warrantyRegistration['Quantity__c']} in {!warrantyRegistration['Unit_of_Measure__c']}<br/>
+                                <b>Product Details: </b>{!warrantyRegistration['Product_Detail__c']}                               
+                                <!--<apex:pageBlock rendered="{!!render}">                                
+                                    <b>Warranty Registration Number:</b> {!wrt['Tracking_Number__c']}
+                                </apex:pageBlock>
+                                <apex:pageBlock rendered="{!render}">                                
+                                    <b>Warraanty Transfer Number:</b> {!wtt['Name']}
+                                </apex:pageBlock>
+-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--
+<apex:pageBlock rendered="{! renderingService != 'PDF' }"> 
+<div class="row no-print">
+<center>
+<button type="button" class="btn btn-primary" onclick="printFunc()">Print</button>                               
+<span>&nbsp;</span>                        
+<apex:commandLink action="{! saveToPdf }">                      
+<apex:commandButton styleClass="btn btn-success" value="Download" /> 
+<apex:param assignTo="{! renderedFileName }" value="{! 'WarrantyRegistration('+ wrt.Tracking_Number__c + ').pdf'}"/>
+</apex:commandLink> 
+</center>
+</div>
+</apex:pageBlock>
+-->
+            </div>
+        </apex:form>
+    </html>
+</apex:page>

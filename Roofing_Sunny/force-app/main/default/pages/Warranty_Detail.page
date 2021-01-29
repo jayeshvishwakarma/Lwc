@@ -1,0 +1,2367 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" standardStylesheets="false" controller="twod_CTInventoryTransferController" cache="true" expires="10">
+    <apex:includeScript value="/support/console/35.0/integration.js"/>
+    <html>          
+        <style>
+            .tooltipcss
+            {
+            color: cornflowerblue;
+            cursor: pointer;
+            left:12px;
+            }
+            @media (max-width: 767px) { 
+            .mandatory:after
+            {
+            top: -5px !important; 
+            }
+            .tooltipcss
+            {
+            //top: -6px !important; 
+            }
+            }
+            
+        </style>
+        <head>
+            <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8"/>
+        </head>
+        <apex:form >
+            <apex:inputHidden value="{!propertyType}" id="propertyType"/>
+            <apex:inputHidden value="{!installedDate}" id="installedDate"/>
+            <apex:inputHidden value="{!Organization}" id="Organization"/>
+            <apex:inputHidden value="{!firstName}" id="firstName"/>
+            <apex:inputHidden value="{!lastName}" id="lastName"/>
+            <apex:inputHidden value="{!address1}" id="address1"/>
+            <apex:inputHidden value="{!address2}" id="address2"/>
+            <apex:inputHidden value="{!email}" id="email"/>
+            <apex:inputHidden value="{!phone}" id="phone"/>
+            <apex:inputHidden value="{!city}" id="city"/>
+            <apex:inputHidden value="{!postalcode}" id="postalcode"/>
+            <apex:inputHidden value="{!state}" id="state"/>
+            <apex:inputHidden value="{!country}" id="country"/>
+            <apex:inputHidden value="{!ProductName}" id="ProductName"/>
+            <apex:inputHidden value="{!ProductGroup}" id="ProductGroup"/>
+            
+            <apex:inputHidden value="{!BuildingType}" id="BuildingType"/>
+            <apex:inputHidden value="{!render}" id="render"/>
+            
+            <!--Transfer -->
+            <apex:inputHidden value="{!BL_firstName}" id="firstName2"/>
+            <apex:inputHidden value="{!BL_lastName}" id="lastName2"/>
+            <apex:inputHidden value="{!BL_address1}" id="address12"/>
+            <apex:inputHidden value="{!BL_address2}" id="address22"/>
+            <apex:inputHidden value="{!BL_email}" id="email2"/>
+            <apex:inputHidden value="{!BL_phone}" id="phone2"/>
+            <apex:inputHidden value="{!BL_city}" id="city2"/>
+            <apex:inputHidden value="{!BL_postalcode}" id="postalcode2"/>
+            <apex:inputHidden value="{!BL_state}" id="state2"/>
+            <apex:inputHidden value="{!BL_country}" id="country2"/>
+            <apex:inputHidden value="{!Quantity}" id="Quantity"/>
+            <apex:inputHidden value="{!TransferedDate}" id="TransferedDate"/>
+            <apex:inputHidden value="{!ProductDetail}" id="ProductDetail"/>
+            <apex:inputHidden value="{!InstallationLocationOther}" id="InstallationLocationOther"/>
+            <apex:inputHidden value="{!InstallationLocation}" id="InstallationLocation"/>
+            
+            <apex:actionFunction action="{!submit}" name="hold" /> 
+            <apex:actionFunction action="{!copyInfo}" name="copyInfo" oncomplete="copyChange()" reRender="Country2,State2"/>
+            <apex:actionFunction action="{!previewInfo}" name="previewInfo" reRender="picklist2" oncomplete="previewPage()"/>
+            <apex:actionFunction action="{!ProductGroupChange}" name="ProductGroupChange" reRender="UnitsOfMeasure" />
+            <apex:actionFunction action="{!copy}" name="copy" />            
+            <apex:actionFunction action="{!updateRecordType}" name="updateRecordType" reRender="InstallPicklist" oncomplete="InstallationLocationClear()"/>
+            
+            <!--   <apex:actionFunction action="{!verifyBuildingLocation}" name="verifyBuildingLocation" rerender="picklist2"/> -->
+            
+        </apex:form>
+        
+        <c:CTHeader url="{!url}"/>
+        <apex:form rendered="{!render}">
+            <apex:pageBlock rendered="{!isSiding}">
+                <div class="row field field-name-body field-type-text-with-summary field-label-hidden " style="    background-color: #fff;    margin-bottom: 30px;    text-align: center;"><div class="field-items"><div class="field-item even" property="content:encoded"><h2>Transfer Your Product</h2>
+                    <p>
+                        Please note that the use of this on-line warranty transfer does not guarantee that your warranty allows coverage to transfer to a subsequent owner.<br/> The limited warranties contain restrictions on the transfer of warranty coverage, as a result not all coverage will be transferable.
+                        <br/>Please see the warranty applicable to the year your product(s) were installed.                                        
+                    </p>
+                    </div></div>
+                </div>
+            </apex:pageBlock>
+            <apex:pageBlock rendered="{!isRoofing}">
+                <div class="row field field-name-body field-type-text-with-summary field-label-hidden " style="    background-color: #fff;    margin-bottom: 30px;    text-align: center;"><div class="field-items"><div class="field-item even" property="content:encoded"><h2>Transfer Your Product</h2>
+                    <p>
+                        Please note that the use of this on-line warranty transfer does not guarantee that your warranty allows coverage to transfer to a subsequent owner.<br/> The limited warranties contain restrictions on the transfer of warranty coverage, as a result not all coverage will be transferable.
+                        <br/>Please see the warranty applicable to the year the products were installed on your roof.
+                        Please keep this information for future reference.
+                        <br/>
+                        If you need a copy of the warranty for the year the shingles were installed, please visit <a href="http://www.ctroof.com">www.ctroof.com</a>
+                    </p>
+                    </div></div>
+                </div>
+            </apex:pageBlock>
+        </apex:form>
+        <apex:form rendered="{!!render}">
+            <!-- CERP-58 : Updating to CertainTeed's -->
+            <div class=" " style="text-align: center;"><div class="field-items"><div class="field-item even" property="content:encoded" style="font-weight: 300;"><h2>Register Your Product</h2>
+                <p>Thank you for using CertainTeed's Online Warranty Registration. This form is to be used for new product warranty registrations only.</p>
+                <p><span style="font-size:10px">NOTE: Failure to register any warranty shall not void the warranty or any of its terms.</span></p>
+                </div></div></div>
+        </apex:form>
+        
+        
+        
+        <!-- Modal -->
+        <apex:pageBlock id="modalValid">
+            <div class="modal fade" id="ModalValidAddress" role="dialog">
+                <div class="modal-dialog">
+                    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" style="text-align:center;color:#3c763d;font-size: 30px;">Address Fully Verified</h4>
+                        </div>
+                        
+                        <div class="modal-body">
+                            
+                            <div class="row">
+                                <div class=" col-md-12 col-lg-12 "> 
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                            <tr>
+                                                <td>Address 1</td>
+                                                <td id="validAddr1"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address 2</td>
+                                                <td id="validAddr2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>City</td>
+                                                <td id="validAddr3"></td>
+                                            </tr>                                            
+                                            <tr>                                                
+                                                <td>State</td>
+                                                <td id="validAddr4"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Zip/Postal Code</td>
+                                                <td id="validAddr5"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Country</td>
+                                                <td id="validAddr6"></td>
+                                            </tr>                                                                                        
+                                        </tbody>
+                                    </table>                                                                        
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary"  data-dismiss="modal">Modify</button>
+                            <button type="button" class="btn btn-success"  data-dismiss="modal" onclick="modalProceed()">Proceed</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </apex:pageBlock>
+        
+        <div class="modal fade" id="ModalInValidAddress" role="dialog">
+            <div class="modal-dialog">
+                
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" style="text-align:center;color:#a94442;;font-size: 30px;">Invalid Address!!</h4>
+                    </div>
+                    <div class="modal-body" id="modalError">
+                        <p>Please provide Valid Address or Contact CertainTeed Customer Support</p>                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary"  data-dismiss="modal">Modify</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="modalWindowRest" style="background-color: #e5e5e5;">
+            <div class="container" style="background-color: #e5e5e5;max-width: 800px;" id="first">
+                <form  id="contact_form">
+                    <br/>
+                    <div class="row" style="display:block">
+                        <div class="col-sm-12">
+                            <apex:form >
+                                <div class="alert alert-danger error" id="error" style="display:none">
+                                    <center>
+                                        <Strong>{!errorMessage}</Strong>
+                                    </center>
+                                </div>
+                            </apex:form>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <apex:outputPanel id="message-container">
+                                <apex:form rendered="true">
+                                    <center>
+                                        <h3>Mailing Address</h3>
+                                    </center>
+                                </apex:form>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                    
+                    <div class="row" style="background-color: #e5e5e5;">
+                        <form id="registration-form" class="form-horizontal">
+                            <div class="container" style="background-color: #e5e5e5;max-width: 800px;">
+                                
+                                
+                                <div class="row" id="residentialDiv">
+                                    <div class="col-sm-6  form-group">
+                                        <label class="control-label" for="FirstName"><span class="mandatory">First Name</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.First_Name__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Enter First Name of the Product Owner"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                                            <input id="FirstName" name="FirstName" placeholder="First Name" Class="form-control input-md"  type="text" />                                                                                        
+                                        </div>
+                                    </div>
+                                    <div style="width:5px"></div>
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label " for="LastName"><span class="mandatory">Last Name</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Last_Name__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Last_Name__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                                            <input id="LastName" name="LastName" placeholder="Last Name" Class="form-control input-md" type="text"/>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">                                                                        
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label" for="Address1"><span class="mandatory">Address 1</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Address_1__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Address_1__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>                                        
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>
+                                            <input id="Address1" name="Address1" placeholder="Address 1" Class="form-control input-md" type="text" onchange="setMelissaDataHOFlag()"/>                                            
+                                        </div> </div>
+                                    <div class="col-sm-6 form-group has-feedback">
+                                        <label class="control-label" for="Address2">Address 2
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Address_2__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Address_2__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>
+                                            <input id="Address2" name="Address2" placeholder="Address 2" Class="form-control input-md" type="text" onchange="setMelissaDataHOFlag()"/>                                            
+                                        </div></div>
+                                </div>
+                                
+                                
+                                <div class="row"><apex:form >
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label" for="City"><span class="mandatory">City</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.City__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.City__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-home" aria-hidden="true"></i></span>
+                                            <input id="City" name="City" placeholder="City" Class="form-control input-md" required="true" type="text" onchange="setMelissaDataHOFlag()"/>                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label" for="State"><span class="mandatory">State/Province</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.State__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.State__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label><div id="dependentlst1">                                                                                
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
+                                            <apex:inputField id="State" value="{!wr.State__c}" html-name="State" styleClass="form-control input-md State"  onchange="stateChange1(),setMelissaDataHOFlag()"/>                                                                                        
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                    // MutationObserver detect changes in the document
+                                    var MutationObserver = window.WebKitMutationObserver || window.MutationObserver || window.MozMutationObserver;
+                                    var observer = new MutationObserver(function(mutations) {
+                                        // If the form-control was removed from the list – re-assign it
+                                        if(!$('#dependentlst1 select').first().hasClass('form-control input-md State')){
+                                            $('#dependentlst1 select').first().addClass('form-control input-md State');
+                                        }
+                                    });
+                                    
+                                    var dependentlst1 = document.querySelector('#dependentlst1');
+                                    observer.observe(dependentlst1, {
+                                        childList: true,
+                                        subtree: true,
+                                        attributes: true
+                                    });
+                                    </script>
+                                    </apex:form>
+                                </div>
+                                <div class="row"> <apex:form >
+                                    
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label" for="PostalCode"><span class="mandatory">Zip/Postal Code</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Postal_Code__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Postal_Code__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
+                                            <input id="PostalCode" name="PostalCode" placeholder="Postal Code" Class="form-control input-md" type="text" oninput="postalChange1(),setMelissaDataHOFlag()"/>                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group" id="CountryDiv">
+                                        <label class="control-label" for="Country"><span class="mandatory">Country</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Select the Country of the New Product Owner"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Select the Country of the Product Owner"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
+                                            <apex:inputField id="Country" value="{!wr.Country__c}" styleClass="form-control input-md Country" required="true" onchange="countryChange1(),setMelissaDataHOFlag()"/>                                            
+                                        </div>
+                                    </div>
+                                    </apex:form>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label" for="Email"><span class="mandatory">Email</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Email__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Email__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+                                            <input id="Email" name="Email" placeholder="example@domain.com" Class="form-control input-md Email" type="text" oninput="emailChange1(),setMelissaDataHOFlag()"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label" for="Phone"><span class="mandatory">Phone</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Phone__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Phone__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group" >
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-phone-alt" aria-hidden="true"></i></span>
+                                            <input id="Phone" name="Phone" placeholder="(7XX) 8XX-XXX1" Class="form-control input-md" type="tel"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <center>
+                                    <button type="submit" id="next1" class="btn btn-success" disabled="false" onclick="postalChange1(),stateChange1()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Validating Address">Next</button>                                    
+                                </center>
+                            </div>
+                        </form>
+                        <br/>
+                        <br/>
+                    </div>
+                </form>
+            </div>
+            <div class="container" style="background-color: #e5e5e5;max-width: 800px;display:none" id="second">
+                <form  id="contact_form2">
+                    <br/>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <apex:outputPanel id="message-container2">
+                                <apex:form rendered="true">
+                                    <center>
+                                        <h3>Building Location</h3>
+                                    </center>
+                                </apex:form>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: #e5e5e5;">
+                        <form id="registration-form2" name="form2" class="form-horizontal"><div class="container" style="background-color: #e5e5e5;max-width: 800px;">
+                            <div class="row">
+                                <div class="col-sm-6  form-group">
+                                    <a onclick="copy()" style="cursor:pointer">Copy the Mailing Address</a>
+                                    
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-sm-12 form-group">
+                                    <label class="control-label" for="textinput">Property Type</label>
+                                    <div class="funkyradio row">
+                                        <div class="funkyradio-success col-md-6 ">
+                                            <input type="radio" name="radio" id="radio1" checked="true"/>
+                                            <label for="radio1" id="Residential" style="background-color: white;" onclick="changeType(event);">Residential</label>
+                                        </div>
+                                        <div class="funkyradio-success col-md-6">
+                                            <input type="radio" name="radio" id="radio2" />
+                                            <label for="radio2" id="Commercial" style="background-color: white;" onclick="changeType(event);">Commercial</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="CommercialDiv" style="display:none">
+                                <div class="col-sm-12 form-group">
+                                    <label class="control-label" for="Organization"><span class="mandatory">Organization Name</span>
+                                        <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Organisation__c.inlineHelpText}"></span></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Organisation__c.inlineHelpText}"></span></apex:outputLabel>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-home" aria-hidden="true"></i></span>
+                                        <input type="text" Class="form-control" name="Organization" id="Organization" placeholder="Your Organization Name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="residentialDiv">
+                                <div class="col-sm-6  form-group">
+                                    <label class="control-label" for="FirstName2"><span class="mandatory">First Name</span>
+                                        <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.First_Name_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.First_Name_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                                        <input id="FirstName2" name="FirstName2" placeholder="First Name" Class="form-control input-md"  type="text" />
+                                    </div>
+                                </div>
+                                <div style="width:5px"></div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="control-label" for="LastName2"><span class="mandatory">Last Name</span>
+                                        <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Last_Name_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Last_Name_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                                        <input id="LastName2" name="LastName2" placeholder="Last Name" Class="form-control input-md" type="text"/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-12 form-group"><apex:form >
+                                    <label class="control-label" for="BuildingType"><span class="mandatory">Building Type</span>
+                                        <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Building_Type__c.inlineHelpText}"></span></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Building_Type__c.inlineHelpText}"></span></apex:outputLabel>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
+                                        <apex:inputField id="BuildingType" value="{!wr.Building_Type__c}" styleclass="form-control input-md BuildingType" required="true" onchange="BuildingTypeChange()"/>
+                                    </div>
+                                    </apex:form></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label class=" control-label" for="Address12"><span class="mandatory">Building Location Address 1</span>
+                                        <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Address_1_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Address_1_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>
+                                        <input id="Address12" name="Address12" placeholder="Address 1" Class="form-control input-md" type="text" onchange="setMelissaDataBLFlag()"/>
+                                    </div> </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="control-label" for="Address22">Building Location Address 2
+                                        <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Address_2_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Address_2_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>
+                                        <input id="Address22" name="Address22" placeholder="Address 2" Class="form-control input-md" type="text" onchange="setMelissaDataBLFlag()"/>
+                                    </div></div>
+                            </div>
+                            
+                            <div class="row"><apex:form >
+                                <div class="col-sm-6 form-group">
+                                    <label class="control-label" for="City2"><span class="mandatory">City</span>
+                                        <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.City_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.City_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-home" aria-hidden="true"></i></span>
+                                        <input id="City2" name="City2" placeholder="City" Class="form-control input-md " type="text" onchange="setMelissaDataBLFlag()"/>
+                                    </div>
+                                </div>
+                                
+                                </apex:form>
+                                <apex:form id="picklist2">
+                                    
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label" for="State2"><span class="mandatory">State/Province</span><apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.State_BL__c.inlineHelpText}"></span></apex:outputLabel><apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.State_BL__c.inlineHelpText}"></span></apex:outputLabel></label><div id="dependentlst2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
+                                            <apex:inputField id="State2" value="{!wr.State_BL__c}" html-name="State2"  styleClass="form-control input-md State2" onchange="stateChange2(),setMelissaDataBLFlag()"/>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                    // MutationObserver detect changes in the document
+                                    var MutationObserver = window.WebKitMutationObserver || window.MutationObserver || window.MozMutationObserver;
+                                    var observer = new MutationObserver(function(mutations) {
+                                        // If the form-control was removed from the list – re-assign it
+                                        if(!$('#dependentlst2 select').first().hasClass('form-control input-md State2')){
+                                            $('#dependentlst2 select').first().addClass('form-control input-md State2');
+                                            
+                                        }
+                                    });
+                                    
+                                    var dependentlst2 = document.querySelector('#dependentlst2');
+                                    observer.observe(dependentlst2, {
+                                        childList: true,
+                                        subtree: true,
+                                        attributes: true
+                                    });
+                                    
+                                    $(document).ready(function(){
+                                        $('[data-toggle="tooltip"]').tooltip();
+                                    });
+                                    </script>
+                                </apex:form>
+                            </div>
+                            
+                            <div class="row"> 
+                                <div class="col-sm-6 form-group">
+                                    <label class="control-label" for="PostalCode2"><span class="mandatory">Zip/Postal Code</span>
+                                        <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Postal_Code_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                        <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Postal_Code_BL__c.inlineHelpText}"></span></apex:outputLabel>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
+                                        <input id="PostalCode2" name="PostalCode2" placeholder="Postal Code" Class="form-control input-md " type="text" oninput="postalChange2(),setMelissaDataBLFlag()"/>
+                                    </div>
+                                </div>
+                                <apex:form >
+                                    <div class="col-sm-6 form-group">
+                                        <label class="control-label" for="Country2"><span class="mandatory">Country</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Select the Country of the Building Location"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Select the Country of the Building Location"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
+                                            <apex:inputField id="Country2" value="{!wr.Country_BL__c}" styleClass="form-control input-md Country2" required="true" onchange="countryChange2(),setMelissaDataBLFlag()"/>
+                                        </div>
+                                        
+                                    </div>
+                                </apex:form>
+                            </div>
+                            <div class="row" style="display:none">
+                                <div class="col-sm-6 form-group">
+                                    <label class="control-label" for="Email2"><span class="mandatory">Email</span><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.warranty_transfer__c.fields.First_Name_BL__c.inlineHelpText}"></span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+                                        <input id="Email2" name="Email2" placeholder="example@domain.com" Class="form-control input-md" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="control-label" for="Phone2"><span class="mandatory">Phone</span><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.warranty_transfer__c.fields.First_Name_BL__c.inlineHelpText}"></span></label>
+                                    <div class="input-group" >
+                                        <span class="input-group-addon "><i class="glyphicon glyphicon-phone-alt" aria-hidden="true"></i></span>
+                                        <input id="Phone2" name="Phone2" placeholder="(7XX) 8XX-XXX1" Class="form-control input-md" type="tel"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <center>
+                                <button type="button" class="btn btn-primary" onclick="Prev2()">Previous</button>
+                                <button type="submit" id="next2" class="next2 btn btn-success" disabled="false" onclick="postalChange2(),stateChange2(),BuildingTypeChange()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Validating Address">Next</button>
+                            </center>
+                            </div>
+                        </form>
+                        <br/>
+                        <br/>
+                    </div>
+                </form>
+            </div>
+            <div class="container" style="background-color: #e5e5e5;max-width: 800px;display:none" id="third">
+                <form  id="contact_form2">
+                    <br/>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <apex:outputPanel id="message-container3">
+                                <apex:form rendered="true">
+                                    <center>
+                                        <h3>Product Information</h3>
+                                    </center>
+                                </apex:form>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: #e5e5e5;">
+                        <form id="registration-form3" class="form-horizontal">
+                            <div class="container" style="background-color: #e5e5e5;max-width: 800px;">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6 form-group">
+                                        <label class="control-label" for="InstallDate"><span class="mandatory">Install Date</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Install_Date__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.twod__Registration_Date__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        
+                                        <div class='input-group'>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                            <input id="InstallDate" name="InstallDate" type="text" required="true" Class="form-control" onchange="InstallDateChange()"/>
+                                        </div>
+                                    </div>
+                                    <apex:pageBlock rendered="{!render}">
+                                        <div class="col-sm-6 col-md-6 form-group">
+                                            <label class="control-label" for="TransferDate"><span class="mandatory">Transferred Date</span>
+                                                <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Transfered_Date__c.inlineHelpText}"></span></apex:outputLabel>
+                                            </label>
+                                            <div class='input-group'>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                                <input id="TransferDate" name="TransferDate" type="text" required="true" Class="form-control TransferDate" onchange="TransferDateChange()"/>
+                                            </div>
+                                        </div>
+                                    </apex:pageBlock>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-sm-12 form-group"><apex:form >
+                                        <label class="control-label" for="ProductGroup"><span class="mandatory">Product Group</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Product_Group__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Product_Group__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-list" aria-hidden="true"></i></span>
+                                            <apex:inputField id="ProductGroup1" value="{!wr.Product_Group__c}" styleclass="form-control input-md ProductGroup" required="true" onchange="ProductGroupChangeJS();" rendered="{!!render}"/>
+                                            <apex:inputField id="ProductGroup2" value="{!wt.Product_Group__c}" styleclass="form-control input-md ProductGroup" required="true" onchange="ProductGroupChangeJS();" rendered="{!render}"/>
+                                        </div>
+                                        
+                                        </apex:form></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 form-group">
+                                        <label class="control-label" for="ProductDetail"><span class="mandatory">Product Detail</span>
+                                            <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Product_Detail__c.inlineHelpText}"></span></apex:outputLabel>
+                                            <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Product_Detail__c.inlineHelpText}"></span></apex:outputLabel>
+                                        </label>
+                                        <div class='input-group'>
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></span>
+                                            <textarea  id="ProductDetail" rows="3" name="ProductDetail" type="text" required="true" Class="form-control "/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6 form-group"><apex:form >
+                                        <apex:pageBlock id="UnitsOfMeasure">
+                                            <label class="control-label" for="Quantity"><span class="mandatory">Quantity {!UnitsOfMeasure}</span>
+                                                <apex:outputLabel rendered="{!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Warranty_Transfer__c.fields.Quantity__c.inlineHelpText}"></span></apex:outputLabel>
+                                                <apex:outputLabel rendered="{!!render}"><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__Warranty_Registration__c.fields.Quantity__c.inlineHelpText}"></span></apex:outputLabel>
+                                            </label>
+                                            <script> 
+                                            $(document).ready(function(){
+                                                $('[data-toggle="tooltip"]').tooltip();
+                                            });
+                                            </script>
+                                        </apex:pageBlock>
+                                        </apex:form>
+                                        <div class='input-group'>
+                                            <span class="input-group-addon "><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></span>
+                                            <input id="Quantity" name="Quantity" type="text" required="true" placeholder="{!UnitsOfMeasure}" Class="form-control"/>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 form-group"> <apex:form >
+                                        <apex:pageBlock id="InstallPicklist">
+                                            <label class="control-label" for="InstallationLocation"><span class="mandatory">Installation Location</span><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.warranty_transfer__c.fields.Installation_Location__c.inlineHelpText}"></span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon "><i class="glyphicon glyphicon-home" aria-hidden="true"></i></span>
+                                                <apex:inputField id="InstallationLocation" value="{!wr.Installation_Location__c}" required="true" styleclass="form-control input-md InstallationLocation" onchange="InstallationLocation()"/>
+                                            </div>          
+                                        </apex:pageBlock>
+                                        </apex:form>
+                                        
+                                    </div>
+                                </div>
+                                <div class="row InstallationLocationOther" style="display:none">
+                                    <div class="col-sm-12 col-md-12 form-group">
+                                        <label class="control-label" for="InstallationLocationOther"><span class="mandatory">Installation Location(if other)</span><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.warranty_transfer__c.fields.Installation_Location_other__c.inlineHelpText}"></span></label>
+                                        <div class='input-group'>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></span>
+                                            <textarea id="InstallationLocationOther" rows="3" name="InstallationLocationOther" type="text" required="true" placeholder="specify if Others" Class="form-control "/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                
+                                
+                                <br/>
+                                <br/>
+                                <center>
+                                    <button type="button" class="btn btn-primary" onclick="Prev3()">Previous</button>
+                                    <button type="submit" id="previewFinal" class="btn btn-success" onclick="InstallationLocation(),ProductGroupValidate()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing..">Preview</button>
+                                </center>
+                            </div>
+                        </form>
+                        <br/>
+                        <br/>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="container" style="background-color: #e5e5e5;max-width: 800px;display:none" id="fourth">
+                <form  id="contact_form2" onsubmit="return false">
+                    <br/>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <apex:outputPanel id="message-container4">
+                                <apex:form rendered="true">
+                                    <center>
+                                        <h3>Warranty Information Summary</h3>
+                                    </center>
+                                </apex:form>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                    <div style="background-color: #e5e5e5;">
+                        <table class="table table1 table-hover table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th colspan="2" class="table-head">Mailing Address</th>
+                                </tr>
+                                <tr>
+                                    <td class="table-Label" width="30%">Name</td>
+                                    <td width="70%"><span><output id="NameOut"/></span></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Address 1</td>
+                                    <td width="70%"><output id="Address1Out"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Address 2</td>
+                                    <td width="70%"><output id="Address2Out"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Phone</td>
+                                    <td width="70%"><output id="PhoneOut"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">City</td>
+                                    <td width="70%"><output id="CityOut"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">ZIP/Postal Code</td>
+                                    <td width="70%"><output id="PostalCodeOut"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Country</td>
+                                    <td width="70%"><output id="CountryOut"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">State/Province</td>
+                                    <td width="70%"><output id="StateOut"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Email</td>
+                                    <td width="70%"><output id="EmailOut"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table1 table-hover table-bordered" id="BuildingLocationTable">
+                            <tbody>
+                                <tr>
+                                    <th colspan="2" class="table-head">Building Location</th>
+                                </tr>
+                                <apex:pageBlock >
+                                    <tr >
+                                    <td class="table-Label" width="30%">Organization Name</td>
+                                    <td width="70%"><output id="OrgName2Out"/>jQuery('[id$=Organization]').val()</td>
+                                </tr>                                           
+                                    </apex:pageBlock>                                 
+                                    
+                                <tr >
+                                    <td class="table-Label" width="30%">Name</td>
+                                    <td width="70%"><output id="Name2Out"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Building Location Address 1</td>
+                                    <td width="70%"><output id="Address12Out"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Building Location Address 2</td>
+                                    <td width="70%"><output id="Address22Out"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">City</td>
+                                    <td width="70%"><output id="City2Out"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">ZIP/Postal Code</td>
+                                    <td width="70%"><output id="PostalCode2Out"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Country</td>
+                                    <td width="70%"><output id="Country2Out"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">State/Province</td>
+                                    <td width="70%"><output id="State2Out"/></td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <table class="table table1 table-hover table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th colspan="2" class="table-head">Product Information</th>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Product Group</td>
+                                    <td width="70%"><output id="ProductGroupOut"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Install Date</td>
+                                    <td width="70%"><output id="InstallDateOut"/></td>
+                                </tr>
+                                <apex:pageBlock rendered="{!render}">
+                                    <tr >
+                                        <td class="table-Label" width="30%">Transfered Date</td>
+                                        <td width="70%"><output id="TransferDateOut"/></td>
+                                    </tr></apex:pageBlock>
+                                <tr >
+                                    <td class="table-Label" width="30%">Product Detail</td>
+                                    <td width="70%"><output id="ProductDetailOut"/></td>
+                                </tr>
+                                <tr >
+                                    <td class="table-Label" width="30%">Quantity</td>
+                                    <td width="70%"><output id="QuantityOut"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-Label" width="30%">Installation Location</td>
+                                    <td width="70%"><output id="InstallationLocationOut"/></td>
+                                </tr>
+                                <tr id="otherRow">
+                                    <td class="table-Label" width="30%">Installation Location Other</td>
+                                    <td width="70%"><output id="InstallationLocationOtherOut"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <apex:form enctype="multipart/form-data" >
+                                <table class="table table1 table-bordered" style="display:none">
+                                    <tbody>
+                                        <tr>
+                                            <th class="table-head">File Name</th>
+                                            <th class="table-head">Description</th>
+                                        </tr>
+                                        <tr class="addmore-noAttachment">
+                                            <td col-span='2'>No Attachments</td>
+                                        </tr>
+                                        <tr class="addmore-preview" style="display:none">
+                                            <td >        <output class="add-file-preview" /></td>
+                                            <td >       <output class="add-description-preview"/>      </td>
+                                        </tr>
+                                        <tr class="addmore-preview" style="display:none">
+                                            <td >        <output class="add-file-preview" /></td>
+                                            <td >       <output class="add-description-preview"/>      </td>
+                                        </tr>
+                                        <tr class="addmore-preview" style="display:none">
+                                            <td >        <output class="add-file-preview" /></td>
+                                            <td >       <output class="add-description-preview"/>      </td>
+                                        </tr>
+                                        <tr class="addmore-preview" style="display:none">
+                                            <td >        <output class="add-file-preview" /></td>
+                                            <td >       <output class="add-description-preview"/>      </td>
+                                        </tr>
+                                        <tr class="addmore-preview" style="display:none">
+                                            <td >        <output class="add-file-preview" /></td>
+                                            <td >       <output class="add-description-preview"/>      </td>
+                                        </tr>
+                                    </tbody></table>
+                                <apex:pageBlock rendered="{!attachmentRender}">
+                                    <table class="table table1 table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th class="table-head">Attachments(Max 10)</th>
+                                                <th class="table-head">Description</th>
+                                            </tr>
+                                            <tr class="addmore-visible">
+                                                <td >        <apex:inputFile value="{!newAttachments[0].body}" filename="{!newAttachments[0].name}" styleclass="add-file" /></td>
+                                                <td >       <apex:inputText value="{!newAttachments[0].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr>
+                                            <tr class="addmore" id="add1" style="display:none">
+                                                <td >        <apex:inputFile value="{!newAttachments[1].body}" filename="{!newAttachments[1].name}" styleclass="add-file"/></td>
+                                                <td >       <apex:inputText value="{!newAttachments[1].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr>
+                                            <tr class="addmore" id="add2" style="display:none">
+                                                <td >        <apex:inputFile value="{!newAttachments[2].body}" filename="{!newAttachments[2].name}" styleclass="add-file"/></td>
+                                                <td >       <apex:inputText value="{!newAttachments[2].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr>
+                                            <tr class="addmore" id="add3" style="display:none">
+                                                <td >        <apex:inputFile value="{!newAttachments[3].body}" filename="{!newAttachments[3].name}" styleclass="add-file"/></td>
+                                                <td >       <apex:inputText value="{!newAttachments[3].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr>
+                                            <tr class="addmore" id="add4" style="display:none">
+                                                <td >        <apex:inputFile value="{!newAttachments[4].body}" filename="{!newAttachments[4].name}" styleclass="add-file"/></td>
+                                                <td >       <apex:inputText value="{!newAttachments[4].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr>
+                                            <tr class="addmore" id="add4" style="display:none">
+                                                <td >        <apex:inputFile value="{!newAttachments[5].body}" filename="{!newAttachments[5].name}" styleclass="add-file"/></td>
+                                                <td >       <apex:inputText value="{!newAttachments[5].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr>
+                                            <tr class="addmore" id="add4" style="display:none">
+                                                <td >        <apex:inputFile value="{!newAttachments[6].body}" filename="{!newAttachments[6].name}" styleclass="add-file"/></td>
+                                                <td >       <apex:inputText value="{!newAttachments[6].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr>
+                                            <tr class="addmore" id="add4" style="display:none">
+                                                <td >        <apex:inputFile value="{!newAttachments[7].body}" filename="{!newAttachments[7].name}" styleclass="add-file"/></td>
+                                                <td >       <apex:inputText value="{!newAttachments[7].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr><tr class="addmore" id="add4" style="display:none">
+                                            <td >        <apex:inputFile value="{!newAttachments[8].body}" filename="{!newAttachments[8].name}" styleclass="add-file"/></td>
+                                            <td >       <apex:inputText value="{!newAttachments[8].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr><tr class="addmore" id="add4" style="display:none">
+                                            <td >        <apex:inputFile value="{!newAttachments[9].body}" filename="{!newAttachments[9].name}" styleclass="add-file"/></td>
+                                            <td >       <apex:inputText value="{!newAttachments[9].Description}" styleClass="form-control add-description"/>      </td>
+                                            </tr>
+                                            <tr>
+                                                <center>  <td colspan="2"> <button type="button" class="btn btn-primary addmoreButton" onclick="addmore()">Add Row</button> </td></center>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </apex:pageBlock>
+                                <center>
+                                    <button type="button" class="btn btn-primary SubmitButton" onclick="Prev4()">Modify</button>
+                                    <span>&nbsp;</span>
+                                    <span Class="buttonSpan" style="display:none"> <apex:commandButton id="SubmitButton" styleClass="btn btn-success SubmitButton" action="{!upload}" value="Submit" onclick="revealModal('modalWindow');"/>
+                                    </span>
+                                </center>
+                            </apex:form>
+                        </div>
+                        <br/>
+                        <br/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <apex:outputPanel >
+            <!-- Modal Window to Prevent Users from Submitting a Form Twice  -->
+            <div id="modalWindow">
+                <div class="modalBackground"></div>
+                <div  style=" position: fixed; z-index: 750; left: 45%; top: 40%; width: 200px; padding: 20px; border: solid 2px #ccc; background-color: #fff;">
+                    <img src="/img/loading.gif"  style=" float: left; padding-right: 5px;"/><b>Processing. Please wait...</b>
+                </div>
+            </div>
+        </apex:outputPanel>
+        <style>
+            #modalWindow {display: none; position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; }
+        </style>
+        <script type="text/javascript">
+        
+        var dateError;
+        var InsatllLocationError;
+        var modalPage=0;;
+        var melissaDataHOFlag=false;
+        var melissaDataBLFlag=false;
+        
+        function setMelissaDataHOFlag(){
+            melissaDataHOFlag=true;
+            }
+        
+        function setMelissaDataBLFlag(){
+            melissaDataBLFlag=true;
+            }
+        
+        
+        function revealModal(divID) {
+            window.onscroll = function () { document.getElementById(divID).style.top = document.body.scrollTop; };
+            document.getElementsByClassName('SubmitButton')[0].style.display = "none";
+            document.getElementsByClassName('SubmitButton')[1].style.display = "none";
+            document.getElementById(divID).style.display = "block";
+            document.getElementById(divID).style.position = "relative";
+            document.getElementById(divID).style.top = document.body.scrollTop;
+            
+        }
+        
+        function modalProceed(){
+            if(modalPage==2){
+            document.getElementById('second').style.display='none';
+            document.getElementById('third').style.display='block';  
+                }
+            if(modalPage==1){
+            document.getElementById('first').style.display='none';
+            document.getElementById('second').style.display='block';  
+                }
+        }
+        function addmore(){
+            
+            var addArray=document.getElementsByClassName("addmore");
+            
+            
+            for(i=0;i<4;i++)
+            {
+            
+                if(addArray.length==0){
+                    alert('Maximum 10 Attachments are allowed');
+                    $( ".addmoreButton" ).hide();
+                    break;}
+                else if(addArray[i].style.display=='none')
+                {
+                    addArray[i].className='addmore-visible';
+                    $( ".addmore-visible" ).show();
+                    break;
+                }
+            }
+            
+        }
+        $(document).ready(function () {
+            var validator = $("#registration-form").bootstrapValidator({
+                feedbackIcons: {
+                    valid: "glyphicon glyphicon-ok",
+                    invalid: "glyphicon glyphicon-remove",
+                    validating: "glyphicon glyphicon-refresh"
+                },
+                fields : {
+                    
+                    LastName :{
+                        message : "LastName is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Last Name"
+                            },
+                        }
+                    },
+                    FirstName :{
+                        message : "FirstName is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide First Name"
+                            },
+                        }
+                    },
+                    City :{
+                        message : "City is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide City"
+                            },
+                        }
+                    },
+                    Address1 :{
+                        message : "Address1 is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Complainant Address 1"
+                            },
+                        }
+                    },
+                    
+                    Phone :{
+                        message : "Phone is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Phone Number"
+                            },
+                            callback: {
+                                message: 'The Phone is not valid',
+                                callback: function(value, validator, $field) {
+                                    if (value === '') {
+                                        return true;
+                                    }
+                                    
+                                    // The Phone doesn't contain any digit
+                                     if (value.search(/^[0-9_\s.()-+-#]+$/)) {
+                                        return {
+                                            valid: false,
+                                            message: 'Enter valid Mobile Number1'
+                                        }
+                                    }
+                             
+                                    
+                                    return true;
+                                },
+                                
+                            },
+                            phone: {
+                                country: 'US',
+                                message: 'The phone number should be of 10 digits',
+                            },
+                            
+                            
+                        }
+                    },
+                    
+                }
+            });
+            
+            validator.on("success.form.bv", function (e) {
+               
+                
+                var Email=document.getElementById("Email").value;
+                var emailDOM=document.getElementById("Email").parentElement.parentElement;
+                if(Email=='' || emailDOM.childNodes[6].style.display=='block')
+                {
+                    //document.getElementsByClassName("error")[0].style.display='block';
+                    //console.log(document.getElementsByClassName("error")[0]);
+                    $('#error').show();
+                    e.preventDefault();
+                    return null;
+                }                              
+                var state=document.getElementsByClassName("State")[0].value;
+               
+                if(state=='')
+                {
+                    var statefield=document.getElementsByClassName("State")[0].parentElement.parentElement.parentElement.parentElement;
+               
+                    if(statefield.childNodes[4]==null)
+                    {                
+                        var q=document.createElement("small");
+                        q.className="help-block";
+                        q.innerText="Please provide State/Province";
+                        statefield.appendChild(q);                
+                        var p = document.createElement("i");
+                        p.className="form-control-feedback glyphicon ";
+               
+                        statefield.appendChild(p);
+                    }
+                    statefield.className="col-sm-6 form-group has-feedback has-error";
+                    statefield.childNodes[4].style.display="block";
+                    statefield.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                    e.preventDefault();
+                    $('button.btn').prop('disabled', false);
+                    return null
+                }
+                
+                var FirstName=document.getElementById("FirstName").value;
+                jQuery('[id$=firstName]').val(FirstName);
+                var LastName=document.getElementById("LastName").value;
+                jQuery('[id$=lastName]').val(LastName);
+                var Address1=document.getElementById("Address1").value;
+                jQuery('[id$=address1]').val(Address1);
+                var Address2=document.getElementById("Address2").value;
+                jQuery('[id$=address2]').val(Address2);
+                jQuery('[id$=email]').val(Email);
+                var Phone=document.getElementById("Phone").value;
+                
+                jQuery('[id$=phone]').val(Phone);
+                var City=document.getElementById("City").value;
+                jQuery('[id$=city]').val(City);
+                var PostalCode=document.getElementById("PostalCode").value;
+                var postalDOM=document.getElementById("PostalCode").parentElement.parentElement;
+                if(postalDOM.childNodes[6].style.display=='block' || PostalCode=='')
+                {
+                    postalChange1();
+                    e.preventDefault();
+                    $('button.btn').prop('disabled', false);
+                    return null;
+                }
+                jQuery('[id$=postalcode]').val(PostalCode);
+                var country=document.getElementsByClassName("Country")[0].value;
+                jQuery('[id$=country]').val(country);
+                
+                jQuery('[id$=state]').val(state);
+                e.preventDefault();
+                $('button.btn').prop('disabled', false);
+                $('#error').hide();                
+                if(melissaDataHOFlag){ 
+                    var button=jQuery('[id$=next1]');
+                    var $this = $(button);
+                    $this.button('loading');                    
+                    twod_CTInventoryTransferController.verifyBuildingLocation(Address1,Address2,City,state,PostalCode,country,Email, function(result,event){
+                        console.log(result);
+                        if(result.status=='success')
+                        {                        
+                            var button=jQuery('[id$=next1]');
+                            var $this = $(button);
+                            $this.button('reset');                                        
+                            document.getElementById("validAddr1").innerText=result.address1;
+                            document.getElementById("validAddr2").innerText=result.address2;
+                            document.getElementById("validAddr3").innerText=result.cityName;
+                            document.getElementById("validAddr4").innerText=result.stateName;
+                            document.getElementById("validAddr5").innerText=result.zipCode;   
+                            document.getElementById("validAddr6").innerText=result.country;   
+                            
+                            //Retreive the address back to page
+                            document.getElementById("Address1").value=result.address1;
+                            document.getElementById("Address2").value=result.address2;
+                            document.getElementById("City").value=result.cityName;
+                            document.getElementById("PostalCode").value=result.zipCode;
+                            document.getElementsByClassName("Country")[0].value=result.country;
+                            document.getElementsByClassName("State")[0].value=result.stateName;  
+                            
+                            //Store the address to the variables
+                            jQuery('[id$=state]').val(result.stateName);
+                            jQuery('[id$=address1]').val(result.address1);
+                            jQuery('[id$=address2]').val(result.address2);
+                            jQuery('[id$=country]').val(result.country);
+                            jQuery('[id$=postalcode]').val(result.zipCode);
+                            jQuery('[id$=city]').val(result.cityName);
+                            
+                            modalPage=1;
+                            melissaDataHOFlag=false;
+                            $('#ModalValidAddress').modal('toggle'); 
+                        }
+                        else{
+                            $('#ModalInValidAddress').modal('toggle'); 
+                            document.getElementById("modalError").innerText=result.errorMessage;
+                            var button=jQuery('[id$=next1]');
+                            var $this = $(button);
+                            $this.button('reset');
+                        }
+                    }); 
+                }
+                else{
+                    document.getElementById('first').style.display='none';
+                    document.getElementById('second').style.display='block';
+                }
+            });
+            
+        });
+        
+        $(document).ready(function () {
+            var validator2 = $("#registration-form2").bootstrapValidator({
+                feedbackIcons: {
+                    valid: "glyphicon glyphicon-ok",
+                    invalid: "glyphicon glyphicon-remove",
+                    validating: "glyphicon glyphicon-refresh"
+                },
+                fields : {
+                    Organization :{
+                        message : "Organization is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Organization Name"
+                            },
+                        }
+                    },
+                    LastName2 :{
+                        message : "LastName is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Last Name"
+                            },
+                        }
+                    },
+                    FirstName2 :{
+                        message : "FirstName is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide First Name"
+                            },
+                        }
+                    },
+                    Address12 :{
+                        message : "Address1 is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Building Location Address 1"
+                            },
+                        }
+                    },
+                    City2 :{
+                        message : "City2 is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide City"
+                            },
+                        }
+                    },
+                    Phone2 :{
+                        message : "Phone is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Phone Number"
+                            },
+                            regexp: {
+                                regexp: /^[0-9_\.()-+-#]+$/,
+                                message: 'The phone number can only consist of numbers',
+                            },
+                            phone: {
+                                country: 'US',
+                                message: 'The phone number should be of 10 digits',
+                            },
+                        }
+                    },
+                    Email2 :{
+                        message : "Email is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Provide Email or Contact CT"
+                            },
+                            emailAddress: {
+                                message: 'The email address is not valid'
+                            },
+                        }
+                    },
+                    
+                    
+                }
+            });
+            
+            validator2.on("success.form.bv", function (e) {
+                var Organization=document.getElementById("Organization").value;
+                
+                jQuery('[id$=Organization]').val(Organization);
+                var FirstName2=document.getElementById("FirstName2").value;
+                jQuery('[id$=firstName2]').val(FirstName2);
+                var LastName2=document.getElementById("LastName2").value;
+                jQuery('[id$=lastName2]').val(LastName2);
+                var Address12=document.getElementById("Address12").value;
+                jQuery('[id$=address12]').val(Address12);
+                var Address22=document.getElementById("Address22").value;
+                jQuery('[id$=address22]').val(Address22);
+                var Email2=document.getElementById("Email2").value;
+                jQuery('[id$=email2]').val(Email2);
+                var Phone2=document.getElementById("Phone2").value;
+                
+                jQuery('[id$=phone2]').val(Phone2);
+                var City2=document.getElementById("City2").value;
+                jQuery('[id$=city2]').val(City2);
+                var PostalCode2=document.getElementById("PostalCode2").value;
+                var Email=document.getElementById("Email").value;
+                var postalDOM=document.getElementById("PostalCode2").parentElement.parentElement;
+                if(postalDOM.childNodes[6].style.display=='block' || PostalCode2=='')
+                {
+                    postalChange2();
+                    e.preventDefault();
+                    $('button.btn').prop('disabled', false);
+                    return null;
+                }
+                jQuery('[id$=postalcode2]').val(PostalCode2);
+                var country2=document.getElementsByClassName("Country2")[0].value;
+                jQuery('[id$=country2]').val(country2);
+                
+                var state2=document.getElementsByClassName("State2")[0].value;
+                if(state2=='')
+                {
+                    var statefield=document.getElementsByClassName("State2")[0].parentElement.parentElement.parentElement.parentElement;
+                    
+                    if(statefield.childNodes[2]==null)
+                    {
+                        var q=document.createElement("small");
+                        q.className="help-block";
+                        q.innerText="Please provide State/Province";
+                        q.style.display='block';
+                        statefield.appendChild(q);
+                        var p = document.createElement("i");
+                        p.className="form-control-feedback glyphicon ";                
+                        
+                        statefield.appendChild(p);
+                    }
+                    
+                    else if (statefield.childNodes[2].className !='help-block' && statefield.childNodes[5]==null)
+                    {
+                        var q=document.createElement("small");
+                        q.className="help-block";
+                        q.innerText="Please provide State/Province";
+                        q.style.display='block';                
+                        statefield.appendChild(q);
+                        var p = document.createElement("i");
+                        p.className="form-control-feedback glyphicon ";
+                        
+                        statefield.appendChild(p);
+                    }
+                    
+                    
+                    
+                    statefield.className="col-sm-6 form-group has-feedback has-error";
+                    if(statefield.childNodes[5]!=null)
+                    {
+                        statefield.childNodes[4].style.display="block";
+                        
+                        statefield.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                    }
+                    else
+                    {
+                        statefield.childNodes[3].className="form-control-feedback glyphicon glyphicon-remove";
+                        statefield.childNodes[2].style.display="block";
+                    }
+                    if(statefield.childNodes[3].className=="form-control-feedback glyphicon glyphicon-ok")
+                    {
+                        statefield.childNodes[3].className="form-control-feedback glyphicon glyphicon-remove";
+                        statefield.childNodes[2].style.display="block";
+                    }
+                    e.preventDefault();
+                    $('button.btn').prop('disabled', false);
+                    return null;
+                }
+                jQuery('[id$=state2]').val(state2);
+                var BuildingType=document.getElementsByClassName("BuildingType")[0].value;
+                jQuery('[id$=BuildingType]').val(BuildingType);
+                $('button.btn').prop('disabled', false);
+
+                if(melissaDataBLFlag){
+                    var button=jQuery('[id$=next2]');
+                    var $this = $(button);
+                    $this.button('loading');
+                    
+                    twod_CTInventoryTransferController.verifyBuildingLocation(Address12,Address22,City2,state2,PostalCode2,country2,Email, function(result,event){
+
+                        console.log(result);
+                        if(result.status=='success')
+                        {                
+                            var button=jQuery('[id$=next2]');
+                            var $this = $(button);
+                            $this.button('reset');
+                                      
+                            document.getElementById("validAddr1").innerText=result.address1;
+                            document.getElementById("validAddr2").innerText=result.address2;
+                            document.getElementById("validAddr3").innerText=result.cityName;
+                            document.getElementById("validAddr4").innerText=result.stateName;
+                            document.getElementById("validAddr5").innerText=result.zipCode;   
+                            document.getElementById("validAddr6").innerText=result.country;   
+                            
+                            //Retreive the address back to page
+                            document.getElementById("Address12").value=result.address1;
+                            document.getElementById("Address22").value=result.address2;
+                            document.getElementById("City2").value=result.cityName;
+                            document.getElementById("PostalCode2").value=result.zipCode;
+                            document.getElementsByClassName("Country2")[0].value=result.country;
+                            document.getElementsByClassName("State2")[0].value=result.stateName; 
+                            
+                            //Store the address to the variables
+                            jQuery('[id$=state2]').val(result.stateName);
+                            jQuery('[id$=address12]').val(result.address1);
+                            jQuery('[id$=address22]').val(result.address2);
+                            jQuery('[id$=country2]').val(result.country);
+                            jQuery('[id$=postalcode2]').val(result.zipCode);
+                            jQuery('[id$=city2]').val(result.cityName);
+                            
+                            modalPage=2;
+                            melissaDataBLFlag=false;
+                            $('#ModalValidAddress').modal('toggle'); 
+                        }
+                        else{
+                            $('#ModalInValidAddress').modal('toggle'); 
+                            document.getElementById("modalError").innerText=result.errorMessage;
+                            var button=jQuery('[id$=next2]');
+                            var $this = $(button);
+                            $this.button('reset');
+                        }
+                    });     
+                }
+                else
+                {
+                    document.getElementById('second').style.display='none';
+                    document.getElementById('third').style.display='block'; 
+                }
+                e.preventDefault();
+                
+            });
+            
+        });
+        
+        $(document).ready(function () {
+            var validator3 = $("#registration-form3").bootstrapValidator({
+                feedbackIcons: {
+                    valid: "glyphicon glyphicon-ok",
+                    invalid: "glyphicon glyphicon-remove",
+                    validating: "glyphicon glyphicon-refresh"
+                },
+                fields : {
+                    ProductDetail :{
+                        message : "Product Detail is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Product Detail"
+                            },
+                            stringLength: {
+                                max : 255
+                            },
+                        }
+                    },
+                    
+                    InstallDate :{
+                        message : "Install Date is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Install Date"
+                            },
+                            date: {
+                                min: '08/06/2016',
+                                max: '08/06/2016',
+                                message: 'The Install Date is not a valid'
+                            },
+                        }
+                    },
+                    TransferDate :{
+                        message : "Transfer Date is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Transfer Date"
+                            },
+                            date: {
+                                max: 'InstallDate',
+                                message: 'The Transfer Date is not a valid'
+                            },
+                        }
+                    },
+                    
+                    Quantity :{
+                        message : "Quantity is required",
+                        validators : {
+                            notEmpty : {
+                                message : "Please provide Quantity"
+                            },
+                            regexp: {
+                                regexp: /^(\d{1,16}\.\d{1,2}|\d{1,16})$/,
+                                message: 'The Quantity can only consist of numbers upto 2 decimals or contains invalid characters',
+                            },
+                            greaterThan: {
+                                value: 1,
+                                message: 'The Quantity should be greater than Zero'
+                            },
+                        }
+                    },
+                    
+                    
+                }
+            });
+            
+            validator3.on("success.form.bv", function (e) {
+                
+                //button.button('loading');
+                var date=document.getElementById("InstallDate").value;
+                var ndate=new Date(date);
+
+                var day=ndate.getDate();
+                var month=ndate.getMonth();
+                var year=ndate.getFullYear();
+                month=month+1;
+                var finalDate=month +'/'+ day +'/'+ year;
+                
+                if( dateError == true || InsatllLocationError== true)
+                {
+                    e.preventDefault();
+                    $('button.btn').prop('disabled', false);
+                    return null;
+                }
+                
+                jQuery('[id$=installedDate]').val(finalDate);
+
+                var ProductGroup=document.getElementsByClassName("ProductGroup")[0].value;
+                jQuery('[id$=ProductGroup]').val(ProductGroup);
+                var Quantity=document.getElementById("Quantity").value;
+                jQuery('[id$=Quantity]').val(Quantity);
+                
+                var InstallationLocationOther=document.getElementById("InstallationLocationOther").value;
+                jQuery('[id$=InstallationLocationOther]').val(InstallationLocationOther);
+                
+                var InstallationLocation=document.getElementsByClassName("InstallationLocation")[0].value;
+                jQuery('[id$=InstallationLocation]').val(InstallationLocation);
+                var ProductDetail=document.getElementById("ProductDetail").value;
+                jQuery('[id$=ProductDetail]').val(ProductDetail);
+                
+                if ( jQuery('[id$=render]').val() == 'true')
+                {
+                    var date1=document.getElementById("TransferDate").value;
+                    var ndate1=new Date(date1);
+
+                    var day1=ndate1.getDate();
+                    var month1=ndate1.getMonth();
+                    var year1=ndate1.getFullYear();
+                    month1=month1+1;
+                    var finalDate1=month1 +'/'+ day1 +'/'+ year1
+
+                    jQuery('[id$=TransferedDate]').val(finalDate1);
+                }
+                $('button.btn').prop('disabled', false);
+                
+                var button=jQuery('[id$=previewFinal]');
+                var $this = $(button);
+                $this.button('loading');
+                preview();                
+                e.preventDefault();
+                
+            });
+            
+        });
+        
+        function  preview(){
+            //Page 1
+            
+            $("#BuildingLocationTable").empty();
+            var table = $('#BuildingLocationTable');   
+            table.append("<tbody>");
+            table.append("<tr> <th colspan=\"2\" class=\"table-head\">Building Location</th> </tr>"); 
+            if(jQuery('[id$=propertyType]').val()=='Commercial')
+            {
+               var name=document.getElementById("Organization").value+' '+document.getElementById("FirstName2").value+' '+document.getElementById("LastName2").value  ;
+                jQuery('[id$=Organization]').val(document.getElementById("Organization").value);                
+                table.append("<tr><td class=\"table-Label\" width=\"30%\">Organization Name</td><td width=\"70%\"><output>"+document.getElementById("Organization").value+"</output></td></tr>");               
+            }
+                var name=document.getElementById("FirstName2").value+' '+document.getElementById("LastName2").value;
+            table.append("<tr><td class=\"table-Label\" width=\"30%\">Name</td><td width=\"70%\"><output>"+name+"</output></td></tr>");              
+            
+            document.getElementById("NameOut").innerText=document.getElementById("FirstName").value+' '+document.getElementById("LastName").value;
+            document.getElementById("Address1Out").innerText=document.getElementById("Address1").value
+            document.getElementById("Address2Out").innerText=document.getElementById("Address2").value
+            document.getElementById("PhoneOut").innerText=document.getElementById("Phone").value
+            document.getElementById("CityOut").innerText=document.getElementById("City").value
+            document.getElementById("PostalCodeOut").innerText=document.getElementById("PostalCode").value
+            document.getElementById("CountryOut").innerText=document.getElementsByClassName("Country")[0].value
+            document.getElementById("StateOut").innerText=document.getElementsByClassName("State")[0].value;
+            document.getElementById("EmailOut").innerText=document.getElementById("Email").value
+            
+            //Page 2
+            table.append("<tr><td class=\"table-Label\" width=\"30%\">Building Location Address 1</td><td width=\"70%\"><output>"+document.getElementById("validAddr1").innerText+"</output></td></tr>");
+            table.append("<tr><td class=\"table-Label\" width=\"30%\">Building Location Address 2</td><td width=\"70%\"><output>"+document.getElementById("validAddr2").innerText+"</output></td></tr>");
+            table.append("<tr><td class=\"table-Label\" width=\"30%\">City</td><td width=\"70%\"><output>"+document.getElementById("validAddr3").innerText+"</output></td></tr>");
+            table.append("<tr><td class=\"table-Label\" width=\"30%\">ZIP/Postal Code</td><td width=\"70%\"><output>"+document.getElementById("validAddr5").innerText+"</output></td></tr>");
+            table.append("<tr><td class=\"table-Label\" width=\"30%\">Country</td><td width=\"70%\"><output>"+document.getElementById("validAddr6").innerText+"</output></td></tr>");
+            table.append("<tr><td class=\"table-Label\" width=\"30%\">State/Province</td><td width=\"70%\"><output>"+document.getElementById("validAddr4").innerText+"</output></td></tr>");
+            table.append("</tbody>");
+            /* document.getElementById("Address12Out").innerText=document.getElementById("Address12").value
+            document.getElementById("Address22Out").innerText=document.getElementById("Address22").value
+            document.getElementById("City2Out").innerText=document.getElementById("City2").value
+            document.getElementById("PostalCode2Out").innerText=document.getElementById("PostalCode2").value
+            document.getElementById("Country2Out").innerText=document.getElementsByClassName("Country2")[0].value;
+            document.getElementById("State2Out").innerText=document.getElementsByClassName("State2")[0].value;
+            //document.getElementById("BuildingTypeOut").value=document.getElementsByClassName("BuildingType")[0].value;
+            */
+            
+            
+            //Page 3
+            document.getElementById("InstallDateOut").innerText=document.getElementById("InstallDate").value
+            document.getElementById("ProductGroupOut").innerText=document.getElementsByClassName("ProductGroup")[0].value;
+            document.getElementById("InstallationLocationOtherOut").innerText=document.getElementById("InstallationLocationOther").value
+            document.getElementById("InstallationLocationOut").innerText=document.getElementsByClassName("InstallationLocation")[0].value;
+            document.getElementById("ProductDetailOut").innerText=document.getElementById("ProductDetail").value;
+            document.getElementById("QuantityOut").innerText=document.getElementById("Quantity").value;
+            if ( jQuery('[id$=render]').val() == 'true')
+                document.getElementById("TransferDateOut").innerText=document.getElementById("TransferDate").value;
+            if(document.getElementsByClassName("InstallationLocation")[0].value=='Other')
+            {
+                jQuery('[id$=otherRow]').show();
+            }
+            else
+                jQuery('[id$=otherRow]').hide();
+            
+            //Attachment
+            var addArray=document.getElementsByClassName("addmore-visible");
+            var addArrayPreview=document.getElementsByClassName("addmore-preview");
+            var path;
+            var description;
+            var pathArray;
+            var length;
+            $( ".addmore-noAttachment" ).show();
+            $( ".addmore-preview" ).hide();
+            var j=0;
+            for(i=0;i<addArray.length;i++)
+            {
+                path=document.getElementsByClassName("add-file")[i].value;
+                addArrayPreview[i].className='addmore-preview';
+                
+                if(path!=''){
+                    description=document.getElementsByClassName("add-description")[i].value;
+                    pathArray=path.split('\\');
+                    length=pathArray.length;
+                    document.getElementsByClassName("add-file-preview")[j].value=pathArray[length-1];
+                    document.getElementsByClassName("add-description-preview")[j].value=description;
+                    addArrayPreview[j].className='addmore-preview addmore-visible-preview';
+                    $( ".addmore-noAttachment" ).hide();
+                    $( ".addmore-visible-preview" ).show();
+                    j=j+1;
+                }
+                
+                
+            }            
+            previewInfo();
+            
+        }
+        function previewPage(){
+            var button=jQuery('[id$=previewFinal]');
+            var $this = $(button);
+            $this.button('reset'); 
+            document.getElementById('fourth').style.display='block';
+            document.getElementById('third').style.display='none';
+        }
+        
+        function changeType(e) {
+            var name=e.target.id;
+            if(name=='Commercial')
+            {
+                //document.getElementById("residentialDiv").style.display = 'none';
+                document.getElementById("CommercialDiv").style.display = 'block';
+               document.getElementsByClassName("BuildingType")[0].value='Other';
+                document.getElementsByClassName("BuildingType")[0].setAttribute("disabled", true);               
+            }
+            if(name=='Residential')
+            {
+                //document.getElementById("residentialDiv").style.display = 'block';
+                document.getElementById("CommercialDiv").style.display = 'none';
+                document.getElementsByClassName("BuildingType")[0].value='Other';
+                document.getElementsByClassName("BuildingType")[0].removeAttribute("disabled");   
+            }
+            $('button.btn').prop('disabled', false);
+            jQuery('[id$=propertyType]').val(name);
+            updateRecordType();
+        }
+        
+        function ProductGroupValidate()
+        {
+        var ProductGroup=document.getElementsByClassName("ProductGroup")[0].value;
+            jQuery('[id$=ProductGroup]').val(ProductGroup);
+            var product=document.getElementsByClassName("ProductGroup")[0].parentElement.parentElement.parentElement;
+            if(ProductGroup=='')
+            {
+                product.childNodes[9].innerText='Please provide Product Group';
+            }
+        }
+        function ProductGroupChangeJS()
+        {
+            var ProductGroup=document.getElementsByClassName("ProductGroup")[0].value;
+            jQuery('[id$=ProductGroup]').val(ProductGroup);
+            var product=document.getElementsByClassName("ProductGroup")[0].parentElement.parentElement.parentElement;
+              if(ProductGroup=='')
+            {
+                product.childNodes[9].innerText='Please provide Product Group';
+            }
+            ProductGroupChange();
+        }
+        
+        function Prev2(){
+            var next=document.getElementById('next1');
+            document.getElementById('second').style.display='none';
+            document.getElementById('first').style.display='block';
+        }
+        
+        function Prev4(){
+            document.getElementById('fourth').style.display='none';
+            document.getElementById('first').style.display='block';
+        }
+        
+        function countryChange1(){
+            //stateDefault();
+            var postalCode=document.getElementById("PostalCode").value;
+            if(postalCode!='')
+            {
+                postalChange1();
+            }
+            var country=document.getElementsByClassName("Country")[0].value;
+            if(country!='')
+            {
+                document.getElementById("PostalCode").disabled=false;
+            }
+            else
+            {
+                document.getElementById("PostalCode").disabled=true;
+                document.getElementById("PostalCode").value='';
+                postalChange1();
+            }
+            var state=document.getElementsByClassName("State")[0].value;
+            
+            var statefield=document.getElementsByClassName("State")[0].parentElement.parentElement.parentElement.parentElement;
+            if(statefield.childNodes[4]==null)
+            {
+                var q=document.createElement("small");
+                q.className="help-block";
+                q.innerText="Please provide State/Province";
+                statefield.appendChild(q);                
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon ";
+                statefield.appendChild(p);
+                statefield.childNodes[4].style.display="none";
+            }
+            else{
+                statefield.className="col-sm-6 form-group has-feedback";
+                statefield.childNodes[4].style.display="none";
+                statefield.childNodes[5].className="form-control-feedback glyphicon";
+                return null;
+            }
+        }
+        
+        function stateChange1(){
+            var state=document.getElementsByClassName("State")[0].value;
+            var statefield=document.getElementsByClassName("State")[0].parentElement.parentElement.parentElement.parentElement;
+            if(statefield.childNodes[4]==null)
+            {                
+                var q=document.createElement("small");
+                q.className="help-block";
+                q.innerText="Please provide State/Province";
+                statefield.appendChild(q);                
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon ";
+                statefield.appendChild(p);
+            }
+            if(state!='')
+            {
+                statefield.className="col-sm-6 form-group has-feedback has-success";
+                statefield.childNodes[4].style.display="none";
+                statefield.childNodes[5].className="form-control-feedback glyphicon glyphicon-ok";
+                return null
+            }
+            if(state=='')
+            {
+                statefield.className="col-sm-6 form-group has-feedback has-error";
+                statefield.childNodes[4].style.display="block";
+                statefield.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                return null
+            }
+            
+        }
+        function countryChange2(){            
+            var country=document.getElementsByClassName("Country2")[0].value;
+             if(country!='')
+            {
+                document.getElementById("PostalCode2").disabled=false;
+                var postal=document.getElementById("PostalCode2").value;
+                if(postal!='')
+                    postalChange2();
+            }
+            else
+            {
+                document.getElementById("PostalCode2").disabled=true;
+                document.getElementById("PostalCode2").value='';
+                
+            }
+            
+            var state=document.getElementsByClassName("State2")[0].value;
+            var statefield=document.getElementsByClassName("State2")[0].parentElement.parentElement.parentElement.parentElement;
+            if(statefield.childNodes[2]==null)
+            {
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon ";
+                statefield.appendChild(p);
+            }
+            
+            else if (statefield.childNodes[5]==null)
+            {
+                var q=document.createElement("small");
+                q.className="help-block";
+                q.innerText="Please provide State/Province";
+                q.style.display='none';
+                statefield.appendChild(q);
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon";
+                statefield.appendChild(p);
+                
+                if(statefield.childNodes[3].className=="form-control-feedback glyphicon glyphicon-ok")
+                {
+                    statefield.className="col-sm-6 form-group has-feedback";
+                    statefield.childNodes[3].className="form-control-feedback glyphicon";
+                }
+            }
+                else{
+                    statefield.className="col-sm-6 form-group has-feedback";
+                    if(statefield.childNodes[5]!=null){
+                        statefield.childNodes[4].style.display="none";
+                        statefield.childNodes[5].className="form-control-feedback glyphicon";
+                    }
+                    else
+                    {
+                        statefield.childNodes[2].style.display="none";
+                        statefield.childNodes[3].className="form-control-feedback glyphicon";
+                    }
+                    if(statefield.childNodes[3].className=="form-control-feedback glyphicon glyphicon-ok")
+                    {
+                        statefield.childNodes[2].style.display="none";
+                        statefield.childNodes[3].className="form-control-feedback glyphicon";
+                    }
+                    return null
+                }
+            
+        }
+        
+        function stateChange2(){
+            var state=document.getElementsByClassName("State2")[0].value;
+            var statefield=document.getElementsByClassName("State2")[0].parentElement.parentElement.parentElement.parentElement;
+            if(statefield.childNodes[2]==null)
+            {
+                var q=document.createElement("small");
+                q.className="help-block";
+                q.innerText="Please provide State/Province";
+                q.style.display='none';
+                statefield.appendChild(q);
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon ";                
+                statefield.appendChild(p);
+            }
+            
+            else if (statefield.childNodes[2].className !='help-block' && statefield.childNodes[5]==null)
+            {
+                var q=document.createElement("small");
+                q.className="help-block";
+                q.innerText="Please provide State/Province";
+                q.style.display='none';                
+                statefield.appendChild(q);
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon ";
+                statefield.appendChild(p);
+            }
+            
+            if(state!='')
+            {
+                statefield.className="col-sm-6 form-group has-feedback has-success";
+                if(statefield.childNodes[5]!=null){
+                    statefield.childNodes[5].className="form-control-feedback glyphicon glyphicon-ok";
+                    statefield.childNodes[4].style.display="none";
+                }
+                else{
+                    statefield.childNodes[3].className="form-control-feedback glyphicon glyphicon-ok";
+                    statefield.childNodes[2].style.display="none";
+                }
+                if(statefield.childNodes[3].className=="form-control-feedback glyphicon glyphicon-remove")
+                {
+                    statefield.childNodes[3].className="form-control-feedback glyphicon glyphicon-ok";
+                    statefield.childNodes[2].style.display="none";
+                }
+                document.getElementsByClassName('buttonSpan')[0].style.display = "";
+                //var $this = $(previewFinal);
+                // $this.button('reset');      
+                
+                return null
+            }
+            if(state=='')
+            {
+                statefield.className="col-sm-6 form-group has-feedback has-error";
+                if(statefield.childNodes[5]!=null)
+                {
+                   statefield.childNodes[4].style.display="block";
+                    statefield.childNodes[4];
+                    statefield.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                }
+                else
+                {
+                    statefield.childNodes[3].className="form-control-feedback glyphicon glyphicon-remove";
+                    statefield.childNodes[2].style.display="block";
+                }
+                if(statefield.childNodes[3].className=="form-control-feedback glyphicon glyphicon-ok")
+                {
+                   statefield.childNodes[3].className="form-control-feedback glyphicon glyphicon-remove";
+                   statefield.childNodes[2].style.display="block";
+                }
+                return null
+            }
+            
+        }
+        
+        
+        
+        function copyChange(){
+            var country=document.getElementsByClassName("Country2")[0].value;
+              var countryfield=document.getElementsByClassName("Country2")[0].parentElement.parentElement.parentElement;
+               if(countryfield.childNodes[2]==null)
+            {
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon glyphicon-ok";
+                 countryfield.appendChild(p);
+            }
+            else if (countryfield.childNodes[5]==null)
+            {
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon glyphicon-ok";
+                 countryfield.appendChild(p);
+            }
+            document.getElementsByClassName('Country2')[0].value = country;
+            countryfield.childNodes[4].className="form-control-feedback glyphicon glyphicon-ok";
+            countryfield.childNodes[4].style.display="block";
+            
+            countryfield.className="col-sm-6 form-group has-feedback has-success";
+            stateChange2();
+            melissaDataBLFlag=false;
+            $('button.btn').prop('disabled', false);
+            // setTimeout(function(){ 
+            //    document.getElementsByClassName('buttonSpan')[0].style.display = "";
+            // }, 3000);
+            
+            //document.getElementById("PostalCode2").disabled=false;
+            //document.getElementById("PostalCode2").value=document.getElementById("PostalCode").value;
+            // postalChange2();
+            
+        }
+        function Prev3(){
+            
+            var next=document.getElementById('next2');
+            document.getElementById('third').style.display='none';
+            document.getElementById('second').style.display='block';
+        }
+        
+        
+        function copy(){
+            document.getElementById("FirstName2").value=document.getElementById("FirstName").value;
+            document.getElementById("LastName2").value=document.getElementById("LastName").value;
+            document.getElementById("Address12").value=document.getElementById("Address1").value;
+            document.getElementById("Address22").value=document.getElementById("Address2").value;
+            document.getElementById("City2").value=document.getElementById("City").value;
+            document.getElementById("PostalCode2").value=document.getElementById("PostalCode").value;
+            document.getElementById("Email2").value=document.getElementById("Email").value;
+            document.getElementById("Phone2").value=document.getElementById("Phone").value;
+            document.getElementsByClassName("Country2")[0].value=document.getElementsByClassName("Country")[0].value;
+            document.getElementsByClassName("State2")[0].value=document.getElementsByClassName("State")[0].value;
+            // document.getElementsByClassName("Country2")[0].onchange();
+            document.getElementById("PostalCode2").disabled=false;
+            postalChange2();
+            //postalChange2();
+            copyInfo();
+            //stateChange2();
+            $("#registration-form2").bootstrapValidator('revalidateField', 'FirstName2');
+            $("#registration-form2").bootstrapValidator('revalidateField', 'LastName2');
+            $("#registration-form2").bootstrapValidator('revalidateField', 'Address12');
+            $("#registration-form2").bootstrapValidator('revalidateField', 'City2');
+            //$("#registration-form2").bootstrapValidator('revalidateField', 'PostalCode2');
+            $("#registration-form2").bootstrapValidator('revalidateField', 'Email2');
+            $("#registration-form2").bootstrapValidator('revalidateField', 'Phone2');
+            $('button.btn').prop('disabled', false);
+        }
+        
+        function InstallationLocationClear(){                        
+            var install=document.getElementsByClassName("InstallationLocation")[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;            
+            install.className="col-sm-12 form-group has-feedback";
+            //install.childNodes[3].innerText="Please Select Installation Location";
+            install.childNodes[3].style.display='none';
+            //InsatllLocationError=true;
+            if(install.childNodes[4]==null)
+            {
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon";                
+                install.appendChild(p);
+            }
+            else{
+                install.childNodes[4].className="form-control-feedback glyphicon ";
+            } 
+            document.getElementsByClassName("InstallationLocationOther")[0].style.display='none';
+            //BuildingTypeChange();
+        }
+        
+        function InstallationLocation(){ 
+            
+            if(document.getElementsByClassName("InstallationLocation")[0].value=='Other')
+            {
+                document.getElementsByClassName("InstallationLocationOther")[0].style.display='block';
+                $("#registration-form3").bootstrapValidator('revalidateField', 'InstallationLocationOther');
+            }
+            else{
+                document.getElementsByClassName("InstallationLocationOther")[0].style.display='none';
+            }
+            
+            var installValue=document.getElementsByClassName("InstallationLocation")[0].value;
+            var install=document.getElementsByClassName("InstallationLocation")[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            if(installValue==''){
+                install.className="col-sm-12 form-group has-feedback has-error";
+                install.childNodes[3].innerText="Please Select Installation Location";
+                install.childNodes[3].style.display='';
+                InsatllLocationError=true;
+                if(install.childNodes[4]==null)
+                {
+                    var p = document.createElement("i");
+                    p.className="form-control-feedback glyphicon glyphicon-remove";                
+                    install.appendChild(p);
+                }
+                else{
+                    install.childNodes[4].className="form-control-feedback glyphicon glyphicon-remove";
+                }                
+            }
+            else{
+                InsatllLocationError=false;
+                install.className="col-sm-12 form-group has-feedback has-success";
+                install.childNodes[3].style.display='none';
+                if(install.childNodes[4]==null)
+                {
+                    var p = document.createElement("i");
+                    p.className="form-control-feedback glyphicon glyphicon-ok";                
+                    install.appendChild(p);
+                }
+                else{
+                    install.childNodes[4].className="form-control-feedback glyphicon glyphicon-ok";
+                }
+            }
+            $('button.btn').prop('disabled', false);
+        }
+        
+        $(function() {
+            $('input[name="TransferDate"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true
+            },
+                                                            function(start, end, label) {
+                                                            });
+        });
+        $(function() {
+            $('input[name="InstallDate"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true
+            },
+                                                           function(start, end, label) {
+                                                           });
+        });
+        
+        function InstallDateChange()
+        {
+            $("#registration-form3").bootstrapValidator('revalidateField', 'InstallDate');
+            InstallDateChangeAlert();
+            if ( jQuery('[id$=render]').val() == 'true')
+                TransferDateChange();
+        }
+        
+        function TransferDateChange()
+        {
+            $("#registration-form3").bootstrapValidator('revalidateField', 'TransferDate');
+            TransferDateChangeAlert();
+        }
+        
+        function TransferDateChangeAlert(){
+            var date=document.getElementById("InstallDate").value;
+            var ndate=new Date(date);
+            var date1=document.getElementById("TransferDate").value;
+            var ndate1=new Date(date1);
+            var today=Date();
+            var ntoday=new Date(today);
+           
+            if(ndate1<ndate)
+            {
+                var dateField=document.getElementsByClassName("TransferDate")[0].parentElement.parentElement;
+                dateField.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+                dateField.childNodes[4].className="form-control-feedback glyphicon glyphicon-remove";
+                if(dateField.childNodes[8]==null)
+                {
+                    var p = document.createElement("small");
+                    p.className="help-block dateAlert";
+                    p.innerText="The Transfer Date should be greater than Install Date";
+                    dateField.appendChild(p);
+                }
+                dateField.childNodes[8].innerText="The Transfer Date should be greater than Install Date";
+                dateError=true;
+                $( ".dateAlert" ).show();
+            }
+            else if(ndate1>ntoday)
+            {
+                var dateField=document.getElementsByClassName("TransferDate")[0].parentElement.parentElement;
+                dateField.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+                dateField.childNodes[4].className="form-control-feedback glyphicon glyphicon-remove";
+                if(dateField.childNodes[8]==null)
+                {
+                                      var p = document.createElement("small");
+                    p.className="help-block dateAlert";
+                    p.innerText="The Transfer Date should not be greater than Today";
+                    dateField.appendChild(p);
+                }
+                dateField.childNodes[8].innerText="The Transfer Date should not be greater than Today";
+                dateError=true;
+                $( ".dateAlert" ).show();
+            }
+                else
+                {
+                    $( ".dateAlert" ).hide();
+                    dateError=false;
+                }
+        }
+        
+        
+        function InstallDateChangeAlert()
+        {
+            var date=document.getElementById("InstallDate").value;
+            var ndate=new Date(date);
+            var today=Date();
+            var ntoday=new Date(today);
+                        if(ndate>ntoday)
+            {
+                var dateField=document.getElementById("InstallDate").parentElement.parentElement;
+                dateField.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+                dateField.childNodes[4].className="form-control-feedback glyphicon glyphicon-remove";
+                if(dateField.childNodes[8]==null)
+                {
+                    var p = document.createElement("small");
+                    p.className="help-block dateInstallAlert";
+                    p.innerText="The Install Date should not be greater than today";
+                    dateField.appendChild(p);
+                }
+                dateError=true;
+                $( ".dateInstallAlert" ).show();
+            }
+            else
+            {
+                dateError=false;
+                $( ".dateInstallAlert" ).hide();
+            }
+            
+        }
+        
+        function emailChange1()
+        {
+            var emailDOM=document.getElementById("Email").parentElement.parentElement;
+            if(emailDOM.childNodes[5]==null)
+            {
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon ";
+                emailDOM.appendChild(p);
+                var s= document.createElement("small");
+                s.innerText='';
+                s.className='help-block';
+                emailDOM.appendChild(s);
+            }
+            emailDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+            emailDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+            
+            var email=document.getElementById("Email").value;
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+            {
+                emailDOM.className="col-sm-6 col-md-6 form-group has-feedback has-success";
+                emailDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-ok";
+                emailDOM.childNodes[6].style.display='none';
+            }
+            else
+            {
+                emailDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+                emailDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                emailDOM.childNodes[6].style.display='block';
+                emailDOM.childNodes[6].innerText='The email address is not valid';
+            }
+            if(email=='')
+            {
+                emailDOM.className="col-sm-6 col-md-6 form-group has-feedback ";
+                emailDOM.childNodes[5].className="form-control-feedback glyphicon ";
+                emailDOM.childNodes[6].style.display='none';
+                
+            }
+            $('button.btn').prop('disabled', false);
+        }
+        
+        function postalChange1()
+        {
+            var country=document.getElementsByClassName("Country")[0].value;
+            var postal=document.getElementById("PostalCode").value;
+            var postalDOM=document.getElementById("PostalCode").parentElement.parentElement;
+            var Exp = /^[a-z][0-9][a-z]\s[0-9][a-z][0-9]$/i;
+            var Exp1= /^[0-9]+$/i;
+            var Exp2=/[0-9][0-9][0-9][0-9][0-9][-][0-9][0-9][0-9][0-9]/;
+            if(postalDOM.childNodes[5]==null)
+            {
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon ";
+                postalDOM.appendChild(p);
+                var s= document.createElement("small");
+                s.innerText='';
+                s.className='help-block';
+                postalDOM.appendChild(s);
+                /*if(postal=='')
+                {
+cosnole.log('in');                    
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+            postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                postalDOM.childNodes[6].innerText='Please provide Zip/Postal Code';
+                }*/
+                
+                //return null;
+            }
+            postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+            postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+            if(country=='Canada')
+            {
+                if(postal.match(Exp))
+                {
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-success";
+                    postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-ok";
+                    postalDOM.childNodes[6].style.display='none';
+                }
+                else
+                {
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+                    postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                    postalDOM.childNodes[6].style.display='block';
+                    postalDOM.childNodes[6].innerText='Zip/Postal Code is of 7 Characters';
+                }
+                if(!postal.match(Exp))
+                {
+                    postalDOM.childNodes[6].innerText='Zip/Postal Code is alphanumeric of type A1A 1A1';
+                }
+            }
+            if(country=='United States')
+            {
+                if((postal.length==5 && postal.match(Exp1)) || postal.match(Exp2))
+                {
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-success";
+                    postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-ok";
+                    postalDOM.childNodes[6].style.display='none';
+                }
+                else
+                {
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+                    postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                    postalDOM.childNodes[6].style.display='block';
+                    postalDOM.childNodes[6].innerText='Zip/Postal Code is of 5 digits';
+                }
+                if(!postal.match(Exp1) && !postal.match(Exp2))
+                {
+                    postalDOM.childNodes[6].innerText='Zip/Postal Code should contain only numbers';
+                }
+            }
+            if(postal=='')
+            {
+                postalDOM.childNodes[6].innerText='Please provide Zip/Postal Code';
+            }
+            
+        }
+        
+        function postalChange2()
+        {
+            var country=document.getElementsByClassName("Country2")[0].value;
+            var postal=document.getElementById("PostalCode2").value;
+            var postalDOM=document.getElementById("PostalCode2").parentElement.parentElement;
+            
+            var Exp = /^[a-z][0-9][a-z]\s[0-9][a-z][0-9]$/i;
+            var Exp1= /^[0-9]+$/i;
+            var Exp2=/[0-9][0-9][0-9][0-9][0-9][-][0-9][0-9][0-9][0-9]/;
+            if(postalDOM.childNodes[5]==null)
+            {
+                var p = document.createElement("i");
+                p.className="form-control-feedback glyphicon ";
+                postalDOM.appendChild(p);
+                var s= document.createElement("small");
+                s.innerText='';
+                s.className='help-block';
+                postalDOM.appendChild(s);
+                //return null;
+            }
+            postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+            postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+            if(country=='Canada')
+            {
+                if(postal.match(Exp))
+                {
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-success";
+                    postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-ok";
+                    postalDOM.childNodes[6].style.display='none';
+                }
+                else
+                {
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+                    postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                    postalDOM.childNodes[6].style.display='block';
+                    postalDOM.childNodes[6].innerText='Zip/Postal Code is of 6 Characters';
+                }
+                if(!postal.match(Exp))
+                {
+                    postalDOM.childNodes[6].innerText='Zip/Postal Code is alphanumeric of type A1A 1A1';
+                }
+            }
+            if(country=='United States')
+            {
+                if((postal.length==5 && postal.match(Exp1)) || postal.match(Exp2))
+                {
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-success";
+                    postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-ok";
+                    postalDOM.childNodes[6].style.display='none';
+                }
+                else
+                {
+                    postalDOM.className="col-sm-6 col-md-6 form-group has-feedback has-error";
+                    postalDOM.childNodes[5].className="form-control-feedback glyphicon glyphicon-remove";
+                    postalDOM.childNodes[6].style.display='block';
+                    postalDOM.childNodes[6].innerText='Zip/Postal Code is of 5 digits';
+                }
+                if(!postal.match(Exp1) && !postal.match(Exp2))
+                {
+                    postalDOM.childNodes[6].innerText='Zip/Postal Code should contain only numbers';
+                }
+            }
+            if(postal=='')
+            {
+                postalDOM.childNodes[6].innerText='Please provide Zip/Postal Code';
+            }
+            
+        }
+        
+        function BuildingTypeChange()
+        {
+            var buildingValue=document.getElementsByClassName("BuildingType")[0].value;
+            var Building=document.getElementsByClassName("BuildingType")[0].parentElement.parentElement.parentElement;
+             if(buildingValue=='')
+            {
+                Building.childNodes[9].innerText='Please provide Building Type';
+            }            
+        }
+        
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        </script>
+    </html>
+</apex:page>

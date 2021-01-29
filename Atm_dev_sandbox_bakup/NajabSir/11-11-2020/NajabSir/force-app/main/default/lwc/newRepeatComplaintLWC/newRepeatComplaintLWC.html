@@ -1,0 +1,25 @@
+<template>
+    <div class="spinner" if:true={isSpinnerShow}>
+        <lightning-spinner alternative-text="Loading" variant="brand" size="small"></lightning-spinner>
+    </div> 
+
+    <div class="slds-p-around_small">
+    {message}
+    </div>
+    
+    <template if:true={caseClosed}> 
+        <div class="inlineFooter " style="position: sticky; background-color: rgb(255, 255, 255);">
+            <lightning-textarea class="input" label="Description" required value={description} onchange={handleDescriptionChange} ></lightning-textarea>
+            <div class="button-container slds-text-align_center ">
+                    <div class="actionsContainer">
+                            <div class="button-container-inner">
+                                    <lightning-button class="slds-m-horizontal--xxx-small" variant="brand"  label="Save" onclick={insertCase}></lightning-button>
+                                <template if:true={ismobile}>
+                                    <lightning-button class="slds-m-horizontal--xxx-small" variant="brand"  label="Cancel" onclick={cancel}></lightning-button>
+                                </template>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </template>  
+</template>

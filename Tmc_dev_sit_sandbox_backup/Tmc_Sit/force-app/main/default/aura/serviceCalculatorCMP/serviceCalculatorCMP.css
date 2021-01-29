@@ -1,0 +1,8 @@
+.THIS .modal-container .modal-header .slds-button .slds-button_icon-inverse {
+   display: none !important;
+}
+
+.THIS tr:last-child th,
+.THIS tr:last-of-type td {
+   font-weight: 600;
+}

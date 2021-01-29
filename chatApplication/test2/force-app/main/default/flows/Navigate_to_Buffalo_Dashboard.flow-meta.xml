@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Navigate_to_Dashboard</name>
+        <label>Navigate to Dashboard</label>
+        <locationX>182</locationX>
+        <locationY>202</locationY>
+        <actionName>c:navigateToRecord</actionName>
+        <actionType>component</actionType>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>DashboardId</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>DashboardId</assignToReference>
+            <name>recordId</name>
+        </outputParameters>
+    </actionCalls>
+    <interviewLabel>Navigate to Buffalo Dashboard {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Navigate to Buffalo Dashboard</label>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Dashboard_Lookup</name>
+        <label>Dashboard Lookup</label>
+        <locationX>177</locationX>
+        <locationY>66</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Navigate_to_Dashboard</targetReference>
+        </connector>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>WwzqzjtMfeXhGWSrmxKtlbnBhRsPou</stringValue>
+            </value>
+        </filters>
+        <object>Dashboard</object>
+        <outputAssignments>
+            <assignToReference>DashboardId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <startElementReference>Dashboard_Lookup</startElementReference>
+    <status>Draft</status>
+    <variables>
+        <name>DashboardId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,166 @@
+<apex:page controller="twod_CustomLookupController"
+           title="Search" 
+           showHeader="false" 
+           sideBar="false" 
+           tabStyle="Account" 
+           id="pg">
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" />
+    <apex:includeScript value="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.17.8/js/jquery.tablesorter.min.js" />
+    <apex:stylesheet value="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.17.8/css/theme.blue.css" />
+    <style>
+        body.lookupTab {
+        background: #fff url(/img/alohaSkin/lookup_bg.png) repeat-x;
+        }
+    </style>  
+    <apex:includeScript value="{!$Resource.JQuery}" />
+    <body class="hasMotif lookupTab  LookupResultsFrame" marginwidth="0"
+          marginheight="0">
+        <apex:form id="form">      
+            <apex:actionFunction action="{!Search}" name="SearchJS" rerender="pnlSearchResults,page"/>
+            <apex:outputPanel id="page" layout="block" style="margin:5px;padding:10px;padding-top:2px;">
+                <apex:actionRegion >    
+                    <div class="lookup">
+                        <div class="bPageTitle">
+                            <div class="ptBody secondaryPalette">
+                                <div class="content">
+                                    <img src="/s.gif" alt="" class="pageTitleIcon" title="" />
+                                    <h1>Lookup</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pBody">
+                            <apex:inputText id="txtSearch" value="{!searchString}" onkeypress="return onKeyup_TxtFieldcom(event);"/>
+                            &nbsp;&nbsp;
+                            <apex:commandButton id="btnGo" value="Go" action="{!Search}" rerender="pnlSearchResults,page"></apex:commandButton>
+                            <br /> <br />
+                            <div class="bDescription">You can search using by Product Code/Product Name</div>
+                        </div>
+                    </div>
+                    <br />
+                    <apex:messages style="color:red" />
+                    <br />
+                    <apex:outputLabel id="error" rendered="{!IF(results.size > 0,true,false)}">                
+                        <b>{!$Label.twod__serachresultlabel}</b>
+                    </apex:outputLabel>
+                    <apex:outputLabel value="{!$Label.twod__no_record_message}"
+                                      rendered="{!(IF(results.size > 0,false,true))}"></apex:outputLabel>
+                    
+                    <apex:outputPanel id="pnlSearchResults" style="margin:10px;height:350px;" layout="block">
+                        <apex:pageBlock id="searchResults"  rendered="{!IF(results.size > 0,true,false)}"> 
+                            <apex:pageBlockTable value="{!results}" var="a" id="tblResults">
+                                <apex:column >
+                                    <apex:facet name="header">                                           
+                                        <apex:image title="" 
+                                                    styleClass="{!IF(sortExpression=='name',IF(sortDirection='ASC','sortDesc','sortAsc'),'')}"
+                                                    value="/s.gif">
+                                            <apex:commandLink action="{!ViewData}" value="Material Code" id="cmdSort1"
+                                                              styleClass="{!IF(sortDirection='ASC','sortAsc', 'sortAsc')}" >
+                                                <apex:param value="name" name="column" assignTo="{!sortExpression}" ></apex:param>
+                                            </apex:commandLink>
+                                        </apex:image>
+                                    </apex:facet>
+                                    <apex:outputLink value="javascript:top.window.opener.lookupPick2('{!FormTag}','{!TextBox}_lkid','{!TextBox}','{!a.Id}','{!a.Name}', false)" rendered="{!NOT(ISNULL(a.Id))}">{!a.Name}</apex:outputLink>     
+                                </apex:column>                              
+                                <apex:column >
+                                    <apex:facet name="header">                                           
+                                        <apex:image title="" 
+                                                    styleClass="{!IF(sortExpression=='twod__Product_Name__c',IF(sortDirection='ASC','sortDesc','sortAsc'),'')}"
+                                                    value="/s.gif">
+                                            <apex:commandLink action="{!ViewData}" value="Name" id="cmdSort2"
+                                                              styleClass="{!IF(sortDirection='ASC','sortAsc', 'sortAsc')}" >
+                                                <apex:param value="twod__Product_Name__c" name="column" assignTo="{!sortExpression}" ></apex:param>
+                                            </apex:commandLink>
+                                        </apex:image>
+                                    </apex:facet>
+                                    {!a.twod__Product_Name__c}
+                                </apex:column>
+                                <apex:column >
+                                    <apex:facet name="header">                                           
+                                        <apex:image title="" 
+                                                    styleClass="{!IF(sortExpression=='Product_Colour__c',IF(sortDirection='ASC','sortDesc','sortAsc'),'')}"
+                                                    value="/s.gif">
+                                            <apex:commandLink action="{!ViewData}" value="Material Color" id="cmdSort3"
+                                                              styleClass="{!IF(sortDirection='ASC','sortAsc', 'sortAsc')}" >
+                                                <apex:param value="Product_Colour__c" name="column" assignTo="{!sortExpression}" ></apex:param>
+                                            </apex:commandLink>
+                                        </apex:image>
+                                    </apex:facet>
+                                    {!a.Product_Colour__c}
+                                </apex:column>
+                                <apex:column >
+                                    <apex:facet name="header">                                           
+                                        <apex:outputPanel >Description</apex:outputPanel>
+                                    </apex:facet>
+                                    {!a.twod__Description__c}
+                                </apex:column>
+                                <apex:column >
+                                    <apex:facet name="header">     
+                                        <apex:image title="" 
+                                                    styleClass="{!IF(sortExpression=='Product_Type__r.Name',IF(sortDirection='ASC','sortDesc','sortAsc'),'')}"
+                                                    value="/s.gif">
+                                            <apex:commandLink action="{!ViewData}" value="Product Type Description" id="cmdSort6"
+                                                              styleClass="{!IF(sortDirection='ASC','sortAsc', 'sortAsc')}" >
+                                                <apex:param value="Product_Type__r.Name" name="column" assignTo="{!sortExpression}" ></apex:param>
+                                            </apex:commandLink>
+                                        </apex:image>    
+                                        
+                                    </apex:facet>                                   
+                                    {!a.Product_Type__r.Name}
+                                </apex:column>
+                                <apex:column >
+                                    <apex:facet name="header">  
+                                         <apex:image title="" 
+                                                    styleClass="{!IF(sortExpression=='Active__c',IF(sortDirection='ASC','sortDesc','sortAsc'),'')}"
+                                                    value="/s.gif">
+                                            <apex:commandLink action="{!ViewData}" value="Active" id="cmdSort4"
+                                                              styleClass="{!IF(sortDirection='ASC','sortAsc', 'sortAsc')}" >
+                                                <apex:param value="Active__c" name="column" assignTo="{!sortExpression}" ></apex:param>
+                                            </apex:commandLink>
+                                        </apex:image>                                        
+                                    </apex:facet>
+                                     <!-- <apex:inputcheckbox value="{!a.Active__c}" disabled="true"/> -->
+                                     <apex:outputField value="{!a.Active__c}"/>
+
+                                </apex:column>
+                                <apex:column >
+                                    <apex:facet name="header">     
+                                        <apex:image title="" 
+                                                    styleClass="{!IF(sortExpression=='Is_Obsolete__c',IF(sortDirection='ASC','sortDesc','sortAsc'),'')}"
+                                                    value="/s.gif">
+                                            <apex:commandLink action="{!ViewData}" value="Obsolete" id="cmdSort5"
+                                                              styleClass="{!IF(sortDirection='ASC','sortAsc', 'sortAsc')}" >
+                                                <apex:param value="Is_Obsolete__c" name="column" assignTo="{!sortExpression}" ></apex:param>
+                                            </apex:commandLink>
+                                        </apex:image>                                        
+                                    </apex:facet>                                   
+                                     <!-- <apex:inputcheckbox value="{!a.Is_Obsolete__c}" disabled="true"/> -->
+                                     <apex:outputField value="{!a.Is_Obsolete__c}"/>
+                                     
+                                </apex:column>
+                            </apex:pageBlockTable>
+                        </apex:pageBlock>
+                    </apex:outputPanel>
+                </apex:actionRegion>
+                
+                
+                
+            </apex:outputPanel>
+        </apex:form>
+    </body>
+    <script>
+    function onKeyup_TxtFieldcom(e)
+    {
+        var keynum;
+        if(window.event) // IE
+        {
+            keynum = e.keyCode;
+        }
+        
+        if(keynum == 13) 
+        { 
+            SearchJS();
+            return false; 
+        } 
+    }
+    </script>
+</apex:page>

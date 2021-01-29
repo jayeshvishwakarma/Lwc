@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <interviewLabel>PT_Assign Pricebook {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PT_Assign Pricebook</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Search for pricebook according to parameters</description>
+        <name>PbLookup</name>
+        <label>PbLookup</label>
+        <locationX>193</locationX>
+        <locationY>224</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Opportunity_Pb</targetReference>
+        </connector>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>PbName</elementReference>
+            </value>
+        </filters>
+        <object>Pricebook2</object>
+        <outputReference>Pricebook</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <description>assign pricebook to opportunity</description>
+        <name>Update_Opportunity_Pb</name>
+        <label>Update Opportunity Pb</label>
+        <locationX>195</locationX>
+        <locationY>355</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OppId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Pricebook2Id</field>
+            <value>
+                <elementReference>Pricebook.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordUpdates>
+    <startElementReference>PbLookup</startElementReference>
+    <status>Active</status>
+    <variables>
+        <description>Id of the opportunity passed as parameter</description>
+        <name>OppId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue/>
+        </value>
+    </variables>
+    <variables>
+        <description>Name of the pricebook</description>
+        <name>PbName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue/>
+        </value>
+    </variables>
+    <variables>
+        <description>Variable from fast lookup</description>
+        <name>Pricebook</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Pricebook2</objectType>
+    </variables>
+</Flow>

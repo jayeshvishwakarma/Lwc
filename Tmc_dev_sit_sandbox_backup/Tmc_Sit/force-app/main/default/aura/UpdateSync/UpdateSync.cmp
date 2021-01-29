@@ -1,0 +1,8 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasSObjectName,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+	<aura:html tag="style">
+    	.cuf-scroller-content{background:#fff;}
+        .slds-modal__container { max-width: 65rem;}
+    </aura:html>
+    <c:updateSynching recordId="{!v.recordId}"/>
+    
+</aura:component>

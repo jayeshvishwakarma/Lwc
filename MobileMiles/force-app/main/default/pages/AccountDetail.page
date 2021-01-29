@@ -1,0 +1,1177 @@
+<apex:page id="pg" controller="AccountDetailController" showHeader="false" docType="html-5.0">
+    <apex:slds />
+    <apex:form id="frm" >
+        <html
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+            
+<meta name="format-detection" content="telephone=no" />
+            <style>
+        .slds-scope .slds-is-relative {
+            position: absolute;
+        }
+       .slds-scope .slds-is-relative {
+           position: absolute;
+       }
+       .slds-scope .slds-card{
+           background: rgb(239, 239, 239);
+       }
+       .slds-scope .slds-button_brand:active {
+           background-color: #006600;
+       }
+       .slds-scope .slds-button_brand {
+           border: 1px solid #006600;
+       }
+       .btn .slds-button .slds-button_brand{
+           background-color: #006600;
+       }
+       .slds-scope button, .slds-scope input[type=button], .slds-scope input[type=reset], .slds-scope input[type=submit]{
+            font-size: 16px;
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+       }
+       .slds-scope .slds-button--brand:focus, .slds-scope .slds-button--brand:hover, .slds-scope .slds-button_brand:focus, .slds-scope .slds-button_brand:hover{
+           background-color: #efefef;
+           color: #09f;
+
+       }
+       .slds-scope .slds-table td, .slds-scope .slds-table th{
+           width:15%;
+       }
+       .slds-scope{
+            overflow: hidden;
+        }
+        #pg:frm:myTable{
+            width:100% !important;
+            overflow: scroll !important;
+            height: 200px !important;
+        }
+        .demo-only{
+            display:none;
+        }
+        .edit-row{
+            float:right;
+        }
+        .edit-icon{
+            display:none;
+            width: 13px !important;
+            height: 1rem !important;
+            cursor: pointer;
+        }
+        .show-edit-icon:hover .edit-icon {
+             display:block;
+        }
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .modal-tab1{
+            padding-top: 450px !important;
+        }
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 35%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+        /*tabe 1 Modals*/
+        .modal-tab1-content{
+            width: 80% !important;
+        }
+        /* Add Animation */
+        @-webkit-keyframes animatetop {
+            from {top:-300px; opacity:0} 
+            to {top:0; opacity:1}
+        }
+        
+        @keyframes animatetop {
+            from {top:-300px; opacity:0}
+            to {top:0; opacity:1}
+        }
+           
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #eaeaea;
+            color: #565555;
+            box-shadow: 0px 2px #cccccc;
+            font-size: 1.5em;            
+        }
+        .modal-tab1-header{
+            padding: 8px 14px;
+            background-color: #ffffff;
+            color: #616161 !important;                        
+        }
+        .modal-body {           
+            height:100px;
+            border: 1px solid #a9a9a9;
+            margin: 8px;
+            padding: 30px 0px 0px 91px;
+        }
+        .modal-tab1-body{
+            padding : 0px !important;
+            width: auto !important;
+            min-height: 200px !important;
+            height : auto !important;
+            border: 0px !important;
+        }
+        .modal-footer {
+            padding: 4px 0px 9px;
+            background-color: white;
+            //color: white;
+        }     
+         /* Loader Css*/ 
+         .custPopup { 
+                background-color: white;
+                border-width: 0px; 
+                border-radius: 10px; 
+                z-index: 9999; 
+                left: 50%; 
+                padding: 20px; 
+                position: fixed;
+                margin-left: -100px;
+                top: 15%;
+                cursor: progress; 
+         }
+          .popupBackground {
+               background-color: black; 
+               opacity: 0.30; 
+               filter: alpha(opacity=30); 
+               position: fixed; 
+               width: 100%; 
+               height: 100%; 
+               top: 0; 
+               left: 0; 
+               z-index: 9998;
+               cursor: progress;
+           } 
+          /*End of loader Css*/    
+          .hr-margin{
+            margin-bottom: 9px  !important;
+            margin-top: 9px  !important;
+          }         
+       .edit-scetion-icon{            
+            width: 19px !important;
+            height: 1rem !important;
+            cursor: pointer;
+        }
+        .btn-css{
+            font-size: .875rem !important;
+            color: #09f !important;
+            border-color: aliceblue !important;
+            border: 1px solid #09f !important;
+            padding: 10px 30px !important;
+            line-height: 1 !important;
+            border-radius: 20px !important; 
+            background-color: #fff !important;    
+        }
+   </style>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <c:cloudstylecomponent />
+            <script>
+             var prevTextValue = '';
+             var newTextValue = '';
+            $(document).ready(function(){
+                parent.document.getElementsByTagName('iframe')[0].height = $(document).height()+50;
+            });
+        function dismisSuccess(){
+            document.getElementById('successToast').style.display ='none'; 
+        }
+        function dismisError(){
+            document.getElementById('errorToast').style.display ='none';
+        }  
+        function checkUpdate(){
+            var Betalingscondities = document.getElementById('pg:frm:Betalingscondities').value;
+            var iban = document.getElementById('pg:frm:iban');
+            if(Betalingscondities == 'Automatische incasso' && iban.value == ''){
+                iban.style.border = 'solid 1px red';
+            }else{
+                iban.style.border = 'solid 1px #d8dde6';
+                updateData();
+            }
+            
+        }
+        function displayUpdateDataCheckboxModel(){
+            document.getElementById("modelForCheckBox").style.display = "block";                
+        }
+        function displayUpdateDataCheckboxModelHide(){
+            document.getElementById("modelForCheckBox").style.display = "none";                
+        }
+        function showModal(obj){
+            let modalObj = $(obj).closest("tr").find(".descriptionModal").show();  
+            prevTextValue = modalObj.find(".modal-textbox").val();
+            //console.log(prevTextValue);
+        }
+        function closeModal(obj){              
+            let modalObj = $(obj).closest("tr").find(".descriptionModal");
+            newTextValue = modalObj.find(".modal-textbox").val();
+            console.log(newTextValue);
+            let value = $(obj).val();
+            if(value == 'Annuleren'){
+                if(prevTextValue != newTextValue){
+                    modalObj.find(".modal-textbox").val(prevTextValue);
+                }
+            }else{
+                updateLabel();
+            }
+            setTimeout(()=>$(".descriptionModal").hide(),100);
+        }
+        function showVestiModal(){
+            $('#VESTIGINGSADRES-Modal').show();
+        }
+        function closeModals(obj){  
+        if($(obj).val() == 'Opslaan'){
+            updateAccountDetail(); 
+        }                 
+        $('#VESTIGINGSADRES-Modal').hide();
+        $('#FACTUURADRES-Modal').hide();
+        $('#Primaire-Modal').hide();
+        }
+        function showFactModal(){
+            $('#FACTUURADRES-Modal').show();
+        }        
+        function showPrimaireModal(){
+            $('#Primaire-Modal').show();
+        } 
+        function changeChildAccount(selAccount){
+            window.location.href='apex/accountdetail?accId='+selAccount;
+        }      
+    </script>
+            <apex:actionFunction name="renderPage" reRender="frm"/>
+            <apex:actionFunction name="updateData"  action="{!updateAccountDetail}" />
+            <apex:actionFunction name="updateDataCheckbox"  action="{!updateAccountDetailCheckbox}" />
+            <apex:actionFunction name="updateLabel" action="{!updatePorteringList}" reRender="portTable" status="process" />
+            <apex:actionFunction name="updateAccountDetail" action="{!updateDetail}">
+            
+            </apex:actionFunction>
+            <apex:actionStatus id="process" startText="processing..........." >
+                <apex:facet name="start">
+                    <apex:outputPanel id="tstpopup">
+                       <apex:outputPanel styleClass="popupBackground" layout="block" />
+                       <apex:outputPanel styleClass="custPopup" layout="block">
+                           <img src="/img/loading24.gif" style="vertical-align:middle; horizontal-align:middle" />
+                           <span>Please wait...</span>
+                       </apex:outputPanel>
+                   </apex:outputPanel>
+                </apex:facet>              
+            </apex:actionStatus>
+            <div class="slds-grid slds-m-top_large">
+                <div class="slds-size_1-of-12"></div>
+                <div class="slds-size_10-of-12  slds-p-around_x-small slds-card">
+                    <!-- Header -->
+                    <div class="slds-page-header slds-m-bottom_small">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <apex:outputLabel value="{!accObj.owner.Pasfoto__c}" escape="false"></apex:outputLabel>
+                            </div>
+                            <div class="slds-media__body"  x-ms-format-detection="none" >
+                        Uw persoonlijke adviseur :  &nbsp;
+                                
+                                <apex:outputField value="{!accObj.owner.name}" styleClass="slds-input" />
+                                <br/>
+                        E-mail :&nbsp; 
+                                
+                                <apex:outputField value="{!accObj.owner.Email}" styleClass="slds-input" />
+                                <br/>
+                        Doorkiesnummer :&nbsp;
+                                
+                                  {!accObj.owner.Extension}  
+                                <br/>
+                            </div>
+                            <div class="slds-no-flex"></div>
+                        </div>
+                    </div>
+                    <!--Tab section-->
+                    <div class="slds-tabs_scoped">
+                        <ul class="slds-tabs_scoped__nav" role="tablist">
+                            <li id="tab1" class="slds-tabs_scoped__item slds-is-active" title="Account" role="presentation" 
+                                onclick="$('#tab-scoped-2').hide();$('#tab-scoped-1').show();$(this).addClass('slds-is-active');$('#tab2').removeClass('slds-is-active');">
+                                <a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item"><b>ACCOUNT</b></a>
+                            </li>
+                            <li id="tab2" class="slds-tabs_scoped__item" title="Actieve diensten" role="presentation" 
+                                onclick="$('#tab-scoped-1').hide();$('#tab-scoped-2').show();$(this).addClass('slds-is-active');$('#tab1').removeClass('slds-is-active');">
+                                <a class="slds-tabs_scoped__link" href="javascript:void(0);"  role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-2" id="tab-scoped-2__item"><b>ACTIEVE DIENSTEN</b></a>
+                            </li>
+                        </ul>
+                        <div id="tab-scoped-1" class="slds-tabs_scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
+                            <!--Item One Content-->
+                            <div class="slds-page-header">
+                                <div class="slds-media">
+                                    <div class="slds-media__figure">
+                                        <span class="slds-icon_container slds-icon-standard-account" title="Bedrijfsgegevens">
+                                            <svg class="slds-icon slds-icon" aria-hidden="true">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <apex:selectList value="{!selectedAccount}" multiselect="False" size="1" onclick="" styleClass="slds-select" style="width:30%;margin-bottom: .5rem;" onchange="changeChildAccount(this.value);">
+                                            <apex:selectOptions value="{!ChildAccounts}"/>
+                                        </apex:selectList>
+                                        <!--<h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Rohde Corp - 80,000 Widgets">{!accObj.Name}</h1>-->
+                                        <p class="slds-text-body_small slds-line-height_reset">Bedrijfsgegevens</p>
+                                    </div>
+                                    <!--<div class="slds-no-flex">
+                                        <apex:commandButton styleClass="slds-button slds-button_brand" value="Wijzigingen verwerken" onclick="checkUpdate();return false;"/>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div class="slds-form  slds-form_compound slds-p-around_x-small">
+                                <fieldset class="slds-form-element">
+                                    <div class="slds-form-element__group">
+                                        <fieldset class="slds-form-element">
+                                            <legend class="slds-form-element__label slds-text-title_caps" style="margin-right:0px;width:100%">
+                                                <b>VESTIGINGSADRES</b>                                               
+                                                <span class="slds-icon_container slds-icon-utility-edit slds-float_right" title="" onclick="showVestiModal();">
+                                                  <svg class="slds-icon slds-icon-text-default edit-scetion-icon" aria-hidden="true">
+                                                  <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>                                                
+                                                  </svg>
+                                                  <span class="slds-assistive-text"></span>
+                                                </span>
+                                            </legend>
+                                            <div class="slds-form-element__group">
+                                                <div class="slds-form-element__row slds-size-small_1-of-1">
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Straat__c.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.Straat__c}" styleClass="slds-input"/>-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Straat__c}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-text-body_small" for="input-02"><b>{!$ObjectType.Account.Fields.Huisnummer__c.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.Huisnummer__c}" styleClass="slds-input"/>-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Huisnummer__c}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Huisnummer_toevoeging__c.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.Huisnummer_toevoeging__c}" styleClass="slds-input"/>-->
+                                                         <div>
+                                                            <apex:outputField value="{!accObj.Huisnummer_toevoeging__c}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-form-element__row">
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-text-body_small" for="input-02"><b>{!$ObjectType.Account.Fields.Shippingpostalcode.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.Shippingpostalcode}" styleClass="slds-input"/>-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Shippingpostalcode}"  />
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Shippingcity.Label} </b></label>
+                                                        <!--<apex:inputField value="{!accObj.Shippingcity }" styleClass="slds-input"/>-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Shippingcity }"  />
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Phone.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.Phone}" styleClass="slds-input"/>-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Phone}"  />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <hr class="hr-margin" />
+                                        <fieldset class="slds-form-element">
+                                            <legend class="slds-form-element__label slds-text-title_caps" style="margin-right:0px;width:100%">
+                                                <b>FACTUURADRES</b>
+                                                <span class="slds-icon_container slds-icon-utility-edit slds-float_right" title="" onclick="showFactModal();">
+                                                  <svg class="slds-icon slds-icon-text-default edit-scetion-icon" aria-hidden="true">
+                                                  <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>                                                
+                                                  </svg>
+                                                  <span class="slds-assistive-text"></span>
+                                                </span>
+                                            </legend>
+                                            <div class="slds-form-element__group">
+                                                <div class="slds-form-element__row">
+                                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2">
+                                                        <label class="slds-text-body_small" for="input-03"><b>{!$ObjectType.Account.Fields.BillingStreet.Label}</b></label>
+                                                        <!--<apex:inputTextarea value="{!accObj.BillingStreet}" styleClass="slds-input" rows="1" />-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.BillingStreet}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2">
+                                                        <label class="slds-text-body_small" for="input-02"><b>{!$ObjectType.Account.Fields.E_mail_factuuradres__c.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.E_mail_factuuradres__c}" styleClass="slds-input"/>-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.E_mail_factuuradres__c}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-form-element__row">
+                                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2">
+                                                        <label class="slds-text-body_small" for="input-04"><b>{!$ObjectType.Account.Fields.BillingPostalCode.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.BillingPostalCode}" styleClass="slds-input" />-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.BillingPostalCode}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2">
+                                                        <label class="slds-text-body_small" for="input-04"><b>{!$ObjectType.Account.Fields.BillingCity.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.BillingCity}" styleClass="slds-input" />-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.BillingCity}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-form-element__row">
+                                                    <div class="slds-form-element slds-size_1-of-3">
+                                                        <label class="slds-text-body_small" for="input-02"><b>{!$ObjectType.Account.Fields.Betalingscondities__c.Label}</b></label>
+                                                        <!--<apex:inputField id="Betalingscondities"   value="{!accObj.Betalingscondities__c}" styleClass="slds-select"/>-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Betalingscondities__c}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-3">
+                                                        <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Bankrekeningnummer__c.Label}</b></label>
+                                                        <!--<apex:inputField id="iban" value="{!accObj.Bankrekeningnummer__c}" styleClass="slds-input" />-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Bankrekeningnummer__c}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <hr class="hr-margin" />
+                                        <fieldset class="slds-form-element">
+                                            <legend class="slds-form-element__label slds-text-title_caps">
+                                                <b>MOBILEMILES</b>
+                                            </legend>
+                                            <div class="slds-form-element__group">
+                                                <div class="slds-form-element__row">
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Account.Fields.Totaal_MobileMiles_gespaard__c.Label}</label>
+                                                        <br/>
+                                                        <apex:outputField value="{!accObj.Totaal_MobileMiles_gespaard__c}" styleClass="slds-input" html-disabled="true"/>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-form-element__label" for="input-02">{!$ObjectType.Account.Fields.Verzilverd_MM__c.Label}</label>
+                                                        <br/>
+                                                        <apex:outputField value="{!accObj.Verzilverd_MM__c}" styleClass="slds-input" html-disabled="true"/>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-3 slds-size-small_1-of-3">
+                                                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Account.Fields.Saldo_MobileMiles__c.Label}</label>
+                                                        <br/>
+                                                        <apex:outputField value="{!accObj.Saldo_MobileMiles__c}" styleClass="slds-input"  />
+                                                    </div>
+                                                    <div class="slds-no-flex">
+                                                        <apex:commandButton styleClass="slds-button slds-button_brand" value="Uitkeren MobileMiles" onclick="displayUpdateDataCheckboxModel();return false;"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="slds-grid slds-m-top_medium">
+                                <!--<div class="slds-size_1-of-12"></div>-->
+                                <div class="slds-size_12-of-12 slds-card slds-p-around_x-small">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate slds-border_bottom slds-p-bottom_x-small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-standard-contact" title="Contactpersoon">
+                                                <svg class="slds-icon slds-icon" aria-hidden="true">
+                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#contact')}"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h2>
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                                    <span class="slds-text-heading_small">Primaire contactpersoon</span>
+                                                </a>
+                                            </h2>
+                                            <span class="slds-icon_container slds-icon-utility-edit slds-float_right" title="" onclick="showPrimaireModal();">
+                                              <svg class="slds-icon slds-icon-text-default edit-scetion-icon" aria-hidden="true">
+                                                  <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>                                                
+                                              </svg>
+                                              <span class="slds-assistive-text"></span>
+                                            </span>
+                                        </div>
+                                    </header>
+                                    <div class="slds-form slds-form_compound">
+                                        <fieldset class="slds-form-element">
+                                            <div class="slds-form-element__group">
+                                                <div class="slds-form-element__row">
+                                                    <div class="slds-form-element slds-size_1-of-4  ">
+                                                        <label class="slds-text-body_small"  for="input101" ><b>{!$ObjectType.Account.Fields.Geslacht__c.Label}</b></label>
+                                                        <!--<apex:inputField value="{!accObj.Geslacht__c}" id="input101" styleClass="slds-select" />-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Geslacht__c}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-4  ">
+                                                        <label class="slds-form-element__label"  for="input102" ><b>Voornaam</b></label>
+                                                        <!--<apex:inputField value="{!accObj.Voornaam_CP__c}" id="input102" styleClass="slds-input" />-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Voornaam_CP__c}" />
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div class="slds-form-element slds-size_1-of-4">
+                                                        <label class="slds-text-body_small" for="input103"  ><b>Achternaam</b></label>
+                                                        <!--<apex:inputField value="{!accObj.Achternaam_CP__c}" id="input103" styleClass="slds-input"/>-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.Achternaam_CP__c}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element slds-size_1-of-4">
+                                                        <label class="slds-text-body_small" for="input104"  ><b>E-mailadres</b></label>
+                                                        <!--<apex:inputField value="{!accObj.E_mailadres_bedrijf__c}" id="input104" styleClass="slds-input" />-->
+                                                        <div>
+                                                            <apex:outputField value="{!accObj.E_mailadres_bedrijf__c}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <!-- 
+                                    <apex:outputPanel rendered="{!contactList.size==0}">
+                                        No records to display
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!contactList.size>0}">
+                                        <apex:repeat value="{!contactList}" var="con">
+                                            <div class="slds-form  slds-form_compound slds-p-around_x-small">
+                                                <fieldset class="slds-grid slds-form-element ">
+                                                    <div class="slds-form-element__row slds-size_1-of-1">
+                                                        <div class="slds-form-element slds-size_1-of-1">
+                                                            <label class="slds-form-element__label" for="input-04">{!$ObjectType.Contact.Fields.Name.Label}</label>
+                                                            <br/>
+                                                            <apex:outputField value="{!con.Name}" styleClass="slds-input"  />
+                                                        </div>
+                                                        <div class="slds-form-element slds-size_1-of-1">
+                                                            <label class="slds-form-element__label" for="input-05">{!$ObjectType.Contact.Fields.Email.Label}</label>
+                                                            <apex:inputField value="{!con.Email}" styleClass="slds-input" />
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+-->
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-m-top_medium">
+                                <!--<div class="slds-size_1-of-12"></div>-->
+                                <div class="slds-size_12-of-12 slds-card slds-p-around_x-small">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate slds-border_bottom slds-p-bottom_x-small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-standard-file" title="Facturen">
+                                                <svg class="slds-icon slds-icon" aria-hidden="true">
+                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#file')}"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h2>
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                                    <span class="slds-text-heading_small">Facturen</span>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                    <apex:outputPanel rendered="{!attachmentList.size == 0}">
+                            No records to display
+                        </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!attachmentList.size > 0}">
+                                        <apex:repeat value="{!attachmentList}" var="attch">
+                                            <div class="slds-form  slds-form_compound slds-p-around_x-small">
+                                                <fieldset class="slds-grid slds-form-element">
+                                                    <div class="slds-form-element__group">
+                                                        <div class="slds-form-element__row">
+                                                            <div class="slds-form-element slds-size_1-of-2">
+                                                                <a target="_blank" href="/servlet/servlet.FileDownload?file={!attch.Id}">
+                                                                    <apex:outputField value="{!attch.Name}" styleClass="slds-input" html-disabled="true" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            <!--End of Item One Content--->
+                        </div>
+                        <div id="tab-scoped-2" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">
+                            <!--Item Two Content-->
+                            <div class="slds-grid slds-m-top_medium">
+                                <!--<div class="slds-size_1-of-12"></div>-->
+                                <div class="slds-size_12-of-12 slds-card slds-p-around_x-small">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate slds-border_bottom slds-p-bottom_x-small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-custom-custom110" title="Mobiele aansluitingen">
+                                                <svg class="slds-icon slds-icon" aria-hidden="true">
+                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/custom-sprite/svg/symbols.svg#custom110')}"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h2>
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                                    <span class="slds-text-heading_small">Mobiele aansluitingen</span>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                    <div class="slds-grid slds-scrollable_x">
+                                        <apex:outputPanel rendered="{!porteringList.size == 0}">
+                                No records to display
+                            </apex:outputPanel> 
+                                        <apex:outputPanel rendered="{!porteringList.size > 0}" id="portTable"  style="width:100% !important; overflow: auto !important; height:350px !important;" > 
+                                            <table class="slds-table slds-table_bordered slds-scrollable--x slds-table_cell-buffer slds-max-medium-table_stacked-horizontal">
+                                                <thead>
+                                                    <tr class="slds-text-title_caps">
+                                                        <th scope="col">
+                                                            <div class="slds-truncate">Mobiel nummer</div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-truncate">Profiel</div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-truncate">Label</div>
+                                                        </th>
+                                                      
+                                                        
+                                                        <th scope="col" style="text-align:right;">
+                                                            <div class="slds-truncate">Startdatum</div>
+                                                        </th>
+                                                        <th scope="col" style="text-align:right;">
+                                                            <div class="slds-truncate">Prijs per maand</div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <apex:repeat value="{!porteringList}" var="port">
+                                                        <tr>
+                                                            <td scope="row" data-label="{!$ObjectType.Porteringen_mobiel__c.Fields.X06_097_nummer__c.Label}">
+                                                                <div class="slds-truncate" x-ms-format-detection="none">
+                                                                    {!port.X06_097_nummer__c }  
+                                                                </div>
+                                                            </td>
+                                                            <td data-label="{!$ObjectType.Porteringen_mobiel__c.Fields.Profielnaam__c.Label}">
+                                                                <div class="slds-truncate">
+                                                                    <apex:outputField value="{!port.Profielnaam__c}" styleClass="slds-input" />                                                                   
+                                                                </div>
+                                                            </td>
+                                                            <td data-label="{!$ObjectType.Porteringen_mobiel__c.Fields.Label__c.Label}" class="show-edit-icon">
+                                                                <div class="slds-truncate">
+                                                                    <apex:outputField value="{!port.Label__c}" styleClass="slds-input" />   
+                                                                    
+                                                                        <!--<apex:image styleClass="edit-icon" value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyX_IxDGBGe3NBwjeVEmZx4xfeKIQxYaTGVnkh-zIQ3V0hHi2M" />   -->                                                                                                                                                                                                                                                                                                                                                        
+                                                                        <span class="slds-icon_container slds-icon-utility-edit edit-row" onclick="showModal(this); return false;" title="">
+                                                                              <svg class="slds-icon slds-icon-text-default edit-icon" aria-hidden="true">                                                                             
+                                                                                  <use  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>                                                                               
+                                                                              </svg>
+                                                                              <span class="slds-assistive-text"></span>
+                                                                        </span>
+                                                                                                                                        
+                                                                 </div>
+                                                                 <!-- Modal content -->
+                                                                  <div class="modal descriptionModal">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">                                         
+                                                                            <h1>Label aanpassen</h1>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <apex:outputLabel styleClass="slds-form-element__label">Label</apex:outputLabel>
+                                                                            <apex:inputField value="{!port.Label__c}" styleClass="modal-textbox slds-input slds-size_2-of-4" />
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                        <center>
+                                                                            <apex:commandButton value="Opslaan" onclick="closeModal(this);return false;" styleClass="slds-button slds-button_neutral" /> &nbsp;
+                                                                            <apex:commandButton value="Annuleren" onclick="closeModal(this);return false;" styleClass="slds-button slds-button_neutral"/>       
+                                                                       </center>                                                                   
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                             <td data-label="{!$ObjectType.Porteringen_mobiel__c.Fields.Datum_actief__c.Label}" style="text-align:right;">
+                                                                <div class="slds-truncate">
+                                                                    <apex:outputField value="{!port.Datum_actief__c }" styleClass="slds-input" />
+                                                                </div>
+                                                            </td>
+                                                             <td data-label="{!$ObjectType.Porteringen_mobiel__c.Fields.Netto_prijs_per_maand__c.Label}" style="text-align:right;">
+                                                                <div class="slds-truncate">
+                                                                    <apex:outputField value="{!port.Netto_prijs_per_maand__c}" styleClass="slds-input" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </apex:repeat>
+                                                    <tr>
+                                                        <td data-label="Sum" style="text-align:right;" colspan="5">
+                                                            <div class="slds-truncate">
+                                                                TOTAAL PRIJS PER MANND:&nbsp;<apex:outputField value="{!sumForMobiele.Aangepaste_abonnementskosten__c }" styleClass="slds-input" />
+                                                            </div>
+                                                        </td>
+                                                    </tr> 
+                                                </tbody>
+                                            </table>
+                                        </apex:outputPanel>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="slds-grid slds-m-top_medium">
+                                <!--<div class="slds-size_1-of-12"></div>-->
+                                <div class="slds-size_12-of-12 slds-card slds-p-around_x-small">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate slds-border_bottom slds-p-bottom_x-small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-custom-custom111" title="Cloud ÉÉN diensten">
+                                                <svg class="slds-icon slds-icon" aria-hidden="true">
+                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/custom-sprite/svg/symbols.svg#custom111')}"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h2>
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                                    <span class="slds-text-heading_small">Cloud ÉÉN diensten</span>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                    <apex:outputPanel rendered="{!listOfDienst.size==0}">
+                            No records to display
+                        </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!listOfDienst.size>0}">
+                                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-max-medium-table_stacked-horizontal">
+                                            <thead>
+                                                <tr class="slds-text-title_caps">
+                                                    <th scope="col">
+                                                        <div class="slds-truncate">Cloud ÉÉN dienst</div>
+                                                    </th>
+                                                    <th scope="col" style="text-align: right;">
+                                                        <div class="slds-truncate">Aantal</div>
+                                                    </th>
+                                                    <th scope="col" style="text-align: right;">
+                                                        <div class="slds-truncate">Startdatum</div>
+                                                    </th>
+                                                    <th scope="col" style="text-align: right;">
+                                                        <div class="slds-truncate">Prijs per maand</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <apex:repeat value="{!listOfDienst}" var="objDienst">
+                                                    <tr>
+                                                        <td data-label="Cloud ÉÉN dienst">
+                                                            <div class="slds-truncate">
+                                                                <apex:outputField value="{!objDienst.Name}" styleClass="slds-input" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Aantal" style="text-align: right;">
+                                                            <div class="slds-truncate">
+                                                                <apex:outputField value="{!objDienst.Hoeveelheid__c}" styleClass="slds-input" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Startdatum" style="text-align: right;">
+                                                            <div class="slds-truncate">
+                                                                <apex:outputField value="{!objDienst.Datum_actief__c}" styleClass="slds-input" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Prijs per maand" style="text-align: right;">
+                                                            <div class="slds-truncate">
+                                                                <apex:outputField value="{!objDienst.Totaal_prijs_per_maand__c}" styleClass="slds-input" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </apex:repeat>
+                                                <tr>
+                                                    <td data-label="Sum" style="text-align:right;" colspan="4">
+                                                        <div class="slds-truncate">
+                                                            TOTAAL PRIJS PER MANND:&nbsp;<apex:outputField value="{!sumForCloud.Aangepaste_abonnementskosten__c }" styleClass="slds-input" />
+                                                        </div>
+                                                    </td>
+                                                </tr> 
+                                            </tbody>
+                                        </table>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-m-top_medium">
+                                <!--<div class="slds-size_1-of-12"></div>-->
+                                <div class="slds-size_12-of-12 slds-card slds-p-around_x-small">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate slds-border_bottom slds-p-bottom_x-small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-custom-custom68" title="Verbindingen">
+                                                <svg class="slds-icon slds-icon" aria-hidden="true">
+                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/custom-sprite/svg/symbols.svg#custom68')}"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h2>
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                                    <span class="slds-text-heading_small">Verbindingen</span>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                    <apex:outputPanel rendered="{!listOfverbinding.size == 0}">
+                            No records to display
+                        </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!listOfverbinding.size>0}">
+                                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-max-medium-table_stacked-horizontal">
+                                            <thead>
+                                                <tr class="slds-text-title_caps">
+                                                    <th scope="col">
+                                                        <div class="slds-truncate">Type verbinding</div>
+                                                    </th>
+                                                    <th scope="col" style="text-align: right;">
+                                                        <div class="slds-truncate">Startdatum</div>
+                                                    </th>
+                                                    <th scope="col" style="text-align: right;">
+                                                        <div class="slds-truncate">Prijs per maand</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <apex:repeat value="{!listOfverbinding}" var="objVerbinding">
+                                                    <tr>
+                                                        <td data-label="Type verbindin">
+                                                            <div class="slds-truncate">
+                                                                <!-- <apex:outputLink value="/{!objVerbinding.id}">{!objVerbinding.Name}</apex:outputLink> -->
+                                                                <apex:outputField value="{!objVerbinding.Name}" styleClass="slds-input" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Startdatum" style="text-align: right;">
+                                                            <div class="slds-truncate">
+                                                                <apex:outputField value="{!objVerbinding.Datum_actief__c}" styleClass="slds-input" />
+                                                            </div>
+                                                        </td>
+                                                         <td data-label="Prijs per maand" style="text-align: right;">
+                                                            <div class="slds-truncate">
+                                                                <apex:outputField value="{!objVerbinding.Prijs_per_maand__c}" styleClass="slds-input" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </apex:repeat>
+                                                <tr>
+                                                    <td data-label="Sum" style="text-align:right;" colspan="4">
+                                                        <div class="slds-truncate">
+                                                            TOTAAL PRIJS PER MANND:&nbsp;<apex:outputField value="{!sumForVerbind.Aangepaste_abonnementskosten__c }" styleClass="slds-input" />
+                                                        </div>
+                                                    </td>
+                                                </tr> 
+                                            </tbody>
+                                        </table>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-m-top_medium slds-m-bottom_xx-large">
+                                <!--<div class="slds-size_1-of-12"></div>-->
+                                <div class="slds-size_12-of-12 slds-card slds-p-around_x-small">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate slds-border_bottom slds-p-bottom_x-small">
+                                        <div class="slds-media__figure">
+                                            <span class="slds-icon_container slds-icon-custom-custom75" title="KPN ÉÉN centrale">
+                                                <svg class="slds-icon slds-icon" aria-hidden="true">
+                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/custom-sprite/svg/symbols.svg#custom75')}"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h2>
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                                    <span class="slds-text-heading_small">KPN ÉÉN centrale</span>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                    <apex:outputPanel rendered="{!listOfVoipNames.size==0}">
+                            No records to display
+                        </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!listOfVoipNames.size>0}" style="width:100% !important; overflow: auto !important; height:350px !important;">
+                                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-max-medium-table_stacked-horizontal">
+                                        
+                                            <thead>
+                                                <tr class="slds-text-title_caps">
+                                                    <th scope="col">
+                                                        <div class="slds-truncate">VoIP dienst</div>
+                                                    </th>
+                                                    <th scope="col" style="text-align: right;">
+                                                        <div class="slds-truncate">Aantal</div>
+                                                    </th>
+                                                    <th scope="col" style="text-align: right;">
+                                                        <div class="slds-truncate">PRIJS PER MAAND</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <apex:repeat value="{!listOfVoipNames}" var="voipName">
+                                                    <tr>
+                                                        <td data-label="Type verbindin">
+                                                            <div class="slds-truncate">
+                                                                <!-- <apex:outputLink value="/{!objVerbinding.id}">{!objVerbinding.Name}</apex:outputLink> -->
+                                                                <apex:outputText value="{!voipName}"  />
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Startdatum" style="text-align: right;">
+                                                            <div class="slds-truncate">
+                                                                <apex:outputLabel value="{!mapOfVoIPSum[voipName]}" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="Prijsdatum" style="text-align: right;">
+                                                            <div class="slds-truncate">
+                                                                <apex:outputField value="{!mapOfVOIPCurrency[voipName].Afwijkende_prijs_actie__c}"/>
+                                                                <!--<apex:outputText value="{0, Number, € }">
+                                                                    <apex:param value="{!mapOfVOIPSumPrijs[voipName]}" />{!mapOfVOIPCurrency[voipName].Afwijkende_prijs_actie__c}
+                                                                </apex:outputText>-->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </apex:repeat>
+                                                <tr>
+                                                    <td data-label="Sum" style="text-align:right;" colspan="4">
+                                                        <div class="slds-truncate">
+                                                            TOTAAL PRIJS PER MANND:&nbsp;<apex:outputField value="{!sumForKPN.Aangepaste_abonnementskosten__c }" styleClass="slds-input" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            <!--End of Item Two Content-->
+                        </div>
+                    </div>
+                    <!--End of Tab section-->
+                </div>
+            </div>
+            <!-- Toast On Success -->
+            <div id="successToast" class="slds-box" style="{!if(isSuccess =='Success','display:block;','display:none;')}">
+                <div class="slds-notify_container slds-notify_container--inline">
+                    <div class="slds-notify slds-notify--alert slds-theme_success slds-theme--alert-texture slds-banner" role="alert">
+                        <button class="slds-button slds-button--icon-inverse slds-notify__close" tabindex="-1">
+                            <span onclick="dismisSuccess();return false;">X</span>
+                        </button>
+                        <span class="slds-assistive-text">Success</span>
+                        <h2>
+                            <svg aria-hidden="true" class="slds-icon icon-text-email slds-icon--small slds-m-right--x-small">
+                                <use
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom19">
+                                </use>
+                            </svg>
+                            {!successMsg}
+                        
+                        
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <!-- Toast On Error-->
+            <div id="errorToast" class="slds-box" style="{!if(isSuccess !='Success' && isSuccess != 'null','display:block;','display:none;')}">
+                <div class="slds-notify_container slds-notify_container--inline">
+                    <div class="slds-notify slds-notify--alert slds-theme_error slds-theme--alert-texture slds-banner" role="alert">
+                        <button class="slds-button slds-button--icon-inverse slds-notify__close" tabindex="-1">
+                            <span onclick="dismisError();return false;">X</span>
+                        </button>
+                        <span class="slds-assistive-text">Success</span>
+                        <h2>
+                            <svg aria-hidden="true" class="slds-icon icon-text-email slds-icon--small slds-m-right--x-small">
+                                <use
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom19">
+                                </use>
+                            </svg>
+                            {!isSuccess}
+                        
+                        
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 640px;display:none" id="modelForCheckBox">
+                <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="displayUpdateDataCheckboxModelHide();return false;">
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}" />
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Bevestig</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p><br/>Uw MobileMiles saldo wordt uitgekeerd op uw rekeningnummer {!accObj.Bankrekeningnummer__c}<br/><br/></p>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            
+                            <apex:commandButton styleClass="slds-button slds-button_brand" value="Bevestig" onclick="updateDataCheckbox();return false;"/>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+            <!-- VESTIGINGSADRES Modal -->
+                <div id="VESTIGINGSADRES-Modal" class="modal">
+                    <div class="modal-content modal-tab1-content">
+                        <div class="modal-header modal-tab1-header">                                         
+                            <center><h1 class="slds-modal__title">VESTIGINGSADRES</h1></center>
+                        </div>
+                        <div class="modal-body modal-tab1-body">
+                             <div class="slds-form-element__group">                                                         
+                                <div class="slds-form-element__row  slds-grid slds-wrap ">
+                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                         <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Straat__c.Label}</b></label>
+                                         <apex:inputField value="{!accObj.Straat__c}" styleClass="slds-input"/>   
+                                     </div>
+                                     <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                         <label class="slds-text-body_small" for="input-02"><b>{!$ObjectType.Account.Fields.Huisnummer__c.Label}</b></label>
+                                        <apex:inputField value="{!accObj.Huisnummer__c}" styleClass="slds-input"/>
+                                     </div>
+                                </div>
+                                <div class="slds-form-element__row slds-grid slds-wrap">
+                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                         <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Huisnummer_toevoeging__c.Label}</b></label>
+                                         <apex:inputField value="{!accObj.Huisnummer_toevoeging__c}" styleClass="slds-input"/>
+                                    </div>
+                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                         <label class="slds-text-body_small" for="input-02"><b>{!$ObjectType.Account.Fields.Shippingpostalcode.Label}</b></label>
+                                         <apex:inputField value="{!accObj.Shippingpostalcode}" styleClass="slds-input"/>
+                                    </div>
+                                </div>
+                                <div class="slds-form-element__row slds-grid slds-wrap">
+                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                        <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Shippingcity.Label} </b></label>
+                                         <apex:inputField value="{!accObj.Shippingcity }" styleClass="slds-input"/>
+                                    </div>
+                                    <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                        <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Phone.Label}</b></label>
+                                         <apex:inputField value="{!accObj.Phone}" styleClass="slds-input"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <center> 
+                            <apex:commandButton value="Opslaan" onclick="closeModals(this);return false;" styleClass="slds-button slds-button_neutral" /> &nbsp;                  
+                            <!--<apex:commandButton value="Annuleren" onclick="closeVestiModal(this);return false;" styleClass="slds-button slds-button_neutral"  />-->
+                            <button type="reset" value="Annuleren" onclick="closeModals(this);" class="slds-button slds-button_neutral btn-css">Annuleren</button>    
+                       </center>                                                                   
+                    </div>
+                </div>
+            </div>  
+            
+            <div id="FACTUURADRES-Modal" class="modal">
+                <div class="modal-content modal-tab1-content">
+                    <div class="modal-header modal-tab1-header">                                         
+                        <center><h1>FACTUURADRES</h1></center>
+                    </div>
+                    <div class="modal-body modal-tab1-body">
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row  slds-grid slds-wrap ">
+                                <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                    <label class="slds-text-body_small" for="input-03"><b>{!$ObjectType.Account.Fields.BillingStreet.Label}</b></label>
+                                     <apex:inputTextarea value="{!accObj.BillingStreet}" styleClass="slds-input" rows="1" />
+                                </div>
+                                <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                     <label class="slds-text-body_small" for="input-02"><b>{!$ObjectType.Account.Fields.E_mail_factuuradres__c.Label}</b></label>
+                                      <apex:inputField value="{!accObj.E_mail_factuuradres__c}" styleClass="slds-input"/>
+                                </div>
+                            </div>
+                            <div class="slds-form-element__row  slds-grid slds-wrap ">
+                                <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                    <label class="slds-text-body_small" for="input-04"><b>{!$ObjectType.Account.Fields.BillingPostalCode.Label}</b></label>
+                                    <apex:inputField value="{!accObj.BillingPostalCode}" styleClass="slds-input" />
+                                </div>
+                                 <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                     <label class="slds-text-body_small" for="input-04"><b>{!$ObjectType.Account.Fields.BillingCity.Label}</b></label>
+                                     <apex:inputField value="{!accObj.BillingCity}" styleClass="slds-input" />
+                                 </div>
+                             </div>
+                        </div>
+                         <div class="slds-form-element__row  slds-grid slds-wrap ">
+                            <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                  <label class="slds-text-body_small" for="input-02"><b>{!$ObjectType.Account.Fields.Betalingscondities__c.Label}</b></label>
+                                  <apex:inputField id="Betalingscondities"   value="{!accObj.Betalingscondities__c}" styleClass="slds-select"/>
+                            </div>
+                            <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                 <label class="slds-text-body_small" for="input-01"><b>{!$ObjectType.Account.Fields.Bankrekeningnummer__c.Label}</b></label>
+                                 <apex:inputField id="iban" value="{!accObj.Bankrekeningnummer__c}" styleClass="slds-input" />                          
+                            </div>
+                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <center>             
+                            <apex:commandButton value="Opslaan" onclick="closeModals(this);return false;" styleClass="slds-button slds-button_neutral" /> &nbsp;       
+                            <!--<apex:commandButton value="Annuleren" onclick="closeFactModal(this);return false;" styleClass="slds-button slds-button_neutral" reRender="frm" immediate="true" />  -->
+                            <button type="reset" value="Annuleren" onclick="closeModals(this);" class="slds-button slds-button_neutral btn-css">Annuleren</button>    
+                       </center>                                                                    
+                    </div>
+                </div>
+            </div> 
+            
+             <div id="Primaire-Modal" class="modal modal-tab1">
+                <div class="modal-content modal-tab1-content">
+                    <div class="modal-header modal-tab1-header">                                         
+                        <center><h1>Primaire contactpersoon</h1></center>
+                    </div>
+                    <div class="modal-body modal-tab1-body">
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row  slds-grid slds-wrap ">
+                                <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                     <label class="slds-text-body_small"  for="input101" ><b>{!$ObjectType.Account.Fields.Geslacht__c.Label}</b></label>
+                                     <apex:inputField value="{!accObj.Geslacht__c}" id="input101" styleClass="slds-select" />
+                                </div>
+                                <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                    <label class="slds-form-element__label"  for="input102" ><b>Voornaam</b></label>
+                                    <apex:inputField value="{!accObj.Voornaam_CP__c}" id="input102" styleClass="slds-input" />
+                                </div>
+                            </div>
+                            <div class="slds-form-element__row  slds-grid slds-wrap ">
+                                <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                     <label class="slds-text-body_small" for="input103"  ><b>Achternaam</b></label>
+                                     <apex:inputField value="{!accObj.Achternaam_CP__c}" id="input103" styleClass="slds-input"/>
+                                </div>
+                                 <div class="slds-form-element slds-size_1-of-2 slds-size-small_1-of-2 slds-p-around_xx-small">
+                                      <label class="slds-text-body_small" for="input104"  ><b>E-mailadres</b></label>
+                                      <apex:inputField value="{!accObj.E_mailadres_bedrijf__c}" id="input104" styleClass="slds-input" />
+                                 </div>
+                            </div>
+                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <center>               
+                            <apex:commandButton value="Opslaan" onclick="closeModals(this);return false;" styleClass="slds-button slds-button_neutral" /> &nbsp;    
+                            <!--<apex:commandButton value="Annuleren" onclick="closePrimaireModal(this);return false;" styleClass="slds-button slds-button_neutral"/>-->
+                             <button type="reset" value="Annuleren" onclick="closeModals(this);" class="slds-button slds-button_neutral btn-css">Annuleren</button> 
+                       </center>                                                                   
+                    </div>
+                </div>
+            </div>   
+        </html>
+    </apex:form>
+</apex:page>

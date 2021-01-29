@@ -1,0 +1,67 @@
+<apex:page sidebar="false" showHeader="false" standardController="Account">
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{!$Resource.AccountingJS}"></script>
+    <script type="text/javascript">
+    
+       function createCell(arr, fldVal, rtAlign){
+          if(arr[fldVal]){
+              if(rtAlign){
+                  return "<Td class=\"colData\" align=\"right\">"+accounting.formatMoney(arr[fldVal], "", 2, ".", ",")+"</Td>";
+              }else{
+                  return "<Td class=\"colData\">"+arr[fldVal]+"</Td>";
+              }
+          } else {
+              return "<Td class=\"colData\">" + "</Td>";
+          }
+      }
+      
+      
+      var sessionId = '{!$Api.Session_ID}';
+      
+      
+      $(function(){
+        $.ajax({
+          cache: false,
+          url: '/services/proxy',
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('SalesforceProxy-Endpoint', '{!$Label.service_url}/services/apexrest/RestInvoiceService?id={!Account.Id}&obj=SalesCreditNote');
+            xhr.setRequestHeader('Authorization', 'OAuth ' + sessionId);
+          },
+          success: function(data,status,xhr){
+                console.log(data);
+                var myObj = JSON.parse(data);
+                
+                var tbl_body = "<TR class=\"headerRow\"><TH>Factuurnummer</TH><TH>Factuurdatum</TH><TH style=\"text-align:right\">Factuurbedrag</TH><TH>Betaalstatus</TH></TR>";
+                $.each(myObj, function() {
+                    var tbl_row = "";
+                    tbl_row += createCell(this, 'Name', false);
+                    tbl_row += createCell(this, 'c2g__CreditNoteDate__c', false);
+                    tbl_row += createCell(this, 'c2g__CreditNoteTotal__c', true);
+                    tbl_row += createCell(this, 'c2g__PaymentStatus__c', false);
+                                                            
+                    tbl_body += "<TR>"+tbl_row+"</TR>";           
+                })
+                $("#target_table_id").html(tbl_body);
+          },
+          error: function(xhr,status,errorThrown){
+              $('body').html(errorThrown+': '+JSON.stringify(xhr));
+          }
+        });
+      });
+    </script>
+    </head>
+  <body>
+  <div class="accountTab">
+      <div class="bPageBlock">
+          <div class ="pbBody">
+              <table class="list" border="0" cellpadding="0" cellspacing="0" id="target_table_id">
+         
+              </table>
+          </div>
+      </div>
+  </div>
+  </body> 
+</html>
+</apex:page>

@@ -1,0 +1,39 @@
+<aura:component implements="lightning:utilityItem,force:lightningQuickAction,force:hasRecordId" access="global" controller="ShowMOSScriptCtrl">
+    
+    <aura:attribute name="showScripts" type="Boolean" default="true"/>
+    <aura:attribute name="showMsg" type="Boolean" default="false"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.onRecordIdChange}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    
+    
+    <!--<aura:if isTrue="{!v.showScripts}">
+    <lightning:flow aura:id="flowData"/>
+    </aura:if>-->
+    
+    <lightning:card title="">
+        <aura:set attribute="actions">
+            <lightning:buttonIcon iconName="utility:refresh" variant="brand" onclick="{! c.onRecordIdChange }" alternativeText="Reset" title="Reset" />
+        </aura:set>
+        
+        <aura:if isTrue="{!v.showScripts}">
+            <lightning:flow aura:id="flowDataId"/>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.showMsg}">
+            
+            <div class="slds-is-relative slds-align_absolute-center">
+                <label class="slds-text-heading_medium  slds-text-color_destructive"
+                       style="margin-top: 30%;">
+                    No MOS Cases found
+                </label>
+            </div>
+            
+        </aura:if>
+        
+    </lightning:card>
+    
+    
+</aura:component>

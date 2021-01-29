@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>When a case closed flow gets called and updated the Previous Actual Type of Maintenance with the Actual Type of Maintenance field from the Case</description>
+    <interviewLabel>Case - Update Serial Number {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - Update Serial Number</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Serial_Number_Asset</name>
+        <label>Update Serial Number (Asset)</label>
+        <locationX>116</locationX>
+        <locationY>88</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varSerialNumberID</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Last_PM_Date__c</field>
+            <value>
+                <elementReference>varLastPMDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Previous_Actual_Type_of_Maintenance__c</field>
+            <value>
+                <elementReference>varActualMaintenance</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Asset</object>
+    </recordUpdates>
+    <startElementReference>Update_Serial_Number_Asset</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>varActualMaintenance</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varLastPMDate</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varSerialNumberID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

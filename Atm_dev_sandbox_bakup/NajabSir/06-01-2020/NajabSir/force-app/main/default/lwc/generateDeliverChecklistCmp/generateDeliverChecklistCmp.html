@@ -1,0 +1,148 @@
+<template>
+    
+    <div class="slds-page-header communitySectionColor" style="box-shadow: 0 0px 0px 0;padding:3%;">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-lead_list" title="task">
+                            <lightning-icon icon-name="standard:lead_list" alternative-text="Approved" ></lightning-icon>
+                            <span class="slds-assistive-text">task</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">    
+                            <div class="slds-page-header__name-title">
+                            <h1>
+                                <span class="slds-page-header__title slds-truncate" title="Create Delivery Checklist">Generate Delivery Checklist</span>
+                            </h1>
+                            </div>
+                        </div>
+                        <p class="slds-page-header__name-meta">Delivery Checklist</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <lightning-card>
+
+        <div if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+        </div>
+        
+
+        <div if:true={isValidCmp}>
+            <template for:each={fetchSurveyQuestions} for:item="sur" for:index="indx">
+                <div class="slds-box" key={sur.Id}>
+                <div class="slds-p-top_small" key={sur.srno}></div>
+                
+                <div class="slds-grid slds-gutters" key={sur.srno}>
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="text-input-id-1">{sur.srno}:&nbsp;<span style="color:rgba(214, 5, 1, 1);">*</span>{sur.questionName}</label>
+                                <div class="slds-form-element__control">
+                                    
+                                    <!--YES/NO QUESTIONS-->
+                                    <div class="slds-grid slds-gutters" > 
+                                        <template for:each={sur.optionSet} for:item="opt">
+                                            <div class="slds-col slds-size_1-of-2" key={opt}>
+                                                
+                                                <!--IF USER IS NON-DSE - Show options editable-->
+                                                <div if:false={sur.isDisabled}>
+                                                    <div if:true={opt.isChecked}>
+                                                        <lightning-input type="radio" checked label={opt.dataValue} value={opt.dataValue} onchange={trackChange} data-qstnid={sur.questionId} data-id={opt.dataId}></lightning-input>
+                                                    </div>
+                                                    <div if:false={opt.isChecked}>
+                                                        <lightning-input type="radio" required label={opt.dataValue} value={opt.dataValue} onchange={trackChange} data-qstnid={sur.questionId} data-id={opt.dataId}></lightning-input>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!--IF USER IS DSE - Show options read only-->
+                                                <div if:true={sur.isDisabled}>
+                                                    <div if:true={opt.isChecked}>
+                                                        <lightning-input type="radio" checked label={opt.dataValue} value={opt.dataValue} onchange={trackChange} data-qstnid={sur.questionId} data-id={opt.dataId} disabled></lightning-input>
+                                                    </div>
+                                                    <div if:false={opt.isChecked}>
+                                                        <lightning-input type="radio" required label={opt.dataValue} value={opt.dataValue} onchange={trackChange} data-qstnid={sur.questionId} data-id={opt.dataId} disabled></lightning-input>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <div class="slds-p-top_small" ></div>
+                                    
+                                    <!--DATE EXPECTED QUESTIONS-->
+                                    <div class="slds-grid slds-gutters" >
+                                        <div class={deviceType}>
+                                            <!--IF USER IS NON-DSE - Show options editable-->
+                                            <div if:false={sur.isDisabled}>
+                                                <lightning-input type="date" required={sur.dateRequired} disabled={sur.dateDisable} data-did={sur.srno} onchange={trackDateAnswers} value={sur.dateExpected} label="Date Expected" data-dtid={sur.questionId}></lightning-input>
+                                            </div>
+                                            <!--IF USER IS DSE - Show options read only-->
+                                            <div if:true={sur.isDisabled}>
+                                                <lightning-input type="date" data-did={sur.srno} onchange={trackDateAnswers} value={sur.dateExpected} label="Date Expected" disabled></lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_small" ></div>
+
+                                    <div class="slds-grid slds-gutters" > 
+                                            <div class="slds-col slds-size_1-of-1" >
+                                                <!--IF USER IS NON-DSE - Show options editable-->
+                                                <div if:false={sur.isDisabled}>
+                                                        <lightning-input label="Remarks" data-key={sur.srno} onchange={trackAnswers} value={sur.remarks}></lightning-input> 
+                                                </div>
+
+                                                <!--IF USER IS DSE - Show options read only-->
+                                                <div if:true={sur.isDisabled}>
+                                                        <lightning-input label="Remarks" data-key={sur.srno} onchange={trackAnswers} value={sur.remarks} disabled></lightning-input> 
+                                                </div>
+                                                <div class="slds-p-top_small"></div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
+                </div>
+            </template>
+
+            <!--CANCEL AND SAVE BUTTONS -->
+            <div class="slds-m-top_small slds-align_absolute-center">
+                <lightning-button variant="brand" label="Cancel" onclick={closequickAction} data-id="cancel"></lightning-button> &nbsp;&nbsp;
+                <!--IF USER IS DSE - Hide the save button-->
+                <div if:true={saveButtonVisibility}>
+                    <lightning-button label="Save" variant="brand"  data-id="save" onclick={saveSurvey} ></lightning-button>&nbsp;&nbsp;
+                </div>
+                <lightning-button label="Save &amp; Send" variant="brand" data-id="Save &amp; Send" onclick={saveSurvey}></lightning-button>
+            </div> 
+
+        </div>
+        
+
+        <!--IF USER IS DSE and No survey found - Throw Error-->
+        <div if:false={isValidCmp}>
+            <div class="slds-form-element__control">
+                <div class="demo-only" style="height:5rem; margin-top:5rem;">
+                    <div class="slds-notify_container slds-is-relative">
+                        <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+                            <span class="slds-assistive-text">error</span>
+                            <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                                <lightning-icon icon-name="utility:error" size="medium"></lightning-icon>
+                            </span>
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_medium">
+                                    <p>Error!!</p>
+                                    <p> {erroMessage}</p>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </lightning-card>
+</template>

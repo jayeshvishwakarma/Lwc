@@ -1,0 +1,26 @@
+.container {
+    background-color: white;
+    border: 1px solid rgb(180, 180, 180);
+    border-radius: 4px;
+}
+
+.error-message {
+    height: 4rem;
+    font-size: 25px;
+    font-weight: bolder;
+    color: #003A7A;
+}
+
+.horizontal-line {
+    border-bottom: 4px solid #d4d4d4;
+}
+
+@media only screen and (min-width: 48em) {
+    .slds-form-element__label {
+        font-size: 15px;
+    }
+}
+
+.slds-is-editing{
+    margin-bottom: 0;
+}

@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="options" type="List" />
+    <aura:attribute name="type" type="String" default="News" description="The type of feed" access="GLOBAL"/>
+    <aura:attribute name="types" type="String[]"
+                    default="Bookmarks,Company,DirectMessages,Feeds,Files,Filter,Groups,Home,Moderation,Mute,News,PendingReview,Record,Streams,To,Topics,UserProfile"
+                    description="A list of feed types"/>
+    <div aura:id="feedContainer" class="feed-container">
+        <forceChatter:feed type="To"/>
+    </div>
+</aura:component>

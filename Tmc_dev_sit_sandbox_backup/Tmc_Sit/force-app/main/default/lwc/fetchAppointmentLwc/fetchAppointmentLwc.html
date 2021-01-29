@@ -1,0 +1,248 @@
+<template>
+    <div class="slds-page-header communitySectionColor headerInfo">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-task" title="Appointment">
+                            <lightning-icon icon-name="custom:custom18" alternative-text="Approved">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Appointment</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate"
+                                        title="Appointment">Appointment</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+        <div class="slds-col">
+            <lightning-combobox name="WorkShopName" 
+                                label="Workshop" 
+                                title="Workshop"
+                                placeholder="Select Workshop" 
+                                options={workshopOptions} 
+                                onchange={handlechange}
+                                value={wrkShopId}
+                                data-id="workShopCheckValidation"
+                                required>
+            </lightning-combobox>
+        </div>
+    </div>
+
+    <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+        <div class="slds-col">
+            <lightning-combobox name="RegistrationNumber"  
+                                title="Registration Number" 
+                                label="Registration Number"
+                                placeholder="Select Registration Number" 
+                                options = {registrationNumberValues}  
+                                onchange = {handlechange}
+                                value = {registrationNumber}
+                                data-id="registrationCheck">
+            </lightning-combobox>
+        </div>
+    </div>
+
+    <div class="slds-p-top_x-small slds-align_absolute-center"><b>OR</b></div>
+
+    <div class="slds-grid slds-gutters slds-wrap slds-p-top_small backgroundColor">
+        <div class="slds-col">
+            <lightning-input    name="Appointment Number" 
+                                    label="Appointment Number" 
+                                    title="Appointment Number"
+                                    placeholder="Enter Appointment Number" 
+                                    onchange = {handlechange}>
+                </lightning-input>
+        </div>
+    </div>
+
+    <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </div>
+
+    <div class="slds-text-color_error" if:true={errorMessage}>
+        {errorMessage}
+    </div>
+    <template if:true={loaded}>
+        <!--<div class="slds-p-vertical_medium" if:true={isVisible}>
+            <lightning-datatable    key-field="id" 
+                                    data={data} 
+                                    columns={columns} 
+                                    class="table-test"
+                                    hide-checkbox-column>
+                </lightning-datatable>
+        </div>-->
+        <template if:true={isVisible}>
+            <div class="slds-p-top_medium">
+                <lightning-card>
+        
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <h4 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-left_medium slds-text-heading_small"
+                                    title="Customer Information"><b>Key</b></span>
+                            </h4>
+                        </div>
+                        <div class="slds-col">
+                            <h4 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-left_medium slds-text-heading_small"
+                                    title="Customer Information"><b>Value</b></span>
+                            </h4>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Vehicle Number</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.vehicleRegNo}>
+                                {obj.vehicleRegNo}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.vehicleRegNo}>-
+                            </div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Odometer</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.odometer}>
+                                {obj.odometer}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.odometer}>0</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Service Type</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.serviceType}>
+                                {serviceType}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.serviceType}>-</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Appointment Type</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.appointmentType}>
+                                {appointmentType}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.appointmentType}>-
+                            </div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Appointment Date</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.appointmentDateTime}>
+                                {obj.appointmentDateTime}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small"
+                                if:false={obj.appointmentDateTime}>-</div>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Appointment Status</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.appointmentStatus}>
+                                {obj.appointmentStatus}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small"
+                                if:false={obj.appointmentStatus}>-</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Slot Code</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.slotCD}>{obj.slotCD}
+                            </div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.slotCD}>-</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Slot Time</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.slotTime}>
+                                {obj.slotTime}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.slotTime}>-</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Pickup Type</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.pickUpType}>
+                                {pickupType}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.pickUpType}>-</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Pickup Time</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.pickUpTime}>
+                                {obj.pickUpTime}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.pickUpTime}>-</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Pickup Address</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.pickUpAddress}>
+                                {obj.pickUpAddress}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.pickUpAddress}>-
+                            </div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Drop Time</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.dropTime}>
+                                {obj.dropTime}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.dropTime}>-</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Drop Address</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.dropAddress}>
+                                {obj.dropAddress}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.dropAddress}>-</div>
+                        </div>
+                    
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-heading_small slds-p-top_xx-small slds-p-left_x-small">Pickup Remarks</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:true={obj.pickUpRemarks}>
+                                {obj.pickUpRemarks}</div>
+                            <div class="slds-p-left_xx-small slds-p-top_xx-small slds-text-heading_small" if:false={obj.pickUpRemarks}>-
+                            </div>
+                        </div>
+                    </div>
+
+                </lightning-card>
+            </div>
+        </template>
+        <footer class="slds-p-vertical_medium slds-align_absolute-center">
+            <button class="slds-button slds-button_neutral" onclick={cancel}>Back</button>
+            <button class="slds-button slds-button_brand" if:true={showDetailsProperty} onclick={showDetails}>Show Details</button>
+            <button class="slds-button slds-button_brand" if:true={showCreateWorkOrder} onclick={createWorkOrder}>Reschedule / Cancel</button>
+        </footer>
+    </template>
+</template>

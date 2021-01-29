@@ -1,0 +1,3 @@
+<design:component>
+	<design:attribute name="customerPage" label="Customer Page" datasource="Yes,No" />
+</design:component>

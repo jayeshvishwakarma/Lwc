@@ -1,0 +1,12 @@
+<apex:page id="pg" showHeader="false"  standardStylesheets="false" sidebar="false" docType="html-5.0"  applyBodyTag="False" applyHtmlTag="False">
+   <html>
+    <head>
+     <h1 style="text-align:center;color:green;"><b>
+        Thank you
+        </b>
+    </h1>    
+       </head>   
+   
+   
+        </html>
+</apex:page>

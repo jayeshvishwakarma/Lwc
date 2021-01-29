@@ -1,0 +1,60 @@
+<template>
+    <div class="slds-m-vertical_small custom-background-color">
+        <!-- <div class="slds-grid slds-gutters"> -->
+        <lightning-layout multiple-rows="true" class="custom-background-color">
+            <lightning-layout-item padding="around-small" size="12" small-device-size="2" medium-device-size="2" large-device-size="1">
+                <span><img src={userPhoto} class="custom-image" /></span>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="11">
+                <lightning-layout multiple-rows="true" class="custom-background-color">
+                    <lightning-layout-item  size="6" small-device-size="6" medium-device-size="4" large-device-size="2">
+                        <p>Uw persoonlijke adviseur</p>
+                    </lightning-layout-item>
+                    <lightning-layout-item  size="6" small-device-size="6" medium-device-size="8" large-device-size="10">
+                        : &nbsp; <lightning-formatted-name first-name={userName}>
+                        </lightning-formatted-name>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" small-device-size="6" medium-device-size="4" large-device-size="2">
+                        <p>E-mail</p>
+                    </lightning-layout-item>
+                    <lightning-layout-item  size="6" small-device-size="6" medium-device-size="8" large-device-size="10">
+                        : &nbsp; <lightning-formatted-email hide-icon="true" value={userEmail}>
+                        </lightning-formatted-email>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" small-device-size="6" medium-device-size="4" large-device-size="2">
+                        <p>Doorkiesnummer</p>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" small-device-size="6" medium-device-size="8" large-device-size="10">
+                        : &nbsp; <lightning-formatted-phone value={userExtension}>
+                        </lightning-formatted-phone>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+        <!-- <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-12">
+                <span><img src={userPhoto} style="border-radius:50%" /></span>
+            </div>
+            <div class="slds-col slds-size_11-of-12">
+                <span class="slds-grid slds-wrap slds-p-top_xx-small">
+                    <p>Uw persoonlijke adviseu</p>
+                    <p>&nbsp;&nbsp;:&nbsp;&nbsp;<lightning-formatted-name first-name={userName}>
+                        </lightning-formatted-name>
+                    </p>
+                </span>
+                <span class="slds-grid slds-wrap">
+                    <p>E-mail</p>
+                    <p class="custom-email">:<lightning-formatted-email hide-icon="true" value={userEmail}>
+                        </lightning-formatted-email>
+                    </p>
+                </span>
+                <span class="slds-grid slds-wrap">
+                    <p>Doorkiesnummer</p>
+                    <p>&nbsp;&nbsp;:&nbsp;&nbsp;<lightning-formatted-phone value={userExtension}>
+                        </lightning-formatted-phone>
+                    </p>
+                </span>
+            </div>
+        </div> -->
+    </div>
+</template>

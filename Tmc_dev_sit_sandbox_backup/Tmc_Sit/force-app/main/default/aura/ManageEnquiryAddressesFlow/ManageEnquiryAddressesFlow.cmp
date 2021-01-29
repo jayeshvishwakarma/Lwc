@@ -1,0 +1,59 @@
+<aura:component implements="force:hasRecordId,lightning:availableForFlowScreens" controller="ManageEnquiryAddressesCtrl">
+
+    <aura:attribute name="record" type="Opportunity" />
+    <aura:attribute name="fieldSetName" type="String" default="BillTo" />
+    <aura:attribute name="outCity" type="String" />
+    <aura:attribute name="outPincode" type="String" />
+    <aura:attribute name="outVillage" type="String" />
+    <aura:attribute name="outTehsil" type="String" />
+    <aura:attribute name="deviceFormFactor" type="String" />
+
+    <aura:attribute name="showNext" type="Boolean" default="false" />
+    <aura:attribute name="showFinish" type="Boolean" default="false" />
+    <aura:attribute name="showPrevious" type="Boolean" default="false" />
+    <aura:attribute name="showPause" type="Boolean" default="false" />
+    <aura:attribute name="errorMessage" type="String" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:if isTrue="{!v.errorMessage}">
+        <div class="slds-text-color_destructive slds-p-bottom_small">
+            {!v.errorMessage}
+        </div>
+    </aura:if>
+    
+    <c:manageEnquiryAddresses aura:id="content" recordId="{!v.recordId}" fieldSetName="{!v.fieldSetName}"
+                              record="{!v.record}" deviceFormFactor="{!v.deviceFormFactor}" />
+	
+    
+    <div class="slds-size_1-of-1 slds-p-top_xx-small slds-border_bottom"></div>
+
+    <div class="slds-grid slds-grid_align-end slds-gutters_xxx-small slds-p-top_small">
+
+        <aura:if isTrue="{!v.showPause}">
+            <div class="slds-col slds-col_bump-right">
+                <lightning:button label="Pause" variant="neutral" onclick="{!c.handlePause}" />
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.showPrevious}">
+            <div class="slds-col">
+                <lightning:button label="Previous" variant="neutral" onclick="{!c.handlePrevious}" />
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.showNext}">
+            <div class="slds-col">
+                <lightning:button label="Next" variant="brand" onclick="{!c.handleNext}" />
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.showFinish}">
+            <div class="slds-col">
+                <lightning:button label="Finish" variant="brand" onclick="{!c.handleFinish}" />
+            </div>
+        </aura:if>
+
+    </div>
+
+</aura:component>

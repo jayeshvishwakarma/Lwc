@@ -1,0 +1,17 @@
+.success-msg{
+    min-width: auto;
+}
+.errMsg{
+    color: tomato;
+}
+.error{
+    border: 1px solid tomato;
+}
+.processing{
+    display: none;
+    width: 80px;
+    height: 80px;
+}
+.show{
+    display: inline-block;
+}

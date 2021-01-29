@@ -1,0 +1,14 @@
+<template>
+        <template if:true={record}>  
+                <lightning-layout vertical-align="center">  
+                  <div style="cursor:pointer" key={record.Id} data-contact-id={record.Id} onclick={handleSelect}>  
+                    <lightning-layout-item padding="around-small">  
+                      {record.SerialNumber}  
+                    </lightning-layout-item>  
+                  </div>  
+                </lightning-layout>  
+              </template>  
+              <template if:false={record}>  
+                <p>No data available.</p>  
+              </template>   
+</template>

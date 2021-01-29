@@ -1,0 +1,130 @@
+<apex:page standardController="Contact" extensions="LoginAccountControllerExtension" lightningStylesheets="true" tabStyle="Contact">
+    
+    <style>
+        .column {
+        float: left;
+        width: 50%;
+        padding: 0px;
+        height: auto;
+        }
+    </style>
+    
+    <apex:slds />
+    <apex:form id="form1" >
+        <apex:actionFunction name="passwordMatched" action="{!createContact}" rendered="{!isLoginSection}">
+            <apex:param assignTo="{!Contact.Password__c}" name="password1" value=""/>
+        </apex:actionFunction>
+        <div style="width:50%;margin-left:24%;">
+            <br/><br/><br/><br/><br/><br/>
+            <apex:pageBlock id="pgBlock">
+                <apex:pageMessages />
+                <apex:pageBlockSection id="pgBlockSection1" collapsible="true" columns="1"  rendered="{!isLoginSection}">
+                    
+                    <apex:pageBlock >
+                        <div style='background-color:yellow;font-weight:bold;font-size:30px;'>
+                            <h1 align="center">
+                                E-MarT Login
+                            </h1>
+                        </div>
+                    </apex:pageBlock>
+                    
+                    <apex:pageBlock >
+                        <div align="center">
+                            <b>Username :  </b><apex:inputText label="Email" value="{!Contact.email}" /><br/><br/>
+                            <b>Password :</b><apex:inputSecret label="Password" value="{!Contact.Password__c}" id="passwordFromLogin"/><br/><br/>
+                        </div> 
+                        
+                        <div align="center">
+                            <apex:commandButton style="font-weight:bold;background-color:azure;" value="Login" action="{!login}" />&nbsp;&nbsp;&nbsp;
+                            <apex:commandButton style="font-weight:bold;background-color:azure;" value="SignUp" action="{!SignUptable}" />
+                        </div>
+                        
+                    </apex:pageBlock>
+                    
+                    <apex:commandButton styleClass="slds-button slds-button_text-destructive" value="ForgotPassword" action="{!ForgotPasswordsectionEnable}" />
+                    
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection id="pgBlockSection2"  collapsible="true" columns="1" rendered="{!isSignUpSection}">
+                    <apex:pageBlock >
+                        <div style='background-color:yellow;font-weight:bold;font-size:30px;'>
+                            <h1 align="center">
+                                E-MarT SignUp
+                            </h1>
+                        </div>
+                    </apex:pageBlock>
+                    <apex:pageBlock >
+                        <div class="column" >
+                            <b>Firstname:</b><br/><br/>
+                            <b>Lastname:&nbsp;</b><br/><br/><br/>
+                            <b>Email:</b><br/><br/><br/>
+                            <b>Phone:</b><br/><br/><br/>
+                            <b>Password :</b><br/><br/><br/>
+                            <b>Address :&nbsp;&nbsp;</b><br/><br/><br/><br/>
+                            <b>Country :</b><br/><br/>
+                        </div>
+                        <div class="column" style="width:40%">
+                            <apex:inputfield value="{!Contact.FirstName}" /><br/><br/>
+                            <apex:inputField value="{!Contact.LastName}" /><br/>
+                            <apex:inputField value="{!Contact.Email}" /><br/><br/>
+                            <apex:inputField value="{!Contact.Phone}" /><br/><br/>
+                            <apex:inputSecret required="true" value="{!Contact.Password__c}" /><br/><br/>
+                            <apex:inputField value="{!Contact.Address__c}" /><br/>
+                            <apex:inputField value="{!Contact.Country__c}" /><br/><br/>
+                        </div>
+                        
+                        
+                    </apex:pageBlock>
+                    <apex:commandButton style="font-weight:bold;background-color:azure;" value="SignUp" action="{!createContact}" />
+                    <apex:commandButton style="font-weight:bold;background-color:azure;" value="Back to Login" action="{!backToLogin}" immediate="true" />
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection id="pgBlockSection3"  collapsible="true" columns="1" rendered="{!isForgotPasswordsectionEnable}">
+                    <apex:pageBlock >
+                        <div style='background-color:yellow;font-weight:bold;font-size:30px;'>
+                            <h1 align="center">
+                                Forgot Password
+                            </h1>
+                        </div>
+                    </apex:pageBlock>
+                    <div align="center">
+                        <apex:inputField required="true" value="{!Contact.Email}" />
+                    </div>
+                    <apex:commandButton styleClass="slds-button slds-button_success" value="Validate Email ID" action="{!ValidateEmail}" />
+                    <apex:commandButton style="font-weight:bold;background-color:azure;" value="Back to Login" action="{!backToLogin}" immediate="true" />
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection id="pgBlockSection4"  collapsible="true" columns="1" rendered="{!isResetPasswordSection}">
+                    <apex:pageBlock >
+                        <div style='background-color:yellow;font-weight:bold;font-size:30px;'>
+                            <h1 align="center">
+                                Reset Password
+                            </h1>
+                        </div>
+                    </apex:pageBlock>
+                    <apex:inputField required="true" value="{!Contact.Password__c}" />
+                    <apex:commandButton styleClass="slds-button slds-button_success" value="Reset Password" action="{!ResetPassword}" />
+                    <apex:commandButton style="font-weight:bold;background-color:azure;" value="Back to Login" action="{!backToLogin}" immediate="true" />
+                </apex:pageBlockSection> 
+            </apex:pageBlock>
+        </div>
+    </apex:form>
+    
+    <!------- <script>
+function checkValidation()
+{
+    var password1=document.getElementById('passwordValue1').value;
+    var password2=document.getElementById('passwordValue2').value;
+    if(password1==password2)
+    {
+        passwordMatched(password1);
+    }
+    else
+    {
+        alert('Password is not Matched');
+    }
+    
+}
+
+</script>--------->
+</apex:page>

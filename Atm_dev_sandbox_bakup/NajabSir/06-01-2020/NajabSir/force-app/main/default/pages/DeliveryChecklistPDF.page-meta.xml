@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>46.0</apiVersion>
+    <availableInTouch>true</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>This Visualforce page generates a PDF for the delivery checklist created in Salesforce for an Enquiry. Marketing cloud will send this PDF to the customer as an email attachment.</description>
+    <label>DeliveryChecklistPDF</label>
+</ApexPage>

@@ -1,0 +1,48 @@
+<template>
+    <form id='formId'>
+            <div align="right">
+            <lightning-button
+                label="Submit"
+                slot="actions"
+                onclick={handleClick}
+            >
+            </lightning-button>
+            </div>
+
+    <template for:each={countryNames} for:item="objCountry">
+        <div key={objCountry.country}>
+            <div class="slds-grid slds-gutters">
+
+            <div class="slds-col slds-size_1-of-3 slds-m-around_medium" style="margin-top:30px">
+               <img src={objCountry.imgUrl}/><br/><br/></br><hr width="320%">
+            </div>
+
+            <div style="font-weight:bold" class="slds-col slds-size_2-of-3">
+
+         <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                <div class="slds-checkbox">
+        <lightning-input
+            onchange={handleChange}
+            class="slds-p-left_xx-large"
+            name={objCountry.country}
+            type="checkbox"
+            data-id="checkbox"
+            label="Visited"
+        >
+        </lightning-input>
+            </div>
+            </div>
+             </div>
+
+                Country : {objCountry.country}<br/>
+                Capital : {objCountry.capital}<br/>
+                Continent : {objCountry.continent}<br/>
+                Population : {objCountry.population}
+
+            </div>
+            </div>
+        </div>
+    </template>
+    </form>
+</template>

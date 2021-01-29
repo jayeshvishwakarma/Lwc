@@ -1,0 +1,463 @@
+<apex:page controller="AddProductsController" showHeader="false" sidebar="false" standardStylesheets="false" >
+    <apex:slds />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <apex:stylesheet value="{!URLFOR($Resource.datatable,'/css/jquery.dataTables.min.css')}" />
+    <script src="{!URLFOR($Resource.datatable,'/js/jquery.dataTables.min.js')}" />
+    <script>
+        
+        $(document).ready(function(){
+            //alert('come in222 ');
+            var uagent = navigator.userAgent.toLowerCase();
+            //alert(uagent );
+            if (uagent.search("mobile") > -1){              
+              $(".ismobile").css("display","none");              
+            }else{
+              $(".ismobile").css("display","table-cell"); 
+            }
+                                    
+            jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+                "numeric-comma-pre": function ( a ) {
+                    a = a.split('€')[1].replace(/\D/g,'');
+                    var x = (a == "-") ? 0 : a.replace('€ ','').replace( /,/, "." );
+                    console.log(x);
+                    return parseFloat( x );
+                },            
+                "numeric-comma-asc": function ( a, b ) {                  
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+             
+                "numeric-comma-desc": function ( a, b ) {                    
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                },
+                
+            } );
+            parent.document.getElementsByTagName('iframe')[0].height = $(document).height()+400;
+            newLineDescription();
+            setCheckedonLoad();
+            console.log('@@@ ' , getUrlParam('nextpage','false'));
+            if(getUrlParam('nextpage','false') == 'true'){
+                next();
+            }
+        });
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.top.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+        function getUrlParam(parameter, defaultvalue){
+            var urlparameter = defaultvalue;
+            if(window.top.location.href.indexOf(parameter) > -1){
+                urlparameter = getUrlVars()[parameter];
+                }
+            return urlparameter;
+        }
+        
+        function newLineDescription(){
+            $( ".Description" ).each(function() {
+                var str = $(this).html().replace(/\*/g, '<br>\*');
+                str=str.replace('<br>','');
+                $(this).html(str);
+            });
+        }
+        function initDataTables(){
+            alert('come in initDataTables22');
+            var uagent = navigator.userAgent.toLowerCase();
+            
+            newLineDescription();
+            alert(uagent);
+            if (uagent.search("mobile") > -1){              
+              $(".ismobile").css("display","none");              
+            }else{
+              $(".ismobile").css("display","table-cell"); 
+            }
+            setTimeout(function(){
+                if(!$.fn.DataTable.isDataTable( '.registrantTable' )){
+                    $('.productTable').DataTable({
+                        "searching": false,
+                        "paging": false,
+                        "info": false,
+                        "columnDefs": [
+                          {"type": "numeric-comma", "targets": 5}                         
+                       ]
+                    });
+                }
+                console.log('initialized..');
+            },500);
+            
+        }
+        
+        function next(){
+            if($('.checkbox').is(':checked')){
+                setCookie();
+                nextButton();
+            }else{
+                $('.errorPrompt').show();
+            }
+        }
+        
+        function storeAllProducts(elm, isAll) {
+            console.log(isAll) 
+            if(isAll) {
+                setCookie();
+            }
+            else {
+                var cvalue = '';
+                var cookieItems = getCookie("product") || '';
+                var itemsList = cookieItems.split('@');
+                console.log(itemsList);
+                if($(elm).prop('checked')==true){
+                    $('.checkbox').each(function(index,item){
+                        if($(item).prop('checked')==true){
+                            cvalue += $(item).attr('data-id') + '@';
+                        }                    
+                    });                    
+                    document.cookie = "product=" + cookieItems + cvalue + ";path=/";                
+                }
+                else if($(elm).prop('checked')==false){
+                   $('.checkbox').each(function(index,item){
+                        if($(item).prop('checked')==false){
+                            let productId = $(item).attr('data-id');
+                            var index = itemsList.indexOf(productId);
+                            console.log(productId, index);
+                            if(index != undefined){                                
+                                itemsList.splice(index, 1);  
+                            }
+                        }                    
+                    });  
+                    console.log(itemsList);
+                    cvalue = '';
+                    for(let item in itemsList) {
+                        if(itemsList[item] && itemsList[item] != '') {
+                            cvalue += itemsList[item]+'@';
+                        }
+                    }
+                    document.cookie = "product=" + cvalue + ";path=/"; 
+                }                
+            }
+        }
+        
+        function storeSelectedProduct(elm) {            
+            var productId = $(elm).attr('data-id');
+            var cookieItems = getCookie("product") || '';            
+            var itemsList = cookieItems.split('@');                                  
+            if($(elm).prop('checked')==true){                
+                cookieItems += productId+'@';
+                console.log(productId);
+                document.cookie = "product=" + cookieItems + ";path=/";         
+            }
+            else {
+                var index;
+                if(itemsList.length > 0) {
+                    index = itemsList.indexOf(productId);
+                    console.log(index);
+                } 
+                if(index != undefined){                                
+                    itemsList.splice(index, 1);                        
+                    console.log(itemsList);
+                    let cvalue = '';
+                    for(let item in itemsList) {
+                        if(itemsList[item] && itemsList[item] != '') {
+                            cvalue += itemsList[item]+'@';
+                        }
+                    }
+                    document.cookie = "product=" + cvalue + ";path=/";       
+                }         
+            }
+        }
+        
+        function setCookie() {
+            var cvalue = '';
+            $('.checkbox').each(function(index,item){
+                if($(item).prop('checked')==true){
+                    cvalue += $(item).attr('data-id') + '@';
+                }
+            });
+            if(cvalue != ''){
+                document.cookie = "product=" + cvalue + ";path=/";
+            }
+            else {
+                document.cookie = 'product= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;path=/'; 
+            }
+            
+            console.log('cookie-' + document.cookie);
+        }
+        
+        function getCookie(name){
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+        
+        function setCheckedonLoad(){
+            var cookieItems = getCookie("product");
+            var itemsList = cookieItems.split('@');
+            for(var i=0; i<itemsList.length;i++){
+                $('.checkbox').each(function(index,item){
+                    if(itemsList[i] == $(item).attr('data-id')){
+                        $(item).prop('checked',true);
+                    }
+                });
+                console.log('id='+itemsList[i]);
+            }
+           // alert('come in 3');
+            var uagent = navigator.userAgent.toLowerCase();
+            //alert(uagent);
+            //alert(uagent.search("mobile") );
+            if (uagent.search("mobile") > -1){              
+              $(".ismobile").css("display","none");              
+            }else{
+              $(".ismobile").css("display","table-cell"); 
+            }
+        }
+        
+        function myFunction(){
+          var input, filter, table, tr, td, i;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          //alert(filter);
+          console.log('#value',filter);
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+          for(i = 0; i < tr.length; i++){
+             td = tr[i].getElementsByTagName("td")[2];
+             if (td) {
+                 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                  }else {
+                    tr[i].style.display = "none";
+                 }
+              }       
+          }
+        }
+        initDataTables();                
+    </script>
+    <style>
+        .ismobile{
+            
+        }        
+        .textverticalalign{
+            vertical-align:top;
+        }
+        td{
+          word-wrap: break-word;
+          max-width:200px;
+          white-space:normal !important;
+          text-align:justify !important;
+        }
+        img {
+            width: 50%;
+        }
+        .slds-scope .slds-card{
+            background: rgb(239, 239, 239);
+        }
+        .slds-scope .slds-page-header{
+            background: rgb(239, 239, 239);
+        }
+        .slds-scope .slds-table--striped tbody tr:nth-of-type(even)>td{
+            background-color: #fff;
+        }
+        .slds-scope .slds-table--striped tbody tr:nth-of-type(even)>td, .slds-scope .slds-table--striped tbody tr:nth-of-type(even)>th, .slds-scope .slds-table_striped tbody tr:nth-of-type(even)>td, .slds-scope .slds-table_striped tbody tr:nth-of-type(even)>th
+            background-color: #fff;
+        }
+        .slds-scope .slds-button_brand:active {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button_brand {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button .slds-button_brand {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-button .slds-button_brand{
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button--brand, .slds-scope .slds-button_brand{
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope{
+            overflow: hidden;
+        }
+        table.dataTable thead th, table.dataTable thead td{             
+            border-bottom: none;                
+        }
+    </style>
+    <c:cloudstylecomponent />
+    <apex:pageBlock id="pgblk">
+        <apex:actionStatus id="st1"  >
+            <apex:facet name="start">
+                <apex:outputPanel id="tstpopup">
+                    <div class="slds-spinner_container">
+                        <div class="slds-spinner--brand slds-spinner slds-spinner--medium" role="alert">
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+            </apex:facet>
+        </apex:actionStatus>
+        <apex:form id="frm1">
+            <apex:actionFunction name="changeBrandName" action="{!fetchProducts}" status="st1" reRender="frm1" oncomplete="setCheckedonLoad();initDataTables();"/>
+            <div class="slds-notify-container errorPrompt"  style="position:relative; display:none;">
+                <div class="slds-notify slds-notify--toast slds-theme--error" role="alert" style="min-width:100%">
+                    <span class="slds-assistive-text">Info</span>
+                    <a href="javascript:void(0)" class="slds-button slds-button--icon-inverse slds-notify__close"  onclick="$('.errorPrompt').hide();">
+                        <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                            <use href="{!URLFOR($Asset.SLDS, 'assets/icons/action-sprite/svg/symbols.svg#close')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </a>
+                    <div class="notify__content">
+                        <h2 class="slds-text-heading--small">
+                            <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                <use href="{!URLFOR($Asset.slds, '/assets/icons/utility-sprite/svg/symbols.svg#warning')}"></use>
+                            </svg>
+                            <span class="createNoteErrorMsg"> Select minimaal één product</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <apex:actionFunction action="{!nextPage}" name="nextButton" status="st1"/>
+            <div>
+                <div class="slds-align_absolute-center slds-p-vertical_medium">
+                    <button class="slds-button slds-button_brand" onclick="next(); return false;">
+                     Bestellen   
+                </button>
+                </div>
+                <div class="slds-page-header">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <h1 class="slds-page-header__title slds-truncate slds-align-middle">Selecteer producten</h1>
+                                </div>
+                                <!-- Filter By brand Name Functionality added on 07 March 2019 -->
+                                <div class="slds-col slds-size_1-of-3">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label">Selecteer merk</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:selectList value="{!selectedBrand}" multiselect="False" size="1" onclick="" styleClass="slds-select" style="width:80%;" onchange="changeBrandName();">
+                                                <apex:selectOptions value="{!BrandsName}"/>
+                                            </apex:selectList>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-m-vertical_large">
+                                        <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search" />
+    </svg>
+                                        <input type="text" id="myInput" onkeyup="myFunction();" class="slds-input slds-float_right" placeholder="Zoek toestel" />
+                    </div>
+                                    <!--<input type="text" class=".slds-float_right" id="myInput" onkeyup="myFunction();"  placeholder="Search for names.." title="Type in a name"/>-->
+                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:800px; overflow-y:scroll;">
+                <table class="slds-table slds-table--bordered slds-table--striped productTable" id="myTable">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col" >
+                                <apex:inputCheckbox value="{!selectAll}" onclick="if($('.headercheckbox').is(':checked')){$('.checkbox').prop('checked', true);}else{$('.checkbox').prop('checked', false);}" onchange="storeAllProducts(this, '{!selectedBrand}' == 'Alle merken');" styleClass="headercheckbox"/>
+                            </th>
+                            <th scope="col" class="ismobile">
+                                <div class="slds-truncate" title="Quantity">Hoeveelheid</div>
+                            </th>
+                            <th scope="col">
+                                Productnaam
+                            </th>
+                            <th scope="col" class="ismobile">
+                                Omschrijving
+                            </th>
+                            <th scope="col" class="ismobile">
+                                Productfoto
+                            </th>
+                        
+                            
+                            <th scope="col">
+                                Prijs excl. BTW
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:repeat value="{!pricebookEntryList}" var="product">
+                            <tr>
+                                <td class="textverticalalign">
+                                    <apex:inputCheckbox value="{!product.isChecked}" html-data-id="{!product.pricebookentryrecordObject.product2.Id}" styleClass="checkbox" onchange="storeSelectedProduct(this);"/>
+                                </td>
+                                <td valign="top" class="ismobile">
+                                    <apex:inputText value="{!product.Bestellingproduct.Hoeveelheid__c}" onchange="calculateTotalMaand();" style="width:90px;"/>
+                                </td>
+                                <td data-label="Name" class="textverticalalign">
+                                    <div style="">
+                                    {!product.pricebookentryrecordObject.product2.Name}
+                                    </div>
+                                </td>
+                                <td data-label="Description" class="ismobile textverticalalign Description">
+                                    <apex:outputText value="{!product.pricebookentryrecordObject.product2.description}"></apex:outputText>
+                                    
+                                </td>
+                                <td data-label="Productfoto" class="ismobile">
+                                    <apex:outputField value="{!product.pricebookentryrecordObject.product2.Productfoto__c}"/>
+                                </td>
+                                
+                                
+                                
+                                <td data-label="UnitPrice"  class="textverticalalign">
+                                    <div style="text-align:right;">
+                                        <apex:outputField value="{!product.pricebookentryrecordObject.unitprice}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                </div>
+                <div class="slds-align_absolute-center slds-p-vertical_medium">
+                    <button class="slds-button slds-button_brand" onclick="next(); return false;">
+                     Bestellen   
+                </button>
+                </div>
+            </div>
+        </apex:form>
+    </apex:pageBlock>
+</apex:page>

@@ -1,0 +1,38 @@
+<apex:page showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false">
+
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    
+    <!--minified version-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.228/pdf.min.js"></script>-->
+    
+    <script>
+
+        const pdfPageUrl = '/dealers/apex/BookingBCRFormPDF?id={!$CurrentPage.Parameters.id}';
+
+        function handlePageRetrieve(page) {
+            var viewport = page.getViewport({ scale: 1 });
+
+            var canvas = document.createElement('canvas');
+            document.body.appendChild(canvas);
+            
+            var context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            page.render({
+                canvasContext: context,
+                viewport: viewport
+            });
+        }
+
+        window.onload = function () {
+            pdfjsLib.getDocument(pdfPageUrl).promise.then(function (pdf) {
+                for (var i = 1; i <= pdf.numPages; i++) {
+                    pdf.getPage(i).then(handlePageRetrieve);
+                }
+            });
+        }
+
+    </script>
+
+</apex:page>

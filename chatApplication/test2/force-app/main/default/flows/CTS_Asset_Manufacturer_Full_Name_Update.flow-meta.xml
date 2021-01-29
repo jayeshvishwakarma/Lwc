@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This flow is being triggered by Process Builder: &quot;CTS Asset Manufacturer Full Name&quot;</description>
+    <interviewLabel>CTS Asset Manufacturer Full Name Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CTS Asset Manufacturer Full Name Update</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>This element gets the record from the Custom Metadata type when the manufacturer of the Asset matches with the custom metadata type record</description>
+        <name>Get_Records_from_CTS_Asset_Manufacturer</name>
+        <label>Get Records from CTS Asset Manufacturer</label>
+        <locationX>189</locationX>
+        <locationY>61</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Asset_Manufacturer_Full_Name</targetReference>
+        </connector>
+        <filters>
+            <field>Manufacturer__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Asset_Manf_PB</elementReference>
+            </value>
+        </filters>
+        <object>CTS_Manufacturer_Full_Name__mdt</object>
+        <outputReference>Asset_Manufacturer_Record</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Label</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+        <queriedFields>Manufacturer__c</queriedFields>
+        <queriedFields>Mfr_Full_Name__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <description>This element updates the field: Mfr Full Name of the Asset record when the manufacturer name matches</description>
+        <name>Update_Asset_Manufacturer_Full_Name</name>
+        <label>Update Asset Manufacturer Full Name</label>
+        <locationX>347</locationX>
+        <locationY>70</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>VarAssetId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Manufacturer__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Asset_Manufacturer_Record.Manufacturer__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CTS_Mfr_Full_Name__c</field>
+            <value>
+                <elementReference>Asset_Manufacturer_Record.Mfr_Full_Name__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Asset</object>
+    </recordUpdates>
+    <startElementReference>Get_Records_from_CTS_Asset_Manufacturer</startElementReference>
+    <status>Active</status>
+    <variables>
+        <description>This variable stores the value of the Manufacturer field of the Asset that is been passed by the Process Builder</description>
+        <name>Asset_Manf_PB</name>
+        <dataType>Picklist</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>This variable stores the details of the Custom Metadata Type, when the Manufacturer name matches between Asset object and metadata object</description>
+        <name>Asset_Manufacturer_Record</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>CTS_Manufacturer_Full_Name__mdt</objectType>
+    </variables>
+    <variables>
+        <description>This variable is used to store the Asset ID passed by Process Builder</description>
+        <name>VarAssetId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

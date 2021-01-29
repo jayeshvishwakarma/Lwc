@@ -1,0 +1,3 @@
+<apex:page standardController="VoIP__c" action="{!callVoIP_ModifyContractTerminationAPI}" extensions="VoIP_ModifyContractTermination">
+    <apex:pageMessages escape="false"  />
+</apex:page>

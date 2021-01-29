@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>RMs_SE_and_Central</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Jason Sherrill has taken on RM role for SE however still maintaining Central RM role.  He will need to have access to both regions until a replacement can be found</description>
+        <label>RMs SE and Central</label>
+        <sharedTo>
+            <role>RM16_Central</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>RM03_Southeast</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

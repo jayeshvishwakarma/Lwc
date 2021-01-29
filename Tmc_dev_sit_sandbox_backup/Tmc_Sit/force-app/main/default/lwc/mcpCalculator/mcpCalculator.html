@@ -1,0 +1,87 @@
+<template>
+    <div if:true={cmpVisible}>
+        <div class="slds-page-header communitySectionColor headerInfo">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-task" title="MCP Calculator">
+                                <lightning-icon icon-name="custom:custom18" alternative-text="Approved">
+                                </lightning-icon>
+                                <span class="slds-assistive-text">MCP Calculator</span>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate" title="MCP Calculator">MCP
+                                            Calculator</span>
+                                    </h1>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+            <div class="slds-col">
+                <lightning-combobox name="WorkShopName" label="Workshop" title="Workshop" placeholder="Select Workshop"
+                    options={workshopOptions} onchange={handlechange} required>
+                </lightning-combobox>
+            </div>
+        </div>
+
+
+        <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+            <div class="slds-col">
+                <lightning-combobox name="Vehicle" title="Vehicle" label="Vehicle" placeholder="Select Vehicle"
+                    options={vehicleOptions} value={vehicleData} onchange={handlechange} class="reqData" required>
+                </lightning-combobox>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+            <div class="slds-col">
+                <span onkeypress={isDecimal}>
+                    <lightning-input name="Mileage" label="Current Mileage" type="Number" title="Current Mileage"
+                        placeholder="Current Mileage" onchange={handlechange} required onpaste={handlePaste}
+                        value={mileage} class="reqData">
+                    </lightning-input>
+                </span>
+            </div>
+        </div>
+
+
+
+
+        <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+
+        <div class="slds-text-color_error" if:true={errorMessage}>
+            {errorMessage}
+        </div>
+        <div class="slds-m-top_medium"></div>
+        <template if:true={loaded}>
+            <div class="mobile-header" if:true={isSmallDevice}> <b>MCP Calculator</b></div>
+            <lightning-datatable key-field="id" data={data} class="slds-max-medium-table_stacked" columns={columns}
+                onrowaction={handleRowAction} hide-checkbox-column>
+            </lightning-datatable>
+        </template>
+
+        <footer class="slds-p-vertical_medium slds-align_absolute-center">
+            <button class="slds-button slds-button_neutral" onclick={closeScreen}>Back</button>
+            <button class="slds-button slds-button_brand" onclick={fetchMCPdata}>Calculate</button>
+        </footer>
+    </div>
+    <div class="slds-align_absolute-center">
+        <div class="exampleHolder" if:false={cmpVisible}>
+          <c-create-Dealer-Inbound-Case customer-enquiry-id={customerRecorId} vehicleodometer={mileage} vehicleregistrationnumber={regNumber} vehiclevinnumber={vehicleData}
+            source-cmp="MCP Calculator" packagename={mcppackageName} mcpdealerid={dealerId}></c-create-Dealer-Inbound-Case>
+        </div>
+      </div>
+</template>

@@ -1,0 +1,272 @@
+<template>
+    <div class="slds-is-relative slds-p-vertical_large" if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </div>
+
+    <div class="slds-text-color_error slds-p-vertical_small" if:true={errorMessage}>
+        {errorMessage}
+    </div>
+    <div class="slds-m-top_large"></div>
+    <div if:true={loaded}>
+        <div class="slds-form" role="list">
+            <h3 class="slds-section__title slds-theme_shade">
+                <span class="slds-truncate slds-p-horizontal_small" title="Lost Case Feedback">
+                    Lost Case Feedback</span>
+            </h3>
+            <!--<div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Customer Name</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Customer__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Customer Type</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Customer_Type__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Alternate Phone 1</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Mobile_Number_1__c}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Alternate Phone Number 2</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Mobile_Number_2__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Alternate Phone Number 3</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Mobile_Number_3__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Preferred Languages</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Preferred_Languages__pc}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Contact Email</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.ContactEmail}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Policy Number</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Policy_No__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                        <label class="slds-form-element__label">Policy Issue Date</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.policyIssueDate}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Policy Start Date</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.policyStartDate}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Policy Expiry Date</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Policy_Expiry_Date__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Vehicle Sale Date</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.PurchaseDate}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Vehicle Submodel</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.vehicleSubmodel}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Vehicle Color</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Color_of_the_Car__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Year of Manufacturing</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.PurchaseDate}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Engine Number</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Engine_No__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Chassis Number Color</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.Chassis_Number__c}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem"></div>
+            </div>-->
+            <div class="slds-m-top_small"></div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <lightning-input label="Non MI Policy No" name="nonMIPolicyNo" type="text"
+                                onchange={handleValueChange} value={inputData.nonMIPolicyNo}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <lightning-combobox name="reasonForLost" label="Reason For Lost" value={inputData.reasonForLost}
+                                placeholder="Select an Option" readonly class="inputCmp" options={reasonforLostOptions} onchange={handleValueChange} required>
+                            </lightning-combobox>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent">
+                        <div class="slds-form-element__control">
+                           <lightning-combobox name="insuranceCompany" label="Insurance Company" value={inputData.insuranceCompany}
+                                placeholder="Select an Option" options={insuranceCompanyOptions} onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <lightning-input label="Policy Issue Date" name="newPolicyIssueDate" type="datetime"
+                                onchange={handleValueChange} value={inputData.policyIssueDate}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <lightning-input label="Policy Expiry date" name="newPolicyExpiryDate" type="datetime"
+                                onchange={handleValueChange} value={inputData.policyExpiryDate}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-hint-parent">
+                        <span class="slds-form-element__label"></span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static"></div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent">
+                        <div class="slds-form-element__control">
+                            <lightning-input label="Remarks" name="remarks" type="text"
+                                onchange={handleValueChange} value={inputData.remarks}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-hint-parent">
+                        <span class="slds-form-element__label">Created Date </span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.currentDate}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-hint-parent">
+                        <span class="slds-form-element__label">Created By </span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{displayData.name}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-card__footer">
+            <lightning-button variant="brand" label="Save" title="Save" onclick={updateData}></lightning-button>
+        </footer>
+    </div>
+
+</template>

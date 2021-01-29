@@ -1,0 +1,249 @@
+<template>
+	<div class="slds-theme--default">
+		<template if:true={isSpinnerShow}>
+			<lightning-spinner variant="brand" size="medium" alternative-text="loading"></lightning-spinner>
+		</template>
+		<!-- IF the PROCESS TYPE IS CASE ACTION -->
+		<template if:false={caseId}>
+			<div id="transfer" class="slds-section slds-is-open">
+				<div id="header-section">
+					<template if:true={isMobileDevice}>
+						<template if:false={caseActionId}>
+							<div class="slds-page-header slds-page-header_vertical">
+								<h2>Transfer</h2>
+							</div>
+						</template>
+					</template>
+					<template if:true={caseActionId}>
+						<template if:true={isMobileDevice}>
+							<div class="slds-text-align--center slds-text-heading_small slds-border--bottom slds-p-bottom--xx-small">Edit Case Action</div>
+						</template>
+					</template>
+				</div>
+				<!-- To Create/Update the the Record -->
+				<template if:false={allFieldsIsReadOnly}>
+					<template if:true={caseActionTransferRecordTypeId}>
+						<lightning-record-edit-form record-id={caseActionId} record-type-id={caseActionTransferRecordTypeId} object-api-name="Case_Actions__c" onload={handleOnload} onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>
+							<lightning-messages></lightning-messages>
+							<div aria-hidden="false" class="slds-section__content">
+								<lightning-layout multiple-rows>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field onchange={handleFieldChange} name={fieldNames.channel} field-name={fieldNames.channel} value={valuesObj.channelValue} required disabled={isRMManager}></lightning-input-field>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field onchange={handleFieldChange} name={fieldNames.caseType} field-name={fieldNames.caseType} required value={valuesObj.caseTypeValue} disabled={isRMManager}></lightning-input-field>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field onchange={handleFieldChange} name={fieldNames.businessArea} field-name={fieldNames.businessArea} required value={valuesObj.businessAreaValue} disabled={isRMManager}></lightning-input-field>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field onchange={handleFieldChange} name={fieldNames.caseStage} field-name={fieldNames.caseStage} required={isCaseStageRequired} value={valuesObj.caseStageValue} disabled={caseStageDisabled}></lightning-input-field>
+									</lightning-layout-item>
+									<!-- Start of Categories Fields -->
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.primaryCategory} label="Primary Category" value={category.primaryCategoryValue} placeholder="--None--" required disabled={category.isPrimaryCategoryDisabled} options={category.primaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.secondaryCategory} label="Secondary Category" value={category.secondaryCategoryValue} placeholder="--None--" disabled={category.isSecondaryCategoryDisabled} options={category.secondaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.tertiaryCategory} label="Tertiary Category" value={category.tertiaryCategoryValue} placeholder="--None--" disabled={category.isTertiaryCategoryDisabled} options={category.tertiaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+									</lightning-layout-item>
+									<!-- End of Categories Fields -->
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field onchange={handleFieldChange} name={fieldNames.outletType} field-name={fieldNames.outletType} value={valuesObj.outletTypeValue} required disabled={isRMManager}></lightning-input-field>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field onchange={handleFieldChange} name={fieldNames.city} field-name={fieldNames.city} required value={valuesObj.cityValue} disabled={isRMManager}></lightning-input-field>
+									</lightning-layout-item>
+									<!-- Start of Custom Lookup for Dealer Name dependent on City / For Code -->
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<template if:true={isDealerFieldShow}>
+											<template if:false={isRMManager}>
+												<c-create-case-look-up field-label="Dealer Name" query-string={dealerQuery}  onchange={handleLookupChange} selected-record-id={selectedDealerId} selected-record-name={selectedDealerName} is-mobile-device={isMobileDevice} s-object-name="Account"></c-create-case-look-up>
+											</template>
+											<template if:true={isRMManager}>
+												<lightning-input-field  field-name="Dealer_Name__c" value={selectedDealerId}   disabled></lightning-input-field>
+											</template>
+										</template>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field name="Dealer_Code__c" field-name="Dealer_Code__c" readonly value={valuesObj.dealerCode}></lightning-input-field>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<div class="slds-form-element slds-form-element_stacked">
+											<label class="slds-form-element__label slds-no-flex">Dealer Address</label>
+											<lightning-formatted-address street={valuesObj.dealerBillingStreet} city={valuesObj.dealerBillingCity} country={valuesObj.dealerBillingCountry} province={valuesObj.dealerBillingState} postal-code={valuesObj.dealerBillingPostalCode}></lightning-formatted-address>
+										</div>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input class="slds-p-horizontal--xx-small" readonly value={valuesObj.dealerZone} label="Zone"></lightning-input>
+									</lightning-layout-item>
+									<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field name="Region_Code__c" field-name="Region_Code__c" value={valuesObj.regionCodeValue} disabled></lightning-input-field>
+									</lightning-layout-item>
+
+									<!-- End of Custom Lookup for Dealer Name dependent on City / For Code -->
+									<!-- Hidden Fields -->
+									<!-- <lightning-input-field class="slds-hide" name="Dealer_Name__c" readonly field-name="Dealer_Name__c" value={selectedDealerId} ></lightning-input-field> -->
+									<lightning-input-field class="slds-hide" name="Name" readonly field-name="Name" value={defaultCaseActionName}></lightning-input-field>
+									<lightning-input-field class="slds-hide" name="Approval_Status__c" readonly field-name="Approval_Status__c" value={defaultCaseActionStatus}></lightning-input-field>
+									
+									<lightning-input-field class="slds-hide" name="Region_Code__c" readonly field-name="Region_Code__c" value={valuesObj.regionCodeValue}></lightning-input-field>
+									<lightning-input-field class="slds-hide" name="Dealer_Type__c" readonly field-name="Dealer_Type__c" value={valuesObj.dealerType}></lightning-input-field>
+								</lightning-layout>
+								<!-- Button Section -->
+								<template if:true={isMobileDevice}>
+									<div class="slds-align--absolute-center slds-p-vertical--small">
+										<lightning-button label="Cancel" class="slds-p-horizontal--xxx-small" onclick={closeModal}></lightning-button>
+										<lightning-button variant="brand" class="slds-p-horizontal--xxx-small" type="submit" label="Save"></lightning-button>
+									</div>
+								</template>
+								<template if:false={isMobileDevice}>
+									<div class="slds-float--right slds-p-top--small slds-p-right--small">
+										<lightning-button variant="brand" type="submit" label="Save"></lightning-button>
+									</div>
+								</template>
+							</div>
+						</lightning-record-edit-form>
+					</template>
+				</template>
+				<!-- To view the record -->
+				<template if:true={allFieldsIsReadOnly}>
+					<lightning-record-edit-form record-id={caseActionId} object-api-name="Case_Actions__c" onload={handleOnload}>
+						<lightning-messages></lightning-messages>
+						<div aria-hidden="false" class="slds-section__content">
+							<lightning-layout multiple-rows>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-input-field name={fieldNames.channel} field-name={fieldNames.channel} required disabled></lightning-input-field>
+								</lightning-layout-item>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-input-field name={fieldNames.caseType} field-name={fieldNames.caseType} required disabled></lightning-input-field>
+								</lightning-layout-item>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-input-field name={fieldNames.businessArea} field-name={fieldNames.businessArea} required disabled></lightning-input-field>
+								</lightning-layout-item>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-input-field name={fieldNames.caseStage} field-name={fieldNames.caseStage} required disabled></lightning-input-field>
+								</lightning-layout-item>
+								<!-- Start of Categories Fields -->
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.primaryCategory} label="Primary Category" value={category.primaryCategoryValue} placeholder="--None--" required disabled options={category.primaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+								</lightning-layout-item>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.secondaryCategory} label="Secondary Category" value={category.secondaryCategoryValue} placeholder="--None--" disabled options={category.secondaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+								</lightning-layout-item>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.tertiaryCategory} label="Tertiary Category" value={category.tertiaryCategoryValue} placeholder="--None--" disabled options={category.tertiaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+								</lightning-layout-item>
+								<!-- End of Categories Fields -->
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-input-field name={fieldNames.outletType} field-name={fieldNames.outletType} required disabled></lightning-input-field>
+								</lightning-layout-item>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+										<lightning-input-field name={fieldNames.city} field-name={fieldNames.city} value={valuesObj.cityValue}  required disabled></lightning-input-field>
+								</lightning-layout-item>
+								<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+									<lightning-input-field  field-name="Dealer_Name__c" value={selectedDealerId}  required disabled></lightning-input-field>
+								</lightning-layout-item>
+							</lightning-layout>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field name="Dealer_Code__c" field-name="Dealer_Code__c" readonly value={valuesObj.dealerCode}></lightning-input-field>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<div class="slds-form-element slds-form-element_stacked">
+									<label class="slds-form-element__label slds-no-flex">Dealer Address</label>
+									<lightning-formatted-address street={valuesObj.dealerBillingStreet} city={valuesObj.dealerBillingCity} country={valuesObj.dealerBillingCountry} province={valuesObj.dealerBillingState} postal-code={valuesObj.dealerBillingPostalCode}></lightning-formatted-address>
+								</div>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input class="slds-p-horizontal--xx-small" readonly value={valuesObj.dealerZone} label="Zone"></lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field name="Region_Code__c" field-name="Region_Code__c" value={valuesObj.regionCodeValue} disabled></lightning-input-field>
+							</lightning-layout-item>
+							<!-- Button Section -->
+							<template if:true={isMobileDevice}>
+								<div class="slds-align--absolute-center slds-p-vertical--small">
+									<lightning-button label="Cancel" class="slds-p-horizontal--xxx-small" onclick={closeModal}></lightning-button>
+								</div>
+							</template>
+						</div>
+					</lightning-record-edit-form>
+				</template>
+			</div>
+		</template>
+		<!-- IF the PROCESS TYPE IS CASE UPDATE -->
+		<template if:true={caseId}>
+			<div id="case-update" class="slds-section slds-is-open">
+				<!-- To Update the the Record -->
+				<lightning-record-edit-form record-id={caseId} object-api-name="Case" onload={handleOnload} onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>
+					<lightning-messages></lightning-messages>
+					<div aria-hidden="false" class="slds-section__content">
+						<lightning-layout multiple-rows>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field onchange={handleFieldChange} name={fieldNames.channel} field-name={fieldNames.channel} value={valuesObj.channelValue} required></lightning-input-field>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field onchange={handleFieldChange} name={fieldNames.caseType} field-name={fieldNames.caseType} required value={valuesObj.caseTypeValue}></lightning-input-field>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field onchange={handleFieldChange} name={fieldNames.businessArea} field-name={fieldNames.businessArea} required value={valuesObj.businessAreaValue}></lightning-input-field>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field onchange={handleFieldChange} name={fieldNames.caseStage} field-name={fieldNames.caseStage} value={valuesObj.caseStageValue}></lightning-input-field>
+							</lightning-layout-item>
+							<!-- Start of Categories Fields -->
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.primaryCategory} label="Primary Category" value={category.primaryCategoryValue} placeholder="--None--" required disabled={category.isPrimaryCategoryDisabled} options={category.primaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.secondaryCategory} label="Secondary Category" value={category.secondaryCategoryValue} placeholder="--None--" disabled={category.isSecondaryCategoryDisabled} options={category.secondaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-combobox class="slds-p-horizontal--xx-small" name={fieldNames.tertiaryCategory} label="Tertiary Category" value={category.tertiaryCategoryValue} placeholder="--None--" disabled={category.isTertiaryCategoryDisabled} options={category.tertiaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+							</lightning-layout-item>
+							<!-- End of Categories Fields -->
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field onchange={handleFieldChange} name={fieldNames.outletType} field-name={fieldNames.outletType} value={valuesObj.outletTypeValue}></lightning-input-field>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field onchange={handleFieldChange} name={fieldNames.city} field-name={fieldNames.city} value={valuesObj.cityValue}></lightning-input-field>
+							</lightning-layout-item>
+							<!-- Start of Custom Lookup for Dealer Name dependent on City / For Code and outlet type-->
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<template if:true={isDealerFieldShow}>
+									<c-create-case-look-up field-label="Dealer Name" query-string={dealerQuery} onchange={handleLookupChange} selected-record-id={selectedDealerId} selected-record-name={selectedDealerName} is-mobile-device={isMobileDevice} s-object-name="Account"></c-create-case-look-up>
+								</template>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field name="Dealer_Code__c" field-name="Dealer_Code__c" readonly value={valuesObj.dealerCode}></lightning-input-field>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<div class="slds-form-element slds-form-element_stacked">
+									<label class="slds-form-element__label slds-no-flex">Dealer Address</label>
+									<lightning-formatted-address street={valuesObj.dealerBillingStreet} city={valuesObj.dealerBillingCity} country={valuesObj.dealerBillingCountry} province={valuesObj.dealerBillingState} postal-code={valuesObj.dealerBillingPostalCode}></lightning-formatted-address>
+								</div>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input class="slds-p-horizontal--xx-small" readonly value={valuesObj.dealerZone} label="Zone"></lightning-input>
+							</lightning-layout-item>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+								<lightning-input-field name="Region_Code__c" field-name="Region_Code__c" value={valuesObj.regionCodeValue} disabled></lightning-input-field>
+							</lightning-layout-item>
+							<!-- HIDDEN FIELDS -->
+							<lightning-input-field class="slds-hide" field-name="Region_Code__c" value={valuesObj.regionCodeValue}></lightning-input-field>
+							<lightning-input-field class="slds-hide" field-name="Dealer_Type__c" value={valuesObj.dealerType}></lightning-input-field>
+							<lightning-input-field class="slds-hide" field-name="Dealer_Code__c" value={valuesObj.dealerCode}></lightning-input-field>
+							<lightning-input-field class="slds-hide" field-name="Dealer_Address__c" value={valuesObj.dealerAddress}></lightning-input-field>
+						</lightning-layout>
+						<!-- Button Section -->
+						<div class="slds-float--right slds-p-top--small slds-p-right--small">
+							<lightning-button variant="brand" type="submit" label="Save"></lightning-button>
+						</div>
+					</div>
+				</lightning-record-edit-form>
+			</div>
+		</template>
+	</div>
+</template>

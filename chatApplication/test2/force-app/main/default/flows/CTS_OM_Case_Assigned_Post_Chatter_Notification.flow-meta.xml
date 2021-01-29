@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <processMetadataValues>
+            <name>postTargetUserType</name>
+            <value>
+                <stringValue>REFERENCE</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>textJson</name>
+            <value>
+                <stringValue>{&quot;mentions&quot;:[],&quot;message&quot;:&quot;@[{![Case].OwnerId}] - Case Number {![Case].CaseNumber} has just been assigned to you.\n\nhttps://irco.lightning.force.com/{![Case].Id}&quot;}</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>Notify Owner via Chatter</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <actionName>chatterPost</actionName>
+        <actionType>chatterPost</actionType>
+        <inputParameters>
+            <name>text</name>
+            <value>
+                <stringValue>@[{!myVariable_current.OwnerId}] - Case Number {!myVariable_current.CaseNumber} has just been assigned to you.
+
+https://irco.lightning.force.com/{!myVariable_current.Id}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>type</name>
+            <value>
+                <stringValue>USER</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>subjectNameOrId</name>
+            <value>
+                <elementReference>myVariable_current.Owner:User.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Case Owner Changed to User</label>
+        </rules>
+    </decisions>
+    <description>Chatter notification posted to the newly assigned case owner</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF(
+   AND(
+      OR(
+         CONTAINS([Case].RecordType.DeveloperName, &apos;CTS_OM&apos;),
+         [Case].RecordType.DeveloperName = &quot;CTS_Non_Warranty_Claims&quot; 
+      ),
+      NOT [Case].IsClosed ,
+      ISCHANGED([Case].OwnerId),
+      NOT(BEGINS([Case].OwnerId, &quot;00G&quot;)) 
+     ),  
+   TRUE, 
+   FALSE 
+)
+</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(
+   AND(
+      OR(
+         CONTAINS({!myVariable_current.RecordType.DeveloperName}, &apos;CTS_OM&apos;),
+         {!myVariable_current.RecordType.DeveloperName} = &quot;CTS_Non_Warranty_Claims&quot; 
+      ),
+      NOT {!myVariable_current.IsClosed} ,
+      ISCHANGED({!myVariable_current.OwnerId}),
+      NOT(BEGINS({!myVariable_current.OwnerId}, &quot;00G&quot;)) 
+     ),  
+   TRUE, 
+   FALSE 
+)</expression>
+    </formulas>
+    <interviewLabel>CTS_OM_Case_Assigned_Post_Chatter_Notification-12_InterviewLabel</interviewLabel>
+    <label>CTS OM Case Assigned Post Chatter Notification</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>Case</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <startElementReference>myDecision</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+</Flow>

@@ -1,0 +1,492 @@
+<template>
+
+    <div class="slds-is-relative slds-p-vertical_large" if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </div>
+
+    <div class="slds-text-color_error slds-p-vertical_small" if:true={errorMessage}>
+        {errorMessage}
+    </div>
+
+    <div if:true={loaded}>
+        <div class="slds-form" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Customer Name</label>
+                        <div class="slds-form-element__control">{responseData.customerName}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Policy Number</label>
+                        <div class="slds-form-element__control">{responseData.policyNo}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Insurance Company</label>
+                        <div class="slds-form-element__control">{responseData.insuranceCompany}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label" for="single-form-element-id-06">Policy Type</label>
+                        <div class="slds-form-element__control">{responseData.policyType}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Renewal Type</label>
+                        <div class="slds-form-element__control">{responseData.renewalType}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Policy Status</label>
+                        <div class="slds-form-element__control">{responseData.policyStatus}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label" for="single-form-element-id-03">Policy Issue
+                            Date</label>
+                        <div class="slds-form-element__control">{responseData.policyIssueDate}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label" for="single-form-element-id-04">Policy Start
+                            Date</label>
+                        <div class="slds-form-element__control">{responseData.policyStartDate}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label" for="single-form-element-id-05">Policy End
+                            Date</label>
+                        <div class="slds-form-element__control">{responseData.policyEndDate}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">IDV (Depreciation)</label>
+                        <div class="slds-form-element__control">
+                            <lightning-formatted-number value={idvValue} format-style="currency" currency-code="INR">
+                            </lightning-formatted-number>{idvPercent}
+                        </div>
+                    </div>
+                </div>
+               <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Total Premium</label>
+                        <div class="slds-form-element__control">{responseData.totalPremium}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Vehicle Sale Date</label>
+                        <div class="slds-form-element__control">{responseData.vehicleSaleDate}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Claim Status</label>
+                        <div class="slds-form-element__control">{responseData.claimStatus}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">NCB</label>
+                        <div class="slds-form-element__control">{responseData.NCB}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Vehicle Hypothecation</label>
+                        <div class="slds-form-element__control">{responseData.vehicleHypothecation}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Vehicle SubModel</label>
+                        <div class="slds-form-element__control">{responseData.vehicleSubModel}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Vehicle Type</label>
+                        <div class="slds-form-element__control">{responseData.vehicleType}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Year of Manufacturing</label>
+                        <div class="slds-form-element__control">{responseData.yearOfManufacturing}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Insured Dealer Name</label>
+                        <div class="slds-form-element__control">{responseData.insuredDealerName}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Dealer City With Outlet Code</label>
+                        <div class="slds-form-element__control">{responseData.dealerCityWithOutletCode}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                </div>                
+           </div>
+
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Zone</label>
+                        <div class="slds-form-element__control">{responseData.zone}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Registration City</label>
+                        <div class="slds-form-element__control">{responseData.registrationCity}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Registration No</label>
+                        <div class="slds-form-element__control">{upperRegNum}</div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Bifuel Kit Type</label>
+                        <div class="slds-form-element__control">{responseData.coverageType}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Electrical Accessories Value</label>
+                        <div class="slds-form-element__control">{responseData.electricalAccessoriesValue}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Non-Electrical Accessories Value</label>
+                        <div class="slds-form-element__control">{responseData.nonelectricalAccessoriesValue}</div>
+                    </div>
+                </div>
+                
+                <!--<div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Vehicle Color</label>
+                        <div class="slds-form-element__control">{responseData.vehicleColor}</div>
+                    </div>
+                </div>-->
+                
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Voluntary Excess</label>
+                        <div class="slds-form-element__control">{responseData.voluntaryExcess}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Engine No</label>
+                        <div class="slds-form-element__control">{responseData.engineNo}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Chassis No</label>
+                        <div class="slds-form-element__control">{responseData.chassisNo}</div>
+                    </div>
+                </div>
+                <!--<div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Endorsement Category</label>
+                        <div class="slds-form-element__control">{responseData.endorsementCategory}</div>
+                    </div>
+                </div>-->
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Endorsement Done</label>
+                        <div class="slds-form-element__control">{responseData.endorsementDone}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Customer Full Address</label>
+                        <div class="slds-form-element__control">{responseData.customerFullAddress}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Policy Issuance Mode</label>
+                        <div class="slds-form-element__control">{responseData.policyIssuanceMode}</div>
+                    </div>
+                </div>
+            </div>
+
+             
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Nominee Name</label>
+                        <div class="slds-form-element__control">{responseData.nomineeName}</div>
+                    </div>
+                </div>
+                <!--<div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Insured Dealer Name</label>
+                        <div class="slds-form-element__control">{responseData.insuredDealerName}</div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Dealer City With Outlet Code</label>
+                        <div class="slds-form-element__control">{responseData.dealerCityWithOutletCode}</div>
+                    </div>
+                </div>-->
+           </div>
+
+           <!--<div class="slds-form__row">
+            <div class="slds-form__item" role="listitem">
+                <div
+                    class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                    <label class="slds-form-element__label">Financer Name</label>
+                    <div class="slds-form-element__control">{responseData.financerName}</div>
+                </div>
+            </div>
+            <div class="slds-form__item" role="listitem">
+                <div
+                    class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                    <label class="slds-form-element__label">Financer Branch</label>
+                    <div class="slds-form-element__control">{responseData.financerBranch}</div>
+                </div>
+            </div>
+            <div class="slds-form__item" role="listitem">
+                <div
+                    class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                    <label class="slds-form-element__label">Current Proposal</label>
+                    <div class="slds-form-element__control">{responseData.currentProposal}</div>
+                </div>
+            </div>
+       </div>-->
+
+       <!--<div class="slds-form__row">
+        <div class="slds-form__item" role="listitem">
+            <div
+                class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                <label class="slds-form-element__label">Premium Payment Mode</label>
+                <div class="slds-form-element__control">{responseData.premiumPaymentMode}</div>
+            </div>
+        </div>
+        <div class="slds-form__item" role="listitem">
+            <div
+                class="slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-hint-parent">
+                <label class="slds-form-element__label">ODOMeter Reading</label>
+                <div class="slds-form-element__control">{responseData.ODOMeterReading}</div>
+            </div>
+        </div>
+        <div class="slds-form__item" role="listitem">
+           
+        </div>
+   </div>-->
+
+            <div class="slds-form__row" if:true={showExistingAddOns}>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Existing Add-ons</label>
+                        <div class="slds-form-element__control">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-no-row-hover slds-max-medium-table_stacked slds-table_header-hidden">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Is Zerodep">Is Zerodep</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Is RTO">Is RTO</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Is Engine Cover">Is Engine Cover</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Is Consumable">Is Consumable</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Is Key Protect">Is Key Protect</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Is RSA">Is RSA</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="slds-hint-parent" for:each={responseData.existingAddOns} for:item="addon"
+                                        key={addon}>
+                                        <th data-label="Is Zerodep">
+                                            <div class="slds-truncate" title={addon.isZerodep}>{addon.isZerodep}</div>
+                                        </th>
+                                        <th data-label="Is RTO">
+                                            <div class="slds-truncate" title={addon.isRTO}>{addon.isRTO}</div>
+                                        </th>
+                                        <th data-label="Is Engine Cover">
+                                            <div class="slds-truncate" title={addon.isEngineCover}>{addon.isEngineCover}
+                                            </div>
+                                        </th>
+                                        <th data-label="Is Consumable">
+                                            <div class="slds-truncate" title={addon.isConsumable}>{addon.isConsumable}
+                                            </div>
+                                        </th>
+                                        <th data-label="Is Key Protect">
+                                            <div class="slds-truncate" title={addon.isKeyProtect}>{addon.isKeyProtect}
+                                            </div>
+                                        </th>
+                                        <th data-label="Is RSA">
+                                            <div class="slds-truncate" title={addon.isRSA}>{addon.isRSA}</div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row" if:true={showAccessories}>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_stacked slds-form-element_readonly slds-hint-parent">
+                        <label class="slds-form-element__label">Accessories</label>
+                        <div class="slds-form-element__control">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-no-row-hover slds-max-medium-table_stacked slds-table_header-hidden">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Invoice No">Invoice No</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Invoice Date">Invoice Date</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Accessory Name">Accessory Name</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Usage">Usage</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Manufacturer">Manufacturer</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Price">Price</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Price">Electrical Flag</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="slds-hint-parent" for:each={responseData.accessories}
+                                        for:item="accessory" key={accessory}>
+                                        <th data-label="Invoice No">
+                                            <div class="slds-truncate" title={accessory.invoiceNo}>{accessory.invoiceNo}
+                                            </div>
+                                        </th>
+                                        <th data-label="Invoice Date">
+                                            <div class="slds-truncate" title={accessory.invoiceDate}>
+                                                {accessory.invoiceDate}</div>
+                                        </th>
+                                        <th data-label="Accessory Name">
+                                            <div class="slds-truncate" title={accessory.accessoryName}>
+                                                {accessory.accessoryName}
+                                            </div>
+                                        </th>
+                                        <th data-label="Usage">
+                                            <div class="slds-truncate" title={accessory.usage}>{accessory.usage}
+                                            </div>
+                                        </th>
+                                        <th data-label="Manufacturer">
+                                            <div class="slds-truncate" title={accessory.manufacturer}>
+                                                {accessory.manufacturer}
+                                            </div>
+                                        </th>
+                                        <th data-label="Price">
+                                            <div class="slds-truncate" title={accessory.price}>{accessory.price}</div>
+                                        </th>
+                                        <th data-label="Electrical Flag">
+                                            <div class="slds-truncate" title={accessory.electricalFlag}>{accessory.electricalFlag}</div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>

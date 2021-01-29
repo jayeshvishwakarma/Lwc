@@ -1,0 +1,21 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Saving"></lightning-spinner>
+    </template>
+    <div class="alignment">
+            
+        <h2 style="color:#009900;font-size:large;" class="accInput">Vul de code uit de brief in om naar uw persoonlijke pagina te gaan</h2>
+        <lightning-input
+         style = "width:50%"
+         class="accInput"
+         value = {accNumber}
+         onchange = {handleChangeAccNumber}
+         label = " "
+        
+        >
+        </lightning-input><br/>
+
+        <button class="btn accInput" style="background-color:#3399ff;color:#fff;"
+                onclick={handleClickNext}>Volgende</button>
+            </div>  
+</template>

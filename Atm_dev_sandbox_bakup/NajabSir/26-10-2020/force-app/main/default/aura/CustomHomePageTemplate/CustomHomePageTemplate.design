@@ -1,0 +1,11 @@
+<design:component>
+    <flexipage:template > 
+        <flexipage:region name="center" label="center Region" defaultWidth="MEDIUM">
+            <flexipage:formfactor type="MEDIUM" width="SMALL" />
+        </flexipage:region> 
+    </flexipage:template>
+    
+    <design:supportedFormFactors>
+        <design:supportedFormFactor type="Large"/>
+    </design:supportedFormFactors>
+</design:component>

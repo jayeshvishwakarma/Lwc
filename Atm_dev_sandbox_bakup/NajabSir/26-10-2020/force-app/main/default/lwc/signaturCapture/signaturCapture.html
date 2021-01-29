@@ -1,0 +1,22 @@
+<template>
+    <!---<lightning-card> -->
+        <div style="background:#fff">
+        <!-- Spinner component -->
+        <template if:true={showspinner}>
+            <lightning-spinner variant="brand"></lightning-spinner>
+        </template>
+
+        <div class="slds-p-horizontal_medium background">
+            <!--<div class="slds-p-top_medium"></div>-->
+            <div class="slds-align_absolute-center">
+                <canvas data-id="can" style="border:2px solid #ddd;background: transparent;"></canvas>
+            </div>
+            <!--<div class="slds-p-top_medium"></div>-->
+            <div class="slds-align_absolute-center" if:false={dontShowButton}>
+                <lightning-button variant="brand" label="Clear" onclick={eraseHelper}></lightning-button>&nbsp;
+                <lightning-button variant="brand" label="Save" onclick={save}></lightning-button>
+            </div>
+        </div>
+    </div>
+   <!-- </lightning-card>-->
+</template>

@@ -1,0 +1,109 @@
+<apex:component >
+    <h2>
+        4. Offertevoorwaarden
+    </h2>    
+
+    <h3>Installatievereisten en -voorwaarden</h3>
+    <p>
+        Niet alle werkzaamheden kunnen vooraf worden ingeschat. 
+        KPN en Mobile Miles gaan er daarom van uit dat de volgende zaken door uzelf worden uitgevoerd.
+    </p>
+    <ul>
+<li>Het aanbrengen en/of herstellen van brandwerende voorzieningen en werkzaamheden aan asbesthoudende materialen.</li>
+<li>Het (her)aansluiten van niet- KPN-apparatuur.</li>
+<li>
+    Het aanleggen van voldoende 230V aansluitpunten met randaarde in de directe nabijheid van
+    de plaats waar de apparatuur wordt gemonteerd. 
+    Wij adviseren deze aansluitpunten op een aparte groep aan te sluiten.
+</li>
+<li>Het realiseren van vrij toegankelijke ruimten, (gescheiden) kabelgoten, buizen, inbouwdozen en
+vloerzuilen van voldoende capaciteit.</li>
+<li>Het, indien nodig, leveren en monteren van apparatuur voor het opschonen van een vervuilde netspanning van 230 V.</li>
+<li>
+    Het aanleggen van een bedrijfsaardpunt. 
+    Voor het goed functioneren van bedrijfskritische ICT-apparatuur is een goede bedrijfsaarde noodzakelijk. 
+    KPN kan deze werkzaamheden ook voor u uitvoeren. De hieraan verbonden kosten worden separaat bij u in rekening gebracht.
+</li>
+    </ul>
+    
+    <h3>Prijsafspraken</h3>
+    <ul>
+<li>Alle in deze offerte genoemde prijzen zijn exclusief de wettelijke btw</li>
+<li>Alle prijzen zijn exclusief montagekosten tenzij anders aangegeven</li>
+<li>Alle prijzen zijn exclusief wijzigingen in netwerkstructuur en aanvullende diensten</li>
+<li>Alle prijzen zijn exclusief wijzigingen in de openbare infrastructuur en aanvullende diensten</li>
+<li>Alle prijzen voor de verbindingen zijn op basis van NLS1 (aderparen beschikbaar in ISRA)</li>
+    </ul>
+    
+    <p>
+        Tenzij anders vermeld zijn alle prijzen gebaseerd op de uitvoering van de werkzaamheden tijdens kantooruren. 
+        Het is ook mogelijk om de overname van de infrastructuur na kantooruren uit te voeren. 
+        Hiervoor wordt een toeslag berekend.
+    </p>
+    
+    <h3>Tabel toeslag buiten kantooruren:</h3>
+    <table width="70%">
+        <tr>
+            <th width="40%"></th>
+            <th width="20%">Begintijd</th>
+            <th width="20%">Eindtijd</th>
+            <th width="20%">Toeslag (%)</th>
+        </tr>
+        <tr>
+            <td>Maandag t/m vrijdag</td>
+            <td>00:00 uur</td>
+            <td>08:00 uur</td>
+            <td>100%</td>
+        </tr>
+        <tr>
+            <td>Maandag t/m vrijdag</td>
+            <td>18:00 uur</td>
+            <td>23:00 uur</td>
+            <td>50%</td>
+        </tr>
+        <tr>
+            <td>Maandag t/m vrijdag</td>
+            <td>23:00 uur</td>
+            <td>24:00 uur</td>
+            <td>100%</td>
+        </tr>
+        <tr>
+            <td>Zaterdag</td>
+            <td>00:00 uur</td>
+            <td>08:00 uur</td>
+            <td>100%</td>
+        </tr>
+        <tr>
+            <td>Zaterdag</td>
+            <td>08:00 uur</td>
+            <td>17:00 uur</td>
+            <td>50%</td>
+        </tr>
+        <tr>
+            <td>Zaterdag</td>
+            <td>17:00 uur</td>
+            <td>24:00 uur</td>
+            <td>100%</td>
+        </tr>
+        <tr>
+            <td>Zondag</td>
+            <td>00:00 uur</td>
+            <td>24:00 uur</td>
+            <td>100%</td>
+        </tr>
+        <tr>
+            <td>Erkende feestdagen</td>
+            <td>08:00 uur</td>
+            <td>Tot volgende 08:00 uur</td>
+            <td>200%</td>
+        </tr>
+    </table>
+    
+    <h3>Een soepele indienststelling</h3>
+    <p>
+        KPN stuurt op een vlotte doorgang van projecten. 
+        Wordt de directe werkuitvoering door oorzaken buiten de verantwoordelijkheid of 
+        bevoegdheid van KPN belemmerd, dan worden de hieruit voortvloeiende kosten apart in rekening gebracht.
+    </p>
+
+</apex:component>

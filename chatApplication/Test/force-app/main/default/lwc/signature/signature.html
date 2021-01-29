@@ -1,0 +1,19 @@
+<template>
+
+    <div class="c-container slds-wrap" > 
+                <canvas data-id="canvasFirst" id="sign" name="canvasItem"  style="border:2px solid black;
+                background: transparent;"></canvas> 
+                <canvas data-id="canvasSecond" id="blank" name="canvasSecond" style="display:none"></canvas> 
+    </div><br/>
+   
+    <lightning-button
+            variant="destructive" 
+            label="Wissen"
+            onclick = {handleClearClick} 
+            title="Wissen" 
+            icon-name="utility:delete" 
+            class="slds-m-left_x-small">
+    </lightning-button></br>
+
+
+</template>

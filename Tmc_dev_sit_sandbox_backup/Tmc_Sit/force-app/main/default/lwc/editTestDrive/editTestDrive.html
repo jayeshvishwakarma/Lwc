@@ -1,0 +1,160 @@
+<template>
+    <lightning-card>
+            <template if:true={testDriveData}>
+                    <template if:true={testDriveStatusPickList}>
+                            <template if:true={updateType}>
+                                    <lightning-card title={titleLabel} icon-name="custom:custom63">
+                                            <lightning-input if:false={completeType} type="text" name="name" label="Name" value={testDriveData.Name} read-only='true'></lightning-input>
+                                            <lightning-input if:true={completeType} type='Date' 
+                                                label="Date" 
+                                                disabled value={todayDate}>
+                                            </lightning-input>
+                                            <lightning-input if:true={completeType} type='Time' 
+                                                label="Start Time" 
+                                                name='' 
+                                                value={actualStartTime}
+                                                onchange={startTimeChangeHandler}
+                                                class="inputCmp2" required max={actualEndTime}>
+                                            </lightning-input>
+                                            <lightning-input if:true={completeType} type='Time' 
+                                                label="End Time" 
+                                                name='' 
+                                                value={actualEndTime}
+                                                onchange={endTimeChangeHandler}
+                                                class="inputCmp2" required min={actualStartTime}>
+                                            </lightning-input>
+
+                                             <!--   COMMERCIAL CHANGES R1.2       -->
+
+                                            <div if:true={isCommercial}>
+                                                
+                                                <lightning-input if:true={completeType} type='Number' 
+                                                    label="Start Meter Reading" 
+                                                    name='' 
+                                                    step="0.01"
+                                                    value={startMeterReading}
+                                                    onchange={handleStartMeterReading}
+                                                    class="inputCmp2" required>
+                                                </lightning-input>
+
+                                                <lightning-input if:true={completeType} type='Number' 
+                                                    label="End Meter Reading" 
+                                                    name='' 
+                                                    step="0.01"
+                                                    value={endMeterReading}
+                                                    onchange={handleEndMeterReading}
+                                                    class="inputCmp2" required>
+                                                </lightning-input>
+
+                                                <div class="slds-grid slds-gutters" if:true={completeType}>
+                                                    <div class="slds-col slds-size_1-of-1">
+                                                        <div class="slds-form-element slds-form-element_readonly">
+                                                            <label class="slds-form-element__label" for="text-input-id-1">KM Driven</label>
+                                                            <div class="slds-form-element__control">
+                                                                <div class="slds-form-element__static">
+                                                                    <lightning-formatted-number label="KM Driven" value={kmDriven}>
+                                                                    </lightning-formatted-number>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-grid slds-gutters slds-p-top_medium" if:true={completeType}>
+                                                    <div class="slds-col slds-size_1-of-1">
+                                                        <div class="slds-border_bottom">
+                                                            <lightning-input type="checkbox" label="Loaded TestDrive" name='loadedTestDrive'
+                                                                checked={loadedTestDrive} onchange={handleLoadedTestDriveChange} field-level-help="Give details only in case of Goods Commercial Vehicle">
+                                                            </lightning-input>
+                                                            <div class="slds-p-top_small"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div if:false={isCommercial} >
+                                                <lightning-input if:true={completeType} type='Number' 
+                                                    label="KM Driven" 
+                                                    name='' 
+                                                    value={kmDriven}
+                                                    onchange={kmDrivenChangeHandler}
+                                                    class="inputCmp2" required>
+                                                </lightning-input>
+                                            </div>
+
+
+                                        <lightning-radio-group if:true={completeType} name="radioGroup"
+                                              label="Are you Satisfied with the Test Drive ?"
+                                              options={feedBackOptions}
+                                              value={feedBackAnswerSelected} onchange={handleSatisficationChange}
+                                              type="radio" required>
+                                        </lightning-radio-group>
+                                        <lightning-textarea required if:true={completeType} onchange={handleFeedbackChange} name="feedback" label="Request to kindly share your feedback" ></lightning-textarea>
+                                        <br/>
+                                            <lightning-combobox
+                                            name="Test Drive Location"
+                                            label="Test Drive Location"
+                                            value={testDriveData.Location__c}
+                                            placeholder="Select Test Drive Location"
+                                            options={locationOptions.values}
+                                            onchange={handleLocationChange} ></lightning-combobox>
+                                            <br/>
+                                            <div if:true={completeType} class="customRequired">Signature</div>
+                                            <c-signatur-capture if:true={completeType} record-id={recordId} dont-show-button="true" onsignature={handleSignature}></c-signatur-capture>
+                                            <div if:true={completeType} onclick={eraseHelper} class="slds-align_absolute-center"><a>Clear</a></div>
+                                            <lightning-input if:false={completeType} type="text" name="Enquiry" label="Enquiry" value={testDriveData.Enquiry__r.Name} read-only='true'></lightning-input>
+                                            
+                                           <!-- <lightning-combobox if:false={completeType}
+                                            name="Status"
+                                            label="Status"
+                                            value={testDriveData.Status__c}
+                                            placeholder="Select Status"
+                                            options={testDriveStatusPickList.values}
+                                            onchange={handleStatusChange} required></lightning-combobox>-->
+                                            <!--<lightning-input type="text" name="Status" label="Status" value={testDriveData.Status__c} onchange={handleStatusChange}></lightning-input>-->
+                                            <lightning-input if:false={completeType} type="text" name="Variant" label="Variant" value={testDriveData.Variant__c} read-only='true'></lightning-input>
+                                            <lightning-checkbox-group if:false={completeType} name="Checkbox Group"
+                                                label=""
+                                                options={checkboxOptions}
+                                                value={selectedCheckBox}
+                                                onchange={handleCheckBoxChange}>
+                                            </lightning-checkbox-group>
+                                            <lightning-combobox if:false={completeType}
+                                            name="Date"
+                                            label="Date"
+                                            value={selectedDate}
+                                            placeholder="Schedule Start Date"
+                                            options={dateOptions}
+                                            onchange={handleDateChange} required></lightning-combobox>
+                                            <c-multi-select-cmp if:false={completeType} mslabel="Available Slots" selected-options={selectedSlotApi} msoptions={SlotOptions} onselected={valueSelected} value-required={multiSelectRequired} class="customRequired"></c-multi-select-cmp>
+                                            <br/>
+                                            <div class="slds-grid slds-gutters">
+                                                    <div class="slds-col">
+                                                    </div>
+                                                    <div class="slds-col ">
+                                                            <lightning-button variant="brand" label="Save" title="save" onclick={updateTestDrive} class="slds-m-left_x-small slds-float_right"></lightning-button>
+                                                    </div>
+                                                    <div class="slds-col">
+                                                        <lightning-button variant="brand" label="Cancel" onclick={cancel} class="slds-float_left"></lightning-button>
+                                                    </div>
+                                                    <div class="slds-col">
+                                                    </div>
+                                                </div>                                          
+                                    </lightning-card>
+                            </template>
+                    </template>
+                    
+                    <template if:true={cancelType}>
+                        <lightning-card>
+                            <div style="text-align: center">Please confirm that you want to cancel your test drive</div>
+                            <lightning-button  variant="brand" label="Confirm" title="save" onclick={updateTestDrive} class="slds-m-left_x-small slds-align_absolute-center"></lightning-button>
+                        </lightning-card>
+                    </template>
+                    
+                </template>
+                <div if:true={loadSpinner}>
+                    <lightning-spinner variant="brand" alternative-text="Loading"></lightning-spinner>
+                </div>
+    </lightning-card>
+   
+</template>

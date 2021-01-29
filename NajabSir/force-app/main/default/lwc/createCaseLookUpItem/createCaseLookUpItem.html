@@ -1,0 +1,13 @@
+<template>
+    <li role="presentation" class="slds-listbox__item" title={record.Name}>
+        <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option" onclick={handleSelect}>
+            <span class="slds-media__figure slds-listbox__option-icon">
+                <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+            </span>
+            <span class="slds-media__body">
+                <span class="slds-listbox__option-text slds-listbox__option-text_entity"> {record.Name}</span>
+                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity"> {record.Dealer_Type__c} •  {record.Dealer_Code__c}</span>
+              </span>
+        </div>
+    </li>
+</template>

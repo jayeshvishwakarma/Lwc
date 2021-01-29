@@ -1,0 +1,77 @@
+<apex:page controller="ContactUsController" showHeader="false" sidebar="false" docType="html-5.0">
+
+
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+<head>
+<title> Contact Us </title>
+</head>
+<style>
+    .slds-scope .slds-card{
+        background: rgb(239, 239, 239);
+    }
+    
+</style>
+<c:cloudstylecomponent />
+    <apex:slds />
+    <apex:form id="frm">
+    <apex:pageMessages ></apex:pageMessages>
+    <div class="slds-grid">
+        <div class="slds-large-size_4-of-12">
+        </div>
+        <div class="slds-large-size_4-of-12">
+            <apex:pageMessages ></apex:pageMessages>
+            <article class="slds-card slds-col">
+                <div class="slds-card__header slds-col slds-large-size_6-of-12">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                       
+                        <div class="slds-media__body">
+                            <h2>
+                           
+                                <span class="slds-text-heading_small"><b>Contactformulier</b></span>
+                            
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body">
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.SuppliedCompany.Label}</label>
+                        <div class="requiredInput">
+                            <div class="requiredBlock"></div>                            
+                            <apex:input value="{!company}" styleClass="slds-input" required="true"/>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.Subject.Label}</label>
+                        <div class="requiredInput">
+                            <div class="requiredBlock"></div>  
+                            <apex:inputText value="{!subject}" styleClass="slds-input" required="true"/>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.SuppliedName.Label}</label>
+                        <apex:inputText value="{!name}" styleClass="slds-input"/>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.SuppliedEmail.Label}</label>
+                        <apex:input value="{!email}" styleClass="slds-input" required="true" type="email"/>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.SuppliedPhone.Label}</label>
+                        <apex:inputText value="{!phoneno}" styleClass="slds-input"/>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.Description.Label}</label>
+                        <apex:inputTextarea value="{!description}" styleClass="slds-input" />
+                    </div>
+                </div>
+                <footer class="slds-card__footer">    
+                    <apex:commandButton value="Verstuur" action="{!saveLead}" styleclass="slds-button slds-button_brand"/>
+                </footer>
+            </article>
+        </div>
+    </div>
+    </apex:form>
+</html>
+
+</apex:page>

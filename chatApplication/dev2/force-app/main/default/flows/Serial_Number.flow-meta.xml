@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Fault_handled</name>
+        <label>Fault handled</label>
+        <locationX>545</locationX>
+        <locationY>118</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>ErrorMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>ErrorSubject</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <assignments>
+        <name>myVariable_waitStartTimeAssignment</name>
+        <label>myVariable_waitStartTimeAssignment</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>myDecision</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>0</locationX>
+        <locationY>135</locationY>
+        <defaultConnector>
+            <targetReference>myDecision3</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Usage Code Formula 1</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myDecision3</name>
+        <label>myDecision3</label>
+        <locationX>0</locationX>
+        <locationY>279</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_4</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_current.Compressor_Usage_Code__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_4_A1</targetReference>
+            </connector>
+            <label>Usage Code Formula 2</label>
+        </rules>
+    </decisions>
+    <description>Updates the Horse Power field on a Serial Number with the corresponding Usage Code</description>
+    <formulas>
+        <name>formula_2_myRule_1_A1_6117675417</name>
+        <dataType>String</dataType>
+        <expression>IF(AND(LEN({!myVariable_current.char_Text1__c}) == 3, OR( BEGINS({!myVariable_current.char_Text1__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text1__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text1__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text1__c}, &quot;W&quot;))), {!myVariable_current.char_Text1__c}, 
+IF(AND(LEN({!myVariable_current.char_Text2__c}) == 3, OR( BEGINS({!myVariable_current.char_Text2__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text2__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text2__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text2__c}, &quot;W&quot;))), {!myVariable_current.char_Text2__c}, 
+IF(AND(LEN({!myVariable_current.char_Text3__c}) == 3, OR( BEGINS({!myVariable_current.char_Text3__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text3__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text3__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text3__c}, &quot;W&quot;))), {!myVariable_current.char_Text3__c}, 
+IF(AND(LEN({!myVariable_current.char_Text4__c}) == 3, OR( BEGINS({!myVariable_current.char_Text4__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text4__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text4__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text4__c}, &quot;W&quot;))), {!myVariable_current.char_Text4__c}, 
+IF(AND(LEN({!myVariable_current.char_Text5__c}) == 3, OR( BEGINS({!myVariable_current.char_Text5__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text5__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text5__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text5__c}, &quot;W&quot;))), {!myVariable_current.char_Text5__c}, 
+IF(AND(LEN({!myVariable_current.char_Text6__c}) == 3, OR( BEGINS({!myVariable_current.char_Text6__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text6__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text6__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text6__c}, &quot;W&quot;))), {!myVariable_current.char_Text6__c}, 
+IF(AND(LEN({!myVariable_current.char_Text7__c}) == 3, OR( BEGINS({!myVariable_current.char_Text7__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text7__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text7__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text7__c}, &quot;W&quot;))), {!myVariable_current.char_Text7__c}, 
+IF(AND(LEN({!myVariable_current.char_Text8__c}) == 3, OR( BEGINS({!myVariable_current.char_Text8__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text8__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text8__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text8__c}, &quot;W&quot;))), {!myVariable_current.char_Text8__c}, 
+IF(AND(LEN({!myVariable_current.char_Text9__c}) == 3, OR( BEGINS({!myVariable_current.char_Text9__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text9__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text9__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text9__c}, &quot;W&quot;))), {!myVariable_current.char_Text9__c}, 
+
+IF(AND(LEN({!myVariable_current.char_Text10__c}) == 3, OR( BEGINS({!myVariable_current.char_Text10__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text10__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text10__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text10__c}, &quot;W&quot;))), {!myVariable_current.char_Text10__c}, 
+IF(AND(LEN({!myVariable_current.char_Text11__c}) == 3, OR( BEGINS({!myVariable_current.char_Text11__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text11__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text11__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text11__c}, &quot;W&quot;))), {!myVariable_current.char_Text11__c}, 
+IF(AND(LEN({!myVariable_current.char_Text12__c}) == 3, OR( BEGINS({!myVariable_current.char_Text12__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text12__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text12__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text12__c}, &quot;W&quot;))), {!myVariable_current.char_Text12__c}, 
+IF(AND(LEN({!myVariable_current.char_Text13__c}) == 3, OR( BEGINS({!myVariable_current.char_Text13__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text13__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text13__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text13__c}, &quot;W&quot;))), {!myVariable_current.char_Text13__c}, 
+
+&quot; &quot;)))))))))))))</expression>
+    </formulas>
+    <formulas>
+        <name>formula_5_myRule_4_A1_2095552731</name>
+        <dataType>String</dataType>
+        <expression>IF(AND(LEN({!myVariable_current.char_Text14__c}) == 3, OR( BEGINS({!myVariable_current.char_Text14__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text14__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text14__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text14__c}, &quot;W&quot;))), {!myVariable_current.char_Text14__c}, 
+IF(AND(LEN({!myVariable_current.char_Text15__c}) == 3, OR( BEGINS({!myVariable_current.char_Text15__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text15__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text15__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text15__c}, &quot;W&quot;))), {!myVariable_current.char_Text15__c}, 
+IF(AND(LEN({!myVariable_current.char_Text16__c}) == 3, OR( BEGINS({!myVariable_current.char_Text16__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text16__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text16__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text16__c}, &quot;W&quot;))), {!myVariable_current.char_Text16__c}, 
+IF(AND(LEN({!myVariable_current.char_Text17__c}) == 3, OR( BEGINS({!myVariable_current.char_Text17__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text17__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text17__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text17__c}, &quot;W&quot;))), {!myVariable_current.char_Text17__c}, 
+IF(AND(LEN({!myVariable_current.char_Text18__c}) == 3, OR( BEGINS({!myVariable_current.char_Text18__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text18__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text18__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text18__c}, &quot;W&quot;))), {!myVariable_current.char_Text18__c}, 
+IF(AND(LEN({!myVariable_current.char_Text19__c}) == 3, OR( BEGINS({!myVariable_current.char_Text19__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text19__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text19__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text19__c}, &quot;W&quot;))), {!myVariable_current.char_Text19__c}, 
+IF(AND(LEN({!myVariable_current.char_Text20__c}) == 3, OR( BEGINS({!myVariable_current.char_Text20__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text20__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text20__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text20__c}, &quot;W&quot;))), {!myVariable_current.char_Text20__c}, 
+IF(AND(LEN({!myVariable_current.char_Text21__c}) == 3, OR( BEGINS({!myVariable_current.char_Text21__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text21__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text21__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text21__c}, &quot;W&quot;))), {!myVariable_current.char_Text21__c}, 
+IF(AND(LEN({!myVariable_current.char_Text22__c}) == 3, OR( BEGINS({!myVariable_current.char_Text22__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text22__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text22__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text22__c}, &quot;W&quot;))), {!myVariable_current.char_Text22__c}, 
+IF(AND(LEN({!myVariable_current.char_Text23__c}) == 3, OR( BEGINS({!myVariable_current.char_Text23__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text23__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text23__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text23__c}, &quot;W&quot;))), {!myVariable_current.char_Text23__c}, 
+IF(AND(LEN({!myVariable_current.char_Text24__c}) == 3, OR( BEGINS({!myVariable_current.char_Text24__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text24__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text24__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text24__c}, &quot;W&quot;))), {!myVariable_current.char_Text24__c}, 
+IF(AND(LEN({!myVariable_current.char_Text25__c}) == 3, OR( BEGINS({!myVariable_current.char_Text25__c}, &quot;H&quot;) , BEGINS({!myVariable_current.char_Text25__c}, &quot;K&quot;), BEGINS({!myVariable_current.char_Text25__c}, &quot;P&quot;), BEGINS({!myVariable_current.char_Text25__c}, &quot;W&quot;))), {!myVariable_current.char_Text25__c}, &apos;&apos;))))))))))))</expression>
+    </formulas>
+    <formulas>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>true</expression>
+    </formulas>
+    <interviewLabel>Serial_Number-8_InterviewLabel</interviewLabel>
+    <label>Serial Number - Usage Codes Update</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>myRule_1_A1</name>
+        <label>Update Compressor Usage Code 1</label>
+        <locationX>285</locationX>
+        <locationY>132</locationY>
+        <connector>
+            <targetReference>myDecision3</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Fault_handled</targetReference>
+        </faultConnector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Compressor_Usage_Code__c</field>
+            <value>
+                <elementReference>formula_2_myRule_1_A1_6117675417</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Asset</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_4_A1</name>
+        <label>Update Compressor Usage Code 2</label>
+        <locationX>284</locationX>
+        <locationY>283</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Compressor_Usage_Code__c</field>
+            <value>
+                <elementReference>formula_5_myRule_4_A1_2095552731</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Asset</object>
+    </recordUpdates>
+    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <status>Draft</status>
+    <textTemplates>
+        <description>Serial Number Usage Codes Update</description>
+        <name>UpdateErrorSubject</name>
+        <text>Serial Number Usage Codes Update Error</text>
+    </textTemplates>
+    <textTemplates>
+        <name>UpdateErrorText</name>
+        <text>There was an inssue with the update in the Serial Number Usage Codes Update {!myVariable_current}</text>
+    </textTemplates>
+    <variables>
+        <description>There was an inssue with the update in the Serial Number Usage Codes Update</description>
+        <name>ErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <elementReference>UpdateErrorText</elementReference>
+        </value>
+    </variables>
+    <variables>
+        <description>There was an inssue with the update in the Serial Number Usage Codes Update</description>
+        <name>ErrorSubject</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <elementReference>UpdateErrorSubject</elementReference>
+        </value>
+    </variables>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Asset</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Asset</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_waitStartTimeVariable</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Flow.CurrentDateTime</elementReference>
+        </value>
+    </variables>
+</Flow>

@@ -1,0 +1,4 @@
+.THIS .slds-checkbox [type=checkbox]:disabled+.slds-checkbox__label .slds-checkbox_faux:after{
+    border-bottom: 2px solid blue;
+    border-left: 2px solid blue;
+}

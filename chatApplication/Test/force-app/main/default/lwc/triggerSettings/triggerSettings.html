@@ -1,0 +1,42 @@
+<template>
+    <div style="padding:2rem;">
+    <lightning-card title = "Trigger Setting" icon-name = "standard:settings">
+        <div style="padding:1rem;">
+        <input style="margin-top:3px" type="checkbox" checked={isSelectAll} onchange = {handleChangeSelectAll}></input> Select All<br/>
+    <lightning-layout  multiple-rows="true">
+
+        <lightning-layout-item   flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+            large-device-size="3">
+        
+            <input style="margin-top:3px" type="checkbox" onchange = {handleChangeAccountTrigger} checked={isAccountTrigger}></input> Account Trigger<br/>
+            <input style="margin-top:3px" type="checkbox" onchange = {handleChangeBestellingMMTrigger} checked={isBestellingMMTrigger}></input> Bestelling_MM Trigger
+
+        </lightning-layout-item>
+        <lightning-layout-item  flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+            large-device-size="3">
+
+            <input style="margin-top:3px" type="checkbox" onchange = {handleOpportunityTrigger} checked={isOpportunityTrigger}></input> Opportunity Trigger<br/>
+            <input style="margin-top:3px" type="checkbox" onchange = {handlePorteringenMobielTrigger} checked={isPorteringenMobielTrigger}></input> Porteringen Mobiel Trigger
+
+        </lightning-layout-item>
+        <lightning-layout-item  flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+            large-device-size="3">
+
+            <input style="margin-top:3px" type="checkbox" onchange = {handleQuoteTrigger} checked={isQuoteTrigger}></input> Quote Trigger<br/>
+            <input style="margin-top:3px" type="checkbox" onchange = {handleVolPTrigger} checked={isVolPTrigger}></input> VolP Trigger 
+
+        </lightning-layout-item>
+        <lightning-layout-item  flexibility="auto" size="12" small-device-size="12" medium-device-size="4"
+            large-device-size="3">
+
+            <input style="margin-top:3px" type="checkbox" onchange = {handleAvailableSpeedTrigger} checked={isAvailableSpeedTrigger}></input> AvailableSpeed Trigger<br/>
+            <input style="margin-top:3px" type="checkbox" onchange = {handleBestellingproductTrigger} checked={isBestellingproduct}></input> Bestellingproduct Trigger
+
+        </lightning-layout-item>
+    </lightning-layout><br/>
+    <lightning-button label="Save" onclick={handleSave} class="slds-m-left_x-small">
+    </lightning-button>
+    </div>
+  </lightning-card>
+</div>
+</template>

@@ -1,0 +1,50 @@
+<template>
+
+    <div class="slds-text-align_center">
+
+        <div if:false={isOTPSent} class="slds-text-heading_medium">
+            Please wait while we are sending an OTP...
+        </div>
+
+        <div if:true={isOTPSent} class="slds-is-relative">
+
+            <div if:true={isOTPVerified} class="slds-text-heading_medium slds-text-color_success">
+                OTP successfully validated.
+            </div>
+
+            <div if:false={isOTPVerified}>
+
+                <div class="slds-text-heading_medium slds-text-color_success">
+                    We have sent an OTP to customer's registered mobile number
+                    <span if:true={mobile}> ends with {mobile}</span>.
+                </div>
+
+                <div class="slds-text-heading_small slds-text-color_weak slds-p-top_xx-small">
+                    Please verify the same to proceed.
+                </div>
+
+                <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center slds-p-top_small">
+
+                    <lightning-input variant="label-hidden" placeholder="Enter OTP" class="slds-size_1-of-2"
+                        pattern="^[0-9]*$" min-length="4" max-length="10" required>
+                    </lightning-input>
+
+                    <lightning-button label="Verify" variant="brand" class="slds-m-left_medium"
+                        onclick={handleVerifyOTP}>
+                    </lightning-button>
+
+                </div>
+
+                <lightning-spinner alternative-text="Loading" size="medium" if:true={isLoading}></lightning-spinner>
+
+            </div>
+
+        </div>
+
+        <div class="slds-text-color_destructive slds-p-around_small" if:true={errorMessage}>
+            {errorMessage}
+        </div>
+
+    </div>
+
+</template>

@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title = "ChatApp" icon-name = "standard:feedback">
+        <lightning-layout>
+            <lightning-layout-item size="4" large-device-size = "4">  
+                <c-chat-users  onchat={handleObjectRecieved}></c-chat-users>
+            </lightning-layout-item>
+            <lightning-layout-item size="8" large-device-size = "8">
+                <c-chat-window data-my-id=chatUsers></c-chat-window>
+            </lightning-layout-item>
+        </lightning-layout>
+  
+    </lightning-card>
+</template>

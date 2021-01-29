@@ -1,0 +1,291 @@
+<aura:component controller="CustomerOnboardingController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="accRec" type="Account"/>   
+    <aura:attribute name="accsearchRec" type="Account"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="newActRec" type="Account"/>
+    <aura:attribute name="noRecs" type="Boolean" default="false"/>
+    <aura:attribute name="showAccSearch" type="Boolean" default="false"/>
+    <aura:attribute name="showResults" type="Boolean" default="true"/>
+    <aura:attribute name="showChangeShipToInfo" type="Boolean" default="false"/>
+    <aura:attribute name="showPartnerExistingShipTo" type="Boolean" default="false"/>
+    <aura:attribute name="showUnPartnerFromExistingSoldTo" type="Boolean" default="false"/>
+    <aura:attribute name="showRequestCreated" type="Boolean" default="false"/>
+    <aura:attribute name="showActivateShipTo" type="Boolean" default="false"/>    
+    <aura:attribute name="showInquiry" type="Boolean" default="false"/>    
+    <aura:attribute name="requiredError" type="Boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String" />
+    <aura:attribute name="currentStepName" type="String" />                    
+    <aura:attribute name="createNewAccount" type="Boolean" />        
+    <aura:attribute name="actColumns" type="List"/>    
+    <aura:attribute name="actId" type="String" />  
+    <aura:attribute name="changeaccountId" type="String" />  
+    <aura:attribute name="caseId" type="String" />  
+    <aura:attribute name="activateInd" type="Boolean" default="false" /> 
+    <aura:attribute name="isMyrequests" type="Boolean" default="true" />
+    <aura:attribute name="pageTitle" type="String" default="My Customer Requests" />
+    <!-- Attribute Declaration For Pagination -->
+    <aura:attribute name="PaginationList" type="account"/>
+    <aura:attribute name="currentPage" type="Integer" />
+    <aura:attribute name="startPage" type="Integer" />
+    <aura:attribute name="endPage" type="Integer"/>
+    <aura:attribute name="totalRecords" type="Integer"/>
+    <aura:attribute name="pageSize" type="Integer" default="10"/>    
+    <aura:attribute name="totalPages" type="Integer"/>
+     <aura:attribute name="loggedinUser" type="User"/> 
+    
+    <aura:attribute name="disableSubmit" type="Boolean" default="false"/>
+    
+    <!-- Attribute Declaration For Pagination End-->    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:dependency resource="markup://force:navigateToSObject" type="EVENT"/>        
+    <!-- Search Prospect -->   
+    <div class="slds-page-header">
+        <div class="slds-grid">
+             <!--<div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                   <img src="{!$Resource.CustomerOnBoardingLogo}"/>
+                </span>
+            </div>-->
+            <div class="slds-col slds-has-flexi-truncate">    
+               
+                <p class="slds-text-title slds-line-height_reset">Customer Master On-Boarding</p>
+                <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">{!v.pageTitle}</h1> 
+            </div>
+            <!-- ACTION BUTTONS -->        
+            <aura:if isTrue="{!or(v.showAccSearch, v.showResults)}">
+                <aura:if isTrue="{!!v.showAccSearch}">
+                   
+                        <lightning:button  label="Search"                                           
+                                          variant="brand"
+                                          onclick="{!c.backToSearch}"
+                                          />
+                        &nbsp;&nbsp;   
+                        <lightning:button variant="brand" 
+                                          label="New Ship-to Account" 
+                                          onclick="{!c.newAccount}" />                   
+                        &nbsp;&nbsp;
+                    
+                </aura:if>            
+                <aura:if isTrue="{!v.isMyrequests}">
+                    <lightning:button label="Inquiry"                                          
+                                      variant="brand"
+                                      onclick="{!c.inquiryRequest}"/> 
+                    <aura:set attribute="else">
+                        <lightning:button label="My Customer Requests"                                          
+                                          variant="brand"
+                                          onclick="{!c.accountRequests}"/> 
+                        
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+            <!-- / ACTION BUTTONS -->
+        </div>
+    </div>
+    <div style="margin: auto;margin-top: 10px;width: 100%;">
+        
+        <!--Progress Bar -->
+        <!--    <lightning:progressIndicator type="path" currentStep="{!v.currentStepName}">
+            <lightning:progressStep label="Search Customer Information" value="Search Account Informtion"/>
+            <lightning:progressStep label="Search Results" value="Account Results"/>            
+            <lightning:progressStep label="Customer On-boarding/Change Request" value="Account Creation/Change Request"/>            			                                 
+            <lightning:progressStep label="Request Created" value="Request Created"/>
+        </lightning:progressIndicator>-->
+        <!-- Ends Here-->        
+        <aura:if isTrue="{!v.showAccSearch}">
+            
+            <!-- Account Search -->
+            <div style="background-color:white; padding-left: 20px;padding-bottom: 10px;">
+                <fieldset class="slds-form--compound">
+                    <!-- <legend class="slds-text-heading-small slds-p-vertical-small" >Account Information</legend>-->
+                    <div class="form-element__group">
+                        <aura:if isTrue="{!v.requiredError}">
+                            <div class="recordError">
+                                <ui:message title="Error" severity="error" closable="true">
+                                    {!v.errorMessage}
+                                </ui:message>
+                            </div>
+                        </aura:if>
+                        <div class="slds-form-element__row">                           
+                            <div class="slds-form-element slds-size--1-of-7">                                
+                                <lightning:select name="salesorg" label="Sales Org" value="{!v.accRec.LOB__c}">
+                                    <option value="1501" selected="selected">1501 - Roofing</option>                               
+                                    <option value="1102">1102 - Roofing Canada</option>                               
+                                </lightning:select>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">                           
+                            <div class="slds-form-element slds-size--1-of-7">
+                                <lightning:input aura:id="txtactnumber" type="text" maxlength="10" label="Account #"
+                                                 value="{!v.accRec.SAP_ACCOUNT__c}"/>
+                            </div>
+                        </div> 
+                        <div class="slds-form-element__row">
+                            
+                            <div class="slds-form-element slds-size--1-of-3">
+                                <lightning:input  label="Account Name" maxlength="50"
+                                                 value="{!v.accRec.Name}"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">                           
+                            <div class="slds-form-element slds-size--1-of-3">
+                                <lightning:input label="Street" maxlength="50"
+                                                 value="{!v.accRec.ShippingStreet}"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">                                                       
+                            <div class="slds-form-element slds-size--1-of-4">
+                                <lightning:input label="City"
+                                                 name="city" maxlength="50"
+                                                 value="{!v.accRec.ShippingCity}"/>
+                            </div> 
+                            <div class="slds-form-element slds-size--1-of-4" style="width: 120px;">
+                                <lightning:input label="State / Province" maxlength="2"
+                                                 value="{!v.accRec.ShippingState}"/>
+                            </div>
+                            <div class="slds-form-element slds-size--1-of-4" style="width: 130px;">
+                                <lightning:input label="Postal Code" maxlength="10"
+                                                 value="{!v.accRec.ShippingPostalCode}"
+                                                 /> 
+                            </div>      
+                            <div class="slds-form-element slds-size--1-of-4" style="padding-top: 20px;"  align="left">
+                               <lightning:button label="Search"                                          
+                                      variant="brand"
+                                      onclick="{!c.searchAccounts}"/>
+                                &nbsp;&nbsp;
+                                <lightning:button label="Clear Search"                                           
+                                                  variant="brand"
+                                                  onclick="{!c.clearSerach}"/>
+                            </div>     
+                        </div>                                              
+                        
+                    </div>
+                    
+                </fieldset>
+            </div>
+            
+            <!-- Ends Here -->
+        </aura:if>
+        <aura:if isTrue="{!v.showResults}">            
+            <div>
+                <lightning:datatable data="{!v.PaginationList}"                                     
+                                     hideCheckboxColumn="true"
+                                     columns="{! v.actColumns }"
+                                     onrowaction="{!c.rowAction}"                                     
+                                     keyField="Id"                                    
+                                     style="width:100%;"/>   
+                <aura:if isTrue="{!!v.noRecs}">                                           
+                    <div style="margin-top: 10px; color: black; font-weight: bold;">
+                        <lightning:buttonGroup >
+                            <lightning:button label="Previous" disabled="{!v.startPage == 0}"  
+                                              onclick="{!c.previous}" variant="brand"
+                                              iconName='utility:back'/>
+                            &nbsp; &nbsp; &nbsp;
+                            <lightning:button label="Next" disabled="{!v.endPage >= v.totalRecords}" 
+                                              onclick="{!c.next}" variant="brand"
+                                              iconName='utility:forward' iconPosition='right'/>
+                        </lightning:buttonGroup>  
+                        &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Showing Page # {!v.currentPage + 1} of {!v.totalPages}&nbsp;&nbsp;|&nbsp;&nbsp;     
+                        Page Size :&nbsp;
+                        <ui:inputSelect class="slds-select-auto-width" aura:id="cmppageSize" change="{!c.changePageSize}">                            
+                            <ui:inputSelectOption text="10"/>
+                            <ui:inputSelectOption text="20"/>
+                            <ui:inputSelectOption text="50"/>
+                            <ui:inputSelectOption text="100"/>                                        
+                        </ui:inputSelect>
+                    </div>                                             
+                </aura:if>
+                <aura:if isTrue="{!v.noRecs}"> 
+                    <ui:message  severity="info" closable="true">
+                        <aura:if isTrue="{!v.isMyrequests}"> 
+                            No Account Requests Found.
+                            <aura:set attribute="else">
+                                No Account Records Found.
+                            </aura:set>
+                        </aura:if>
+                    </ui:message>
+                </aura:if>         
+                <!-- <div style="margin-top: 10px;">
+                    <lightning:button variant="brand" label="New Ship-to Account" onclick="{! c.newAccount}" />                   
+                    <lightning:button variant="brand" label="Back to Search" onclick="{! c.backToSearch}" />
+                    
+                </div>-->
+            </div>
+        </aura:if>        
+        <div style="padding-bottom: 45px;">            
+            <aura:if isTrue="{!v.createNewAccount}">
+                <c:NewAccountCreation aura:id="newAccount" newActRec="{#v.accRec}" accountId="{#v.actId}" caseId="{#v.caseId}"/>
+            </aura:if>
+            <aura:if isTrue="{!v.showChangeShipToInfo}">
+                <c:ChangeShipToInformation aura:id="chgShipTo" accountId="{!v.actId}"  caseId="{!v.caseId}" changeaccountId="{!v.changeaccountId}"/>
+            </aura:if>
+            <aura:if isTrue="{!v.showPartnerExistingShipTo}">
+                <c:PartnerExistingShipTo aura:id="peshipto" caseId="{!v.caseId}" />
+            </aura:if>
+            <aura:if isTrue="{!v.showUnPartnerFromExistingSoldTo}">
+                <c:UnPartnerFromExistingSoldTo aura:id="unpfromsoldto" caseId="{!v.caseId}" />
+            </aura:if>
+            <aura:if isTrue="{!v.showRequestCreated}">
+                <c:CustomerRequestDetails aura:id="requestDetails"/>
+            </aura:if>            
+            <aura:if isTrue="{!v.showActivateShipTo}">
+                <c:Activate_DeActivateShipTo aura:id="activate_deactivate" caseId="{!v.caseId}" activateInd="{!v.activateInd}" />
+            </aura:if> 
+            <aura:if isTrue="{!v.showInquiry}">
+                <c:InquiryRequest aura:id="inquiryrequest"/>
+            </aura:if>
+            <aura:if isTrue="{!(and(!v.showResults, !v.showAccSearch))}">
+                <div style="margin-top: 10px;">
+                    <aura:if isTrue="{!v.createNewAccount}">
+                        <lightning:button variant="brand" label="Save Request" onclick="{!c.saveAccount}" />
+                    </aura:if>
+                    <aura:if isTrue="{!v.createNewAccount}">
+                        <lightning:button variant="brand" label="Submit Request" onclick="{!c.submitAccount}" disabled="{!v.disableSubmit}" />
+                    </aura:if>
+                    
+                    <aura:if isTrue="{!v.showActivateShipTo}">
+                        <lightning:button variant="brand" label="Save Request" onclick="{!c.saveActivateorDeactivate}" />
+                    </aura:if>
+                    <aura:if isTrue="{!v.showActivateShipTo}">
+                        <lightning:button variant="brand" label="Submit Request" onclick="{!c.submitActivateorDeactivate}" />
+                    </aura:if>
+                    <aura:if isTrue="{!v.showPartnerExistingShipTo}">
+                        <lightning:button variant="brand" label="Save Request" onclick="{!c.savePartnerShiptoRequest}" />
+                    </aura:if>
+                    <aura:if isTrue="{!v.showPartnerExistingShipTo}">
+                        <lightning:button variant="brand" label="Submit Request" onclick="{!c.submitPartnerShiptoRequest}" />
+                    </aura:if>
+                    <aura:if isTrue="{!v.showUnPartnerFromExistingSoldTo}">
+                        <lightning:button variant="brand" label="Save Request" onclick="{!c.saveUnPartnerfromSoldToToRequest}" />
+                    </aura:if>
+                    <aura:if isTrue="{!v.showUnPartnerFromExistingSoldTo}">
+                        <lightning:button variant="brand" label="Submit Request" onclick="{!c.submitUnPartnerfromSoldToToRequest}" />
+                    </aura:if>
+                    <aura:if isTrue="{!v.showChangeShipToInfo}">
+                        <lightning:button variant="brand" label="Save Request" onclick="{!c.saveChangeShipToInfoRequest}" />
+                    </aura:if>    
+                    <aura:if isTrue="{!v.showChangeShipToInfo}">
+                        <lightning:button variant="brand" label="Submit Request" onclick="{!c.submitChangeShipToInfoRequest}" />
+                    </aura:if>   
+                    <aura:if isTrue="{!!v.showInquiry}">
+                        <lightning:button variant="brand" label="Back to Search Results" onclick="{!c.backToSearchResults}" />
+                        <aura:set attribute="else">
+                            <lightning:button variant="brand" label="Submit Request" onclick="{!c.submitInquiryRequest}" />
+                            <lightning:button variant="brand" label="Back" onclick="{! c.backToSearchResults}" />
+                        </aura:set>   
+                    </aura:if>
+                </div>
+            </aura:if>            
+        </div>
+    </div>    
+    <!--loading spinner start... style=Brand Medium (blue dots)-->
+    <aura:if isTrue="{!v.Spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>    
+    <!-- Loading spinner end-->
+</aura:component>

@@ -1,0 +1,63 @@
+<template>
+
+
+    <!-- <template for:each={listviews.data} for:item="listv"> 
+            <li key={listv.Id}>
+            <lightning-button key={listv.Id}
+                    label={listv.Name}
+                    onclick={navigateToListView}
+                    value={listv}>
+                    </lightning-button>
+                    </li>
+                    </template> -->
+
+
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_x-small">
+        <thead>
+            <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Opportunity Name">List View Names</div>
+                </th>
+            </tr>
+        </thead>
+    </table>
+    <div class="slds-form-element slds-size--1-of-1 slds-small-size--1-of-1 slds-medium-size--1-of-1">
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-dropdown_large slds-dropdown_fluid" role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <template for:each={listviews} for:item="listv">
+
+                            <li key={listv.Id} role="presentation" class="slds-listbox__item slds-border_bottom">
+
+                                <div data-id={listv.Id} data-name={listv.SobjectType} onclick={navigateToListHandler}
+                                    class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                    role="option">
+                                    <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                    <span class="slds-media__body">
+                                        <a> <span class="slds-truncate" title="Accounts">{listv.Name}</span></a>
+                                    </span>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </li>
+            </template> -->
+
+
+    <template if:true={listviews.error}>
+        <!--<c-error-panel errors={listviews.error}></c-error-panel>-->
+    </template>
+
+
+    <!-- <template if:true={listviews.data}>
+        <template for:each={listviews.data} for:item="list">
+            <p key={list.Id}>{list.Name}||{list.Id}||{list.DeveloperName}</p>
+        </template>
+    </template>-->
+
+</template>

@@ -1,0 +1,26 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" standardStylesheets="false">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+  <head>
+<title> Bedankt!</title>
+</head>
+  <apex:slds />
+  <div class="slds-align_absolute-center slds-p-vertical_large slds-text-heading_large">
+      Thank You
+  </div> 
+  <div class="slds-align_absolute-center slds-p-vertical_large slds-box slds-theme--success">      
+        <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+            <use href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#success')}">
+            </use>
+        </svg>
+        <h2 class="slds-text-heading--small">
+            Uw SIM-kaart activatie verzoek is succesvol verzonden.
+        </h2>
+  </div>
+  <div class="slds-align_absolute-center slds-p-vertical_large slds-text-align_center slds-p-around_medium">      
+     
+      Tijdens kantooruren verwerken wij uw opdracht binnen maximaal 1 uur. U ontvangt op het opgegeven e-mailadres een bevestiging zodra de opdracht is verwerkt.
+      Zodra de oude SIM-kaart geen netwerk meer geeft kunt u de nieuwe SIM-kaart in uw toestel plaatsen en opnieuw opstarten.
+     
+  </div>
+  </html>
+</apex:page>

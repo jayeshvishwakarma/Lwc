@@ -1,0 +1,22 @@
+<template>
+    <div class="slds-m-around__large">
+    <lightning-card title={daughterDetails} icon-name="custom:custom3">
+        <div class="slds-m-around__large">
+         <lightning-input
+            name="txtMessage"
+            label="Enter Message"
+            data-my-id="txtMessage"
+         >
+         </lightning-input>
+         <lightning-button
+         name="cmdSend"
+         label="Send Message"
+         onclick={handleSend}
+
+         >   
+         </lightning-button>
+
+        </div>
+    </lightning-card>    
+    </div>   
+</template>

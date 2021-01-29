@@ -1,0 +1,3 @@
+<apex:page standardController="Bestelling_MM__c" extensions="ffirule.IntegrationRuleEngine" action="{!convert}">
+<ffirule:IntegrationRule engine="{!engine}"/>
+</apex:page>

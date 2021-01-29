@@ -1,0 +1,21 @@
+.slds-form-element__label{
+    display: none;
+}
+.redcolor{
+    color:rgb(255, 255, 255);
+    
+}
+.red{
+    color:rgb(186, 28, 0);
+}
+.lgc-bg-inverse{
+    background-color: rgb(77, 209, 25);
+}
+.bg-color-white{
+    background-color: white;   
+}
+.button{
+    padding: 1px 6px;
+    text-align: center;
+    font-size: 14px;   
+}

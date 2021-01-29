@@ -1,0 +1,23 @@
+.container{
+    background: #fff;
+}
+.slds-box{
+    background: rgb(239, 239, 239);
+}
+.header{
+    background: rgb(239, 239, 239);
+    border-bottom: 1px solid #ccc;
+}
+.value-tag{
+    margin-bottom: 6px !important;
+}
+
+.slds-grid.slds-wrap {
+    background-color: transparent !important;
+}
+
+.scrollit {
+   overflow: auto;
+   overflow-x: scroll;
+   padding-bottom : 7rem;
+}

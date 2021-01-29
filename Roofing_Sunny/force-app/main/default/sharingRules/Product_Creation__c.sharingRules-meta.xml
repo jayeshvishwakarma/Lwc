@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Grant_Access_on_Need_Additional_Info</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Grant Access on Need Additional Info</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+        <criteriaItems>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Need Additional Information</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_when_the_form_is_approved</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Share when the form is approved</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Warranty Product View</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_when_the_form_is_submitted</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Share when the form is submitted</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Admin RecordType</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+</SharingRules>

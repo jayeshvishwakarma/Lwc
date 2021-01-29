@@ -1,0 +1,75 @@
+<template>
+    <div class="slds-is-relative">
+
+        <div if:true={showScreen}>
+
+            <div if:true={showVariantScreen}>
+                <!-- =======     Add Variant Screen     ======= -->
+                <c-variant-screen record-id={recordId} 
+                    dealer-for-code-id={dealerForCodeId}
+                    device-form-factor={deviceFormFactor} onvariant={setSummaryScreen}></c-variant-screen>
+            </div>
+
+            <div if:true={showComponentScreen}>
+                <!-- =======     Add Component Screen     ======= -->
+                <c-add-Components device-form-factor={deviceFormFactor} oncomponents={setSummaryScreen}>
+                </c-add-Components>
+            </div>
+
+            <div if:true={showAccessoriesScreen}>
+                <!-- =======     Add Accessories Screen    ======= -->
+                <c-add-accessories device-form-factor={deviceFormFactor} 
+                    onaccessories={setSummaryScreen}
+                    onclosemethod={closeCmpMethod}>
+                </c-add-accessories>
+            </div>
+
+            <div if:true={showSchemesAndOffersScreen}>
+                <!-- =======    Add Schemes And Offers Screen     ======= -->
+                <c-add-Schemes-And-Offers onselect={setSummaryScreen}>
+                </c-add-Schemes-And-Offers>
+            </div>
+
+            <div if:true={showSummaryScreen}>
+                <!-- =======    Summary Screen    ======= -->
+                <c-summary-screen stage={stageName} device-form-factor={deviceFormFactor} 
+                    onvehicle={setVariantScreen} oncomponents={setComponentScreen} 
+                    onaccessories={setAccessoriesScreen} onselect={setSchemesAndOffersScreen} 
+                    onsubmitreq={submitReqMethod} onquotecreatesuccess={handleQuoteCreateSuccess}
+                    onclosemethod={closeCmpMethod}></c-summary-screen>
+            </div>
+
+        </div>
+
+        <div if:true={showError}>
+
+            <div class="demo-only" style="height:4rem">
+                <div class="slds-notify_container slds-is-relative">
+                    <div class="slds-notify slds-notify_toast slds-theme_warning" role="status">
+                        <span class="slds-assistive-text">error</span>
+                        <span
+                            class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top"
+                            title="warning">
+                            <lightning-icon icon-name="utility:warning" alternative-text="Warning!" variant="warning">
+                            </lightning-icon>
+                        </span>
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading_small">
+                                Modification of line items is not allowed at this stage.
+                                Please make necessary changes in DMS.
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-align_absolute-center slds-p-top_large">
+                <lightning-button if:false={showActionButton} label="Cancel" variant="brand" title="Cancel" icon-name="utility:close"
+                    onclick={closeCmpMethod}></lightning-button>
+            </div>
+
+        </div>
+
+    </div>
+
+</template>

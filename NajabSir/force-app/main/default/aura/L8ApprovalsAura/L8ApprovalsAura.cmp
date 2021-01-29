@@ -1,0 +1,6 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId"> 
+    <aura:attribute name="recordId" type="String" />
+
+    <!-- <c:l8Approvals /> -->
+    <c:l8ServiceApproval recordId ="{!v.recordId}" onclose="{!c.handelClose}"/>
+</aura:component>

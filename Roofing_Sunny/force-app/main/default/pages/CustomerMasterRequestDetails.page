@@ -1,0 +1,18 @@
+<apex:page standardController="Case">
+    <apex:includeLightning />
+    <div style="width:100%;" id="appContainer" />
+
+ <script>
+ var caseId = "{!$CurrentPage.parameters.id}";
+ $Lightning.use("c:CustomerMasterRequestDetailsApp", function() {
+ $Lightning.createComponent("c:CustomerMasterRequestDetails",
+ { 
+	"recordId" : caseId
+ },
+ "appContainer",
+ function(cmp) {
+ console.log('Component created!!');
+ });
+ });
+ </script>
+</apex:page>

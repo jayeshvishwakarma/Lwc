@@ -1,0 +1,20 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasSObjectName,force:hasRecordId" access="global" >
+	<aura:html tag="style">
+    	.cuf-scroller-content{
+        	background:#fff;
+        }
+        .slds-modal__container { 
+            width: 65%;
+           max-width: 55rem; 
+        }
+        .slds-m-bottom_small{
+            margin-top : -18px;
+      }
+    </aura:html>
+    <aura:attribute name="recordId" type="String"/>
+    <c:dealerResolution recordId="{!v.recordId}" 
+                          onclose="{!c.handelClose}"
+                          ProcessName='MSIL_Query_Closure' onopenFile="{!c.openFile}"/>
+    
+    
+</aura:component>

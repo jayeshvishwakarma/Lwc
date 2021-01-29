@@ -1,0 +1,45 @@
+<template>
+    <c-lookup-container class="slds-container_x-large slds-container_center">
+        <div class="slds-container_x-large slds-container_center" >
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-1"> 
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <label class="slds-form-element__label">For Code</label>
+                            <c-lookup-input-field data-name="model" object-name="For_Code__c"
+                            is-mobile 
+                            is-custom-search
+                            firstvalue = {forCodeSelection}
+                            custom-placeholder = 'Search Forcode...'
+                            oncustomsearch={handleForCodeCustomSearch}
+                            onchange={handleSelectForCode}>
+                            </c-lookup-input-field>
+                        </div>
+                    </div> 
+                </div> 
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-1"> 
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <label class="slds-form-element__label">DealerShip</label>
+                            <c-lookup-input-field data-name="model" object-name="Account" 
+                            is-mobile 
+                            is-custom-search
+                            firstvalue = {accountSelection}
+                            custom-placeholder = 'Search Dealership...'
+                            oncustomsearch={handleAccountCustomSearch}
+                            onchange={handleSelectAccount}>
+                            </c-lookup-input-field>
+                        </div>
+                    </div> 
+                </div> 
+            </div>
+
+            
+
+        </div>
+    </c-lookup-container>
+</template>

@@ -1,0 +1,60 @@
+<template>
+	<template if:true={isSpinnerShow}>
+		<lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+	</template>
+	
+		<div>
+		<lightning-record-edit-form record-id={recordId} object-api-name="Case" onload={handleOnload} onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>
+			<lightning-messages></lightning-messages>
+			<lightning-layout multiple-rows>
+				<template if:true={isSubmitShow}>
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+						<lightning-input-field name="CCP_Status__c" field-name="CCP_Status__c" disabled></lightning-input-field>
+					</lightning-layout-item>
+				</template>
+				<template if:false={isSubmitShow}>
+					<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+						<lightning-input-field name="CCP_Mode__c" field-name="CCP_Mode__c" required disabled={isReadOnly}></lightning-input-field>
+					</lightning-layout-item>
+				</template>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+					<lightning-input-field name="CCP_Remarks__c" field-name="CCP_Remarks__c" disabled={isReadOnly}></lightning-input-field>
+				</lightning-layout-item>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+					<label class="slds-form-element__label"><span class="slds-required">*</span> CCP Documents</label>
+					<lightning-file-upload accept=".jpg,.jpeg,.png,.pdf" disabled={isReadOnly} record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+					<lightning-layout multiple-rows>
+						<template for:each={documentList} for:item="doc">
+							<lightning-layout-item key={doc.Id} size="12" small-device-size="6" medium-device-size="6" large-device-size="6">
+								<div key={doc.Id}>{doc.FileUniqueName__c} ({doc.number})</div>
+							</lightning-layout-item>
+							<lightning-layout-item key={doc.Id} size="12" small-device-size="6" medium-device-size="6" large-device-size="6">
+                                <!-- <lightning-button variant="base" label="View"  onclick={viewFile} ></lightning-button> --> 
+                                <a href="javascript:void(0);" data-value={doc.ContentDocumentId} onclick={viewFile}>View</a> | <a href="javascript:void(0);" data-value={doc.ContentDocumentId} d onclick={deleteFile}>Delete</a>
+							</lightning-layout-item>
+						</template>
+					</lightning-layout>
+				</lightning-layout-item>
+			</lightning-layout>
+			<lightning-button class="submit-btn slds-hide" type="submit" label="save" variant="brand"></lightning-button>
+		</lightning-record-edit-form>
+		<div class="inlineFooter " style="position: sticky;">
+			<div class="button-container slds-text-align_center forceRecordEditActions">
+				<div class="actionsContainer">
+					<div class="button-container-inner">
+						<template if:true={isSubmitShow}>
+							<lightning-button class="slds-m-horizontal--xxx-small" variant="brand" disabled={isReadOnly} label="Submit" onclick={handleSave}></lightning-button>
+						</template>
+						<template if:false={isSubmitShow}>
+							<lightning-button class="slds-m-horizontal--xxx-small" variant="brand" disabled={isReadOnly} label="Submit" onclick={handleSave}></lightning-button>
+						</template>
+						<template if:true={isMobile}>
+							<lightning-button class="slds-m-horizontal--xxx-small" variant="brand" label="Cancel" onclick={cancel}></lightning-button>
+						</template>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	
+</template>

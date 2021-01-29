@@ -1,0 +1,101 @@
+<apex:page showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardController="Quote" extensions="KlantkaartController">
+    <head>
+        <style>
+
+            html, body {width: 100%;
+                
+            }
+            .marginClass{
+                margin: 20px;
+            }
+             
+            p,h1,h2,h3,body,td,th,li,header,footer,* {
+                font-family: Arial,Helvetica,SansSerif,sans-serif;
+            }
+            p,h1,h2,h3,body,td,th,li,header,footer {
+                font-size: 9pt;
+            }
+            h1,h2 {
+                font-size: 12pt;
+            }
+            
+            td,th {
+                vertical-align:top;
+            }                                
+
+            .quoteTable td {
+                border-bottom: 1pt solid black;
+                text-align: center;
+            }
+            .quoteTable thead  th{
+                background-color: #CCD7E7;
+                font-size: 8pt;
+                padding: 0.5em;
+            }
+            
+            .quoteTable tfoot td {
+                text-align: left;
+                background-color: #CCD7E7;
+                padding: 0.5em 0;
+                margin: 0;
+                font-weight: bold;
+            }
+            .padded-table td {
+                padding: 0.5em;
+                border-bottom: 0.5pt solid gray;
+            }
+                                             
+            .checkbox {
+                width: 1em;
+                height: 1em;
+                border: 1pt solid black;
+                display: inline-block;
+            }
+            
+            .groupTable th{
+                padding-right : 0px !important;
+            }
+            body{font-weight: normal; font-size: 12px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;}
+            table td{font-weight: normal; font-size: 12px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+            table th{font-weight: normal; font-size: 12px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}        
+            table th.bold {font-weight: bold; font-size: 12px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+            table th.blauw2 {font-weight: bold; font-size: 12px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#003366; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+            table th.groen1 {font-weight: bold; font-size: 12px; color: #339933; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+            table th.groen {font-weight: bold; font-size: 12px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#339933; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+            .groupTable{
+                text-align: center;
+            }   
+            .relatedRecords {
+                border-collapse: collapse !important;
+                padding: 0.5em;
+            }
+            .reldiv {
+                margin : auto;
+            }
+            .relatedRecords th, .relatedRecords td {
+                padding: 6px;
+            }
+        </style>       
+            
+    </head>
+
+    <table class="marginClass">
+        <tr><td>Bedrijfsnaam</td><td>{!quote.Bedrijfsnaam__c}</td></tr>
+        <tr><td>Adres</td><td>{!quote.Straat__c} {!quote.Huisnummer__c} {!quote.Huisnummer_toevoeging__c}</td></tr>
+        <tr><td>Postcode en Plaats</td><td>{!quote.Postcode__c} {!quote.Plaats__c}</td></tr>
+        <tr><td>Telefoonnummer</td><td>{!quote.Telefoonnummer_nummeriek__c}</td></tr>
+        <tr><td>E-mailadres</td><td>{!quote.Email}</td></tr>
+        <tr><td>Rechtsvorm</td><td>{!quote.Rechtsvorm__c}</td><td>Debiteurnummer</td><td>{!quote.Debiteurnummer__c}</td></tr>
+        <tr><td>KvK nummer</td><td>{!quote.KvK_nummer__c}</td></tr>
+        <tr><td>ExternalId</td><td>{!quote.ExternalId__c}</td></tr>
+        <tr><td>IBAN</td><td>NL19ABNA0593740904</td></tr>
+        <tr><td><h1>&nbsp;</h1></td></tr>
+        <tr><td><B>Contactpersoon</B></td></tr>
+        <tr><td>Voornaam, Toevoegsel, Achternaam</td><td>{!quote.Voornaam__c} {!quote.Achternaam__c}</td></tr>
+        <tr><td>Geslacht</td><td>{!quote.Geslacht_man_vrouw__c}</td></tr>
+        <tr><td>Telefoonnummer</td><td>{!quote.Direct_telefoonnummer__c}</td></tr>
+        <tr><td>E-mailadres</td><td>{!quote.Email}</td></tr>
+    </table>
+     
+            
+</apex:page>

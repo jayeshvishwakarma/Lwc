@@ -1,0 +1,19 @@
+<apex:page standardController="Account" id="israpage" showHeader="false" sidebar="false">
+    <body onload = "israCheckTrue();">
+        <apex:form id="frm">
+            <apex:inputHidden id="isracheck" value="{!account.ISRA_Check__c}"/>
+            <apex:commandButton id="save" style="display:none;" value="save" action="{!save}"/>
+        </apex:form>     
+    </body>
+    
+    <script>
+        function israCheckTrue(){
+            var bool = document.getElementById('{!$Component.israpage.frm.isracheck}');
+            console.log(bool.value);
+            bool.value = true;
+            console.log(bool.value)
+            document.getElementById('{!$Component.israpage.frm.save}').click();
+            
+        }
+    </script>
+</apex:page>

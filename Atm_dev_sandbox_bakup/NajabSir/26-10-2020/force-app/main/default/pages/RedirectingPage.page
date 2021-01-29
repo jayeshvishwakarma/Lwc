@@ -1,0 +1,8 @@
+<apex:page controller="RedirectingPage" showHeader="false" action="{!redirect}">
+    <apex:slds />
+    <apex:outputPanel rendered="{!showError}">
+        <div class="slds-align_absolute-center" style="height: 4rem; font-size: 25px; font-weight: bolder; color: #003A7A;">
+            You cannot access the car configurator page.
+        </div>
+    </apex:outputPanel>
+</apex:page>

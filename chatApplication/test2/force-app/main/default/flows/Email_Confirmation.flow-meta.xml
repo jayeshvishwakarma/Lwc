@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Email</name>
+        <label>Send Email</label>
+        <locationX>710</locationX>
+        <locationY>124</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Get_Code</targetReference>
+        </connector>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>This is your code: {!code}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Hi</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>UserObject.Email</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apexPluginCalls>
+        <name>Generate_Random_Code</name>
+        <label>Generate Random Code</label>
+        <locationX>530</locationX>
+        <locationY>125</locationY>
+        <apexClass>CodeGenerator</apexClass>
+        <connector>
+            <targetReference>Send_Email</targetReference>
+        </connector>
+        <outputParameters>
+            <assignToReference>code</assignToReference>
+            <name>Code</name>
+        </outputParameters>
+    </apexPluginCalls>
+    <assignments>
+        <name>Assign_Email_Address</name>
+        <label>Assign Email Address</label>
+        <locationX>363</locationX>
+        <locationY>217</locationY>
+        <assignmentItems>
+            <assignToReference>UserObject.Email</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Generate_Random_Code</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Code_Validation</name>
+        <label>Code Validation</label>
+        <locationX>883</locationX>
+        <locationY>298</locationY>
+        <defaultConnector>
+            <targetReference>Generate_Random_Code</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Invalid</defaultConnectorLabel>
+        <rules>
+            <name>Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>code</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CodeInput</elementReference>
+                </rightValue>
+            </conditions>
+            <label>Valid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if the User Object contains an email address. 
+
+This is mainly useful when not running in a login context (e.g. within the designer) and the LoginFlow_UserId is not populated</description>
+        <name>Email_validation</name>
+        <label>Email validation</label>
+        <locationX>200</locationX>
+        <locationY>125</locationY>
+        <defaultConnector>
+            <targetReference>Generate_Random_Code</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Email exists</defaultConnectorLabel>
+        <rules>
+            <name>Email_is_missing</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>UserObject.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Email_from_user</targetReference>
+            </connector>
+            <label>Email is missing</label>
+        </rules>
+    </decisions>
+    <label>Email Confirmation</label>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_User_Info</name>
+        <label>Get User Info</label>
+        <locationX>32</locationX>
+        <locationY>125</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Email_validation</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>LoginFlow_UserId</elementReference>
+            </value>
+        </filters>
+        <object>User</object>
+        <outputReference>UserObject</outputReference>
+        <queriedFields>Email</queriedFields>
+    </recordLookups>
+    <screens>
+        <name>Get_Code</name>
+        <label>Get Code</label>
+        <locationX>880</locationX>
+        <locationY>124</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Code_Validation</targetReference>
+        </connector>
+        <fields>
+            <name>GetCodeTitle</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:14px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;Enter your verification code&lt;/B&gt;&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Instructions</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:12px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;A verification code was sent via email to &lt;FONT KERNING=&quot;1&quot;&gt;{!UserObject.Email}&lt;/FONT&gt;. When you receive the code, enter it below.&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>CodeInput</name>
+            <dataType>String</dataType>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Space</name>
+            <fieldText>&lt;br/&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>troubleTitle</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:14px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;Didn&amp;apos;t receive the email?&lt;/B&gt;&lt;FONT STYLE=&quot;font-size:12px&quot;&gt;&lt;/FONT&gt;&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>troubleMessage</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:14px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;Sometimes automated messages get categorized as spam. Check your spam folder.&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Get_Email_from_user</name>
+        <label>Get Email from user</label>
+        <locationX>202</locationX>
+        <locationY>289</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Assign_Email_Address</targetReference>
+        </connector>
+        <fields>
+            <name>Title</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:14px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;Please provide your email address below&lt;FONT STYLE=&quot;font-size:12px&quot;&gt;&lt;/FONT&gt;&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Email</name>
+            <dataType>String</dataType>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <startElementReference>Get_User_Info</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>code</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>LoginFlow_UserId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>UserObject</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>User</objectType>
+    </variables>
+</Flow>

@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="Escalation Time" icon-name="custom:custom63">
+        <div class="slds-m-around_medium">
+            <template if:true={escalationsList}>
+                <table>
+                <template for:each={escalationsList} for:item="esc">
+                    <tr key={esc.escalation.Id}>  
+                         <td>
+                          {esc.escalation.Name}
+                         </td>
+                         <td>
+                             <div if:true={esc.timeToShow}>
+                               {esc.timeToShow}  
+                             </div>  
+                             <div if:true={esc.message}>
+                                {esc.message}  
+                              </div>      
+                         </td>
+                         
+                    </tr>
+                </template>
+            </table>
+            </template>
+            
+        </div>
+    </lightning-card> 
+</template>

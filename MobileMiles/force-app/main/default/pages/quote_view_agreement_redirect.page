@@ -1,0 +1,12 @@
+<apex:page action="{!redirect}" standardController="Quote" extensions="QuoteViewAgreementRedirectController">
+    <apex:outputPanel rendered="{!recFound}">
+    	<h1>
+            Redirection in progress...
+        </h1>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!!recFound}">
+    	<h1 style="display:block;color:red;">
+            Record not found for EZSign Signature.
+        </h1>
+    </apex:outputPanel>
+</apex:page>

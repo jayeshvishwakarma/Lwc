@@ -1,0 +1,3 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+	<c:callDetails recordId="{!v.recordId}" onfinish="{!c.handleFinish}"></c:callDetails>
+</aura:component>

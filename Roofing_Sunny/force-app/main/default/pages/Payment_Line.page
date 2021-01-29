@@ -1,0 +1,1830 @@
+<apex:page standardController="Payment_Line__c" extensions="twod_PaymentController" sidebar="false" id="PaymentLineItemPage" docType="html-5.0">
+    <html>
+        <head> 
+            <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8" />
+            <script  src="{!$Resource.jqueryCT}"></script>
+            <script src="{!$Resource.bootstrapjss}"></script>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system-vf.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system.min.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/>
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+            
+            <style>
+                body {
+                overflow-x: auto;
+                }
+                
+                .modal-open {
+                overflow: scroll;
+                }
+                
+                .tooltipcss
+                {
+                color: cornflowerblue;
+                cursor: pointer;
+                left:12px;
+                }
+                @media (max-width: 767px) { 
+                .mandatory:after
+                {
+                top: -5px !important; 
+                }
+                .tooltipcss
+                {
+                //top: -6px !important; 
+                }
+                }    
+                
+                .lookupInput > a {
+                z-index: 1000;
+                margin-top: -34px; 
+                width: 0px;
+                border: none;
+                background-color: rgba(221, 218, 218, 1); 
+                float: right;
+                padding-right: 36px;  
+                box-shadow: none; 
+                }  
+                
+                .lookupInput > input { 
+                font-family: inherit; 
+                }
+                
+                .lookupInput > a { 
+                text-decoration: none;
+                }
+                
+                .lookupInput a:focus {
+                border-color: rgba(255, 255, 255, 0);
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 255, 255, 0);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 255, 255, 0);
+                }
+                
+                .tabContent {
+                display: block;
+                padding: 15px;
+                border-radius: 11px;
+                border-color: ghostwhite;
+                box-shadow: 10px 20px 30px #b9b9e6;
+                }
+                
+                .nav > li > a { 
+                outline: none;
+                }
+                
+                .nav-tabs > li.active > a,
+                .nav-tabs > li.active > a:hover,
+                .nav-tabs > li.active > a:focus {
+                outline: none;
+                }
+                
+                .mandatory:after {
+                color: #d00;
+                content: "*";
+                position: absolute;
+                margin-left: 3px;
+                top: 3px;
+                font-size: 18px;
+                }
+                
+                #exTab3 .nav-pills > li > a {
+                border-radius: 4px 4px 0 0 ;
+                }
+                
+                .center {
+                //margin: auto;
+                width: 50%;
+                padding: 10px;
+                position:left;
+                }
+                
+                .center1 {
+                position:left;
+                width: 10%;
+                padding: 10px;
+                }
+                
+                /*Responsive Tables */
+                tr:nth-of-type(odd) {
+                background: #eee;
+                }
+                
+                th {
+                font-weight: bold;
+                }
+                
+                td,
+                th {
+                padding: 6px;
+                text-align: left;
+                }
+                
+                .responsive-header {
+                display: none;
+                }
+                .hideDropdown select{
+                visibility: hidden !important;
+                display: block !important;
+                }
+                .hideDropdown input{
+                display:none !important;
+                }
+                input[type="checkbox"]{
+                cursor: pointer;
+                -webkit-appearance: none;
+                appearance: none;
+                background: silver;
+                border-radius: 1px;
+                box-sizing: border-box;
+                position: relative;
+                box-sizing: content-box ;
+                width: 15px;
+                height: 15px;
+                border-width: 1px;
+                margin :auto;
+                transition: all .3s linear;
+                float: right;
+                vertical-align: middle;
+                }
+                input[type="checkbox"]:checked{
+                background-color: #2ECC71;
+                }
+                input[type="checkbox"]:focus{
+                outline: 1px;
+                box-shadow: black;
+                }
+                
+            </style>
+        </head>
+        <script>      
+        var $j = jQuery.noConflict(); 
+        
+        var productGlobal='';
+        var productFirstTime=true;        
+        window.onload = function () {            
+            if('{!claimStatus}' != 'Claim' || ({!releasedToSap} == true && ('{!$Profile.Name}' =='System Administrator' || '{!$Profile.Name}' =='Tech Services' || '{!$Profile.Name}' =='Warranty Admin'))
+               ||(!('{!$Profile.Name}' =='System Administrator' || '{!$Profile.Name}' =='Tech Services' || '{!$Profile.Name}' =='Warranty Admin') &&(  ({!isPaymentApproved}==true) || {!releasedToSap} == true ))){
+                //alert('Package is Approved/Released To SAP !! Can not Add, Edit or Delete the Payment Line');
+                alert('Can Add/Edit/Delete Payment line if Claim is in Claim status and package is not Approved/Released');
+                window.location.href=document.referrer;
+            }
+            else if('{!claimStatus}' == 'Pre Claim'||'{!claimStatus}' == 'Need more Information'||'{!claimStatus}' == 'Closed'){
+                alert('Can not Edit or Delete the Payment Line !! Claim status is ' +'{!claimStatus}' );
+                window.location.href=document.referrer;
+            }  
+            $j('#tabs').tab();
+            laborSection();
+            
+        }          
+        
+        function isNumberKey(evt)
+        {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 46 || charCode > 57))
+                return false;
+            
+            return true;
+        }
+        function lookUpKey(evt){
+            
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            console.log(charCode);
+            
+            if(charCode!='')
+                return false;
+            return true;
+            
+        }
+        function showProcessingModal()
+        {  
+            console.log('show');
+            $j("#el_loading").modal();              
+        }
+        
+        function showdiv(){
+           //Addded By Hampesh
+               var settlementType='{!settlementType}';
+               var recordType='{!packageRecordType}';
+               
+               if('{!packageRecordType}' != 'Credit/Debit'){
+                     if((settlementType =='AST - Assistance' || settlementType =='RSS - Cls Action Assistanc' || settlementType =='DIS - Disposal') &&  recordType=='Check'){
+                         document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:quantity').disabled = true;
+                         document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amount').disabled = false;
+                         document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amountConv').disabled = false;
+                         totalAmountCalc();
+                         
+                         //Used JS function
+                         /*
+                         if(settlementType =='DIS - Disposal'){
+                             document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:totalAmount').innerHTML=400;
+                             }
+                         else{
+                             document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:totalAmount').innerHTML=50;
+                             }
+                         */
+                         
+                     }
+                    $j("#serviceInfoModal").modal();
+                }else{
+                       if((settlementType =='AST - Assistance' || settlementType =='RSS - Cls Action Assistanc' || settlementType =='DIS - Disposal') &&  recordType=='Check'){
+                             document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:quantityCreditDebit').disabled = true;
+                             document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit').disabled = false;
+                             document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv').disabled = false;
+                        }
+                    $j("#serviceInfoModalCreditDebit").modal();
+                }
+        }
+        function hideDiv(){
+            if('{!packageRecordType}' != 'Credit/Debit'){
+                //$j('#serviceInfoModal').modal('hide');
+                $j("#serviceInfoModal").removeClass('modal-open');
+                $j('.modal-backdrop').remove();
+            }
+            else{
+                //$j('#serviceInfoModalCreditDebit').modal('hide');
+                $j("#serviceInfoModalCreditDebit").removeClass('modal-open');
+                $j('.modal-backdrop').remove();
+            }
+        }
+        
+        //Total Amount Calculation for Credit Debit
+        function totalAmountCalcCreditDebit(){
+            var settlement='{!settlementType}';
+            var recordType='{!packageRecordType}';
+            var exchangeRate = '{!exchangeRate}'; //CT Multi currency changes
+            console.log('settlement2 is ' + settlement + ' and recordType2 is ' + recordType + ' and exchangeRate is ' + exchangeRate);
+            var x = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantityCreditDebit").value; 
+            var y = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value;
+            
+            var canAmt = (y / exchangeRate).toFixed(2);
+            var usAmt = Math.round(y*100)/100; 
+            
+            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").value = canAmt;
+            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value = usAmt;
+            
+            if(x.indexOf(',') >=0){
+                x=x.replace(',','');
+            }
+            if(y.indexOf(',') >=0){
+                y=y.replace(',','');
+            }
+            var z = x*y;
+            console.log(z);
+            if(!isNaN(z)){
+                z=Number(z);
+                z=(z).toFixed(2);
+                y=(z / exchangeRate).toFixed(2);
+                console.log('Conv Amt :' +y); 
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountCreditDebit").innerHTML = z;
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountCreditDebitConv").innerHTML = (x * canAmt).toFixed(2); 
+            }
+            else //If NaN coming ,assign 0 to Amount
+            {
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountCreditDebit").innerHTML = '0.00';
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountCreditDebitConv").innerHTML = '0.00';                
+            }
+        }
+        
+        //Total Amount Calculation for Other Record Types(Check,FreeMaterial,Gelco)
+        function totalAmountCalc(){
+            var settlement='{!settlementType}';
+            var recordType='{!packageRecordType}';
+            var exchangeRate = '{!exchangeRate}';//CT Multi currency changes
+
+            console.log('settlement is ' + settlement + ' and recordType is ' + recordType + ' and exchangeRate is ' + exchangeRate);
+            var x = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value; 
+            var y = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value;
+            var yc = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value;
+
+
+
+            if(x.indexOf(',') >=0){
+             x=x.replace(',','');
+            }
+            if(y.indexOf(',') >=0){
+             y=y.replace(',','');
+            }
+            if(yc.indexOf(',') >=0){
+             yc=yc.replace(',','');
+            }
+
+            console.log('yc :' +yc);
+            console.log('y length:' +y.length);
+            console.log('y value:' +y);
+
+            if(y != null && y.length >0 && y != 0.00) {
+                console.log('Amount is considered');
+                yc = (y / exchangeRate).toFixed(2);
+                y = Math.round(y*100)/100;
+            }
+            else {
+                console.log('Amount Conv is considered');
+                y = (yc * exchangeRate).toFixed(2);
+                yc = Math.round(yc*100)/100;
+            }
+
+            console.log('canAmt :' +yc);
+            console.log('usAmt :' +y); 
+            
+            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value = yc;
+            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value = y;
+            
+            var z='';
+
+            if((settlement=='AST - Assistance' || settlement=='RSS - Cls Action Assistanc' || settlement =='DIS - Disposal') &&  recordType=='Check'){
+                
+                z=y;                
+                
+            }
+            else{         
+                z = x*y;
+                z=Number(z);
+                z=(z).toFixed(2);
+                if('{!setChar}' =='RCR'){
+                    var prevAmount = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:Prevamount").value;
+                    if(prevAmount >z){
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmount").innerHTML = '0.00'; 
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountConv").innerHTML = '0.00';
+                    }else{
+                        z = (z-prevAmount )*0.2;
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmount").innerHTML = z;
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountConv").innerHTML = (z / exchangeRate).toFixed(2);
+                    }
+                }
+            }
+            
+            if(!isNaN(z)){
+                z=Number(z);
+                z=(z).toFixed(2);
+                console.log('amount==>'+z);
+                 
+                y = (z / exchangeRate).toFixed(2);
+                console.log('Total Amount CAN ==>' + y);
+                
+                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:totalAmount').innerHTML = z;
+
+                if((settlement=='AST - Assistance' || settlement=='RSS - Cls Action Assistanc' || settlement =='DIS - Disposal') &&  recordType=='Check'){
+                    //Quantity(x) will be null for above settlements
+                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:totalAmountConv').innerHTML = y; 
+                    
+                }else{
+                    console.log('If2');
+                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:totalAmountConv').innerHTML = (x * yc).toFixed(2); 
+                } 
+                        
+                              
+            }
+            else //If NaN coming ,assign 0 to Amount
+            {
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmount").innerHTML = '0.00';
+                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:totalAmountConv').innerHTML = '0.00';
+            }
+        }
+
+        //CT Multi currency changes
+        //Function to calculate USD amount if User enters CAD value
+        function convertAmount(z){
+            
+            var exchangeRate = '{!exchangeRate}';
+            var recordType='{!packageRecordType}';
+            
+            console.log('Inside convertAmount for:' +recordType);
+            console.log('CAD Amount :' +z);
+            if(!isNaN(z)){
+                z=Number(z);
+                z = (z).toFixed(2);
+
+                if(recordType == 'Credit/Debit')
+                {
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value = (z * exchangeRate).toFixed(4);
+                    totalAmountCalcCreditDebit();
+
+                }else {
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value = (z * exchangeRate).toFixed(4);
+                    totalAmountCalc(); 
+                }
+                
+            }
+                       
+        }
+        
+        function totalAmountOnQuantityChange(){
+            
+            var settlementType='{!settlementType}';
+            var recordType='{!packageRecordType}';
+            if(recordType != 'Credit/Debit'){
+               var x = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value; 
+               var y = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value;
+               var yc = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value;
+            }else if(recordType == 'Credit/Debit'){
+               var x = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value; 
+               var y = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value;
+               var yc = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").value;
+            }
+            
+            y = Number(y);
+            yc = Number(yc);
+            console.log('{!isCAD}') ;
+               
+            if(recordType != 'Credit/Debit'){
+                if('{!isCAD}'){
+                      document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountConv").innerHTML = (x*yc).toFixed(2);
+                      document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmount").innerHTML = (x*y).toFixed(2);
+                }else{
+                       document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmount").innerHTML = (x*y).toFixed(2);
+                }
+            }else if(recordType == 'Credit/Debit'){
+                if('{!isCAD}'){
+                      document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountCreditDebitConv").innerHTML = (x*yc).toFixed(2);
+                      document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountCreditDebit").innerHTML = (x*y).toFixed(2);
+                }else{
+                       document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:totalAmountCreditDebit").innerHTML = (x*y).toFixed(2);
+                }
+            }
+            
+          }
+        
+        //Function to get amount by passing pitch (ALG,HAN,HAP)
+        function getPitchRoofCost(pitch){
+            //var pitch = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:pitch").value;
+            console.log(pitch);
+            
+            
+            if(pitch !=''){
+                waitingDialog.show('Fetching Price');
+                twod_PaymentController.getPitchCost(pitch,
+                                                     function(result, event)
+                                                     {
+                                                         
+                                                         console.log('Price1--'+result);
+                                                         console.log(result);
+                                                         if(result != null){
+                                                             if(!'{!isCAD}')                    
+                                                                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value = result;
+                                                             else
+                                                                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value = result;
+
+                                                             totalAmountCalc();
+
+                                                             if('{!packageRecordType}' != 'Check' && '{!packageRecordType}' != 'Credit/Debit'){
+                                                                 
+                                                                 document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = true; 
+                                                                 document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = true; 
+                                                             }else{
+                                                                 
+                                                                 document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = false;
+                                                                 document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = false;
+                                                             }
+                                                             waitingDialog.hide();
+                                                         }
+                                                         else{
+                                                             waitingDialog.hide();
+                                                             alert('Unable To Fetch The Price:  '+event.message);                         
+                                                         }  
+                                                     },{escape: true}
+                                                    );
+            }
+        }
+        
+        
+        //get Amount on load of div
+        function getPriceOnLoad(){
+            console.log('claimid passed'+'{!claimId}'+' {!isCAD}');
+            waitingDialog.show('Fetching Price');
+            twod_PaymentController.getPriceOnLoad('{!setChar}','{!claimId}',
+                                                   function(result, event)
+                                                   {
+                                                       
+                                                       console.log('Price1--'+result);
+                                                       console.log(result);
+                                                       if(result != null){
+
+                                                           if(!'{!isCAD}')
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value = result.price;
+                                                            else
+                                                                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value = result.price;
+                                                           
+                                                           
+                                                           if('{!setChar}' =='RCR'){
+                                                               console.log('RCR amount');
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:monthsCovered").value = result.monthsCovered  ;
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:monthsUsed").value = result.monthsUsed ;
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:Prevamount").value = result.previousAmount ;
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:Prevamount").disabled = true ;
+                                                           }
+                                                           if('{!setChar}' =='RCT' || '{!setChar}' =='RCW' || '{!setChar}' =='WAR' || '{!setChar}' =='PRS'){
+                                                               console.log('result.monthsCovered' + result.monthsCovered);
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:monthsCovered").value = result.monthsCovered  ;
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:monthsUsed").value = result.monthsUsed ;
+                                                           }
+                                                           
+                                                           totalAmountCalc();
+                                                           if('{!packageRecordType}' != 'Check' && '{!packageRecordType}' != 'Credit/Debit'){
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = true; 
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = true; 
+                                                           }else{
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = false;
+                                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = false;
+                                                           }
+                                                           waitingDialog.hide();
+                                                       }
+                                                       else{
+                                                           waitingDialog.hide();
+                                                           alert('Unable To Fetch The Price:  '+event.message);     
+                                                           document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = false;  
+                                                           document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = false;                    
+                                                       }  
+                                                   },{escape: true}
+                                                  );
+            //Added By Hampesh 
+            console.log('called on page load');
+            updateProductName();
+        }
+        
+        //function to get amount for Credit/Debit type
+        function getAmountCreditDebit(product){
+            var exchangeRate = '{!exchangeRate}'; //CT Multi currency changes
+            console.log('inside credittttt'+product);
+            var prodId = document.getElementById(product+ '_lkid').value;    
+            //fetchUOM();
+            var setBasis = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:setBasisCreditDebit").value;
+            if('{!packageRecordType}' == 'Credit/Debit' ){
+                
+                if(setBasis =='Material'){
+                    console.log('inside material');
+                    waitingDialog.show('Fetching Price'); 
+                    twod_PaymentController.getAmountCreditDebit('{!setChar}',setBasis,'{!packageRecordType}','{!claimId}','{!packageId}',prodId,{!textField},
+                                                                 function(result, event)
+                                                                 {
+                                                                     console.log(result);                                                            
+                                                                     if(result != null){
+                                                                         //Assumption : If Payment Sales_Org =1102, SAP will return price in CAD;otherwise USD.
+                                                                         if("{!isCAD}")
+                                                                         {
+                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").value = result.price ;
+                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").disabled = false;
+                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value = (result.price * exchangeRate).toFixed(2);
+                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").disabled = false;
+
+                                                                         }
+                                                                         else {
+
+                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value = result.price ;
+                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").disabled = false;
+                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").value = (result.price / exchangeRate).toFixed(2);
+                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").disabled = false;
+                                                                            //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomTCreditDebit").value = result.uom ;  
+                                                                            //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomTCreditDebit").disabled = false;
+                                                                         }
+                                                                         console.log(jQuery('[id$=UOMConversion]').val());
+                                                                         waitingDialog.hide();
+                                                                     }
+                                                                     else{
+                                                                         console.log('no p'); 
+                                                                         waitingDialog.hide();
+                                                                         alert('Unable To Fetch The Price:  '+event.message); 
+                                                                         document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value = '';
+                                                                         document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").disabled = false;
+                                                                         //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomTCreditDebit").value = ''; 
+                                                                         document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").value = '';
+                                                                         document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").disabled = false;
+                                                                           
+                                                                     } 
+                                                                 },{escape: true}
+                                                                );
+                    
+                }else{
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value = '';
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").disabled = false;
+                    //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomTCreditDebit").value = '';  
+                    //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomTCreditDebit").disabled = false;
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").value = '';
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv").disabled = false;
+                                                                                        
+                }
+            }
+            
+            
+            //Added By Hampesh 
+            
+            updateProductName();
+            
+            
+            
+        }
+        
+        function getAmountCheckCost(product){
+            console.log({!textField});
+            //fetchUOM(); 
+            var prodId = document.getElementById(product+ '_lkid').value;           
+            if(productGlobal==prodId) //Funtion to be called only when there is an Id --Santhosh
+            {                   
+                if(productFirstTime){
+                    productGlobal=prodId;
+                    productFirstTime=false;
+                }
+                else{
+                    //return null;
+                }
+            }
+            productGlobal=prodId;
+            var setBasis = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:setBasis").value;
+            var steepVal;
+            var tearOffVal;
+            var secondStoreyVal;
+            if('{!setChar}'=='STP'){
+                steepVal = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:steep").checked;
+                tearOffVal ='false';
+                secondStoreyVal ='false';
+            }
+            else if('{!setChar}'=='TOF'){
+                tearOffVal = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:demolish").checked;
+                steepVal ='false';
+                secondStoreyVal ='false';
+            }
+                else if('{!setChar}'=='2ND'){
+                    secondStoreyVal = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:additional").checked;
+                    tearOffVal ='false';
+                    steepVal ='false';
+                }
+                    else{
+                        tearOffVal ='false';
+                        steepVal ='false';
+                        secondStoreyVal ='false';
+                    }
+            console.log('ppp'+steepVal );
+            
+            if(('{!setChar}'=='RSM'||'{!setChar}'=='RSL'||'{!setChar}'=='STP'||'{!setChar}'=='TOF'||'{!setChar}'=='2ND')&& '{!packageRecordType}' != 'Credit/Debit' ){ 
+                waitingDialog.show('Fetching Price'); 
+                twod_PaymentController.getAmountCheckCost('{!setChar}',setBasis ,'{!packageRecordType}','{!claimId}','{!packageId}',prodId,{!textField},steepVal,secondStoreyVal ,tearOffVal ,
+                                                           function(result, event)
+                                                           {
+                                                               console.log('result1');
+                                                               console.log(result);
+                                                               if(result != null){
+
+                                                                    if(!'{!isCAD}')
+                                                                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value = result.price;
+                                                                    else
+                                                                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value = result.price;
+
+                                                                   totalAmountCalc();
+                                                                   if('{!packageRecordType}' != 'Check' && '{!packageRecordType}' != 'Credit/Debit'){
+                                                                       document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = true;
+                                                                       document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = true; 
+                                                                   }else{
+                                                                       document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = false;
+                                                                       document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = false;
+                                                                   }
+                                                                   if(result.LocationFactor!=null || result.OriginalPrice!=null){
+                                                                       document.getElementById("rsmeans").style.display=''
+                                                                      document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:OriginalCost").value=result.OriginalPrice;
+                                                                       document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:LocationFactor").value=result.LocationFactor;
+                                                                   }
+                                                                   waitingDialog.hide();
+                                                               }
+                                                               else{
+                                                                   console.log('no p'); 
+                                                                   waitingDialog.hide();
+                                                                   alert('Unable To Fetch The Price:  '+event.message); 
+                                                                   document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value = '';
+                                                                   document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = false;
+                                                                   document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value = '';
+                                                                   document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = false;
+                                                                   //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomT").value = '';       
+                                                                  
+                                                               }  
+                                                           },{escape: true}
+                                                          );
+            } //CERP-34 : Add POL settlement type for Free Material
+            else if(('{!setChar}'=='MTL' || '{!setChar}'=='POL') && '{!packageRecordType}' == 'Free Material' ){
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value = '';
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").disabled = true;
+                if('{!isCAD}'){
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value = '';
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").disabled = true;
+                }
+                //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomT").value = '';  
+                //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomT").disabled = false;
+            }                         
+            //Added By Hampesh 
+            /*  var productId=document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct_lkid').value;
+             console.log('result'+productId);
+             twod_PaymentController.getProductDescription(productId,function(result,event){
+              console.log('result'+result);
+                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:description').value=result;
+                document.getElementById('PaymentLineItemPage:csiformId:prodDesc').value=result;
+                 
+              }
+             ); */
+            updateProductName();
+            
+        }
+        
+        
+        function displayLaborField(setBasis){
+            console.log('setBasissetBasis'+setBasis);
+            if('{!packageRecordType}'!='Credit/Debit'){
+                console.log(setBasis);
+                if(setBasis == 'Labor' && {!textField} == false && '{!setChar}'=='STP' ){
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:steep").style.display = "inline-block";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:steep").checked = true;
+                    document.getElementById("steepL").style.display = "inline-block";
+                }else{
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:steep").style.display = "none";
+                    document.getElementById("steepL").style.display = "none";
+                } if(setBasis == 'Labor' && {!textField} == false && '{!setChar}'=='2ND' ){
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:additional").style.display = "inline-block";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:additional").checked = true;
+                    document.getElementById("additionalL").style.display = "inline-block";
+                }else{
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:additional").style.display = "none";
+                    document.getElementById("additionalL").style.display = "none";
+                }if(setBasis == 'Labor' && {!textField} == false && '{!setChar}'=='TOF' ){
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:demolish").style.display = "inline-block";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:demolish").checked = true;
+                    document.getElementById("demolishL").style.display = "inline-block";
+                }else{
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:demolish").style.display = "none";
+                    document.getElementById("demolishL").style.display = "none";
+                }  
+                
+                
+                
+                
+                //Enable/Disable the waranty product based on settlement
+                if(setBasis=='')
+                {            document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct').disabled=true;
+                 document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct_lkwgt').style.display='none';
+                }
+                else
+                {
+                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct').disabled=false;
+                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct_lkwgt').style.display='';
+                }
+            }else{
+                if(setBasis=='')
+                    
+                {    
+                    
+                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit').disabled=true;
+                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit_lkwgt').style.display='none';
+                }else{
+                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit').disabled=false;
+                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit_lkwgt').style.display= '';
+                    
+                }
+            } 
+        } 
+        function changeOfBasis(setBasis){
+            console.log('Onchange');
+            
+            document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit').disabled=false;
+            document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit').style.display= ''; 
+            document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit_lkwgt').style.display= '';
+            document.getElementById('{!$Component.PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit}').value ='';
+            document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit_lkwgt').value ='';
+            document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit').value = ''; 
+            document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebitConv').value = ''; 
+            //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:uomTCreditDebit").value = '';  
+            totalAmountCalcCreditDebit();
+            
+        }
+        function laborSection(){
+            $j(document).ready(function(){
+                $j('[data-toggle="tooltip"]').tooltip();
+            });
+            if('{!packageRecordType}' != 'Credit/Debit'){
+                var setbasis = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:setBasis").value;
+                displayLaborField(setbasis);
+            }
+            else{
+                var setbasis = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:setBasisCreditDebit").value;
+                displayLaborField(setbasis);
+            }
+        }    
+        
+        function displayAdditional(){
+            console.log('innnn')
+            if('{!packageRecordType}' == 'Check'){
+                
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:matcode").style.display = "none";
+                document.getElementById("matcodeL").style.display = "none";
+                console.log('innnn')
+            }
+            else if('{!packageRecordType}' == 'Credit/Debit'){
+                console.log('innnn')
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:matcodeCreditDebit").style.display = "block";
+                document.getElementById("matcodeLCreditDebit").style.display = "block";
+            }
+                else if('{!packageRecordType}' == 'Free Material'){
+                    console.log('innnn')
+                    //document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:matcode").style.display = "block";
+                    document.getElementById("primaryMaterialDiv").style.display = "block";
+                    //document.getElementById("matcodeL").style.display = "block";
+                   
+                }             
+        }    
+        
+        function saveCheck(){
+            var errMsg='';
+            var isErr = false;
+            var isFreematerialPresent=jQuery('[id$=isFreematerialPresent]').val();
+            var maximumLimit=jQuery('[id$=maximumLimit]').val();
+            console.log(maximumLimit);
+            
+            if(  parseInt(document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:TotalWeight").value) > maximumLimit && ('{!packageRecordType}' == 'Free Material')){
+                alert('The Maximum weight of the Payment should not exceed: ' + {!Max});
+                return false;
+            }
+            if(('{!settlementType}' =='ALG - Algae' || '{!settlementType}' =='HAN - Handseal' || '{!settlementType}' =='HAP - Handseal - policy') && ('{!packageRecordType}' =='Check') && document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:pitch").value == '' ){
+                errMsg += 'Pitch'+'\n';
+                isErr = true;
+            }
+            if(document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:setBasis").value == ''){
+                errMsg += 'Settlement Basis'+'\n';
+                isErr = true;
+            }
+            if(document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value == '' && '{!settlementType}' !='AST - Assistance' && '{!settlementType}' != 'RSS - Cls Action Assistanc' && '{!settlementType}' !='DIS - Disposal'){
+                errMsg += 'Quantity'+'\n';
+                isErr = true;
+            }
+            
+            if(('{!setChar}'=='RSM'||'{!setChar}'=='MTL') && document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct").value == ''){
+                //console.log(setBasis);
+                errMsg += 'Warranty Product'+'\n';
+                isErr = true;
+            }
+            if(document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value == '0'){
+                alert('Quantity cannot be Zero');
+                return false;
+            }
+            console.log(isFreematerialPresent);
+            if(('{!packageRecordType}' == 'Free Material') && isFreematerialPresent=='true' && document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:primaryMaterialCreditDebit").checked){
+                alert('There is Already Another Material which is marked as Primary');
+                return false;
+            }            
+            var DefectiveQuantity =  parseFloat('{!TotalDefectiveQuantity}');              
+            if( ('{!packageRecordType}' == 'Free Material') && document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:primaryMaterialCreditDebit").checked &&
+                                      document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value > DefectiveQuantity ){
+               alert('Quantity should be less than Claim Defective Quantity of ' + DefectiveQuantity);
+                return false;          
+            }else if(isErr == true && document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value != '0'){
+                alert('Following required fields are missing :'+'\n'+errMsg);
+                return false;
+            }
+                else{
+                    hold();
+                }
+            
+            
+            
+            
+        }    
+        function saveCreditDebit(){
+            var errMsg='';
+            var isErr = false;
+            var setbasis = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:setBasisCreditDebit").value;
+            var qty = document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value;
+            console.log('quantity'+qty );
+            if(document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:setBasisCreditDebit").value == ''){
+                errMsg += 'Settlement Basis'+'\n';
+                isErr = true;
+            }
+           if(document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantityCreditDebit").value == '' && '{!settlementType}' !='AST - Assistance' && '{!settlementType}' != 'RSS - Cls Action Assistanc' && '{!settlementType}' !='DIS - Disposal'){
+                errMsg += 'Quantity'+'\n';
+                isErr = true;
+            }
+            
+            if(('{!setChar}'=='RSM'||'{!setChar}'=='MTL') && document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit").value == ''&& setbasis =='Material'){
+                console.log(setBasis);
+                errMsg += 'Warranty Product'+'\n';
+                isErr = true;
+            }
+            
+            if(document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantityCreditDebit").value == '0'){
+                alert('Quantity cannot be Zero');
+                return false;
+            }else if(isErr == true && document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantityCreditDebit").value != '0'){
+                alert('Following required fields are missing :'+'\n'+errMsg);
+                return false;
+            }
+                else{
+                    holdCreditDebit();
+                }
+            
+        }  
+        
+        function amountCalculateUOM(type){
+            var conversion=jQuery('[id$=UOMConversion]').val();    
+            var BaseUOM=jQuery('[id$=BaseUOM]').val();    
+            console.log(type)
+            console.log(conversion);
+            if('{!packageRecordType}' == 'Credit/Debit'){
+                if(conversion!='' && parseFloat(conversion)!=0){
+                    var amount=document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value;
+                    if(amount.indexOf(',') >=0){
+                        amount=amount.replace(',','');
+                    }
+                    if(type==BaseUOM){
+                        amount=amount/conversion;
+                        amount=Math.round(amount*100)/100;     
+                        
+                    }
+                    else{
+                        amount=amount*conversion; 
+                        amount=Math.round(amount*100)/100;
+                        
+                    }
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountCreditDebit").value=amount;
+                    totalAmountCalcCreditDebit();
+                }
+            }else{
+                if(conversion!='' && parseFloat(conversion)!=0){
+                    var amount=document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value;
+                    
+                    if(amount.indexOf(',') >=0){
+                        amount=amount.replace(',','');
+                    }
+                    
+                    if(type==BaseUOM){
+                        amount=amount/conversion;
+                        amount=Math.round(amount*100)/100;    
+                    }
+                    else{
+                        amount=amount*conversion;   
+                        amount=Math.round(amount*100)/100; 
+                    }
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value=amount;
+                    totalAmountCalc();
+                    if('{!packageRecordType}' == 'Free Material'){
+                        var weight=document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:GrossWeight").value;
+                        if(weight.indexOf(',') >=0){
+                            weight=weight.replace(',','');
+                        }
+                        if(type==BaseUOM){
+                            weight=weight/conversion;
+                            weight=Math.round(weight*1000)/1000;
+                        }
+                        else{
+                            weight=weight*conversion;
+                            weight=Math.round(weight*1000)/1000;
+                        }
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:GrossWeight").value=weight;
+                        totalWeightCalc();
+                    }
+                    
+                }
+            }
+        }
+        
+        function totalWeightCalc(){
+            var quantity=document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:quantity").value;
+            var weight=document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:GrossWeight").value;    
+            if(weight.indexOf(',') >=0){
+                weight=weight.replace(',','');
+            }
+            var z=Number(quantity*weight);
+            z=(z).toFixed(3);
+            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:TotalWeight").value=z;
+        }
+        
+        
+        function displayPanel(){
+            if('{!packageRecordType}' !='Credit/Debit'){
+                console.log('Inisde display panel'+'{!setChar}'+'siz');
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:monthsCover").style.display = "none";
+                document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:monthsUse").style.display = "none";
+                if('{!setChar}'=='RSS'){ 
+                    console.log('1');  
+                    if(!'{!isCAD}')
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amount").value = '50.00';
+                    else
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:amountConv").value = '50.00';
+
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarProd").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:UOMPanel").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:PitchPanel").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountRCRPanel").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountPanel").style.display = "block";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountConvertedPanel").style.display = "block";
+                } 
+                else if('{!setChar}'=='DIS'){ 
+                        
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarProd").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:UOMPanel").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:PitchPanel").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountRCRPanel").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountPanel").style.display = "block";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountConvertedPanel").style.display = "block";
+                    }
+                else if('{!setChar}'=='PRS'||'{!setChar}'=='WAR'||'{!setChar}'=='RCR'||'{!setChar}'=='RCT'||'{!setChar}'=='RCW'){
+                    console.log('disabled '+' {!clmWarrantyProduct}');
+                    //console.log('Length : '+{!clmWarrantyProduct}.length);
+                    console.log('2');
+                    
+                    
+                    if('{!clmWarrantyProduct.Name}' == '' || '{!clmWarrantyProduct.Name}' == null) {
+                        console.log('2B');
+                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct').disabled=false;
+                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct_lkwgt').style.display='';
+
+                    } else {
+                        console.log('2A');
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct").disabled = true;
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct_lkwgt").style.display = "none";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct").value= '{!clmWarrantyProduct.Name}';
+                    }
+                    console.log('2C');
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:PitchPanel").style.display = "none";
+                    document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:UOMPanel").style.display = "none";
+                    
+                    if('{!setChar}'=='RCR'){ console.log('3');
+                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountRCRPanel").style.display = "block";
+                                           }else{
+                                               document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountRCRPanel").style.display = "none";
+                                           }
+                    getPriceOnLoad();
+                }  
+                    else if('{!setChar}'!='ALG'&&'{!setChar}'!='HAN'&&'{!setChar}'!='HAP'){
+                        console.log('Warrr'); console.log('4');
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarProd").style.display = "block";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:UOMPanel").style.display = "block";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:PitchPanel").style.display = "none";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountRCRPanel").style.display = "none";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountPanel").style.display = "block";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountConvertedPanel").style.display = "block";
+                    }else{
+                        console.log('pitch');
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:WarProd").style.display = "none";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:UOMPanel").style.display = "none";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:PitchPanel").style.display = "block";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountRCRPanel").style.display = "none";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountPanel").style.display = "block";
+                        document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:AmountConvertedPanel").style.display = "block";
+                    }
+            }
+            //fetchUOM();
+        }  
+        
+        //Added By Hampesh
+        function deleteAllJS(){
+            if (window.confirm("Do you really want to Delete all the Payment?")) { 
+                waitingDialog.show('Deleting'); 
+                deleteAll();
+            }
+        }
+        
+        function setQuantity(val){
+            console.log(val);
+            var buttonIdindex=val.indexOf("editBtn");
+            var str2=val.substring(0,buttonIdindex-2);
+            console.log(str2);
+            var reqIndex = val.substring((str2).length, val.indexOf(":editBtn"));
+            console.log("index"+reqIndex);
+            var qty=document.getElementById(str2+reqIndex+':qty').innerHTML;
+            console.log('quantity'+qty);
+            var nullvalue='&nbsp;';
+            var qty1=qty;
+            var settlement='{!settlementType}';
+             console.log('quantity'+qty1);
+            var recordType='{!packageRecordType}';
+            if(recordType =='Credit/Debit' && settlement !='AST - Assistance' && settlement !='RSS - Cls Action Assistanc' && settlement !='DIS - Disposal'){
+                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:quantityCreditDebit').value=qty;
+            }
+            if(recordType !='Credit/Debit' && settlement !='AST - Assistance' && settlement !='RSS - Cls Action Assistanc' && settlement !='DIS - Disposal'){
+                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:quantity').value=qty;
+            }
+            
+            //console.log(document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:quantityCreditDebit').value);
+        }
+        </script>
+        <body> 
+            
+            <apex:form id="csiformId"  style="overflow:auto;">
+                <!-- <apex:actionFunction action="{!fetchUOM}" name="fetchUOM" reRender="UOMListId,UOMList,uomTCreditDebit,UOMConversion,uomT,UOMPanel,UOMListId1,BaseUOM" /> -->
+                <apex:actionFunction action="{!deleteAll}" name="deleteAll" reRender="csiPanel" oncomplete="waitingDialog.hide();" /> 
+                
+                <apex:inputHidden value="{!UOMConversion}" id="UOMConversion"/>
+                <apex:inputHidden value="{!BaseUOM}" id="BaseUOM"/>
+                <apex:inputHidden value="{!isFreematerialPresent}" id="isFreematerialPresent"/>
+                <apex:inputHidden value="{!maximumLimit}" id="maximumLimit"/>
+                
+                <div class="container">
+                    
+                    <apex:pageblock id="pageBlockId" >
+                        <apex:messages />
+                        <div id="exTab3" >  
+                            <div class="panel panel-primary">
+                                <div class=" panel-heading headCss">
+                                    <h4>
+                                        Payment Line
+                                    </h4> </div>
+                                <div class="panel-body bodyCss">
+                                    <!--                        CONTAINS PANELS -->
+                                    <div class="tab-content clearfix">
+                                        <div class="tab-pane active" id="1">
+                                            <apex:actionfunction name="updateProductName" action="{!getProductDescription}" rerender="TotalWeightPanel,WeightPanel,UOMListId,UOMList,uomTCreditDebit,UOMConversion,uomT,UOMPanel,UOMListId1,BaseUOM,description,description1"/>
+                                            <apex:actionRegion >
+                                                <apex:outputPanel id="csiPanel" >
+                                                    <!--                                BUTTONS -->
+                                                    <div class="center" >
+                                                        <apex:commandLink value="Add" action="{!addCostLineItem}" id="add1" styleClass="slds-button slds-button--brand" oncomplete="showdiv();laborSection();displayAdditional();displayPanel();" rerender="csiPanel,maximumLimit,isFreematerialPresent" />
+                                                        &nbsp;&nbsp;
+                                                        <apex:commandLink value="Delete All" onclick="deleteAllJS()" id="del1" styleClass="slds-button slds-button--brand" rerender="csiPanel"/> &nbsp;&nbsp;
+                                                        <apex:commandLink value="Close" action="{!cancel}" id="can" styleClass="slds-button slds-button--brand"/> &nbsp;&nbsp;
+                                                        
+                                                        
+                                                    </div> 
+                                                    
+                                                    <!--                                MAIN TABLE -->
+                                                    <div id="CheckTab">
+                                                        
+                                                        <table class="responsive-table"  >
+                                                            <thead>
+                                                                <tr>
+                                                                    <td style="background-color:  #0070D2 ;color:silver;font-weight: normal;" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Settlement_Basis__c.Label}</label></td>
+                                                                    <!-- <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Settlement_Type_new__c.Label}</label></td>-->
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Warranty_Product__c.Label}</label></td>
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>Product Description</label></td>
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Quantity__c.Label}</label></td>
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>UOM</label></td>
+                                                                    <!--CERP-34 :Add Policy Requestor Field to Payment -->
+                                                                    <!--<td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Policy_Requestor__c.Label}</label></td>-->
+                                                                    <td style="{! IF((isCAD),'background-color:  #0070D2 ;color:silver','display:none')}" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Amount_Converted__c.Label}</label></td>
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Amount__c.Label}</label></td>
+                                                                    <td style="{! IF((isCAD),'background-color:  #0070D2 ;color:silver','display:none')}" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount_Converted__c.Label}</label></td>                                                                     
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.Label}</label></td>
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.Comments__c.Label}</label></td>
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment_Line__c.fields.On_Hold__C.Label}</label></td>
+                                                                    
+                                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label> Action </label></td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <apex:repeat value="{!paymentLineList}" var="cs">
+                                                                    <tr>
+                                                                        
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Settlement_Basis__c}"/>
+                                                                            <apex:inputhidden value="{!cs.Id}" id="ctId"/>
+                                                                        </td>
+                                                                        <!-- <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Settlement_Type_new__c}"/>
+                                                                        </td>-->
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Warranty_Product__c}"/>
+                                                                        </td>
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Material_Name__c}"/>
+                                                                        </td>
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Quantity__c}" id="qty"/>
+                                                                        </td>
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.UOM__c}"/>
+                                                                        </td>
+                                                                        <!--CERP-34 :Add Policy Requestor Field to Payment -->
+                                                                        <!--
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Policy_Requestor__c}"/>
+                                                                        </td>-->
+                                                                        <!-- CT Multi currency changes -->
+                                                                        <td style="{! IF((isCAD),'height: 40px;','display:none')}" class="table1d"> 
+                                                                            <apex:outputField value="{!cs.Amount_Converted__c}"/>
+                                                                        </td>
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Amount__c}"/>
+                                                                        </td>
+                                                                        <td style="{! IF((isCAD),'height: 40px;','display:none')}" class="table1d"> 
+                                                                            <apex:outputField value="{!cs.Total_Payment_Amount_Converted__c}"/>
+                                                                        </td>
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Total_Payment_Amount__c}"/>
+                                                                        </td>
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.Comments__c}"/>
+                                                                        </td>
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:outputField value="{!cs.On_Hold__c}"/>
+                                                                        </td>
+                                                                        <td style="height: 40px;" class="table1d">
+                                                                            <apex:commandLink value="" action="{!editRow}" styleClass="glyphicon glyphicon-pencil" oncomplete="showdiv();laborSection();displayAdditional();displayPanel();" rerender="csiPanel,UOMConversion,BaseUOM,maximumLimit,isFreematerialPresent" onclick="setQuantity('{!$Component.editBtn}')" id="editBtn">
+                                                                                <apex:param value="{!cs.id}" name="editingId"/>
+                                                                            </apex:commandLink>
+                                                                            &nbsp;&nbsp;
+                                                                            <apex:commandLink value="" styleClass="glyphicon glyphicon-trash" rerender="csiPanel" action="{!deleteRow}" >
+                                                                                <apex:param value="{!cs.id}" name="deleteId"/>
+                                                                            </apex:commandLink>
+                                                                        </td>
+                                                                    </tr>
+                                                                </apex:repeat>
+                                                            </tbody>
+                                                        </table>                                  
+                                                    </div> 
+                                                    
+                                                    <!--                                MODAL BOX -->
+                                                    <apex:outputPanel id="modalId">
+                                                        <apex:PageMessages id="pgMsg" escape="false"/>
+                                                        <div id="serviceInfoModal" class="modal fade" tabindex="-1" role="dialog">
+                                                            <div class="modal-dialog">
+                                                                <!--                                        MODAL CONTENT -->
+                                                                
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        <h4 class="modal-title"> {!packageRecordType}&nbsp;Payment Line ({!settlementType}) </h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        
+                                                                        <div>
+                                                                            <table>
+                                                                                <col width="50px" />
+                                                                                <col width="50px" />
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Settlement_Basis__c.Label}<font color="red">*</font></label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Settlement_Basis__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currentEdit.Settlement_Basis__c}" styleClass="disableField form-control" id="setBasis" onchange="displayLaborField(this.value);" />   
+                                                                                        <script type="text/javascript">
+                                                                                        console.log('{!setChar}');
+                                                                                        if('{!packageRecordType}' != 'Credit/Debit'){
+                                                                                            if('{!setChar}'=='AST'||'{!setChar}'=='ALG'||'{!setChar}'=='HAN'||'{!setChar}'=='HAP'||'{!setChar}'=='LAW'
+                                                                                               //CER-17 : Removed 'POL' and 'PVW' form 'OR' Condition
+                                                                                               ||'{!setChar}'=='PRB'||'{!setChar}'=='RBT'||'{!setChar}'=='REP'
+                                                                                               ||'{!setChar}'=='3SR'||'{!setChar}'=='4SR'||'{!setChar}'=='5SR'||'{!setChar}'=='WAR'||'{!setChar}'=='PRS'
+                                                                                               ||'{!setChar}'=='RSS'||'{!setChar}'=='RCT'||'{!setChar}'=='RCW'||'{!setChar}'=='DIS')
+                                                                                            {
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').value='Other';
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').disabled=true;  
+                                                                                            }
+                                                                                            else if('{!setChar}'=='RSL'||'{!setChar}'=='STP'||'{!setChar}'=='TOF'||'{!setChar}'=='2ND'){
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').value='Labor';
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').disabled=true;   
+                                                                                                try{
+                                                                                                document.getElementById('rsmeans').style.display="";}
+                                                                                                catch(e){
+                                                                                                }
+                                                                                            }
+                                                                                            //CER-17 : 'POL' and 'PVW' conditions are added to if condition to populate 'Material' as Settlement Basis
+                                                                                                else if('{!setChar}'=='RSM'||'{!setChar}'=='MTL'||'{!setChar}'=='POL'||'{!setChar}'=='PVW'){
+                                                                                                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').value='Material';
+                                                                                                    document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').disabled=true;
+                                                                                                    if('{!setChar}'=='RSM'){try{
+                                                                                                        document.getElementById('rsmeans').style.display="";}
+                                                                                                                            catch(e){
+                                                                                                                            }
+                                                                                                                           }
+                                                                                                }  
+                                                                                                    else if('{!setChar}'=='RCR') {
+                                                                                                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').value='Other';
+                                                                                                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').disabled=true;
+                                                                                                    }   
+                                                                                        }
+                                                                                        else {
+                                                                                            if('{!setChar}'=='MTL'){
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').value='Material';
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').disabled=false;
+                                                                                            }else{
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasis').disabled=false;
+                                                                                            }
+                                                                                            
+                                                                                        }
+                                                                                        </script>
+                                                                                    </td>
+                                                                                    <td> 
+                                                                                        <apex:outputPanel id="WarProd">
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Warranty_Product__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Warranty_Product__c.inlineHelpText}"></span>
+                                                                                            <apex:inputfield value="{!currentEdit.Warranty_Product__c}" styleClass="glyphicon glyphicon-search disableField form-control" id="WarrantyProduct" onchange="getAmountCheckCost(this.id);" onKeyPress="return lookUpKey(event)"/>
+                                                                                        </apex:outputPanel>
+                                                                                        <apex:outputPanel id="PitchPanel">
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Pitch__c.Label}</label>
+                                                                                            <apex:inputfield value="{!currentEdit.Pitch__c}" styleClass="glyphicon glyphicon-search disableField form-control" id="pitch" onchange="getPitchRoofCost(this.value);"/>
+                                                                                        </apex:outputPanel>
+                                                                                        <script type="text/javascript"> 
+                                                                                        //Disable the field till Settlement is Selected
+                                                                                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct').disabled=true;
+                                                                                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProduct_lkwgt').style.display='none';
+                                                                                        </script>
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+                                                                                <!-- Selective Lookup for Warranty Product -->
+                                                                                <tr style="display: none;">    
+                                                                                    <td><label>Sales_Org</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp; 
+                                                                                        <apex:inputField value="{!currentEdit.Sales_Org__c}" styleClass="disableField form-control" id="salesOrg"/> 
+                                                                                    </td>
+                                                                                    <td><label>Product Filter</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp; 
+                                                                                        <apex:inputField value="{!currentEdit.Product_Filter__c}" styleClass="disableField form-control" id="prodFilter"/> 
+                                                                                    </td>
+                                                                                </tr>
+                                                                                
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <label>Product Description</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp; 
+                                                                                        <apex:inputText value="{!currentEdit.Product_Name__c}" styleClass="disableField form-control" id="description" disabled="true"/>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Quantity__c.Label}<font color="red">*</font></label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Quantity__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currentEdit.Quantity__c}" styleClass="disableField form-control" id="quantity"  onkeyup="totalAmountOnQuantityChange();totalWeightCalc();" onkeypress="return isNumberKey(event)"/>
+                                                                                    </td> 
+                                                                                    
+                                                                                </tr>
+                                                                                <tr id="rsmeans" style="display:none">
+                                                                                    <td>
+                                                                                        <label>Original Cost</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Original Cost from RS Means"></span> &nbsp;&nbsp;&nbsp; 
+                                                                                        <apex:inputfield value="{!currentEdit.OriginalPrice__c}" styleClass="disableField form-control" id="OriginalCost" />                                                                                        
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <label>Location Factor</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Location Factor from RS Means"></span>                                                                                        
+                                                                                        <apex:inputfield value="{!currentEdit.LocationFactor__c}" styleClass="disableField form-control" id="LocationFactor"/>  
+                                                                                        <script type="text/javascript">                                                                                     
+                                                                                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:LocationFactor').disabled=true;
+                                                                                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:OriginalCost').disabled=true;
+                                                                                        </script>
+
+                                                                                    </td> 
+
+                                                                                </tr> 
+                                                                                <tr >
+                                                                                    <td  > <apex:outputPanel id="AmountRCRPanel">
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Previous_Amount__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Previous_Amount__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currentEdit.Previous_Recieved_Amount__c}" styleClass="disableField form-control" id="Prevamount"/>
+                                                                                        </apex:outputPanel>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <!-- CT Multi currency changes -->
+                                                                                <tr style = "{! IF((isCAD),'','display:none')}">
+
+                                                                                    <apex:outputPanel id="ConvertedAmountsPanel" layout="none">
+                                                                                        <td>
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Amount_Converted__c.Label} ($)</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Amount_Converted__c.inlineHelpText}"></span>
+                                                                                            <apex:inputfield value="{!currentEdit.Amount_Converted__c}" styleClass="disableField form-control" id="amountConv" onchange="convertAmount(this.value);" />
+                                                                                        
+                                                                                            <script type="text/javascript">
+                                                                                            console.log('{!setChar}');
+                                                                                            if('{!setChar}'=='AST'||'{!setChar}'=='LAW'
+                                                                                               ||'{!setChar}'=='POL'||'{!setChar}'=='PRB'||'{!setChar}'=='PVW'||'{!setChar}'=='RBT'||'{!setChar}'=='REP'
+                                                                                               ||'{!setChar}'=='3SR'||'{!setChar}'=='4SR'||'{!setChar}'=='5SR'||'{!setChar}'=='DIS')
+                                                                                            {
+                                                                                                
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amountConv').disabled=false;                                                                                                
+                                                                                            }
+                                                                                            else {
+                                                                                                
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amountConv').disabled=true;     
+                                                                                            }
+                                                                                            
+                                                                                            </script>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount_Converted__c.Label} ($)</label> <span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount_Converted__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp;                                                                                          
+                                                                                            <apex:inputfield value="{!currentEdit.Total_Payment_Amount_Converted__c}" styleClass="disableField form-control" id="totalAmountConv"  html-disabled="true"/>
+                                                                                        </td>
+                                                                                        </apex:outputPanel>
+                                                                                    
+                                                                                </tr>
+                                                                                <tr>
+                                                                                        <td>
+                                                                                            
+                                                                                            <apex:outputPanel id="AmountPanel">
+                                                                                                <label>{!$ObjectType.Payment_Line__c.fields.Amount__c.Label} ($)</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Amount__c.inlineHelpText}"></span>
+                                                                                                <apex:inputfield value="{!currentEdit.Amount__c}" styleClass="disableField form-control" id="amount" onchange="totalAmountCalc();"/>
+                                                                                            </apex:outputPanel> 
+                                                                                            
+                                                                                            <script type="text/javascript">
+                                                                                            console.log('{!setChar}');
+                                                                                            if('{!setChar}'=='AST'||'{!setChar}'=='LAW'
+                                                                                               ||'{!setChar}'=='POL'||'{!setChar}'=='PRB'||'{!setChar}'=='PVW'||'{!setChar}'=='RBT'||'{!setChar}'=='REP'
+                                                                                               ||'{!setChar}'=='3SR'||'{!setChar}'=='4SR'||'{!setChar}'=='5SR'||'{!setChar}'=='DIS')
+                                                                                            {
+                                                                                                
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amount').disabled=false;                                                                                                
+                                                                                            }
+                                                                                            else {
+                                                                                                
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amount').disabled=true;     
+                                                                                            }
+                                                                                            </script>
+                                                                                            
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.Label} ($)</label> <span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp;                                                                                          
+                                                                                            <apex:inputfield value="{!currentEdit.Total_Payment_Amount__c}" styleClass="disableField form-control" id="totalAmount"/>
+                                                                                        </td>
+                                                                                </tr>
+                                                                                
+                                                                                <tr id="WeightFreeMaterial">                                                                                    
+                                                                                    <td>
+                                                                                        <apex:outputPanel id="WeightPanel">
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Gross_Weight__c.Label} (per Unit)</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Gross_Weight__c.inlineHelpText}"></span>
+                                                                                            <apex:inputfield value="{!currentEdit.Gross_Weight__c}" styleClass="disableField form-control" id="GrossWeight"/>                                                                                            
+                                                                                        </apex:outputPanel>                                                                                         
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <apex:outputPanel id="TotalWeightPanel">
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Total_Weight__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Weight__c.inlineHelpText}"></span>
+                                                                                            <apex:inputfield value="{!currentEdit.Total_Weight__c}" styleClass="disableField form-control" id="TotalWeight"/>                                                                                            
+                                                                                            <script type="text/javascript">
+                                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:GrossWeight").disabled=true;
+                                                                                            document.getElementById("PaymentLineItemPage:csiformId:pageBlockId:TotalWeight").disabled=true;
+                                                                                            if('{!packageRecordType}' != 'Free Material'){
+                                                                                                document.getElementById("WeightFreeMaterial").style.display='none';   
+                                                                                            } /*else if('{!packageRecordType}' == 'Free Material'){
+                                                                                                //CERP-34
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amount').disabled=true; 
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:amountConv').disabled=true; 
+                                                                                            }*/
+                                                                                            </script>
+                                                                                        </apex:outputPanel>                                                                                         
+                                                                                    </td>                                                                                      
+                                                                                </tr>
+                                                                                <tr>                                                                                    
+                                                                                    <td>
+                                                                                        <apex:outputPanel id="monthsCover">
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Months_Covered__c.Label}</label>
+                                                                                            <apex:inputfield value="{!currentEdit.Months_Covered__c}" styleClass="disableField form-control" id="monthsCovered"/>
+                                                                                        </apex:outputPanel>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <apex:outputPanel id="monthsUse">
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.Months_Used__c.Label}</label>
+                                                                                            <apex:inputfield value="{!currentEdit.Months_Used__c}" styleClass="disableField form-control" id="monthsUsed"/>
+                                                                                        </apex:outputpanel>
+                                                                                    </td> 
+                                                                                </tr>
+                                                                                
+                                                                                
+                                                                                <tr>
+                                                                                <td>
+                                                                                        <apex:outputPanel id="UOMPanel">     
+                                                                                            <label>{!$ObjectType.Payment_Line__c.fields.UOM__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.UOM__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp;
+                                                                                            <!-- <apex:inputfield value="{!currentEdit.UOM__c}" styleClass="disableField form-control" id="uomT" /> -->
+                                                                                            <apex:selectList size="1" value="{!currentEdit.UOM__c}" multiselect="false" styleClass="disableField form-control" id="uomT" onchange="amountCalculateUOM(this.value)">
+                                                                                                <apex:selectOptions value="{!UOMList}" id="UOMListId1"/>
+                                                                                            </apex:selectList>
+                                                                                        </apex:outputPanel>
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+                                                                                
+                                                                                <tr>
+                                                                                    <!--CERP-34 :Add Policy Requestor Field to Payment -->
+                                                                                    <!--
+                                                                                    <td>
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Policy_Requestor__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Policy_Requestor__c.inlineHelpText}"></span>-->
+                                                                                        <!--<apex:inputfield value="{!currentEdit.Policy_Requestor__c}" styleClass="glyphicon glyphicon-search form-control hideDropdown "/>-->
+                                                                                        <!-- <apex:inputText list="{!listOfStrings}" styleClass="disableField form-control" id="polReq"/>-->
+                                                                                        <!--<apex:selectList size="1" value="{!currentEdit.Policy_Requestor__c}" multiselect="false" id="polReq" styleClass="disableField form-control">
+                                                                                            <apex:selectOptions value="{!PolicyReqOptions}" ></apex:selectOptions>
+                                                                                        </apex:selectList> 
+                                                                                        
+                                                                                    </td>-->
+                                                                                    <td>  
+                                                                                        <apex:outputPanel rendered="{!packageRecordType != 'Free Material' }">                                                                                    
+                                                                                            <label id="matcodeL">{!$ObjectType.Payment_Line__c.fields.Material_Code__c.Label}<font color="red">*</font><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Material_Code__c.inlineHelpText}"></span></label>
+                                                                                            <apex:inputfield value="{!currentEdit.Material_Code__c}" styleClass="disableField form-control" id="matcode"/>
+                                                                                        </apex:outputPanel>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr >
+                                                                                    
+                                                                                    
+                                                                                    <td colspan="2">
+                                                                                        <label >{!$ObjectType.Payment_Line__c.fields.Comments__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Comments__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currentEdit.Comments__c}" styleClass="disableField form-control" id="comments"/>
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <label id="onL">{!$ObjectType.Payment_Line__c.fields.On_Hold__c.Label}<span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.On_Hold__c.inlineHelpText}"></span>&nbsp;
+                                                                                            <apex:inputCheckbox value="{!currentEdit.On_Hold__c}" styleClass="disableField form-control"  id="onhold" selected="true"/>&nbsp;&nbsp;</label> 
+                                                                                    </td>
+                                                                                    <td>     
+                                                                                        <label id="steepL">{!$ObjectType.Payment_Line__c.fields.Steep_Pitch__c.Label}<span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Steep_Pitch__c.inlineHelpText}"></span>&nbsp;   
+                                                                                            <apex:inputfield value="{!currentEdit.Steep_Pitch__c}" styleClass="disableField form-control"  id="steep"  />&nbsp;&nbsp;</label>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id="primaryMaterialDiv" style="display:none">
+                                                                                    <td>
+                                                                                        <label id="primaryMaterialL">{!$ObjectType.Payment_Line__c.fields.is_Primary_Material__c.Label}<span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.is_Primary_Material__c.inlineHelpText}"></span>&nbsp;
+                                                                                            <apex:inputCheckbox value="{!currentEdit.is_Primary_Material__c}" styleClass="disableField form-control"  id="primaryMaterialCreditDebit"/>&nbsp;&nbsp;</label> 
+                                                                                    </td>
+                                                                                </tr>                                                                               
+                                                                                <tr>
+                                                                                    <td><label id="additionalL">{!$ObjectType.Payment_Line__c.fields.Additional_Story__c.Label}<span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Additional_Story__c.inlineHelpText}"></span>&nbsp;
+                                                                                        <apex:inputfield value="{!currentEdit.Additional_Story__c}" styleClass="disableField form-control"  id="additional" />&nbsp;&nbsp;</label>
+                                                                                    </td>
+                                                                                    <td><label id="demolishL">{!$ObjectType.Payment_Line__c.fields.Demolish_TearOff__c.Label}&nbsp;
+                                                                                        <apex:inputfield value="{!currentEdit.Demolish_TearOff__c}" styleClass="disableField form-control"  id="demolish" />&nbsp;</label>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="center1"> 
+                                                                        <apex:commandlink onclick="return saveCheck();" value="Save" styleClass="slds-button slds-button--brand" rerender="csiPanel"  onComplete="hideDiv();"/> &nbsp;&nbsp; 
+                                                                        <apex:actionFunction action="{!saveEditedRow}" name="hold" rerender="csiPanel"  onComplete="hideDiv();"/>                                                                   
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal" id="el_loading" tabindex="-1" role="dialog" aria-labelledby="upload-avatar-title" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                            <h4 class="modal-title" id="upload-avatar-title">Upload new avatar</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>Please choose a file to upload. JPG, PNG, GIF only.</p>
+                                                                            <form role="form">
+                                                                                <div class="form-group">
+                                                                                    <label for="file">File input</label>
+                                                                                    <input type="file" id="file"/>
+                                                                                    <p class="help-block">Files up to 5Mb only.</p>
+                                                                                </div>
+                                                                                <button type="button" class="hl-btn hl-btn-default" id="btnUploadCancel">Cancel</button>
+                                                                                <button type="button" class="hl-btn hl-btn-green">Upload</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div><!-- /.modal-content -->
+                                                                </div><!-- /.modal-dialog -->
+                                                            </div>
+                                                        </div>  
+                                                        <div id="serviceInfoModalCreditDebit" class="modal fade" tabindex="-1" role="dialog">
+                                                            <div class="modal-dialog">
+                                                                <!--                                        MODAL CONTENT -->
+                                                                
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        <h4 class="modal-title"> {!packageRecordType}&nbsp;Payment Line ({!settlementType}) </h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        
+                                                                        <div>
+                                                                            <table>
+                                                                                <col width="50px" />
+                                                                                <col width="50px" />
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Settlement_Basis__c.Label}<font color="red">*</font></label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Settlement_Basis__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currEditCD.Settlement_Basis__c}" styleClass="disableField form-control" id="setBasisCreditDebit" onchange="displayLaborField(this.value);changeOfBasis(this.value);"/>   
+                                                                                        <script type="text/javascript">
+                                                                                        console.log('{!setChar}');
+                                                                                        if('{!packageRecordType}' != 'Credit/Debit'){
+                                                                                            
+                                                                                            document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasisCreditDebit').disabled=false; 
+                                                                                        }
+                                                                                        else {
+                                                                                            if('{!setChar}'=='MTL' || '{!setChar}'=='WAR'){
+                                                                                                console.log
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasisCreditDebit').value='Material';
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasisCreditDebit').disabled=false;
+                                                                                            }else{
+                                                                                                document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:setBasisCreditDebit').disabled=false;
+                                                                                            }
+                                                                                            
+                                                                                        }
+                                                                                        </script>
+                                                                                    </td>
+                                                                                    <td> 
+                                                                                        
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Warranty_Product__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Warranty_Product__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currEditCD.Warranty_Product__c}" styleClass="glyphicon glyphicon-search disableField form-control" id="WarrantyProductCreditDebit" onchange="getAmountCreditDebit(this.id);" onkeypress="return lookUpKey(event)"/>
+                                                                                        
+                                                                                        
+                                                                                        <script type="text/javascript"> 
+                                                                                        //Disable the field till Settlement is Selected
+                                                                                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit').disabled=true;
+                                                                                        document.getElementById('PaymentLineItemPage:csiformId:pageBlockId:WarrantyProductCreditDebit_lkwgt').style.display='none';
+                                                                                        </script>
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+                                                                                <!-- Selective Lookup for Warranty Product -->
+                                                                                <tr style="display: none;">    
+                                                                                    <td><label>Sales_Org</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp; 
+                                                                                        <apex:inputField value="{!currEditCD.Sales_Org__c}" styleClass="disableField form-control" id="salesOrgCD"/> 
+                                                                                    </td>
+                                                                                    <td><label>Product Filter</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp; 
+                                                                                        <apex:inputField value="{!currEditCD.Product_Filter__c}" styleClass="disableField form-control" id="prodFilterCD"/> 
+                                                                                    </td>
+                                                                                </tr>
+                                                                                
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <label>Product Description</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp; 
+                                                                                        <apex:inputText value="{!currEditCD.Product_Name__c}" styleClass="disableField form-control" id="description1" disabled="true"/>
+                                                                                    </td> 
+                                                                                    <td>
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Quantity__c.Label}<font color="red">*</font></label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Quantity__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currEditCD.Quantity__c}" styleClass="disableField form-control" id="quantityCreditDebit"  onkeyup="totalAmountCalcCreditDebit();" onkeypress="return isNumberKey(event)"/> 
+                                                                                       <!-- <apex:inputfield value="{!currEditCD.Quantity__c}" styleClass="disableField form-control" id="quantityCreditDebit"  onkeyup="totalAmountOnQuantityChange();" onkeypress="return isNumberKey(event)"/>-->
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+                                                                                
+                                                                                <!-- CT Multi currency changes -->
+                                                                                <tr style = "{! IF((isCAD),'','display:none')}">
+                                                                                    <td>
+                                                                                        
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Amount_Converted__c.Label} ($)</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Amount_Converted__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currEditCD.Amount_Converted__c}" styleClass="disableField form-control" id="amountCreditDebitConv" onchange="convertAmount(this.value);"/>
+                                                                                        
+                                                                                        
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount_Converted__c.Label} ($)</label> <span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount_Converted__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp;  
+                                                                                        <apex:inputfield value="{!currEditCD.Total_Payment_Amount_Converted__c}" styleClass="disableField form-control" id="totalAmountCreditDebitConv"  html-disabled="true"/>
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+                                                                                
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Amount__c.Label} ($)</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Amount__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currEditCD.Amount__c}" styleClass="disableField form-control" id="amountCreditDebit" onchange="totalAmountCalcCreditDebit();"/>
+                                                                                                                 
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.Label} ($)</label> <span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Total_Payment_Amount__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp;  
+                                                                                        <apex:inputfield value="{!currEditCD.Total_Payment_Amount__c}" styleClass="disableField form-control" id="totalAmountCreditDebit"/>
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+
+                                                                                
+                                                                                
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.UOM__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.UOM__c.inlineHelpText}"></span> &nbsp;&nbsp;&nbsp;
+                                                                                        <!-- <apex:inputfield value="{!currEditCD.UOM__c}" styleClass="disableField form-control" id="uomTCreditDebit" />-->
+                                                                                        <apex:selectList size="1" value="{!currEditCD.UOM__c}" multiselect="false" styleClass="disableField form-control" id="uomTCreditDebit" onchange="amountCalculateUOM(this.value)">
+                                                                                            <apex:selectOptions value="{!UOMList}" id="UOMListId"/>
+                                                                                        </apex:selectList>
+                                                                                    </td>
+                                                                                    <!--CERP-34 :Add Policy Requestor Field to Payment -->
+                                                                                    <!--
+                                                                                    <td>
+                                                                                        <label>{!$ObjectType.Payment_Line__c.fields.Policy_Requestor__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Policy_Requestor__c.inlineHelpText}"></span>-->
+                                                                                        <!--<apex:inputfield value="{!currentEdit.Policy_Requestor__c}" styleClass="glyphicon glyphicon-search form-control hideDropdown "/>-->
+                                                                                        <!-- <apex:inputText list="{!listOfStrings}" styleClass="disableField form-control" id="polReq"/>-->
+                                                                                        <!--<apex:selectList size="1" value="{!currEditCD.Policy_Requestor__c}" multiselect="false" id="polReqCreditDebit" styleClass="disableField form-control">
+                                                                                            <apex:selectOptions value="{!PolicyReqOptions}" ></apex:selectOptions>
+                                                                                        </apex:selectList> 
+                                                                                        
+                                                                                    </td>-->
+                                                                                    
+                                                                                    
+                                                                                </tr>
+                                                                                <tr >
+                                                                                    <td>
+                                                                                        <apex:outputPanel rendered="{!packageRecordType != 'Free Material' }">                                                                                    
+                                                                                            <label id="matcodeLCreditDebit">{!$ObjectType.Payment_Line__c.fields.Material_Code__c.Label}<font color="red">*</font><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Material_Code__c.inlineHelpText}"></span></label>
+                                                                                            <!--  <apex:inputfield value="{!currEditCD.Material_Code__c}" styleClass="disableField form-control" id="matcodeCreditDebit"/> -->
+                                                                                            <apex:selectList id="matcodeCreditDebit" size="1" styleClass="disableField form-control" value="{!currEditCD.Material_Code__c}">
+                                                                                                <apex:selectOptions value="{!materialcodes}"/>
+                                                                                            </apex:selectList>
+                                                                                        </apex:outputPanel> 
+                                                                                    </td>
+                                                                                    
+                                                                                    <td>
+                                                                                        <label >{!$ObjectType.Payment_Line__c.fields.Comments__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.Comments__c.inlineHelpText}"></span>
+                                                                                        <apex:inputfield value="{!currEditCD.Comments__c}" styleClass="disableField form-control" id="commentsCreditDebit"/>
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <label id="onL">{!$ObjectType.Payment_Line__c.fields.On_Hold__c.Label}<span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.Payment_Line__c.fields.On_Hold__c.inlineHelpText}"></span>&nbsp;
+                                                                                            <apex:inputCheckbox value="{!currEditCD.On_Hold__c}" styleClass="disableField form-control"  id="onholdCreditDebit" selected="true"/>&nbsp;&nbsp;</label> 
+                                                                                    </td>                                                                                                                                                                                                                                                            
+                                                                                </tr>
+                                                                            </table> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="center1"> 
+                                                                        <apex:commandlink onclick="return saveCreditDebit();" value="Save" styleClass="slds-button slds-button--brand" rerender="csiPanel"  onComplete="hideDiv();"/> &nbsp;&nbsp; 
+                                                                        <apex:actionFunction action="{!saveEditedRow}" name="holdCreditDebit" rerender="csiPanel"  onComplete="hideDiv();"/>                                                                   
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal" id="el_loading" tabindex="-1" role="dialog" aria-labelledby="upload-avatar-title" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                            <h4 class="modal-title" id="upload-avatar-title">Upload new avatar</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>Please choose a file to upload. JPG, PNG, GIF only.</p>
+                                                                            <form role="form">
+                                                                                <div class="form-group">
+                                                                                    <label for="file">File input</label>
+                                                                                    <input type="file" id="file"/>
+                                                                                    <p class="help-block">Files up to 5Mb only.</p>
+                                                                                </div>
+                                                                                <button type="button" class="hl-btn hl-btn-default" id="btnUploadCancel">Cancel</button>
+                                                                                <button type="button" class="hl-btn hl-btn-green">Upload</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div><!-- /.modal-content -->
+                                                                </div><!-- /.modal-dialog -->
+                                                            </div>
+                                                        </div>   
+                                                    </apex:outputPanel>
+                                                </apex:outputPanel>
+                                                
+                                            </apex:actionRegion>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </apex:pageblock>
+                </div>
+                <!-- <apex:inputhidden value="{!totalamount}" id="totalAmt"/> -->
+            </apex:form>
+            <div>
+                
+                <div id="push"></div>
+                
+            </div>
+            
+        </body>     
+        <script>
+        /**
+        * Module for displaying "Waiting for..." dialog using Bootstrap
+        *
+        * @author Santhosh
+        */
+        
+        var waitingDialog = waitingDialog || (function ($) {
+            'use strict';
+            
+            // Creating modal dialog's DOM
+            var $dialog = $(
+                '<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:10%; overflow-y:visible;">' +
+                '<div class="modal-dialog modal-m">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
+                '<div class="modal-body">' +
+                '<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
+                '</div>' +
+                '</div></div></div>');
+            
+            return {
+                /**
+         * Opens our dialog
+         * @param message Custom message
+         * @param options Custom options:
+         *                options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
+         *                options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
+         */
+                show: function (message, options) {
+                    // Assigning defaults
+                    if (typeof options === 'undefined') {
+                        options = {};
+                    }
+                    if (typeof message === 'undefined') {
+                        message = 'Loading';
+                    }
+                    var settings = $.extend({
+                        dialogSize: 'sm',
+                        progressType: '',
+                        onHide: null // This callback runs after the dialog was hidden
+                    }, options);
+                    
+                    // Configuring dialog
+                    $dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
+                    $dialog.find('.progress-bar').attr('class', 'progress-bar');
+                    if (settings.progressType) {
+                        $dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
+                    }
+                    $dialog.find('h3').text(message);
+                    // Adding callbacks
+                    if (typeof settings.onHide === 'function') {
+                        $dialog.off('hidden.bs.modal').on('hidden.bs.modal', function (e) {
+                            settings.onHide.call($dialog);
+                        });
+                    }
+                    // Opening dialog
+                    $dialog.modal();
+                },
+                /**
+         * Closes dialog
+         */
+                hide: function () {
+                    $dialog.modal('hide');
+                }
+            };
+            
+        })(jQuery);
+        </script>
+    </html>
+</apex:page>

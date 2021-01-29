@@ -1,0 +1,5 @@
+<apex:page standardController="twod__Claim__c" 
+           sidebar="false" standardStylesheets="true" id="claimPage" docType="html-5.0">
+   
+ 
+</apex:page>

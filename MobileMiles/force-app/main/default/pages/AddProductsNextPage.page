@@ -1,0 +1,524 @@
+<apex:page controller="AddProductsController" showHeader="false" sidebar="false" docType="html-5.0" standardStylesheets="false" >
+    <apex:slds />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
+    <style>
+        .SelectedProductTable td {
+            overflow: hidden;
+            max-width: 400px;
+            word-wrap: break-word;
+        }
+        .slds-scope .slds-card{
+            background: rgb(239, 239, 239);
+        }
+        .slds-scope .slds-page-header{
+            background: rgb(239, 239, 239);
+        }
+        .slds-scope .slds-button_brand:active {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button_brand {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button .slds-button_brand {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-button .slds-button_brand{
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button--brand, .slds-scope .slds-button_brand{
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+    </style>	
+    <c:cloudstylecomponent />
+    <script>
+        
+        if("{!$Profile.Name}" == 'Profiel Cloud ÉÉN - KPN ÉÉN Excellence Partner'){
+            window.top.location.href = "https://www.cloudeen.nl/s/login";
+        }
+        function getCookie(name){
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+        
+        function removeRowJS(elm) {
+            console.log(elm);
+            let productId = $(elm).attr('data-id');
+           
+            console.log(productId, index);
+            
+            var cookieItems = getCookie("product");
+            var itemsList = cookieItems.split('@'); 
+            var index = itemsList.indexOf(productId);                      
+            itemsList.splice(index, 1);                        
+            console.log(itemsList);
+            let cvalue = '';
+            for(let item in itemsList) {
+                if(itemsList[item] && itemsList[item] != '') {
+                    cvalue += itemsList[item]+'@';
+                }
+            }
+            document.cookie = "product=" + cvalue + ";path=/";
+            removeRow(parseInt(index));
+        }
+        
+        
+    </script>
+    <apex:pageBlock rendered="{!$Profile.Name != 'Profiel Cloud ÉÉN - KPN ÉÉN Excellence Partner'}"> 
+            <apex:actionStatus id="st1"  >
+                <apex:facet name="start"> 
+                    <apex:outputPanel id="tstpopup">
+                        <div class="slds-spinner_container">
+                          <div class="slds-spinner--brand slds-spinner slds-spinner--medium" role="alert">
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                          </div>
+                        </div>
+                    </apex:outputPanel> 
+                </apex:facet> 
+            </apex:actionStatus>
+            <div class="slds-notify-container errorPrompt"  style="position:relative; display:none;">
+              <div class="slds-notify slds-notify--toast slds-theme--error" role="alert" style="min-width:100%">
+                <span class="slds-assistive-text">Info</span>
+                  
+                <a href="javascript:void(0)" class="slds-button slds-button--icon-inverse slds-notify__close"  onclick="$('.errorPrompt').hide();">
+                  <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                    <use href="{!URLFOR($Asset.SLDS, 'assets/icons/action-sprite/svg/symbols.svg#close')}">
+                    </use>
+                  </svg>
+                  
+                  <span class="slds-assistive-text">Close</span>
+                </a>
+            
+                <div class="notify__content">
+                  <h2 class="slds-text-heading--small">
+                      <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                        <use href="{!URLFOR($Asset.slds, '/assets/icons/utility-sprite/svg/symbols.svg#warning')}"></use>
+                      </svg>
+                      <span class="createNoteErrorMsg">Selecteer betaalwijze</span>
+                  </h2>
+                </div>
+              </div>
+            </div>
+        <apex:form id="frm1">
+            <apex:pageMessages ></apex:pageMessages>
+            <apex:actionFunction name="quantityChange" action="{!quantityChangeFunction}" status="st1" />
+            <apex:actionFunction name="SelectAcc" action="{!changeAccount}" status="st1"/>
+            <apex:actionFunction name="createRecords" action="{!createRecords}" oncomplete="redirectToThanksPage2('{!reference}', '{!paymentEnalble}');" status="st1" />
+            <apex:actionFunction name="redirectToThanksPage" action="{!submitOrder}" status="st1" oncomplete="clearProductCookies()"/>
+            <apex:actionFunction name="removeRow" action="{!removeRow}" status="st1" reRender="refreshing">
+                <apex:param name="row" value="" assignTo="{!rowIndex}"/>
+            </apex:actionFunction>
+            <apex:actionfunction name="calculateTotalMaand"  rerender="refreshing"  action="{!calculateTotalMaand}">                
+            </apex:actionFunction>
+            <div> 
+                <div class="slds-align_absolute-center slds-p-vertical_medium">
+                    <button class="slds-button slds-button_brand" onclick="submitFunction(); return false;">
+                         Bestelling verwerken
+                    </button>
+                </div>
+                <div class="slds-page-header">
+                  <div class="slds-media">               
+                    <div class="slds-media__body">
+                      <h1 class="slds-page-header__title slds-truncate slds-align-middle" >Bestelling</h1>                  
+                    </div>
+                  </div>
+                </div>
+                
+                    <div class="slds-p-around_x-large "> 
+                    <div class="slds-form-element">
+                      <label class="slds-form-element__label" for="text-input-id-1">Selecteer bedrijf</label>
+                      <div class="slds-form-element__control" style="width: 50%;">
+                        <apex:selectList value="{!selectedAccount}" multiselect="false" styleClass="slds-input" size="1" onchange="SelectAcc();" >
+                            <apex:selectOptions value="{!accounts}"/>
+                        </apex:selectList>
+                      </div>
+                    </div>
+                    </div>
+                
+                
+                <div class="slds-grid slds-p-vertical_medium">
+                    <div class="slds-col slds-p-horizontal_medium">
+                    <article class="slds-card" style="height:100%;">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-card__header slds-grid slds-size_12-of-12">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">                  
+                                  <div class="slds-media__body">
+                                    <h2>
+                                        <div class="slds-text-heading_large">Verzendadres</div>
+                                    </h2>
+                                  </div>
+                                </header>                
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner slds-size_4-of-12">
+                                <div class="slds-form-element">
+                                  <label class="slds-form-element__label">{!$ObjectType.Account.Fields.Straat__c.Label}</label>
+                                  <div class="slds-form-element__control">                            
+                                    <apex:inputText value="{!AccountObj.Straat__c}" html-placeholder="Enter Straat" styleclass="slds-input"/>
+                                  </div>
+                                </div>
+                                
+                            </div> 
+                            <div class="slds-card__body slds-card__body_inner slds-size_4-of-12">
+                                <div class="slds-form-element">
+                                  <label class="slds-form-element__label">{!$ObjectType.Account.Fields.Huisnummer__c.Label}</label>
+                                  <div class="slds-form-element__control">                            
+                                    <apex:inputText value="{!AccountObj.Huisnummer__c}" html-placeholder="Enter Huisnummer" styleclass="slds-input"/>
+                                  </div>
+                                </div>
+                                
+                            </div> 
+                            <div class="slds-card__body slds-card__body_inner slds-size_4-of-12">
+                                <div class="slds-form-element">
+                                  <label class="slds-form-element__label">{!$ObjectType.Account.Fields.Huisnummer_toevoeging__c.Label}</label>
+                                  <div class="slds-form-element__control">                            
+                                    <apex:inputText value="{!AccountObj.Huisnummer_toevoeging__c}" html-placeholder="" styleclass="slds-input"/>
+                                  </div>
+                                </div>
+                                
+                            </div> 
+                            <div class="slds-card__body slds-card__body_inner slds-size_4-of-12">
+                                <div class="slds-form-element">
+                                  <label class="slds-form-element__label">{!$ObjectType.Account.Fields.ShippingPostalCode.Label}</label>
+                                  <div class="slds-form-element__control">                            
+                                    <apex:inputText value="{!AccountObj.ShippingPostalCode}" html-placeholder="Enter Postal Code" styleclass="slds-input"/>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner slds-size_4-of-12">
+                                <div class="slds-form-element">
+                                  <label class="slds-form-element__label">{!$ObjectType.Account.Fields.ShippingCity.Label}</label>
+                                  <div class="slds-form-element__control">                            
+                                    <apex:inputText value="{!AccountObj.ShippingCity}" html-placeholder="Enter city" styleclass="slds-input"/>
+                                  </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </article>  
+                    </div>  
+                        
+                </div>
+                <div class="slds-grid">
+                  <div class="slds-col slds-p-horizontal_medium slds-size_6-of-12">
+                    <article class="slds-card" style="height:50%;">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">                  
+                              <div class="slds-media__body">
+                                <h2>
+                                    <div class="slds-text-heading_large">Contactpersoon</div>
+                                </h2>
+                              </div>
+                            </header>                
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <div class="slds-form-element">
+                              <label class="slds-form-element__label">{!$ObjectType.Contact.Fields.Name.Label}</label>
+                              <div class="slds-form-element__control">                            
+                                <apex:outputText value="{!ContactObj.Name}" html-placeholder="Enter city" />
+                              </div>
+                            </div>
+                            
+                            <div class="slds-form-element">
+                              <label class="slds-form-element__label" >{!$ObjectType.Contact.Fields.Email.Label}</label>
+                              <div class="slds-form-element__control">
+                                <apex:outputText value="{!ContactObj.email}" html-placeholder="Enter Email" />
+                              </div>
+                            </div>
+                            
+                        </div>              
+                    </article>  <br/>
+
+                      <article class="slds-card" style="height: 50%;">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">                  
+                              <div class="slds-media__body">
+                                <h2>
+                                    <div class="slds-text-heading_large">Factuuradres</div>
+                                </h2>
+                              </div>
+                            </header>                
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <div class="slds-form-element">
+                              <label class="slds-form-element__label">{!$ObjectType.Account.Fields.BillingStreet.Label}</label>
+                              <div class="slds-form-element__control">                            
+                                <apex:outputText value="{!AccountObj.BillingStreet}" html-placeholder="Enter city" />
+                              </div>
+                            </div>
+                            <div class="slds-form-element">
+                              <label class="slds-form-element__label">{!$ObjectType.Account.Fields.BillingCity.Label}</label>
+                              <div class="slds-form-element__control">                            
+                                <apex:outputText value="{!AccountObj.BillingCity}" html-placeholder="Enter city" />
+                              </div>
+                            </div>
+                            
+                            <div class="slds-form-element">
+                              <label class="slds-form-element__label" >{!$ObjectType.Account.Fields.BillingPostalCode.Label}</label>
+                                  <div class="slds-form-element__control">
+                                    <apex:outputText value="{!AccountObj.BillingPostalCode}" html-placeholder="Enter Postal Code"/>
+                                 </div>
+                            </div>
+                        </div>              
+                    </article>  
+                  </div><br/>
+                  <div class="slds-col slds-p-horizontal_medium slds-size_6-of-12">
+                        <article class="slds-card" style="height:105%;">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">                  
+                                  <div class="slds-media__body">
+                                    <h2>
+                                        <div class="slds-text-heading_large">Betaling</div>
+                                    </h2>
+                                  </div>
+                                </header>                
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-form-element" style="width: 50%;">
+                                  <label class="slds-form-element__label">Totaalbedrag excl. BTW</label>
+                                  <div class="slds-form-element__control">  
+                                      &euro; <apex:outputText value="{0, number, ###,##0.00}">
+                                          <apex:param value="{!Total_Price}" />
+                                       </apex:outputText>
+                                  </div>
+                                </div>
+                            </div> 
+                            <!--<div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-form-element" style="width: 50%;">
+                                  <label class="slds-form-element__label">MobileMiles saldo</label>
+                                  <div class="slds-form-element__control">    
+                                      &euro; <apex:outputText value="{0, number, ###,##0.00}">
+                                          <apex:param value="{!accountBalance}" />
+                                      </apex:outputText>                                                           
+                                  </div>
+                                </div>
+                            </div> -->
+                            <!--<div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-form-element" style="width: 50%;">
+                                  <label class="slds-form-element__label">Nog te voldoen</label>
+                                  <div class="slds-form-element__control">
+                                    &euro; <apex:outputText value="{0, number, ###,##0.00}">
+                                          <apex:param value="{!payableAmount}" />
+                                      </apex:outputText>
+                                  </div>
+                                </div>
+                            </div>-->
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-form-element" style="width: 50%;">
+                                  <label class="slds-form-element__label">BTW bedrag</label>
+                                  <div class="slds-form-element__control">
+                                    &euro; <apex:outputText value="{0, number, ###,##0.00}">
+                                          <apex:param value="{!payableAmount*(21/100)}" />
+                                      </apex:outputText>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-form-element" style="width: 50%;">
+                                  <label class="slds-form-element__label">Nog te voldoen incl. BTW</label>
+                                  <div class="slds-form-element__control">
+                                    &euro; <apex:outputText value="{0, number, ###,##0.00}">
+                                          <apex:param value="{!payableAmount + payableAmount*(21/100)}" />
+                                      </apex:outputText>
+                                  </div>
+                                </div>
+                            </div>
+                            <apex:outputPanel rendered="{!paymentEnalble }">  
+                                <div class="slds-card__body slds-card__body_inner" style="display:none;">
+                                    <div class="slds-form-element" style="width: 50%;">
+                                      <label class="slds-form-element__label"> Betalingscondities</label>
+                                      <div class="slds-form-element__control">   
+                                          
+                                          <apex:inputField value="{!AccountObj.Betalingscondities__c}" styleclass="slds-select" />
+                                      </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <div class="slds-form-element" style="width: 50%;">
+                                      <label class="slds-form-element__label">Betaalwijze</label>
+                                      <div class="slds-form-element__control">   
+                                          
+                                          <apex:inputField value="{!AccountObj.Betaalwijze_bestelling__c}" styleclass="slds-select paymentMethod"/>
+                                      </div>
+                                    </div>
+                                </div> 
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <div class="slds-form-element" style="width: 50%;">
+                                      <label class="slds-form-element__label">Inkoopnummer</label>
+                                      <div class="slds-form-element__control">   
+                                          
+                                          <apex:inputText value="{!inkoopnummer}" styleclass="slds-select paymentMethod"/>
+                                      </div>
+                                    </div>
+                                </div> 
+                            </apex:outputPanel>         
+                        </article>
+                    </div>             
+                </div><br/>
+                <div class="slds-grid slds-p-vertical_medium">
+                    <div class="slds-col slds-p-horizontal_medium slds-size_6-of-12">  
+                        <article class="slds-card slds-p-horizontal_medium" style="height:100%;">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">                  
+                                  <div class="slds-media__body">
+                                    <h2>
+                                        <div class="slds-text-heading_large">Productoverzicht</div>
+                                    </h2>
+                                  </div>
+                                </header>                
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner" style="overflow:scroll; height:18rem"> 
+                                <apex:outputPanel id="refreshing" layout="block">  
+                                <table class="slds-table slds-table--bordered slds-table--striped SelectedProductTable">
+                                    <thead>
+                                        <tr class="slds-text-title_caps">
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Remove"></div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Name">Productnaam</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Quantity">Prijs per stuk</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Quantity">Hoeveelheid</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="ToestelVerzekering">ToestelVerzekering </div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Totaalpermaand">Totaal per maand</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <apex:repeat value="{!SelectedPricebookentryList}" var="selectedItem">
+                                            <apex:variable var="i" value="{!0}"/>
+                                            <tr>
+                                                <td>
+                                                    <img src="{! $Resource.RemoveIcon}"  data-id="{!selectedItem.pricebookentryrecordObject.product2.Id}" onclick="removeRowJS(this);return false;" class="slds-icon_container"  style="color:white;border:none;width:50%;" />
+                                                    
+                                                    <!--<button class="slds-icon_container slds-icon-action-remove slds-icon_container--circle"  style="color:white;border:none;" onclick="removeRowJS('{!i}');return false;">
+                                                        <svg class="slds-button__icon" aria-hidden="true">
+                                                            <use xmlns:xlink="http://www.w3.org/2000/xlink" xlink:href="/apexpages/slds/latest/assets/icons/action-sprite/svg/symbols.svg#remove" />
+                                                        </svg>
+                                                        
+                                                    </button>-->
+                                                    <!--<apex:commandLink value="" action="{!removeRow}" reRender="refreshing" status="st1" style="color:white;border:none;" immediate="true" styleClass="slds-icon_container slds-icon-action-remove slds-icon_container--circle" title="Remove">
+                                                        <svg class="slds-button__icon" aria-hidden="true">
+                                                            <use xmlns:xlink="http://www.w3.org/2000/xlink" xlink:href="/apexpages/slds/latest/assets/icons/action-sprite/svg/symbols.svg#remove" />
+                                                        </svg>
+                                                        <apex:param name="row" value="{!i}" assignTo="{!rowIndex}"/>
+                                                    </apex:commandLink>-->
+                                                </td>
+                                                <td>
+                                                    {!selectedItem.pricebookentryrecordObject.product2.Name}
+                                                </td>
+                                                <td>
+                                                    <apex:outputField value="{!selectedItem.pricebookentryrecordObject.unitprice}"/> 
+                                                </td>
+                                                <td>
+                                                    <apex:inputField value="{!selectedItem.Bestellingproduct.Hoeveelheid__c}" onchange="calculateTotalMaand();" style="width:90px;"/>
+                                                </td>
+                                                <td>                                                    
+                                                    <apex:inputField value="{!selectedItem.Bestellingproduct.ToestelVerzekering__c}" onchange="calculateTotalMaand();"/>                                                 
+                                                </td>
+                                                <td>   
+                                                    <apex:outputField value="{!selectedItem.tempBestellingproduct.Verkoopprijs__c}"/>
+                                                </td>
+                                            </tr>    
+                                            <apex:variable var="i" value="{!i+1}"/>
+                                        </apex:repeat>
+                                    </tbody>
+                                </table>
+                                </apeX:outputPanel>
+                            </div>
+                            <div class="slds-align_absolute-center slds-p-vertical_medium">
+                                <button class="slds-button slds-button_brand" onclick="quantityChange(); return false;">
+                                     Update bestelling
+                                </button>
+                            </div>
+                        </article>
+                        
+                    </div>
+                    
+                                   
+                </div>
+                
+                <div class="slds-align_absolute-center slds-p-vertical_medium">
+                    <button class="slds-button slds-button_brand" onclick="submitFunction(); return false;">
+                         Bestelling verwerken
+                    </button>
+                </div>
+            </div>
+            <script>
+            function submitFunction(){
+                //alert($('.paymentMethod').val());
+                if($('.paymentMethod') != null && $('.paymentMethod').val() == ""){
+                    //console.log('val'+$('.paymentMethod').val());
+                    $('.errorPrompt').show();
+                    $('.paymentMethod').parent().parent().addClass('slds-has-error');
+                }
+                else{
+                    //console.log('create records called');
+                    createRecords();            
+                }
+            }
+            
+            function redirectToThanksPage2(ref,paymentEnable){
+                //alert('in redirectToThanksPage2');
+                console.log(paymentEnable);
+                console.log('cookie-' + document.cookie);
+                document.cookie = 'product= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;path=/';  // Clears the cookies after order completion
+                console.log('cookie-' + document.cookie);
+               
+                if(paymentEnable == 'false'){
+                    redirectToThanksPage();                
+                }
+                else{
+                    parent.window.location.href= ref;
+                }
+            }
+            </script>
+        </apex:form>
+    </apex:pageBlock>
+</apex:page>

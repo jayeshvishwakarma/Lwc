@@ -1,0 +1,24 @@
+<apex:page StandardController="Bestelling_MM__c" Extensions="PostNlAPIController" action="{!createBestellingData}" lightningStylesheets="true" standardStylesheets="false" applyBodyTag="false" docType="html-5.0">
+    <apex:form >
+    <style>
+      .btnClass{
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+        border: 1px solid rgb(221, 219, 218) !important;
+        transition: border .15s linear !important;
+        background: blue!important;
+        font-weight: bold !important;
+        border-color: rgba(0, 68, 135, 1) !important;
+        color: rgb(255, 255, 255) !important;
+        height: 30px !important;
+      }
+    </style>
+
+        <apex:pageBlock >
+            <apex:pageMessages /><br/>
+            <apex:commandButton styleClass="btnClass" action="{!goBack}" value="GO BACK"/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

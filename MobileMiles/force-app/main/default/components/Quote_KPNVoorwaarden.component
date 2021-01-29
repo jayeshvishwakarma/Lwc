@@ -1,0 +1,41 @@
+<apex:component >
+	<h2>
+		6. Specifieke KPN ÉÉN voorwaarden
+    </h2>    
+
+	<p>
+		Indien een bepaling in een van de bijlagen strijdig is met een bepaling uit 
+		de (onderstaande) specifieke KPN ÉÉN voorwaarden, 
+		zullen de bepalingen uit de specifieke KPN ÉÉN voorwaarden prevaleren.
+	</p>
+	
+	<h3>Minimale afname</h3>
+	<p>
+		Voor KPN ÉÉN geldt een minimale afnameverplichting van 5 gebruikersprofielen
+		(deze voorwaarde is ook leidend bij het flexibel verwijderen van profielen).
+	</p>
+	
+	<h3>Flexibel toevoegen en verwijderen profielen</h3>
+	<p>
+		Om u de flexibiliteit en de zekerheid te geven dat u alleen betaalt voor wat u nodig hebt, 
+		biedt KPN ÉÉN u de mogelijkheid om onbeperkt gebruikerprofielen toe te voegen en maximaal 
+		25% op jaarbasis van uw profielen maandelijks op te zeggen of om te zetten naar een 
+		profiel met een lager maandbedrag. 
+		Het jaar begint op de ingangsdatum van het contract. 
+		Alle gebruikers- en groepsopties zijn maandelijks 100% toe te voegen of te verwijderen. 
+		Let op: het minimum aantal gebruikersprofielen mag niet onder de 5 stuks komen. 
+		Als u bijvoorbeeld begint met in totaal 40 profielen, kunt u kosteloos 10 profielen (25%) 
+		opzeggen of omzetten naar een profiel met een lager maandbedrag. 
+		Indien u boven de 10 profielen komt, betaalt u voor de extra profielen een afkoopsom. 
+		De afkoopsom bedraagt het maandprofiel bedrag tot de rest van de looptijd van het 
+		contract vanaf het moment van opzegging of omzetting.
+	</p>
+	
+	<h3>Inflatiecorrectie</h3>
+	<p>
+		De tarieven die gelden voor KPN ÉÉN worden op 1 februari van elk jaar verhoogd volgens de 
+		CBS Consumentenprijsindex over de afgelopen periode oktober - september. 
+		Indien de CBS Consumentenprijsindex in enig jaar negatief is, zullen de dan geldende prijzen niet worden aangepast. 
+		Artikel 1.16 lid 4 van de Algemene Voorwaarden voor Mobiele Telecommunicatiediensten is niet van toepassing op deze verhoging.
+	</p>
+</apex:component>

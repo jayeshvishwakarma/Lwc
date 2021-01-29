@@ -1,0 +1,26 @@
+<apex:page standardController="Account" action="{!refreshData}" extensions="RefreshMobileUsage" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">        
+    <apex:slds />
+    <div class="slds-scope">
+        Please wait...
+        <apex:Form >
+            <apex:actionFunction name="refreshPortMobData" action="{!refreshPortMobData}" reRender="op"/>
+        </apex:Form>
+        
+        <apex:outputPanel id="op">
+            <apex:pageMessages escape="false"  />
+            <script>
+                refreshPortMobData();
+            </script>
+        </apex:outputPanel>
+        <div class="demo-only" style="height:6rem">
+            <div class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                        <span class="slds-assistive-text">Loading...</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                            
+                </div>
+            </div>
+        </div>
+    </div>
+</apex:page>

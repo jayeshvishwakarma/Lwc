@@ -1,0 +1,62 @@
+<template>
+    <div class="slds-grid slds-wrap slds-form-element_stacked" >
+        <div class="slds-col slds-size_1-of-1">
+             <!-- create an Input field where user can enter text to find the records-->
+            <template if:false={selectedRecord}>
+                <lightning-input label={fieldLabel} disabled={isDisabled} value={searchKey} type="search"  required={isRequired}
+                    onchange={handleChange} onfocus={handleScreenType} placeholder={placeholder} is-loading={isSearching}></lightning-input> 
+            </template>
+            <!-- view Selected record -->
+            <template if:true={selectedRecord}>
+                <label class="slds-form-element__label slds-no-flex"><abbr class="slds-required">{requiredSign}</abbr>{fieldLabel}</label>
+                <div class="">
+                    <lightning-pill class="slds-size--1-of-1" label={selectedRecord.Name} onremove={handleRemove} >
+                        <lightning-icon  icon-name={iconName} variant="circle"  alternative-text=""></lightning-icon>
+                    </lightning-pill>
+                </div>
+            </template>
+            <!-- iterate the list of records -->
+            <template if:true={sObjectList}>
+                <div class="slds-grid slds-wrap slds-dropdown_length-with-icon-7 slds-dropdown_fluid">
+                    <div class="slds-col slds-size_4-of-4 slds-box--border slds-theme_default custom-class">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <!-- For Showing the details -->
+                            <template if:false={isMobileDevice}>
+                                <li if:true={isShowAllShow} role="presentation" class="slds-listbox__item">
+                                    <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option" onclick={handleShowResult}>
+                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                            <lightning-icon icon-name="utility:search" size="xx-small"></lightning-icon>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity"> Show All results for "{searchKey}"</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                            <!-- Iteration for records-->
+                            <template for:each={sObjectList} for:item="record">
+                                <c-create-case-look-up-item is-mobile-device={isMobileDevice}  key={record.Id} icon-name={iconName}  record={record} onselect={selectRecord}></c-create-case-look-up-item>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+
+        <template if:true={ShowLookUpPop}>
+            <c-create-case-look-up-pop-up
+                onclose ={handleClosePopUp}
+                onselect={selectRecord}
+                onsearch={handleSearch}
+                field-label={fieldLabel}
+                model-title={fieldLabel}
+                search-key={searchKey}
+                s-object-list= {sObjectList}
+                section-header={fieldLabel}
+                records-length={recordsLength}
+                s-object-name={sObjectName}
+            ></c-create-case-look-up-pop-up>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,16 @@
+<apex:page standardController="twod__Claim__c">
+ 
+ <script type="text/javascript">
+  
+  window.onload = function() {
+    document.getElementById("j_id0:j_id2:i:f:pb:pbb:next").value="Submit";
+}
+  </script >
+    <flow:interview name="twod_convert_to_standard" finishLocation="{!URLFOR('/apex/CT_ClaimEdit?id=' +twod__Claim__c.Id)}" rendered="{!if($Site.prefix== '',true,false)}" buttonLocation="bottom" buttonStyle="color:#050; background-color:#fed; border:1px solid;">
+        <apex:param name="clmId" value="{!twod__Claim__c.Id}"/>
+    </flow:interview>
+   <flow:interview name="twod_convert_to_standard" finishLocation="{!URLFOR('/apex/CT_ClaimEdit?id=' +twod__Claim__c.Id)}" rendered="{!if(NOT($Site.prefix== ''),true,false)}" buttonLocation="bottom" buttonStyle="color:#050; background-color:#fed; border:1px solid;">
+        <apex:param name="clmId" value="{!twod__Claim__c.Id}"/>
+    </flow:interview>
+   
+</apex:page>

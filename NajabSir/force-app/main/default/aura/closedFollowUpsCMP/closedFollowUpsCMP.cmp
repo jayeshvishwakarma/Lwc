@@ -1,0 +1,12 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasSObjectName,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader">
+    <aura:html tag="style">
+    	.cuf-scroller-content{background:#fff;}
+        .slds-modal__container { width: 65%;max-width: 55rem;}
+    </aura:html>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="typeOfSection" type="String" default="" />
+    <aura:attribute name="deviceFormFactor" type="String"/>
+    
+    <c:closedFollowUps typeOfSection="{!v.typeOfSection}" recordId="{!v.recordId}" 
+                       deviceFormFactor = "{!v.deviceFormFactor}"></c:closedFollowUps>
+</aura:component>

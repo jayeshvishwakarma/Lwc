@@ -1,0 +1,60 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <aura:attribute name="remainingTime" type="String" default="" />
+    <aura:attribute name="days"    type="String" default="" />
+    <aura:attribute name="hours"   type="String" default="" />
+    <aura:attribute name="minutes" type="String" default="" />
+    <aura:attribute name="seconds" type="String" default="" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    
+    
+    <aura:attribute name="title" type="String" default="ISDN stopt over:"/>
+    
+    
+    
+   
+            <lightning:card class='title-custom' title="{! v.title }">
+                
+                
+                <aura:set attribute="footer">
+                    <lightning:layout >
+                        <lightning:layoutItem >
+                            <div class="slds-badge-custom"> 
+                                <span>{!v.days}</span><br/>
+                               dagen
+                            </div>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem >
+                            <div class="slds-badge-custom">
+                                <span>{!v.hours}</span><br/>
+                                uren
+                            </div>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem >
+                            <div class="slds-badge-custom">
+                                <span>{!v.minutes}</span><br/>
+                                min
+                            </div>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem >
+                            <div class="slds-badge-custom">
+                                <span>{!v.seconds}</span><br/>
+                                sec
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout >
+                </aura:set>
+            </lightning:card>
+      
+    
+    
+    
+    
+    
+    
+    
+</aura:component>

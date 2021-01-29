@@ -1,0 +1,16 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:isUrlAddressable" >
+   <aura:attribute name="recordId" type="String" />
+   <aura:attribute name="parentRecordId" type="String" />
+   <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>  
+   <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:html tag="style">
+        .cuf-scroller-content{
+        	background:#fff;
+        }
+        .slds-modal__container { 
+            width: 55%;
+            max-width: 65rem; 
+        }
+    </aura:html>
+   <c:createCase parentRecordId="{!v.recordId}" onclose="{!c.closeModel}"/>
+</aura:component>

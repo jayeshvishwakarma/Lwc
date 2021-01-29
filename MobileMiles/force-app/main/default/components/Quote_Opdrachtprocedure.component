@@ -1,0 +1,31 @@
+<apex:component >
+    <h2>
+        8. Opdrachtprocedure
+    </h2>    
+
+    <p>
+        Staat uw definitieve keuze vast, dan ontvangt u van Mobile Miles een overeenkomst ter ondertekening. 
+        Door het ondertekenen van deze opdracht, verstrekt u ons de opdracht.
+    </p>
+    
+    <h2>
+        8.1 Kosten wijzigingen en verwerkingstijden door Mobile Miles
+    </h2>    
+
+    <p>
+        De verwerkingstijd van uw wijzigingen na ontvangst van uw opdracht, bedraagt:
+    </p>
+    <ul>
+<li>Standaard softwarematige wijziging zonder extra licenties en/of hardware: volgende werkdag </li>
+<li>Standaard softwarematige wijziging met extra licenties, zonder hardware: 2 werkdagen</li>
+<li>Standaard softwarematige wijziging met extra licenties en hardware: 5 werkdagen</li>
+<li>Extra hardware zonder licenties: 5 werkdagen</li>
+    </ul>
+    <p>
+        Is het nodig dat er een monteur op locatie werkzaamheden uitvoert, dan plant de Excellence business partner van Mobile Miles hiervoor een afspraak met u in. 
+        Aan sommige wijzigingen zijn kosten verbonden. Deze kosten nemen wij van tevoren met u door. 
+        De levering wordt afgerond door middel van het tekenen van een Protocol van Oplevering.
+        Bij niet standaardwijzigingen worden vooraf de kosten met u doorgenomen voor een akkoord.
+        Bij gebruikmaking van de basis onderhoudslicentie, worden er geen kosten in rekening gebracht voor standaardwijzigingen.
+    </p>
+</apex:component>

@@ -1,0 +1,11 @@
+AccountId,FirstName,LastName,email,Amount_x__c,Amount_y__c,Type__c,Dead__C
+2,Vassily,Castella,vcastella0@deviantart.com,44,11,Positive,TRUE
+1,Wilmer,Atcheson,watcheson1@wufoo.com,71,95,Negative,TRUE
+5,Lindsey,Darrigoe,ldarrigoe2@ebay.co.uk,3,72,Positive,TRUE
+2,Minetta,Goatcher,mgoatcher3@china.com.cn,75,96,Negative,TRUE
+3,Dur,Mohammad,dmohammad4@php.net,17,63,Negative,FALSE
+4,Heath,Bicker,hbicker5@biglobe.ne.jp,84,58,Negative,FALSE
+,Carolina,Sammonds,csammonds6@skyrock.com,72,49,Negative,TRUE
+3,Neils,Ianiello,nianiello7@ehow.com,37,31,Negative,TRUE
+2,Freddi,Esmond,fesmond8@linkedin.com,7,26,Positive,TRUE
+,Reeta,Milligan,rmilligan1d@addthis.com,56,63,Positive,TRUE

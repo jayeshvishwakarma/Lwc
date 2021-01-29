@@ -1,0 +1,21 @@
+<aura:component controller="CustomerOnboardingController">
+    <aura:attribute name="accountId" type="String" /> 
+    <aura:attribute name="caseId" type="String"/>
+    <aura:attribute name="soldToAccount" type="Account" /> 
+    <aura:attribute name="requiredError" type="Boolean"  default="false"/> 
+    <aura:attribute name="errorMessage" type="String" /> 
+     <aura:attribute name="requiredSuc" type="Boolean" default="false"/>
+    <aura:attribute name="successMsg" type="String" />
+     <aura:method name="saveorsubmitUnPartnerfromSoldToRequest" action="{!c.createUnPartneringRequest}">
+        <aura:attribute name="isSubmitted" type="Boolean"/>     
+    </aura:method>
+	<!--<div class="slds-text-heading-large slds-text-align-center">Un-Partner Ship-To Account Request</div>-->
+     <aura:if isTrue="{!v.requiredError}">
+          <div class="recordError">
+              <ui:message title="Error" severity="error" closable="true">
+                  <aura:unescapedHtml value="{!v.errorMessage}" />
+              </ui:message>
+          </div>
+    </aura:if>
+    <c:AccountDetailsView aura:id="actDetailView" partnerInd="true" accountId="{!v.accountId}" caseId="{!v.caseId}" soldToAccount="{!v.soldToAccount}"/>
+</aura:component>

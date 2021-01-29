@@ -1,0 +1,374 @@
+<apex:page id="pg" lightningStylesheets="true"  controller="GlasvezelRequestFormController"  >
+    <html>
+        
+        <head> 
+            <apex:slds />
+            <style>  
+ 				input[type="checkbox"]{
+                width:30px;
+                height:50px;
+                }
+                .customerror{
+                background-color:#c23934;color:#fff;padding:1rem;margin:1rem;
+                margin-left:0;
+                }
+                .customerror h4{
+                color:#fff;
+                }
+                input[type="radio"]{
+                width:30px;
+                height:50px;
+                }
+                body{
+                font-family:"Salesforce Sans";
+                }
+                #signature{
+                width: 400px;
+                height: 100px;
+                border: 1px solid black;
+                }
+                table td{
+                vertical-align:top;
+                }
+                input[type="text"]{
+                line-height: 25px;
+                }
+                .btn{
+                width: 100px;
+                padding: 5px;
+                border: none;
+                cursor:pointer;
+                }
+            </style>
+            <script src="{!URLFOR($resource.jSignature,'jSignature/libs/jquery.js')}" type='text/javascript'></script>
+            <script src="{!URLFOR($resource.jSignature,'jSignature/src/jSignature.js')}"></script>
+            <script src="{!URLFOR($resource.jSignature,'jSignature/libs/modernizr.js')}"></script>
+            <script type="text/javascript" src="{!URLFOR($resource.jSignature,'jSignature/libs/flashcanvas.js')}"></script>
+            
+            <script>
+            
+            $(document).ready(function() {
+                init();
+                
+            });
+            
+           
+            function setCourceValue(val){
+                document.getElementById('pg:form1:Cources_hidden').value = val;
+            }
+            
+            function init(){
+                // Initialize jSignature
+                
+                var $sigdiv = $("#signature").jSignature({'UndoButton':true});
+                
+                document.getElementById("blank").value = $sigdiv.jSignature('getData','image');
+                $('.btnSubmit').click(function(event){
+                    event.preventDefault();
+                    // Get response of type image
+                    var data = $sigdiv.jSignature('getData','image');
+                    if(document.getElementById("blank").value == data){
+                        //alert("not filled");    
+                        
+                    }else{
+                        document.getElementById('pg:form1:output').value = data;
+                    }
+                    
+                    setTimeout(function(){
+                        
+                        saveData();
+                        
+                    },500);
+                    // $('#pg:form1:output').val(data);
+                    
+                    
+                });
+                
+                $('#reset').bind('click', function(e){
+                    //$('textarea').val('');
+                    $sigdiv.jSignature('reset');
+                });
+            }
+            
+            function sendtoPDF(){
+                init();
+                if(document.getElementById("isError").value == "false"){
+                    send();
+                }
+            }
+            </script>
+        </head>
+        <!--new Body -->
+        
+        <body >
+            
+            
+            
+            <apex:form id="form1">  
+                
+                <input type="hidden" id="blank" />
+                <input type="hidden" id="isError" value="{!isError}" />
+                <apex:actionFunction action="{!submit}" oncomplete="sendtoPDF()" name="saveData"  reRender="form1" />
+                <apex:actionFunction action="{!sendPdf}" name="send" reRender="form1" />              
+                <apex:inputHidden id="Cources_hidden" value="{!courceSelection}"/>
+                <apex:outputPanel layout="block" rendered="{!isShow}" id="panel1">
+                    
+                    <apex:pageMessages />
+                    <div class="slds-form-element" style="margin-left:400px;margin-right:400px">
+                        
+                        <h3 style="color: #009900;font-weight:bold;">
+                            Please enter account number
+                        </h3>
+                        
+                        
+                        <div class="slds-form-element__control">
+                            
+                            <apex:inputText value="{!AccountNumber}" required="true" styleclass="slds-input" style="width:400px" />            
+                        </div>
+                        <br/>
+                        <apex:commandButton value="Next" oncomplete="init()" action="{!ShowAccount}" style="background:#33C7FF;color:white;" reRender="form1" styleClass="btn" />
+                    </div>      
+                    
+                </apex:outputPanel> 
+                <apex:outputPanel layout="block" id="panel2" rendered="true">
+                    <div style="margin-left:12%;margin-right:12%;">
+                        
+                        
+                        <center>
+                            <h2 style="color: #009900;font-weight:bold;">
+                                U KOMT IN AANMERKING VOOR KPN ÉÉN GLASVEZEL
+                            </h2>
+                        </center>
+                        <div style="margin:35px;">
+                            <p>
+                                Hoera! Er {!FttHbeschikbaar} zakelijk glasvezel op uw adres beschikbaar. U kunt zich nu aanmelden voor supersnel internet op het betrouwbare netwerk van KPN tegen een zeer aantrekkelijke prijs.
+                            </p>
+                            <p> 
+                                Naast een 99,6% beschikbaarheidsgarantie krijgt u gratis Extra Veilig Internet. Uw internetverbinding wordt hiermee automatisch beschermd tegen malware, ransomware en virussen.  Verder krijgt u kosteloos 4G Back-up. Bij een storing of kabelbreuk haalt het modem het internetsignaal uit het mobiele netwerk. Zo blijft u altijd online! 
+                            </p><br/>
+                            
+                            <div class="slds-grid slds-wrap" style="color:#3399ff;font-weight:bold;">
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <span ><center>SNEL</center></span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <span><center>SNELLER</center></span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <span><center>RAZENDSNEL</center></span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap" >
+                                
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" style="border:3px solid green" >
+                                    <span ><br/>&nbsp;&nbsp;&nbsp;Downloadsnelheid<br/>
+                                        <b>&nbsp;&nbsp;&nbsp;100 Mbit/s</b><br/><br/>
+                                    		&nbsp;&nbsp;&nbsp;Uploadsnelheid<br/>
+                                        <b>&nbsp;&nbsp;&nbsp;100 Mbit/s</b><br/><br/> 
+                                        <center> <apex:image width="160px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-snel.png')}"/><br/><br/>
+                                            <input  type="radio" name="Cource" value="SNEL" onclick="setCourceValue(this.value);"/> </center><br/><br/>
+                                   </span>
+                                </div>
+                                 
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" style="border-top:3px solid green;border-bottom:3px solid green;">
+                                    <span>
+                                    <br/>&nbsp;&nbsp;&nbsp;Downloadsnelheid<br/>
+                                        <b>&nbsp;&nbsp;&nbsp;200 Mbit/s</b><br/><br/>                                        
+                                       &nbsp;&nbsp;&nbsp;Uploadsnelheid<br/>
+                                        <b>&nbsp;&nbsp;&nbsp;200 Mbit/s</b><br/><br/>
+                                    <center>   <apex:image width="160px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-sneller.png')}"/><br/><br/>
+                                            <input type="radio" name="Cource" value="SNELLER" onclick="setCourceValue(this.value);"/></center> <br/>
+                                        <br/> 
+                                    </span>
+                                </div>
+                                
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" style="border:3px solid green">
+                                    <span>
+                                     <br/>&nbsp;&nbsp;&nbsp;Downloadsnelheid<br/>
+                                        <b>&nbsp;&nbsp;&nbsp;500 Mbit/s</b><br/><br/>                                        
+                                      	&nbsp;&nbsp;&nbsp;Uploadsnelheid<br/>
+                                        <b>&nbsp;&nbsp;&nbsp;500 Mbit/s</b><br/><br/>
+                                       <center>  <apex:image width="160px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-razendsnel.png')}"/><br/><br/>
+                                           <input type="radio" name="Cource" value="RAZENDSNEL" onclick="setCourceValue(this.value);"/>  </center><br/>
+                                        <br/>
+                                          
+                                          </span>
+                                </div>
+                            </div>
+                            <br/><br/>	
+                          
+                            
+                            <center>
+                                <h3 style="color:#3399ff;font-weight:bold;">
+                                    GRATIS INBEGREPEN     
+                                </h3>
+                            </center>
+                            
+                            <div class="slds-grid slds-wrap" style="border:3px solid green;font-weight:bold;">
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <span ><apex:image width="22px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/> 4G Back-up<br/>
+                                    		<apex:image width="22px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/> Installatie
+                                    </span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <span><apex:image width="22px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/>  Extra Veilig Internet<br/>
+                                    		<apex:image width="22px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/> Vast IP-adres  
+                                    </span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <span> <apex:image width="22px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/> WiFi router<br/></span>
+                                </div>
+                            </div><br/><br/>
+                           <center>
+                                
+                                <h3 style="color:#3399ff;font-weight:bold;">
+                                    KPN ÉÉN TV   
+                                </h3><br/>
+                            </center>
+                            <div class="slds-grid slds-wrap" style="border:3px solid green">
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <span > <span style="font-weight:bold;">&nbsp;&nbsp;&nbsp; Standaard pakket </span><br/><br/><br/>
+                                        &nbsp;&nbsp;&nbsp;•30+ HD tv-zenders<br/>
+                                        &nbsp;&nbsp;&nbsp;•14 regionale tv-zenders<br/>
+                                        &nbsp;&nbsp;&nbsp;•20+ radiozenders<br/><br/>
+                                        <span style="font-weight:bold;color:#3399ff" >&nbsp;&nbsp;&nbsp; € 13,50 € 11,50 p/mnd<br/>
+                                            &nbsp;&nbsp;&nbsp;p/beeldscherm<br/><br/><br/></span>
+                                        &nbsp;&nbsp;&nbsp;Aantal &nbsp;<apex:inputText value="{!Anatal}" size="3" /><br/></span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" style="border-left:3px solid green;border-right:3px solid green;">
+                                    <span><span style="font-weight:bold;"> &nbsp;&nbsp;&nbsp;Fox Sports </span><br/><br/><br/>                                    
+                                        <center> <span style="font-weight:bold;color:#3399ff">  € 7,50 p/mnd  </span>   <br/> <br/>
+                                        <!--checkbox-->    
+                                             <apex:inputCheckbox value="{!foxSports}" id="checkbox" />                                                                                                                                                 
+                                             <br/><br/></center>
+                                        <span style="font-weight:bold;">&nbsp;&nbsp;&nbsp; Ziggo Sports </span> <br/><br/><br/>                                   
+                                        <center><span style="font-weight:bold;color:#3399ff">  € 12,39 p/mnd </span><br/><br/> 
+                       				         <apex:inputCheckbox value="{!ziggoSports}" id="ziggo"/>                                                     
+                                               <br/></center></span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                    <span> <span style="font-weight:bold;">&nbsp;&nbsp;&nbsp;Interactieve features </span><br/>
+                                        &nbsp;&nbsp;&nbsp;• Live tv pauzeren<br/>
+                                        &nbsp;&nbsp;&nbsp;• Opnemen<br/>
+                                        &nbsp;&nbsp;&nbsp;• Vooruit- en terugspoelen<br/>
+                                        &nbsp;&nbsp;&nbsp;• Begin gemist<br/>
+                                        &nbsp;&nbsp;&nbsp;• Uitzending terugkijken<br/><br/>
+                                        <span style="font-weight:bold;"> &nbsp;&nbsp;&nbsp;Zakelijke features</span><br/>
+                                        &nbsp;&nbsp;&nbsp;• Tekstbalk voor eigen of<br/>
+                                        &nbsp;&nbsp;&nbsp;externe content<br/>
+                                        &nbsp;&nbsp;&nbsp;• Eigen video- en<br/>
+                                        &nbsp;&nbsp;&nbsp;informatiepagina<br/>
+                                        &nbsp;&nbsp;&nbsp;• Eigen logo in tv menu<br/><br/></span>
+                                </div>
+                            </div><br/><br/>
+                       
+                            <h3 style="color: #009900;">UW GEGEVENS</h3>
+                            <apex:outputPanel styleClass="customerror" layout="block" rendered="{!isError}">                                       
+                                {!errorMessage}
+                            </apex:outputPanel> 
+                            <table style="font-size:14px;">
+                                <tr>
+                                    <td>Bedrijfsnaam <Font style="color:red;font-size:1rem">*</Font></td>
+                                    <td> : <apex:inputText value="{!Bedrijfsnaam}" styleclass="slds-input"/><br/><br/></td>
+                                    <td></td>
+                                    <td></td>                        
+                                </tr>
+                                <tr>
+                                    <td>KvK nummer <Font style="color:red;font-size:1rem">*</Font></td>
+                                    <td> : <apex:inputText value="{!kvk_nummer}" styleclass="slds-input" /><br/><br/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:16px;">Aansluitadres<br/><br/></td>
+                                    <td> </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Straat</td>
+                                    <td> : <apex:inputText value="{!straat}" disabled="true" styleclass="slds-input" /><br/><br/> </td>
+                                    <td>Huisnummer</td>
+                                    <td> : <apex:inputText value="{!huisnummer}" disabled="true" styleclass="slds-input"/></td>
+                                    <td>Toevoeging</td>
+                                    <td> : <apex:inputText value="{!toevoeging}" disabled="true" styleclass="slds-input"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Postcode</td>
+                                    <td > : <apex:inputText value="{!Postcode}" disabled="true" styleclass="slds-input" /><br/><br/></td>
+                                    <td>Plaats</td>
+                                    <td > : <apex:inputText value="{!Plaats}" disabled="true" styleclass="slds-input"/> </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:16px;">Contactpersoon<br/><br/></td>
+                                    <td> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Voornaam <Font style="color:red;font-size:1rem">*</Font></td>
+                                    <td > : <apex:inputText value="{!Voornaam}" styleclass="slds-input"/> <br/><br/></td>
+                                    <td>Achternaam <Font style="color:red;font-size:1rem">*</Font></td>
+                                    <td > : <apex:inputText value="{!Achternaam}" styleclass="slds-input"/></td>
+                                </tr>
+                                <tr>
+                                    <td> E-mailadres <Font style="color:red;font-size:1rem">*</Font></td>
+                                    <td > : <apex:inputText value="{!emailadres}" styleclass="slds-input" /> <br/><br/></td>
+                                    <td> Telefoonnr</td>
+                                    <td> : <apex:inputText value="{!Phone}" styleclass="slds-input" /></td>
+                                </tr>
+                                <tr>
+                                    <td>IBAN</td>
+                                    <td > : <apex:inputText value="{!Bankrekeningnummer}" styleclass="slds-input" /><br/><br/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            
+                            
+                            <p style="font-size:15px;">
+                                Door ondertekening gaat u akkoord met de voorwaarden. Daarnaast machtigt u Cloud ÉÉN om maandelijks de abonnementskosten automatisch van uw rekening af te schrijven. Genoemde prijzen zijn exclusief BTW. De contracttermijn bedraagt 36 maanden en is daarna per maand opzegbaar. 
+                            </p>
+                            
+                            <table width="100%">
+                                <tr>
+                                    <td width="25%">Handtekening <font color="red;font-size:1rem">*</font></td>
+                                    <td width="25%"></td>
+                                    <td width="25%"></td>
+                                    <td width="25%"></td>
+                                    
+                                </tr>
+                                
+                                <tr>
+                                    <td width="25%" ><div id="signature"></div><br/>
+                                        <input type='button' id='reset' value='Wissen'/></td>
+                                    <td width="25%"> </td>
+                                    <td width="25%"> </td>
+                                    <td width="25%"></td>
+                                    
+                                </tr>
+                                
+                            </table>
+                            
+                            <apex:outputPanel styleClass="customerror" layout="block" rendered="{!isError}">                                       
+                                {!errorMessage}
+                            </apex:outputPanel> 
+                            <apex:commandButton value="Verzenden" style="background:#33C7FF;color:white;margin-top:1rem;" styleClass="btn btnSubmit" reRender="form1" />
+                            <apex:inputTextarea style="display:none;" id="output" value="{!signUrl}"/>   
+                        </div>
+                        
+                        
+                    </div>        
+                    
+                    
+                    
+                    <br/>
+                </apex:outputPanel>
+                <canvas id='blank' style='display:none'></canvas>
+            </apex:form>
+        </body>
+        
+        
+    </html>
+</apex:page>

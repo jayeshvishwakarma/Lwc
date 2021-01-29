@@ -1,0 +1,5 @@
+<apex:page controller="CTIRedirectServiceClass" action="{!redirect}">
+
+    
+    
+</apex:page>

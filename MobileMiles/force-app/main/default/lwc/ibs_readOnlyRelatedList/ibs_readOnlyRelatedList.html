@@ -1,0 +1,88 @@
+<template>
+    <template if:true={showSpinner}>
+        <lightning-spinner variant="brand"></lightning-spinner>
+    </template>
+    <div class="slds-grid slds-wrap slds-m-top_medium custom-billing-div">
+        <div class="slds-col slds-size_1-of-1 custom-billing-div-header">
+            <lightning-icon icon-name={iconName} style="background-color: #0a6d0d;" class="slds-m-bottom_x-small">
+            </lightning-icon>
+            <span class="slds-p-left_x-small slds-p-bottom_x-small title-cls">{relatedListTitle}</span>
+        </div>
+        <div class={detailDivDesign}>
+            <span>
+                <template if:true={records}>
+                    <table class={designToken}>
+                        <template if:false={hideTableHeader}>
+                            <thead>
+                                <tr class="slds-text-title_caps slds-line-height_reset header-row">
+                                    <template for:each={fieldToshow} for:item="item">
+                                        <th scope="col" key={item.apiName} onclick={handleSort}
+                                            data-sortby={item.apiName} class={thDesignToken}>
+                                            {item.label}
+
+                                            <template if:true={isSortable}>
+                                                <span class="icon-area hide">
+                                                    <template if:true={isAsc}>
+                                                        <lightning-icon data-page="first" icon-name="utility:arrowup"
+                                                            alternative-text="Last" size="xx-small"></lightning-icon>
+                                                    </template>
+                                                    <template if:true={isDesc}>
+                                                        <lightning-icon data-page="first" icon-name="utility:arrowdown"
+                                                            alternative-text="Last" size="xx-small"></lightning-icon>
+                                                    </template>
+                                                </span>
+                                                <!-- <span class="new sort-icon">
+                                                        <lightning-icon data-target-name={item.apiName}
+                                                            icon-name="utility:arrowdown"
+                                                            onclick={handleSort} size="xx-small" class="custom-pointer"></lightning-icon>                                                       
+                                                    </span>                                               -->
+                                            </template>
+                                        </th>
+                                    </template>
+                                </tr>
+                            </thead>
+                        </template>
+                        <tbody>
+                            <template for:each={records} for:item="rec">
+                                <tr key={rec.Id}>
+                                    <!--<td>{rec.Name}</td>-->
+                                    <template for:each={fieldToshow} for:item="item" for:index="index">
+                                        <td key={rec.Id}>
+                                            <c-ibs_show-td-value row={rec} column={item.apiName} type={item.dataType}
+                                                label={item.label} column-index={index}
+                                                first-column-clickable={firstColumnClickable} url-redirect={urlRedirect}
+                                                object-name={objectName} field-editable={item.editable}
+                                                within-sf={withinSF} formual-fld1={formualFld1}
+                                                formual-fld2={formualFld2} not-algin-rigth-value={notAlginRigthValue}
+                                                onrefershtable={refershList}>
+                                            </c-ibs_show-td-value>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                            <template if:true={whichFieldNeedToTotal}>
+                                <tr>
+                                    <td colspan={colspan} data-label="Sum" style="text-align:right;">
+                                        <template if:true={labelOfTotalField}>
+                                            {labelOfTotalField}:
+                                        </template>
+                                        <template if:false={labelOfTotalField}>
+                                            Totaal:
+                                        </template>
+                                        <lightning-formatted-number value={totalAmount} format-style="currency"
+                                            currency-code="EUR" minimum-fraction-digits="2" maximum-fraction-digits="2">
+                                        </lightning-formatted-number>
+
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+                <template if:false={records}>
+                    No records to shows
+                </template>
+            </span>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,681 @@
+<!--
+  @File Name          : BookingBCRFormPDF.page
+  @Description        : 
+  @Author             : Rajesh Ramachandran
+  @Group              : 
+  @Last Modified By   : Rajesh Ramachandran
+  @Last Modified On   : 1/10/2020, 8:10:25 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    1/10/2020   Rajesh Ramachandran     Initial Version
+-->
+<apex:page controller="BookingBCRFormPDFController" renderAs="pdf" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            
+            <style>
+                @page {
+                margin-top:15px;
+                margin-right:20px;
+                margin-left:20px;
+                margin-bottom:0px !important;
+                
+                @top-center {
+                content: element(header);
+                }
+                @bottom-left {
+                content: element(footer);
+                }
+                
+                }
+                
+                div.header {
+                padding: 10px;
+                position: running(header);
+                }
+                
+                div.footer{
+                display: block;
+                padding: 5px;
+                position: running(footer);
+                }
+                
+                .section-heading {
+                padding: .75rem 1rem !important;
+                margin-bottom: 1rem;
+                list-style: none;
+                background-color: rgb(215, 31, 43);
+                border-radius: .50rem;
+                } 
+                .label-header {
+                padding: 0.03px;
+                text-align: center;
+                background: #1abc9c;
+                color: white;
+                font-size: 6px;
+                }
+                
+                .pagenumber:before{
+                content: counter(page);
+                }
+                .pagecount:before {
+                content: counter(pages);
+                }
+            </style>
+        </head>
+        
+        <body style="font-family: Arial, Helvetica, sans-serif;">
+            <div class="header">
+                <apex:image url="{!If(contains(currentUserChannel,'Arena'),$Resource.MarutiLogoImage,$Resource.NexaLogo)}" styleClass="imageStyle" width="100%" />
+            </div>
+            
+            
+            <div class="footer">
+                <div>Page <span class="pagenumber"/> of <span class="pagecount"/></div>
+            </div>
+            
+            <br/><br/><br/><br/><br/><br/>
+            <apex:outputPanel rendered="{!contains(currentUserChannel,'Arena')}">
+                <br/><br/>
+            </apex:outputPanel>
+            
+            <div class="content">
+                
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1 style="font-size:16px">Order Booking/Commitment Checklist</h1>
+                </div><br/>
+                <table width="100%">
+                    <tr>
+                        <td style="width:25%;height:25px"></td>
+                        <td style="width:25%;height:25px"></td>
+                        <td style="width:20%;height:25px"></td>
+                        <td style="width:30%;height:25px;font-size:10px;font-style: italic;">Customer Copy (This is not a cash receipt)</td>
+                    </tr>
+                </table><br/>
+                
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Customer Information</h1>
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Enquiry No.</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.DMS_Enquiry_Name__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Booking No.</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Booking_Number__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Customer Name</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.First_Name__c}&nbsp;{!oppRecord.Last_Name__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Customer Id</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.SVOC_ID__c}</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Mobile No.</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Mobile__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Email Id</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Email__c}</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Legal Relation</td>
+                        <td style="width:45%;height:25px;font-size:12px;">-</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Legal Relation Name</td>
+                        <td style="width:25%;height:25px;font-size:12px;">-</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">GST NO.</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.GST_Number__c}</td> 
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Customer Type</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Customer_Type__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Corporate Details</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Employer_name__r.Name}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">PAN</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.PAN__c}</td> 
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">DOB</td>
+                        <td style="width:45%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                <apex:param value="{!oppRecord.Birthdate__c}" /> 
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"> </td>
+                        <td style="width:25%;height:25px;font-weight:bold;font-size:12px;"> </td>
+                    </tr>
+                    
+                </table><br/>
+                
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Dealer Information</h1>
+                </div>
+                <table width="100%" id="theGrid">
+                    <tr>
+                        <td style="width:15%;height:25px;" >
+                            <span style="font-weight:bold;;font-size:12px;">
+                                Dealer Name
+                            </span>
+                        </td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Dealership__r.Name}</td>
+                        <td style="width:15%;height:25px;font-size:12px;font-weight:bold">Issue Date</td>
+                        <td style="width:25%;height:25px;font-size:12px;;">
+                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                <apex:param value="{!oppRecord.Issue_Date__c}" /> 
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </table><br/>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Dealer Address</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Dealership__r.BillingStreet}{!oppRecord.Dealership__r.Billingcity}{!oppRecord.Dealership__r.BillingPostalCode}{!oppRecord.Dealership__r.BillingState}{!oppRecord.Dealership__r.BillingCountry}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">GST No.</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Dealership__r.GST_Number__pc}</td>
+                    </tr>
+                </table><br/>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Contact No.</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Dealership__r.Phone}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">CIN No.</td>
+                        <td style="width:25%;height:25px;font-size:12px;">-</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Email Id</td>
+                        <td style="width:45%;height:25px;font-size:12px;"></td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"> </td>
+                        <td style="width:25%;height:25px;font-weight:bold;font-size:12px;"> </td>
+                    </tr>
+                </table><br/>
+                
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Address Details(Bill To)</h1>
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Address</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.BillTo_Address_Line__c +' '+oppRecord.BillTo_Address_Line_2__c+' '+oppRecord.BillTo_Address_Line_3__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">State</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.BillTo_State__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">City</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.BillTo_City__r.Name}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">District</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Bill_To_District_F__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Tehsil</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.BillTo_Tehsil__r.Name}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Village</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.BillTo_Village__r.Name}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Pincode</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{! oppRecord.BillTo_Pincode__r.Name}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"> </td>
+                        <td style="width:25%;height:25px;font-size:12px;"> </td>
+                    </tr>
+                </table><br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Address Details(Ship To)</h1>
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Name</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Name}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Form 60/PAN</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.PAN__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">GST No.</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.GST_Number__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Address</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.ShipTo_Address_Line__c+' '+oppRecord.ShipTo_Address_Line_2__c+' '+oppRecord.ShipTo_Address_Line_3__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">State</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.ShipTo_State__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">City</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.ShipTo_City__r.Name}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">District</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Ship_To_District_F__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Tehsil</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.ShipTo_Tehsil__r.Name}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Village</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.ShipTo_Village__r.Name}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Pincode</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.ShipTo_Pincode__r.Name}</td>
+                    </tr>
+                </table><br/><br/><br/>
+                <br/><br/><br/><br/><br/><br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Vehicle Details</h1>
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Model</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Variant__r.Family}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Variant</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Variant__r.Name}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Color</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Color__r.Name}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Sale Type</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.type}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Booking Date</td>
+                        <td style="width:45%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                <apex:param value="{!oppRecord.Booking_Date__c}" /> 
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Tentative Waiting Period</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Tentative_Waiting_Period__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Tentative Delivery Date</td>
+                        <td style="width:45%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                <apex:param value="{!oppRecord.Tentative_Delivery_Date__c}" /> 
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"> </td>
+                        <td style="width:25%;height:25px;font-size:12px;"> </td>
+                    </tr>
+                </table>
+                
+                <br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Price Details</h1>
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Ex-Showroom Price</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!variantTotalPrice}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Registration Charges</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!RegistrationTotalPrice}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Temp Reg Charges</td>
+                        <td style="width:15%;height:25px;font-size:12px;">-</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Extended Warranty</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!ExtendedWarrantyTotalPrice}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Maintainence Cost Protect</td>
+                        <td style="width:15%;height:25px;font-size:12px;"> 
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!MCPTotalPrice}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Insurance Amount</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!MarutiInsuranceTotalPrice}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">{!totalAccessoriesLabel}</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!accessoriesTotalPrice}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"> {!loyaltyCardLabel} </td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!LoyaltyTotalPrice}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Other Charges</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!sumofOtherCharges}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <hr size="10px" color="black"/>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Discount</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!sumOfDiscounts}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">ISL Scheme/RMK Scheme/ N2N/Dealer Discount</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!sumOfSchemes}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Exchange Bonus</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!sumOfExchangeBonus}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Other Discount</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!sumOfOtherDiscounts}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"></td>
+                        <td style="width:15%;height:25px;font-size:12px;"></td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"></td>
+                        <td style="width:15%;height:25px;font-size:12px;"></td>
+                    </tr>
+                    <hr size="10px" color="black"/>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Booking Amount</td>
+                        <td style="width:15%;height:25px;font-size:12px;">{!oppRecord.Booking_Amount__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"></td>
+                        <td style="width:15%;height:25px;font-size:12px;"></td>
+                        <!--<td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Tax Amount</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!sumofRoadTax}" />
+                            </apex:outputText>
+                        </td>
+                        -->
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">On Road Price (incl. tax)</td>
+                        <td style="width:15%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!oppRecord.Amount}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </table>
+                
+                <br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Exchange Vehicle Details</h1>
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Exchange Car Model</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Exchange_Model__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Exchange Car Variant</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Exchange_Vehicle__r.Name}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Manufacturing Year Month</td>
+                        <td style="width:45%;height:25px;font-size:12px;">-</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Registration Number</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Exchange_Registration__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Evaluation Date</td>
+                        <td style="width:45%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                <apex:param value="{!oppRecord.Exchange_Evaluation_Date__c}" /> 
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Evaluated Price</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Exchange_Offered_Price__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Registration Date</td>
+                        <td style="width:45%;height:25px;font-size:12px;">-</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Engine Number</td>
+                        <td style="width:25%;height:25px;font-size:12px;">-</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Insurance Policy Number</td>
+                        <td style="width:45%;height:25px;font-size:12px;">-</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"></td>
+                        <td style="width:25%;height:25px;font-size:12px;"></td>
+                    </tr>
+                    <!--<tr>
+                            <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">LPG/CNG</td>
+                            <td style="width:45%;height:25px;font-size:12px;">-</td>
+                            <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">LPG/CNG on RC</td>
+                            <td style="width:25%;height:25px;font-size:12px;">-</td>
+                            </tr>
+                            <tr>
+                            <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Calibration Status of Gas Cylinder</td>
+                            <td style="width:45%;height:25px;font-size:12px;">-</td>
+                            <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Date of Calibration</td>
+                            <td style="width:25%;height:25px;font-size:12px;">-</td>
+                            </tr>
+                            <tr>
+                            <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">PUC Validity</td>
+                            <td style="width:45%;height:25px;font-size:12px;">-</td>
+                            <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Odometer Reading</td>
+                            <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.Exchange_KM__c}</td>
+                            </tr>
+                            <tr>
+                            <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">No.of Previous owners</td>
+                            <td style="width:45%;height:25px;font-size:12px;">-</td>
+                            <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"> </td>
+                            <td style="width:25%;height:25px;font-size:12px;"> </td>
+                    </tr>-->
+                </table><br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Finance Scheme</h1>
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Finance Company</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.Financier__r.name}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Finance Amount</td>
+                        <td style="width:25%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!oppRecord.Finance_Amount__c}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Tenure</td>
+                        <td style="width:45%;height:25px;font-size:12px;">{!oppRecord.EMI_Tenure__c}</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Rate of Interest</td>
+                        <td style="width:25%;height:25px;font-size:12px;">{!oppRecord.EMI_Rate__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">EMI Amount</td>
+                        <td style="width:45%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!oppRecord.EMI_Premium__c}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Advanced EMI</td>
+                        <td style="width:25%;height:25px;font-size:12px;">-</td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Promotional Scheme</td>
+                        <td style="width:45%;height:25px;font-size:12px;">-</td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;">Down Payment</td>
+                        <td style="width:25%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!oppRecord.Cash_Payment__c}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </table>
+                
+                
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Accessories Detail(<span style="font-size:10px;">To be fitted as per order given by customer at the time of booking</span>)</h1>
+                </div>
+                <br/>
+                <table width="100%" border="1" style="border-collapse:collapse;">
+                    <tr>
+                        <th style="font-size:12px;font-weight:bold;">SNo</th>
+                        <th style="font-size:12px;font-weight:bold;">Part Number</th>
+                        <th style="font-size:12px;font-weight:bold;">Accessory Name</th>
+                        <th style="font-size:12px;font-weight:bold;">Qty</th>
+                        <th style="font-size:12px;font-weight:bold;">Price Per Part(Rs)</th>
+                        <th style="font-size:12px;font-weight:bold;">Total(Rs)</th>
+                    </tr>
+                    <apex:variable var="i" value="{!1}"/>
+                    <apex:repeat value="{!accessoriesitemlist}" var="a">
+                        <tr>
+                            <td style="font-size:12px">{!i+1}</td>
+                            <td style="font-size:12px">{!a.ProductCode}</td>
+                            <td style="font-size:12px">{!a.Product2.Name}</td>
+                            <td style="font-size:12px">{!a.Quantity}</td>
+                            <td style="font-size:12px">{!a.UnitPrice}</td>
+                            <td style="font-size:12px">{!a.TotalPrice}</td>
+                        </tr>
+                    </apex:repeat>
+                </table><br/>
+                <table width ="100%">
+                    <tr>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"></td>
+                        <td style="width:15%;height:25px;font-size:12px;"></td>
+                        <td style="width:15%;height:25px;font-weight:bold;font-size:12px;"> </td>
+                        <td style="width:15%;height:25px;font-size:12px;"></td>
+                        <td style="width:20%;height:25px;font-weight:bold;font-size:12px;">{!totalAccessoriesLabel}</td>
+                        <td style="width:10%;height:25px;font-size:12px;">
+                            <apex:outputText value="{0, number, ###,###,###,##0.00}">
+                                <apex:param value="{!accessoriesTotalPrice}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </table>
+                
+                <br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Receipt Details</h1>
+                </div>
+                <br/>
+                <table width="100%" border="1" style="border-collapse:collapse;">
+                    <tr>
+                        <th style="font-size:12px;font-weight:bold;">Serial Number</th>
+                        <th style="font-size:12px;font-weight:bold;">Payment Mode</th>
+                        <th style="font-size:12px;font-weight:bold;">Cheque Number</th>
+                        <th style="font-size:12px;font-weight:bold;">Date</th>
+                        <th style="font-size:12px;font-weight:bold;">Receipt Number</th>
+                        <th style="font-size:12px;font-weight:bold;">Receipt Date</th>
+                        <th style="font-size:12px;font-weight:bold;">Favouring</th>
+                        <th style="font-size:12px;font-weight:bold;">Drawn on</th>
+                        <th style="font-size:12px;font-weight:bold;">Amount(Rs)</th>
+                    </tr>
+                    <!--<tr>
+                        <td style="font-size:12px">1</td>
+                        <td style="font-size:12px">Cash</td>
+                        <td style="font-size:12px">-</td>
+                        <td style="font-size:12px">-</td>
+                        <td style="font-size:12px">REC18001322</td>
+                        <td style="font-size:12px">07/09/2018</td>
+                        <td style="font-size:12px">-</td>
+                        <td style="font-size:12px">-</td>
+                        <td style="font-size:12px">11000.00</td>
+                    </tr>-->
+                    <apex:repeat value="{!receiptDetails}" var="row" >
+                        <tr>
+                            <apex:repeat value="{!row}" var="col">
+                                <td style="font-size:12px">{!col}</td>
+                            </apex:repeat>
+                        </tr>
+                    </apex:repeat>
+                </table>
+                
+                <br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Terms and Conditions</h1>
+                </div>
+                <br/>
+                <table width="100%">
+                    <tr>
+                        <td style="width:5%;height:25px;font-size:14px">1.</td>
+                        <td style="width:95%;height:25px;font-size:14px">I have provided the booking amount of Rs.{!oppRecord.Booking_Amount__c} of {!oppRecord.Variant__r.Family}/{!oppRecord.Variant__r.Name} of {!oppRecord.Color__r.Name} color</td>
+                    </tr>
+                    <apex:variable var="i" value="{!2}"/>
+                    <apex:repeat value="{!termsAndConditionsList}" var="a">
+                        <tr>
+                            <td style="width:5%;height:25px;font-size:14px">{!i}. <apex:variable var="i" value="{!i+1}"/></td>
+                            <td style="width:95%;height:25px;font-size:14px">{!a.Display_Text__c}</td>
+                        </tr>
+                    </apex:repeat>  
+                </table><br/><br/><br/><br/>
+                
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <div class="label-header" style="{!If(contains(currentUserChannel,'Arena'),'background-color:#1453A0','background-color:black')}">
+                    <h1>Customer Undertaking</h1>
+                </div>
+                <br/>
+                <table width="100%">
+                    <apex:repeat value="{!customerUndertakingList}" var="a">
+                        <tr>
+                            <td style="width:5%;height:25px;font-size:14px">{!a.MasterLabel}</td>
+                            <td style="width:95%;height:25px;font-size:14px">{!a.Display_Text__c}</td>
+                        </tr>
+                    </apex:repeat> 
+                    <tr>
+                        <td style="width:5%;height:25px;font-size:14px">3.</td>
+                        <td style="width:95%;height:25px;font-size:14px">All Pay order/Demand Draft should be in favour of {!oppRecord.Dealership__r.Name} payable at {!oppRecord.Dealership__r.BillingState}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:5%;height:25px;font-size:14px">4.</td>
+                        <td style="width:95%;height:25px;font-size:14px">I/We understand that any verbal commitment will not be honored</td>
+                    </tr>
+                </table>
+                <br/>
+                <table width="100%" border="1" style="border-collapse:collapse;">
+                    <tr>
+                        <th style="width:20%;font-size:12px;font-weight:bold;"></th>
+                        <th style="width:20%;font-size:12px;font-weight:bold;">DSE</th>
+                        <th style="width:20%;font-size:12px;font-weight:bold;">TL</th>
+                        <th style="width:20%;font-size:12px;font-weight:bold;">SM/GM</th>
+                        <th style="width:25%;font-size:12px;font-weight:bold;">Customer</th>
+                    </tr>
+                    <tr>
+                        <td style="width:20%;font-size:13px;font-weight:bold;">Name</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.Name}</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.Manager.Name}</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.Manager.Manager.Name}</td>
+                        <td style="width:25%;font-size:12px;">{!oppRecord.First_Name__c}&nbsp;{!oppRecord.Last_Name__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:20%;font-size:13px;font-weight:bold;">Unique Indentification Number</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.MSPIN__c} (MSPIN)</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.Manager.MSPIN__c} (MSPIN)</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.Manager.Manager.MSPIN__c} (MSPIN)</td>
+                        <td style="width:25%;font-size:12px;">{!oppRecord.SVOC_ID__c} (Customer Id)</td>
+                    </tr>
+                    <tr>
+                        <td style="width:20%;font-size:13px;font-weight:bold;">Mobile Number</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.MobilePhone}</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.Manager.MobilePhone}</td>
+                        <td style="width:20%;font-size:12px;">{!oppRecord.Owner.Manager.Manager.MobilePhone}</td>
+                        <td style="width:25%;font-size:12px;">{!oppRecord.Mobile__c}</td>
+                    </tr>
+                </table><br/>
+                <table width="100%">
+                    <tr>
+                        <td style="font-size:14px;font-style: italic">* This is an electronically generated document, signature is not required</td>
+                    </tr>
+                </table>
+            </div>
+        </body>
+        
+    </html>
+</apex:page>

@@ -1,0 +1,10 @@
+<aura:component implements="lightning:homeTemplate" description="Single column template for home page dashboards">
+    <aura:attribute name="center" type="Aura.Component[]" />
+    <div>
+        <lightning:layout>
+            <lightning:layoutItem flexibility="grow">
+                {!v.center}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

@@ -1,0 +1,228 @@
+<apex:page controller="GlasvezelRequestPdfController" renderAs="pdf" applyBodyTag="false" applyHtmlTag="false" showHeader="false" contentType="application/pdf">
+    <html>
+        
+        <head>
+            <style style="text/css" media="print">
+                @page{
+                margin-left:5px;
+                margin-right:5px;
+                
+                @bottom-left {
+                content: element(footer);
+                }
+                
+                }
+                
+                div.footer {
+                display:block;
+                font-family: Sans-Serif;
+                position: running(footer);
+                height:100px;
+                }
+                
+            </style>
+            
+        </head>
+        <body>
+            <div style="margin:35px;">
+                <table style="width:100%;table-layout: auto;border-collapse:collapse;font-size:13px;">
+                    
+                    <tr style="color:#3399ff;font-family: Sans-Serif;font-size:16px;">
+                        <th><center>SNEL</center></th>
+                        <th><center>SNELLER  </center></th>
+                        <th><center>RAZENDSNEL </center></th>
+                    </tr>
+                    <tr>
+                        <td id="column1" style="border:3px solid #009900;font-family: Sans-Serif; {!IF(objGlasvezelRequest.Cources__c == 'SNEL' , 'background-color:#FFFFE0' , 'background-color:#FFF')}">
+                            <center><br/>Downloadsnelheid<br/><span style="font-size:14px;"><b>100 Mbit/s</b><br/><br/></span>
+                                Uploadsnelheid<br/><span style="font-size:14px;"><b>100 Mbit/s</b><br/><br/></span>
+                                <apex:image width="150px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-snel.png')}"/><br/><br/>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Cources__c == 'SNEL',true,false)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle-second.png')}"/></apex:outputPanel>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Cources__c == 'SNEL',false,true)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle.png')}"/></apex:outputPanel></center><br/>
+                        </td>
+                        <td id="column2" style="border:3px solid  #009900;font-family: Sans-Serif;{!IF(objGlasvezelRequest.Cources__c == 'SNELLER' , 'background-color:#FFFFE0' , 'background-color:#FFF')}">
+                            <center><br/>Downloadsnelheid<br/><span style="font-size:14px;"><b>200 Mbit/s</b><br/><br/></span>
+                                Uploadsnelheid<br/><span style="font-size:14px;"><b>200 Mbit/s</b><br/><br/></span>
+                                <apex:image width="150px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-sneller.png')}"/><br/><br/>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Cources__c == 'SNELLER',true,false)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle-second.png')}"/></apex:outputPanel>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Cources__c == 'SNELLER',false,true)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle.png')}"/></apex:outputPanel></center><br/>
+                        </td>
+                        <td id="column3" style="border:3px solid  #009900;font-family: Sans-Serif; {!IF(objGlasvezelRequest.Cources__c == 'RAZENDSNEL' , 'background-color:#FFFFE0' , 'background-color:#FFF')}">
+                            <center><br/>Downloadsnelheid<br/><span style="font-size:14px;"><b>500 Mbit/s</b><br/><br/></span>
+                                Uploadsnelheid<br/><span style="font-size:14px;"><b>500 Mbit/s</b><br/><br/></span>
+                                <apex:image width="150px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-razendsnel.png')}"/><br/><br/>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Cources__c == 'RAZENDSNEL',true,false)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle-second.png')}"/></apex:outputPanel>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Cources__c == 'RAZENDSNEL',false,true)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle.png')}"/></apex:outputPanel></center><br/></td>
+                    </tr>  
+                </table><br/><br/>
+                
+                <center>
+                    <h4 style="color:#3399ff;font-size:16px;font-family: Sans-Serif;">
+                        GRATIS INBEGREPEN     
+                    </h4>
+                </center>
+                
+                <table style="font-family: Sans-Serif;border:3px solid #009900;width:100%;font-size:14px;">
+                    <tr>
+                        <td style="padding:10px;">
+                            <apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/><b>4G Back-up</b><br/><br/>
+                            <apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/><b>Installatie</b><br/>
+                        </td>
+                        <td style="padding:10px;">
+                            <apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/><b>Extra Veilig Internet</b><br/><br/>
+                            <apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/><b>Vast IP-adres</b><br/>   
+                        </td>
+                        <td style="padding:10px;">
+                            <apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/tickmark.png')}"/><b>WiFi router</b><br/><br/><br/><br/>
+                        </td>
+                    </tr>
+                </table><br/><br/>
+                
+                <div class="footer">
+                    <div style="color:#9D9D9D;font-family: Sans-Serif; font-size:15px;">
+                        <table width="100%">
+                            <tr>
+                                <td align="left" style="padding-top:15px;">Cloud ÉÉN B.V., P.J. Oudweg 41, 1314 CJ,Almere, service@cloud1.nl,085-486 5555</td>
+                                <td align="right"><img style="width:200px;" src="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/footerimage.png')}"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <center>
+                    <h4 style="color:#3399ff;font-size:16px;font-family: Sans-Serif;">
+                        KPN ÉÉN TV   
+                    </h4>
+                </center>
+                
+                <table style="font-family:Sans-Serif;border:3px solid #009900;width:100%;border-collapse:collapse;font-size:14px;">
+                    <tr>
+                        <td style="border:3px solid  #009900;">
+                            <span style="font-weight:bold;margin-left:10px;"><b>Standaard pakket </b></span><br/><br/>
+                            <span style="margin-left:10px;">•30+ HD tv-zenders<br/></span>
+                            <span style="margin-left:10px;">•14 regionale tv-zenders<br/></span>
+                            <span style="margin-left:10px;">•20+ radiozenders<br/><br/></span><br/>
+                            <center><apex:image width="145px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-pakket.png')}"/><br/>
+                            </center><br/><br/>
+                            <span style="margin-left:10px;">Aantal : {!objGlasvezelRequest.Aantal__c}<br/></span>
+                        </td>
+                        <td style="border:3px solid  #009900;">
+                            <center><span style="font-weight:bold;"><b>Fox Sports</b> </span><br/><br/>
+                                <apex:image width="90px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/fox-sports.png')}"/><br/><br/>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Fox_Sports__c == true,true,false)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle-second.png')}"/></apex:outputPanel>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Fox_Sports__c == true,false,true)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle.png')}"/></apex:outputPanel><br/><br/>
+                                <span style="font-weight:bold;"> <b>Ziggo Sports</b> </span> <br/><br/>
+                                <apex:image width="100px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/ziggo-sports.png')}"/><br/><br/>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Ziggo_Sports__c == true,true,false)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle-second.png')}"/></apex:outputPanel>
+                                <apex:outputPanel rendered="{!IF(objGlasvezelRequest.Ziggo_Sports__c == true,false,true)}"><apex:image width="23px;" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/circle.png')}"/></apex:outputPanel></center><br/>
+                        </td>
+                        <td style="border:3px solid  #009900;">
+                            <span style="font-weight:bold;margin-left:10px;"><b> Interactieve features</b><br/></span>
+                            <span style="margin-left:10px;">• Live tv pauzeren<br/></span>
+                            <span style="margin-left:10px;">• Opnemen<br/></span>
+                            <span style="margin-left:10px;">• Vooruit- en terugspoelen<br/></span>
+                            <span style="margin-left:10px;">• Begin gemist<br/></span>
+                            <span style="margin-left:10px;">• Uitzending terugkijken<br/><br/></span>
+                            <span style="font-weight:bold;margin-left:10px;"> Zakelijke features</span><br/>
+                            <span style="margin-left:10px;">• Tekstbalk voor eigen of<br/></span>
+                            <span style="margin-left:10px;">externe content<br/></span>
+                            <span style="margin-left:10px;">• Eigen video- en<br/></span>
+                            <span style="margin-left:10px;">informatiepagina<br/></span>
+                            <span style="margin-left:10px;">• Eigen logo in tv menu<br/><br/></span>
+                        </td>
+                    </tr>  
+                    
+                </table>
+                <br/><br/><br/><br/><br/><br/><div style="page-break-after: always;"></div>
+                
+                <h3 style="color:#009900;font-family: Sans-Serif;">UW GEGEVENS</h3>
+                
+                <table style="font-family:Sans-Serif;font-size:14px;">
+                    <tr>
+                        <td>Bedrijfsnaam</td>
+                        <td> : {!objGlasvezelRequest.Bedrijfsnaam__c}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>KvK nummer</td>
+                        <td> : {!objGlasvezelRequest.KvK_nummer__c}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>Aansluitadres</b> </td>
+                        <td> </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Straat</td>
+                        <td> : {!objGlasvezelRequest.Straat__c} </td>
+                        <td>Huisnummer</td>
+                        <td> : {!objGlasvezelRequest.Huisnummer__c}</td>
+                        <td>Toevoeging</td>
+                        <td> : {!objGlasvezelRequest.Huisnummer_toevoeging__c}</td>
+                    </tr>
+                    <tr>
+                        <td>Postcode</td>
+                        <td > : {!objGlasvezelRequest.Postcode__c}</td>
+                        <td>Plaats</td>
+                        <td > : {!objGlasvezelRequest.ShippingCity__c} </td>
+                    </tr>
+                    <tr>
+                        <td ><b>Contactpersoon</b></td>
+                        <td> </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Voornaam</td>
+                        <td > : {!objGlasvezelRequest.Voornaam_CP__c} </td>
+                        <td>Achternaam</td>
+                        <td > : {!objGlasvezelRequest.Achternaam_CP__c}</td>
+                    </tr>
+                    <tr>
+                        <td> E-mailadres</td>
+                        <td > : {!objGlasvezelRequest.E_mailadres_bedrijf__c} </td>
+                        <td> Telefoonnr</td>
+                        <td> : {!objGlasvezelRequest.Phone__c}</td>
+                    </tr>
+                    <tr>
+                        <td>IBAN</td>
+                        <td > : {!objGlasvezelRequest.Bankrekeningnummer__c}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table><br/>
+                
+                <p style="font-size:13px;font-family: Sans-Serif;">
+                    Door ondertekening gaat u akkoord met de voorwaarden. Daarnaast machtigt u Cloud ÉÉN om maandelijks de abonnementskosten automatisch van uw rekening af te schrijven. Genoemde prijzen zijn exclusief BTW. De contracttermijn bedraagt 36 maanden en is daarna per maand opzegbaar. 
+                </p>
+                <br/>
+                <table style="font-family:Sans-Serif;font-size:14px;" width="100%">
+                    <tr >
+                        <td width="35%"><apex:outputText value="{0,date,dd-MM-yyyy HH:mm}" >
+                            Datum : <apex:param value="{!NOW()+0.08334}"/>  
+                            </apex:outputText></td>
+                        <td width="20%" align="right">Handtekening : </td>
+                        <td width="45%" height="auto"> <apex:image url="/servlet/servlet.FileDownload?file={!objAttachment.id}"/></td>
+                    </tr>
+                </table>
+            </div>  
+            
+            <div class="footer">
+                <div style="color:#9D9D9D;font-family: Sans-Serif; font-size:15px;">
+                    <table width="100%">
+                        <tr>
+                            <td align="left" style="padding-top:15px;">Cloud ÉÉN B.V., P.J. Oudweg 41, 1314 CJ,Almere, service@cloud1.nl,085-486 5555</td>
+                            <td align="right"><img  src="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/footerimage.png')}"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </body>
+        
+    </html>
+</apex:page>

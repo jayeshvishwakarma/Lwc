@@ -1,0 +1,13 @@
+<design:component >
+    <design:attribute name="emiPremium" label="EMI Premium" />
+    <design:attribute name="financeAmt" label="Finance Amount" />
+    
+    <design:attribute name="emiRate" label="EMI Rate" />
+    <design:attribute name="emiTenure" label="Loan Tenure" />
+    <design:attribute name="downpayment" label="Downpayment" />
+    
+    <design:attribute name="enquitryId" label="Enquiry Id" />
+    <design:attribute name="financierId" label="Financier Id"/>
+    <design:attribute name="financierName" label="Financier Name"/>
+    <design:attribute name="showFinancier" label="Show or Hide Financier"/>
+</design:component>

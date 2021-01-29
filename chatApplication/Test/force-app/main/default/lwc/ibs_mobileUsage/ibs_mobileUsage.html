@@ -1,0 +1,25 @@
+<template>
+    <template if:true={showSpinner}>
+        <lightning-spinner variant="brand"></lightning-spinner>
+    </template>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-p-top_small slds-p-right_large">
+            <lightning-button class="slds-button slds-button_neutral btn-css slds-float_right " variant="base"
+                type="button" label="Ververs Mobiel Verbruik" onclick={onHandleRefersh}>
+            </lightning-button>
+        </div>
+    </div>
+    <!-- <c-ibs_read-only-related-list object-name='Mobile_Usage__c'
+        fields-api-name='Totale_verbruikskosten__c,Groepsbundel__c,Groepsbundel_verbruikt__c,Groepsbundel_totaal__c'
+        related-list-title='Totaal verbruik' icon-name='custom:custom11' design='Lightning theme'
+        paretn-field-api-name='Account__c' parent-type={parentType} record-id={recordId} not-algin-rigth-value="true"
+        formual-fld1='Groepsbundel_totaal__c,Groepsbundel_verbruikt__c'></c-ibs_read-only-related-list> -->
+    <c-ibs_totaal-verbruik-cmp record-id={recordId} parent-type={parentType}></c-ibs_totaal-verbruik-cmp>
+    <c-ibs_read-only-related-list object-name='Mobile_Usage__c'
+        fields-api-name='Phone_Number__c,Amount__c,Nationaal_Data_MB__c,Nationaal_Data_MB_Perc__c,Nationaal_Voice_Min__c,Nationaal_Voice_verbruikt__c,Abonnement__c'
+        related-list-title='Abonnementen' icon-name='custom:custom67' design='Lightning theme'
+        paretn-field-api-name='Portering_mobiel__r.Account__c' parent-type={parentType} record-id={recordId}
+        formual-fld1='Nationaal_Data_MB__c,Nationaal_Data_MB_Perc__c'
+        formual-fld2='Nationaal_Voice_Min__c,Nationaal_Voice_verbruikt__c' is-sortable="true" table-height="400px">
+    </c-ibs_read-only-related-list>
+</template>

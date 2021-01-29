@@ -1,0 +1,131 @@
+<apex:page standardController="Account" extensions="SuppliersViewController" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <title>Salesforce Lightning Design System Trailhead Module</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <script
+            src="https://code.jquery.com/jquery-3.4.0.min.js"
+            integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+            crossorigin="anonymous"></script>
+            <!-- Import the Design System style sheet -->
+            <apex:slds />
+            <style>
+                .Green{
+                background-color: #d9ffdf !important;
+                }
+                .Yellow{
+                background-color: #faffbd !important;
+                }                
+                .Red{
+                background-color: #d4504c !important;
+                color:#FFF !important;
+                }
+                .supplier-heading{
+                    font-weight: bold;
+                    font-size: 1rem;
+                    color: #42559a;
+                }
+            </style>
+            
+            <script>
+            
+            
+            function reloadParent(id){
+                //window.top.location.href = '/' + id;
+            }
+
+            </script>
+            
+        </head>
+        <body>
+          
+            <div class="slds-scope" style="width:90%">
+            
+                <apex:form id="frm">
+                <apex:actionFunction name="callApiMethod" action="{!callZipcodeApi}" status="status" reRender="frm"/>
+                <apex:commandButton status="status" value="Zakelijk Premium" styleClass="slds-button slds-button_brand slds-m-bottom_xx-small" action="{!setBusinessType}" reRender="frm" oncomplete="callApiMethod();return false;">
+                    <apex:param name="connType1" value="Business" assignTo="{!connTypeParam}"/>
+                </apex:commandButton>
+                <apex:commandButton status="status" value="Zakelijk Entry" styleClass="slds-button slds-button_brand slds-m-bottom_xx-small" action="{!setBusinessType}" reRender="frm" oncomplete="callApiMethod();return false;">
+                    <apex:param name="connType2" value="SMB" assignTo="{!connTypeParam}"/>
+                </apex:commandButton>
+                <apex:commandButton status="status" value="Thuiswerker" styleClass="slds-button slds-button_brand slds-m-bottom_xx-small" action="{!setBusinessType}" reRender="frm" oncomplete="callApiMethod();return false;">
+                    <apex:param name="connType3" value="Teleworker" assignTo="{!connTypeParam}"/>
+                </apex:commandButton>
+                <apex:actionFunction status="status" name="refreshArea" rerender="frm"/>
+                <apex:actionStatus id="status" startText="Processing..." startStyle="background-color:#d9ffdf;color:rgb(81, 79, 77);padding: 5px;margin-left: 5px"></apex:actionstatus>
+                <button class="slds-button slds-button_icon slds-button_icon-brand" style="margin-bottom:.25rem;float:right" onclick="refreshArea();return false;">
+                    
+<svg class="slds-button__icon" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" 
+    xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+</svg>
+<span class="slds-assistive-text">Search</span>
+
+                </button>
+                <div style="float:right">
+                <button class="slds-button slds-button_destructive" disabled="true" style="float:right;background-color:#d9ffdf;color:rgb(81, 79, 77);border-color:#d9ffdf;">{!connectivitytype}</button>
+                <br/><span style="font-size:.6rem">Huidige selectie</span>
+                </div>
+                
+                
+                
+                <apex:outputPanel style="background-color:rgba(35, 4, 7, 0.42);margin-top:1rem;" id="suppliersarea" layout="block">
+                    
+                        <apex:repeat value="{!suppliers}" var="supplier">
+                            
+                                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-bottom_medium" >
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <th class="" scope="col" width="20%">
+                                                        <div class="slds-truncate supplier-heading">{!supplier.name}</div>
+                                                    </th>
+                                                    <th class="" scope="col" width="20%">
+                                                        <div class="slds-truncate" >BESCHIKBAARHEID</div>
+                                                    </th>
+                                                    <th class="" scope="col" >
+                                                        <div class="slds-truncate" >OMSCHRIJVING</div>
+                                                    </th>
+                                                    <th style="text-align:right" class="" scope="col" >
+                                                        <div class="slds-truncate" >PRIJS INCL ROUTER EN INSTALLATIE </div>
+                                                    </th>
+                                                    <th class="" scope="col" >
+                                                        <div class="slds-truncate" >MOOIE VERBINDING! </div>
+                                                    </th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <apex:repeat value="{!supplier.Available_Speeds__r}" var="speed">
+                                                    
+                                                    <tr class="slds-hint-parent">
+                                                        <th scope="row">
+                                                            <div class="slds-truncate" >{!speed.Technology__c}</div>
+                                                        </th>
+                                                        <td >
+                                                            <div class="slds-truncate" ><span class="slds-badge {!speed.Availability__c}">{!speed.Availability__c}</span></div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="slds-truncate" >{!speed.Description__c}</div>
+                                                        </td>
+                                                        <td style="text-align:right">
+                                                            <div class="slds-truncate" >{!speed.Prijs_per_maand_incl_managed_router__c}</div>
+                                                        </td>
+                                                     <td>
+                                                            <div class="slds-truncate" >{!speed.Selected_Technology__c}</div>
+                                                        </td>
+                                                    </tr>
+                                                </apex:repeat>
+                                            </tbody>
+                                        </table>
+                                   
+                        </apex:repeat>
+                </apex:outputPanel> 
+                </apex:form>
+            </div>
+          
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,7 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:isUrlAddressable" >
+   <aura:attribute name="recordId" type="String" />
+   <aura:attribute name="parentRecordId" type="String" />
+   <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>  
+   <lightning:workspaceAPI aura:id="workspace"/>
+     <c:createCase caseId="{!v.recordId}" parentRecordId="{!v.parentRecordId}" onclose="{!c.closeModel}"/>
+</aura:component>

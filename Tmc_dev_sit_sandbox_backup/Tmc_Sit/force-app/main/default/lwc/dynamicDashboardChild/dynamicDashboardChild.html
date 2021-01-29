@@ -1,0 +1,22 @@
+<template>
+
+
+
+    <div class="slds-p-around_medium slds-box">
+        <div if:true={loading}>
+            <lightning-spinner title="Loading..." size="small" variant="inverse"></lightning-spinner>
+        </div>
+            <div class="slds-align_absolute-center slds-p-bottom_medium " style="height:5rem">{dashBoardTitleMessage}
+            </div>
+            <div class="slds-align_absolute-center slds-p-around_medium slds-scrollable_x" style="font-size: 30px;color: green;">
+
+                {recordCount}
+			</div>
+
+            <span class="slds-text-link_faux" style="color: blue" onclick={navigateToRecordViewPage}>View Report</span>
+        </div>
+
+    
+
+
+</template>

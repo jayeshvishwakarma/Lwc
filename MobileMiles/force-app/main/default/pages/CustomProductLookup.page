@@ -1,0 +1,38 @@
+<apex:page controller="CustomProductLookupController" showHeader="false">
+    <head>
+        <script>
+            function selectPro(proid,proName){
+                 window.opener.passPro(proid,proName);
+                 window.close();
+            }
+        </script>
+        <style>
+            .atag{
+                cursor : pointer;
+            }
+        </style>
+    </head>
+    <apex:form >
+        <apex:pageBlock title="Search Results">
+            <apex:pageBlockSection columns="1">
+                <apex:outputPanel layout="none">
+                    <apex:inputText value="{!searchedVal}"/>
+                    <apex:commandButton value="Go!" action="{!searchProduct}"/> 
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="1">
+                <apex:outputPanel layout="block" style="overflow-y:scroll;width:100%;height:400px" >  
+                    <apex:pageBlockTable value="{!productList}" var="product">
+                        <apex:column headerValue="Product Name">
+                            <a class="atag" onclick="selectPro('{!product.Id}','{!product.Name}');">{!product.Name}</a>
+                        </apex:column> 
+                        <apex:column headerValue="Product Code" value="{!product.productCode}"/>
+                        <apex:column headerValue="Product Description" value="{!product.Description}"/> 
+                        <apex:column headerValue="Product Family" value="{!product.Family}"/>   
+                        <apex:column headerValue="Product Price" value="{!productPriceMap[product.Id]}"/> 
+                    </apex:pageBlockTable> 
+                </apex:outputPanel>  
+            </apex:pageBlockSection>
+        </apex:pageBlock> 
+    </apex:form>    
+</apex:page>

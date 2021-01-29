@@ -1,0 +1,29 @@
+<template>
+
+    <lightning-spinner if:true={isSpinner} variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
+
+    <div class="container">
+        <!-- FIRST SCREEN  -->
+        <template if:false={processOrderScreen}>
+            <!-- MOBILE VIEW -->
+            <template if:true={hasMobileDevice}>
+                <c-products-on-mobile-mode products={allProducts} brands={allBrands}
+                    onselectedproducts={handleUserSelection} onselectbrand={handleSelectedBrand}>
+                </c-products-on-mobile-mode>
+            </template>
+            <!-- DESKTOP VIEW -->
+            <template if:false={hasMobileDevice}>
+                <c-add-products products={allProducts} brands={allBrands} onselectedproducts={handleUserSelection}
+                    onselectbrand={handleSelectedBrand}>
+                </c-add-products>
+            </template>
+        </template>
+
+        <!-- SECOND SCREEN  -->
+        <template if:true={processOrderScreen}>
+            <c-place-order></c-place-order>
+        </template>
+
+    </div>
+
+</template>

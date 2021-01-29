@@ -1,0 +1,7 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="suzukiConnectAssetDetails" ref="suzukiConnectAssetDetails" label="Label">
+		This cmp is used to fetch the Asset Details(API callout) and we have have given the option to 
+		create Complaint case related to Suzuki Connect
+	</aura:example>
+</aura:documentation>

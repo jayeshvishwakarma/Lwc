@@ -1,0 +1,8 @@
+.slds-transition-hide{
+    transition: opacity 1s;
+}
+.custom-carouselTitle{
+    font-weight: 700;
+    color: rgb(0, 138, 0);
+    font-size: 22px;
+}

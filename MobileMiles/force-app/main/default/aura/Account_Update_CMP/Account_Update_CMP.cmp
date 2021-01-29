@@ -1,0 +1,11 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" controller="AccountLtngController">
+
+    <aura:attribute name="accRecordId" type="Id" default="{!v.recordId}"/>
+    <aura:attribute name="action" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.updateRecord}"/>
+    <div class="exampleHolder">
+        <lightning:spinner alternativeText="Loading" size="small" />
+        
+    </div>
+    <h1>Updation in progress...</h1>
+</aura:component>

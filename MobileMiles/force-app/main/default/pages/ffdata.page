@@ -1,0 +1,5 @@
+<apex:page standardController="Account">
+    <apex:repeat value="{!Account.c2g__Invoices__r}" var="inv">
+        {!inv.id}
+    </apex:repeat>
+</apex:page>

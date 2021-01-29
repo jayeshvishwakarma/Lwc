@@ -1,0 +1,49 @@
+<template>
+    <!--<div class="slds-page-header communitySectionColor headerInfo">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-task" title="Do Not Call Request">
+                            <lightning-icon icon-name="standard:case" alternative-text="Approved">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Do Not Call Request</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate"
+                                        title="Do Not Call Request">Do Not Call Request</span>
+                                </h1>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div>
+        <h2 class="header-style">Do Not Call Request</h2>
+        <hr>
+    </div>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-2">
+            <lightning-input class="left-side-style" autocomplete="off" max-length=10 min-length=10 onchange={handleFieldUpdate} onpaste={handlePaste} onkeypress={restrictAlphabets} 
+            value={mobile} type="tel" label="Mobile Number" name="Mobile_Number__c" placeholder="" 
+            required message-when-too-short={phoneNumError}></lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+            <lightning-textarea class="right-side-style" autocomplete="off" onchange={handleFieldUpdate} value="" name="Description" label="Description" ></lightning-textarea>
+        </div>
+    </div>
+    <footer class="slds-p-vertical_large slds-align_absolute-center">
+        <button class="slds-button slds-button_neutral" onclick={cancel}>Back</button>
+        <button class="slds-button slds-button_brand" onclick={submitRequest}>Submit</button>
+    </footer>
+    <div if:true={loadSpinner}>
+        <lightning-spinner variant="brand" alternative-text="Loading"></lightning-spinner>
+    </div>
+</template>

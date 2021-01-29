@@ -1,0 +1,424 @@
+<template>
+
+    <c-lookup-container>
+
+        <div class="slds-p-around_small">
+
+            <div class="slds-page-header">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-task" title="Appointment">
+                                    <lightning-icon icon-name="custom:custom31" alternative-text="Appointment">
+                                    </lightning-icon>
+                                    <span class="slds-assistive-text">Appointment</span>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate">{componentName}</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+
+            <template if:true={errorMessage}>
+                <div class="slds-text-color_destructive slds-p-vertical_large">{errorMessage}</div>
+            </template>
+
+            <template if:true={successMessage}>
+                <div class="slds-text-color_success slds-p-vertical_large">{succesContent}</div>
+            </template>
+
+            <template if:true={cmpVisible}>
+              <!--<div if:true={loaded}></div>-->
+                <div class="slds-form" role="list">
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Information">
+                                Information</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content">
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <label class="slds-form-element__label">Customer Name</label>
+                                        <div class="slds-form-element__control">{account.Name}</div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-input type="date" name='Due_Date__c' label="Vehicle Service Due Date"
+                                            value={workOrder.Due_Date__c} onchange={handleFieldUpdate} readonly>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="Status" label="Status" value={workOrder.Status}
+                                            placeholder="Select An Option" options={statusOptions.data.values}
+                                            if:true={statusOptions.data} onchange={handleFieldUpdate} required
+                                            read-only=true> <!--read-only={readOnly-->
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                                <!--///////////////////////for Community users////////////////////////////////////-->
+                                <div class="slds-form__item" role="listitem" if:true={partnerUser}>
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="Appointment_Type__c" label="Appointment Type"
+                                            value={workOrder.Appointment_Type__c} placeholder="Select An Option"
+                                            options={appointmentTypeOptions.data.values}
+                                            if:true={appointmentTypeOptions.data} onchange={handleFieldUpdate} required>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                                <!--/////////////////////////for Internal Users///////////////////////////////////-->
+                                <div class="slds-form__item" role="listitem" if:false={partnerUser}>
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="Appointment_Type__c" label="Appointment Type"
+                                        value={workOrder.Appointment_Type__c} placeholder="Select An Option"
+                                        options={appointmentTypeOptions.data.values}
+                                        if:true={appointmentTypeOptions.data} onchange={handleFieldUpdate} required>
+                                    </lightning-combobox>
+                                    </div>
+                                </div>
+                                <!--///////////////////////////////////////////////////////////////////////////////-->
+
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="Service_Type__c" label="Service Type"
+                                            value={workOrder.Service_Type__c} placeholder="Select An Option"
+                                            options={serviceTypeOptions.data.values} if:true={serviceTypeOptions.data}
+                                            onchange={handleFieldUpdate} required>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                                <!-- Will Contain Workshop data for Internal Userss(only when call from Asset obj)-->
+                                <div class="slds-form__item" role="listitem" if:false={showAssetForSelection}>
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-input  class="customRequired" type="text" label="Asset" value={autoAssetName} disabled>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <!-- Will Contain Workshop data for Internal Userss(only when call from Account obj) and for community Users-->
+                                <div class="slds-form__item" role="listitem" if:true={showAssetForSelection}>
+                                    <div class="slds-combobox__form-element slds-input-has-icon 
+                                    slds-input-has-icon_left-right">
+                                        <template if:false={asset}>
+                                            <c-search-component name="AssetId" label="Asset"
+                                                onchange={handleAssetSearch} place-holder-name="Search Asset"
+                                                class="customRequired" onclick={handleAssetSearch}>
+                                            </c-search-component>
+                                        </template>
+                                        <template if:false={asset}>
+                                            <div if:true={assetSearchResultList}>
+                                                <div for:each={assetSearchResultList} for:item="record" key={record.Id}>
+                                                    <c-record-list key={record.Id} record={record}
+                                                        onselect={handleSelect} iconname="standard:product">
+                                                    </c-record-list>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template if:true={asset}>
+                                            <label class="slds-form-element__label customRequired">Asset</label>
+                                            <input class="slds-input slds-combobox__input
+                                   slds-combobox__input-value" id="combobox-id-5" aria-controls="listbox-id-5"
+                                                autocomplete="off" role="textbox" type="text"
+                                                placeholder="Select an Option" readonly={assetData} value={asset.Name}
+                                                disabled />
+                                            <button class="sicon_container slds-button slds-button_icon 
+                                                    slds-input__icon slds-input__icon_right"
+                                                title="Remove selected option"
+                                                style="margin-right: 0.6%; margin-top: -1.5%;" onclick={handleRemove}>
+                                                <lightning-icon icon-name="utility:close" size="small" if:false={assetData}
+                                                    style="margin-top: inherit;"></lightning-icon>
+                                                <span class="slds-assistive-text">Remove selected option</span>
+                                            </button>
+                                        </template>
+                                        <!--<c-lookup-input-field key={workOrder.AssetId} data-field-name={workOrder.AssetId} custom-key={workOrder.AssetId}
+                                            object-name="Asset" label="Asset" value={workOrder.AssetId}
+                                            is-mobile={mobileFormFactor} is-custom-search
+                                            oncustomsearch={handleCustomSearch} onchange={handleValueChange}
+                                            >
+                                        </c-lookup-input-field>-->
+                                        <!--<lightning-combobox name="AssetId" label="Asset" value={workOrder.AssetId}
+                                            placeholder="Select An Option" options={assetOptions}
+                                            onchange={handleFieldUpdate} required>
+                                        </lightning-combobox>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-is-editing">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr>Appointment Date time
+                                        </label>
+                                        <lightning-input type="datetime" name='Appointment_Datetime__c'
+                                            label="Appointment Date time" value={workOrder.Appointment_Datetime__c}
+                                            variant="label-hidden" disabled={readOnlyValue} min={currentDate} max={maxAppointmentDays} onchange={handleFieldUpdate}
+                                            required>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-input type="number" name="Mileage__c" label="Odometer Reading"
+                                            value={workOrder.Mileage__c} placeholder="Enter Odometer Reading"
+                                            onchange={handleFieldUpdate} required autocomplete="off">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+                            <!-- Will Contain Workshop data for Internal Userss-->
+                            <a onclick={handleWorkshopLink} if:false={partnerUser} style="font-size:15px;color:red">*Click here to select the workshop</a>
+                            <a onclick={handleWorkshopLink} if:false={isPartnerUser}>Click here to change the workshop</a>
+                            <template if:true={isModalOpen}>
+                                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                    <div class="slds-modal__container">
+                                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                            <c-for-Code-Workshop-List-Internal appointment-cmp='true' onforclose={closeForCodeModal} forcodeinternallist={forCodeList} recordid={recordId} ondealeridchange={handleInternalDealerIDChange}></c-for-Code-Workshop-List-Internal>
+                                        </div>
+                                    </div>
+                                </section>
+                                <div class="slds-backdrop slds-backdrop_open"></div>
+                            </template>
+                            <div if:false={isPartnerUser} class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+                                <div class="slds-col">
+                                    <lightning-input class="customRequired" type="text" label="Workshop" if:true={fieldVisible} value={internaldealerdata.Name} data-id="isBlank" disabled >
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <!--////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+                            <!-- Will Contain Workshop data for Partner users/Community-->
+                            <div class="slds-form__row" if:true={showCommunityWorkshopField}> 
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="WorkShopId" label="Workshop"
+                                            value={workOrder.Workshop__c} placeholder="Select An Option"
+                                            options={workshopOptions} required onchange={fetchWorkShopId}
+                                            readonly={workshopVisible}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-p-top_xx-small slds-p-bottom_small" if:true={selectedSA}>
+                                Selected SA: <i><b>{SaName}</b></i> <br />
+                                Selected Slot: <i><b>{slotCode}</b></i> <br />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div if:true={assetWorkShop}>
+                    <c-sa-allocation work-order={workOrder} asset={asset} user-dealer-emp-code={userDealerEmpCode}
+                    user-profilr-id={userProfileId} onselect={handleSASelection}>
+                    </c-sa-allocation>
+                </div>
+
+
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade slds-p-horizontal_small">
+                        <lightning-input type="checkbox" name="showPickupDropSection" label="Pickup & Drop Detail"
+                            variant="label-hidden" value={showPickupDropSection} checked={showPickupDropSection}
+                            onchange={handleShowPickupDropSectionChange}>
+                        </lightning-input>
+                        Pickup & Drop Detail
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <div class="slds-form__row" if:true={showPickupDropSection}>
+                            <div class="slds-form__item slds-size_1-of-1 slds-p-vertical_xx-small">
+                                <div class="slds-form-element slds-is-editing">
+                                    <label class="slds-form-element__label">Pickup Type</label>
+                                    <div class="slds-button-group" role="group">
+                                        <button class={pickupBtnCls} onclick={handlePickupSelect}>Pickup</button>
+                                        <button class={dropBtnCls} onclick={handleDropSelect}>Drop</button>
+                                        <button class={pickupDropBtnCls} onclick={handlePickupDropSelect}>Pickup &
+                                            Drop</button>
+                                        <button class={mmsBtnCls} onclick={handleMMSSelect}>MMS/SOW</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" if:true={showPickupInput}>
+                                <div class="slds-form-element slds-is-editing">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr>Pickup Date time</label>
+                                    <lightning-input type="datetime" name='Pickup_Datetime__c' label="Pickup Date time"
+                                        value={workOrder.Pickup_Datetime__c} variant="label-hidden" min={minPickupDate}
+                                        max={workOrder.Appointment_Datetime__c} onchange={handleFieldUpdate} required>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" if:true={showDropInput}>
+                                <div class="slds-form-element slds-is-editing">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr>Drop Date time</label>
+                                    <lightning-input type="datetime" name='Drop_Datetime__c' label="Drop Date time"
+                                        value={workOrder.Drop_Datetime__c} variant="label-hidden" min={workOrder.Pickup_Datetime__c}
+                                        onchange={handleFieldUpdate} required>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form__item" role="listitem" if:true={showPickupInput}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-combobox name="Driver" label="Pickup Driver" value={workOrder.empCode}
+                                        placeholder="Select An Option" options={driverOptions} required
+                                        onchange={handleDriverUpdate} readonly={isVisible}
+                                        message-when-value-missing="Complete this field/There is no Driver for the selected Workshop">
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" if:true={showPickupInput}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <!--<c-lookup-input-field data-name='Pickup_Location__c'
+                                        data-code-field-name="Location_Code__c" object-name="Pickup_Location__c"
+                                        label="Pickup Location" oncustomsearch={handleCustomSearch}
+                                        onchange={handleFieldUpdate} is-custom-search required>
+                                    </c-lookup-input-field>-->
+                                    <lightning-combobox name="pickupLoc" label="Pickup Location"
+                                        value={workOrder.Pickup_Location__c} placeholder="Select An Option"
+                                        options={locationOptions} required readonly={picLocVisible}
+                                        message-when-value-missing="Complete this field/There is no Pickup Location available for the selected Workshop"
+                                        onchange={handlePickUpLOcUpdate}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" if:true={showDropInput}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <!--<c-lookup-input-field data-name='Drop_Location__c'
+                                        data-code-field-name="Location_Code__c" object-name="Pickup_Location__c"
+                                        label="Drop Location" oncustomsearch={handleCustomSearch}
+                                        onchange={handleFieldUpdate} is-custom-search required>
+                                    </c-lookup-input-field>-->
+                                    <lightning-combobox name="DropLoc" label="Drop Location"
+                                        value={workOrder.Drop_Location__c} placeholder="Select An Option"
+                                        options={locationOptions} required readonly={dropLocVisible}
+                                        message-when-value-missing="Complete this field/There is no Drop Location available for the selected Workshop"
+                                        onchange={handlePickUpLOcUpdate}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" if:true={showDropInput}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-combobox name="DropDriver" label="Drop Driver"
+                                        value={workOrder.dropEmpCode} placeholder="Select An Option"
+                                        options={driverOptions} required onchange={handleDriverUpdate}
+                                        readonly={isVisible}
+                                        message-when-value-missing="Complete this field/There is no Driver for the selected Workshop">
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" if:true={isMMSAppType}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <!--<c-lookup-input-field data-name='MMS_Vehicle__c' object-name="MMS_Vehicle__c"
+                                        label="Vehicle" oncustomsearch={handleCustomSearch} onchange={handleFieldUpdate}
+                                        is-custom-search required>
+                                    </c-lookup-input-field>
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing slds-text-color_error" if:false={workOrder.Workshop__c}>
+                                        {mmsWorkshop}
+                                    </div>
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing slds-text-color_error" if:true={mmsRecVisible}>
+                                        {mmsVehicleError}
+                                    </div>-->
+                                    <lightning-combobox name="MMS_Vehicle__c" label="Vehicle"
+                                        value={workOrder.MMS_Vehicle__c} placeholder="Select MMS/SOW Vehicle"
+                                        options={mmsVehicleOpt} required
+                                        message-when-value-missing={mmsVehicleError}
+                                        onchange={handleFieldUpdate}>
+                                    </lightning-combobox>
+                                </div>
+                             </div>
+                             
+                            <div class="slds-form__item slds-size_1-of-1" if:true={showPickupInput}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-textarea name="Pickup_Address__c" label="Pickup Address"
+                                        placeholder="Please enter Pickup Address" value={workOrder.Pickup_Address__c}
+                                        onchange={handleFieldUpdate} required>
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+                            <div class="slds-form__item slds-size_1-of-1" if:true={isPickupDropAppType}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-input type="checkbox" label="Drop Address Is Same As Pickup Address"
+                                        value={isDropAddSameAsPickup} checked={isDropAddSameAsPickup}
+                                        onchange={handleDropAddSameAsPickupChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-form__item slds-size_1-of-1" if:true={showDropInput}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-textarea name="Drop_Address__c" label="Drop Address"
+                                        placeholder="Please enter Drop Address" value={workOrder.Drop_Address__c}
+                                        onchange={handleFieldUpdate} disabled={disableDropAddressInput} required>
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+                            <div class="slds-form__item slds-size_1-of-1" if:true={isMMSAppType}>
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-textarea name="Address__c" label="Address"
+                                        placeholder="Please enter Address" value={workOrder.Address__c}
+                                        onchange={handleFieldUpdate} required>
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Other Information">
+                            Other Information</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <div class="slds-form__row">
+                            <div class="slds-form__item">
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-input name='Subject' type="Text" label="Subject"
+                                        value={workOrder.Subject} onchange={handleFieldUpdate}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item">
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-textarea label="Comments" name="Description" onchange={handleFieldUpdate}
+                                        value={workOrder.Description} required={showPickupDropSection}>
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="slds-p-vertical_large slds-align_absolute-center">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleSave}>{componentName}</button>
+                </footer>
+
+            </template>
+
+        </div>
+
+    </c-lookup-container>
+
+</template>

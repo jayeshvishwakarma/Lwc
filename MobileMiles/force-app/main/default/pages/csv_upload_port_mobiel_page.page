@@ -1,0 +1,40 @@
+<apex:page sidebar="false" docType="html-5.0" showHeader="true" standardController="Quote" extensions="CsvUploadPortMobielController" >
+    
+    <apex:form >
+         <apex:slds />
+       	<div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-file" title="file">
+                                   <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                                       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#file')}"></use>
+                                    </svg>
+                            </span>
+                            
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate" title="">Import CSV</span>
+                                    </h1>
+                                </div>
+                            </div>
+                            <p class="slds-page-header__name-meta">Portering mobiel</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><br/>
+         <apex:pagemessages />
+        <apex:pageBlock title="Please select a file">
+            <apex:pageBlockSection columns="1"> 
+                <apex:inputFile value="{!csvFileBody}"  filename="{!csvAsString}"/>
+                <apex:commandButton value="Import Data" action="{!importCSVFile}" styleClass="slds-button slds-button_brand"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+    </apex:form>
+</apex:page>

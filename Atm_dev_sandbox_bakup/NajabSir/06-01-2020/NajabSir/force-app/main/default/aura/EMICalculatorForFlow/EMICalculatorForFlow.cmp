@@ -1,0 +1,26 @@
+<aura:component implements="lightning:availableForFlowScreens,force:hasRecordId" access="global" >
+    <aura:attribute name="emiPremium" type="Decimal"/>
+    <aura:attribute name="financeAmt" type="Decimal"/>
+    
+    <aura:attribute name="emiRate" type="Decimal"/>
+    <aura:attribute name="emiTenure" type="string"/>
+    <aura:attribute name="downpayment" type="Decimal"/>
+    
+    <aura:attribute name="enquitryId" type="string"/>
+    <aura:attribute name="financierId" type="string"/>
+    <aura:attribute name="financierName" type="string"/>
+    <aura:attribute name="showFinancier" type="Boolean" default="true" description="Show Or Hide Financier Lookup"/>
+    
+    <c:eMICalculatorCmp recordId="{!v.enquitryId}" 
+                        financeAmount="{!v.financeAmt}"
+                        emiRate="{!v.emiRate}"
+                        emiTenure="{!v.emiTenure}"
+                        downpayment="{!v.downpayment}"
+                        financierName="{!v.financierName}"
+                        financierId="{!v.financierId}"
+                        showFinancier="{!v.showFinancier}"
+                        onFinancierSelect="{!c.selectFinancier}" 
+                        onemiCalculated="{!c.handleEmiCalc}"
+                        onprevious="{!c.handlePrevious}"
+                        onnext="{!c.handleNext}"/>
+</aura:component>

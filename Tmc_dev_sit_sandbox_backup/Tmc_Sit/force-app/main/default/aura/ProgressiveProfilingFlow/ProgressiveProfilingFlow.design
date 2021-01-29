@@ -1,0 +1,6 @@
+<design:component>
+    <design:attribute name="recordId" label="Record Id" description="Customer Profile Record Id" />
+	<design:attribute name="record" label="Record" description="Customer Profile Record" />
+    <design:attribute name="screenDecision" label="Screen Decision" description="Make Screen Decision" />
+    
+</design:component>

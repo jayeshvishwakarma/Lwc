@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Commercial_Opportunities</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share all commercial opportunities with Commercial BDMS</description>
+        <label>Commercial Opportunities</label>
+        <sharedTo>
+            <group>Commercial_BDM</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Roofing Project</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_10104</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 10104</description>
+        <label>Opp Sharing Rule 10104</label>
+        <sharedTo>
+            <group>Shared_Territory_10104</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_10104</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_1102</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 1102</description>
+        <label>Opp Sharing Rule 1102</label>
+        <sharedTo>
+            <group>Shared_Territory_1102</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_1102</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_2105</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 2105</description>
+        <label>Opp Sharing Rule 2105</label>
+        <sharedTo>
+            <group>Shared_Territory_2105</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_2105</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_2109</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 2109</description>
+        <label>Opp Sharing Rule 2109</label>
+        <sharedTo>
+            <group>Shared_Territory_2109</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_2109</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_3101</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 3101</description>
+        <label>Opp Sharing Rule 3101</label>
+        <sharedTo>
+            <group>Shared_Territory_3101</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_3101</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_4100</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 4100</description>
+        <label>Opp Sharing Rule 4100</label>
+        <sharedTo>
+            <group>Shared_Territory_4100</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_4100</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_4102</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 4102</description>
+        <label>Opp Sharing Rule 4102</label>
+        <sharedTo>
+            <group>Shared_Territory_4102</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_4102</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_4109</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 4109</description>
+        <label>Opp Sharing Rule 4109</label>
+        <sharedTo>
+            <group>Shared_Territory_4109</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_4109</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_5206</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 5206</description>
+        <label>Opp Sharing Rule 5206</label>
+        <sharedTo>
+            <group>Shared_Territory_5206</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_5206</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_5208</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 5208</description>
+        <label>Opp Sharing Rule 5208</label>
+        <sharedTo>
+            <group>Shared_Territory_5208</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_5208</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_6107</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 6107</description>
+        <label>Opp Sharing Rule 6107</label>
+        <sharedTo>
+            <group>Shared_Territory_6107</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_6107</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_7115</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 7115</description>
+        <label>Opp Sharing Rule 7115</label>
+        <sharedTo>
+            <group>Shared_Territory_7115</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_7115</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_8104</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 8104</description>
+        <label>Opp Sharing Rule 8104</label>
+        <sharedTo>
+            <group>Shared_Territory_8104</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_8104</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_8106</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 8106</description>
+        <label>Opp Sharing Rule 8106</label>
+        <sharedTo>
+            <group>Shared_Territory_8106</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_8106</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_9101</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 9101</description>
+        <label>Opp Sharing Rule 9101</label>
+        <sharedTo>
+            <group>Shared_Territory_9101</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_9101</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opp_Sharing_Rule_9104</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 9104</description>
+        <label>Opp Sharing Rule 9104</label>
+        <sharedTo>
+            <group>Shared_Territory_9104</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_9104</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Opps_Sharing_Rule_1104</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Opp sharing rule for shared territory 1104</description>
+        <label>Opps Sharing Rule 1104</label>
+        <sharedTo>
+            <group>Shared_Territory_1104</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Shared_Territory_1104</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

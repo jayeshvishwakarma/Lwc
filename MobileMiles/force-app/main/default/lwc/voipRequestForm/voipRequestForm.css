@@ -1,0 +1,34 @@
+.main-container{
+    width:60%;
+    margin:auto;
+}
+
+.label-custom{
+    font-size:12px;
+    line-height:2.5;
+}
+
+.btn1{
+    border-width:0.5px;
+    border-radius:0.25rem;
+    background-color: #117fc3;
+    color:white;
+    width:80px;
+    height:25px;
+    text-align: center;
+    border:none;
+    outline : none;
+}
+
+.btn:focus{
+    outline : none;
+}
+
+@media only screen and (max-width: 600px) {
+    .main-container{
+        width:100%;
+    }
+    .text-align-mobile{
+        text-align:left;
+    }
+}

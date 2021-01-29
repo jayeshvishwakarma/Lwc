@@ -1,0 +1,25 @@
+.cell-breakWord {
+   word-wrap: break-word !important;
+}
+.heading {
+    font-size : 20px;
+}
+
+.sort{
+    display: inline-flex;
+    padding: .3rem;
+}
+.sort div{
+    margin: 0 3px;
+}
+.divCursor {
+    cursor : pointer;
+}
+.caption, th, td {
+    vertical-align: top;
+}
+.scrollit {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height:400px;
+}

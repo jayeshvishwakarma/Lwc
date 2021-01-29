@@ -1,0 +1,11 @@
+<apex:page standardController="Porteringen_mobiel__c"  sidebar="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  {!Porteringen_mobiel__c.Bedrijf__c}<br/>
+         {!Porteringen_mobiel__c.T_a_v__c}<br/> 
+         {!Porteringen_mobiel__c.ShippingStreet__c}<br/> 
+         {!Porteringen_mobiel__c.postcodeplaatsshipping__c}<br/>
+ 
+</html> 
+
+ 
+</apex:page>

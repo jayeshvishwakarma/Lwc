@@ -1,0 +1,3 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    <c:serviceCalculator recordId="{!v.recordId}"></c:serviceCalculator>
+</aura:component>

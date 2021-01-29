@@ -1,0 +1,26 @@
+.Green{
+    background-color: #7de27d;
+}
+.Red{
+    background-color: #ef6767;
+}
+.Yellow{
+    background-color: #ecec4c;
+}
+.custom-th{
+    background-color: #f7f7f7;
+}
+.custom-div{
+    width: 60%;
+}
+
+.custom-req{
+    color:red;
+}
+
+.slds-badge{
+    height: 25px;
+    width: 25px;   
+    border-radius: 50%;
+    display: inline-block;
+}

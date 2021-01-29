@@ -1,0 +1,175 @@
+<template>
+
+    <c-lookup-container class="slds-container_x-large slds-container_center">
+
+        <div class="slds-page-header communitySectionColor headerInfo">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-task" title="Service Calculator">
+                                <lightning-icon icon-name="custom:custom18" alternative-text="Approved">
+                                </lightning-icon>
+                                <span class="slds-assistive-text">Service Calculator</span>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate"
+                                            title="Service Calculator">Service Calculator</span>
+                                    </h1>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <c-for-Code-Workshop-List-Internal appointment-cmp='true' onforclose={closeForCodeModal} forcodeinternallist={forCodeList} recordid={recordId}
+                    ondealeridchange={handleInternalDealerIDChange}>
+                    </c-for-Code-Workshop-List-Internal>    
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <div class="slds-p-top_large"></div>
+        
+
+        <!-- Will Contain Workshop data for Partner users/Community-->
+        <div if:true={showCommunityWorkshopField} class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+            <div class="slds-col">
+                <lightning-combobox name="WorkShopName" label="Workshop" title="Workshop" placeholder="Select Workshop"
+                    options={workshopOptions} onchange={handlechange} value={DealerforCode} required={partnerUser}>
+                </lightning-combobox>
+            </div>
+        </div>
+
+        <!-- Will Contain Workshop data for Internal Userss-->
+        <a onclick={handleWorkshopLink} if:false={partnerUser} style="font-size:15px;color:red">*Click here to select the workshop</a>
+        <a onclick={handleWorkshopLink} if:false={isPartnerUser}>Click here to change the workshop</a>
+        <div if:false={isPartnerUser} class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+            <div class="slds-col">
+                <lightning-input  class="customRequired" type="text" label="Workshop" if:true={fieldVisible} value={internaldealerdata.Name} disabled>
+                </lightning-input>
+            </div>
+        </div>
+         <!-- Will Contain Workshop data for Internal Userss only for asset obj-->
+         <div class="slds-grid slds-gutters slds-wrap slds-p-top_small" if:false={showRegisterNumberField}>
+            <div class="slds-col">
+                <lightning-input  class="customRequired" type="text" label="Registration Number" value={registrationNumber} disabled>
+                </lightning-input>
+            </div>
+        </div>
+
+        <!-- Will Contain Workshop data for Partner users/Community-->
+        <div class="slds-grid slds-gutters slds-wrap slds-p-top_small" if:true={showRegisterNumberField}>
+            <div class="slds-col">
+                <lightning-combobox name="RegistrationNumber" title="Registration Number" label="Registration Number"
+                    placeholder="Select Registration Number" options={registrationNumberValues}
+                    value={registrationNumber} onchange={handlechange} required>
+                </lightning-combobox>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+            <div class="slds-col">
+                <lightning-combobox name="ServiceType" label="Service Type" title="Service Type"
+                    placeholder="Select Service Type" options={serviceTypeValues} onchange={handlechange}
+                    value={serviceType} required>
+                </lightning-combobox>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+            <div class="slds-col">
+                <span onkeypress={isDecimal}>
+                    <lightning-input name="Kilometre" label="Kilometre" type="Number" title="Kilometre"
+                        placeholder="Kilometre" onchange={handlechange} required onpaste={handlePaste} max="500000"
+                        message-when-range-overflow="Kilometre beyond 5,00,000 is not accepted" value={kilometre}>
+                    </lightning-input>
+                </span>
+            </div>
+        </div>
+
+        <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </div>
+
+        <div class="slds-text-color_error" if:true={errorMessage}>
+            {errorMessage}
+        </div>
+
+        <template if:true={loaded}>
+
+            <div class="slds-p-vertical_medium" if:true={isVisible}>
+                <lightning-datatable key-field="id" data={data} columns={columns} class="table-test"
+                    hide-checkbox-column>
+                </lightning-datatable>
+                <div class="slds-p-top_x-small">
+                    <li class="contentFontSize" for:each={staticContent} for:item="con" key={con}>{con}</li>
+                </div>
+
+                <div class="slds-section">
+                    <h3 class="slds-section__title">
+                        <button class="slds-button slds-section__title-action" onclick={showHideVehicleSection}>
+                            <span class="slds-icon_container slds-icon-utility-chevrondown" title="chevrondown">
+                                <lightning-icon icon-name="utility:chevrondown" alternative-text="Approved"
+                                    size="x-small" if:true={showVehicle}>
+                                </lightning-icon>
+                                <lightning-icon icon-name="utility:chevronright" alternative-text="Approved"
+                                    size="x-small" if:false={showVehicle}></lightning-icon>
+                            </span>
+                            <span class="slds-truncate slds-align_absolute-center"> &nbsp; PMS Jobs</span>
+                        </button>
+                    </h3>
+
+                    <lightning-datatable key-field="id" data={dataDescription} columns={columnsDescription}
+                        class="table-test" hide-checkbox-column if:true={showPMSJobs}>
+                    </lightning-datatable>
+
+                </div>
+                <div class="slds-section">
+                    <h3 class="slds-section__title">
+                        <button class="slds-button slds-section__title-action" onclick={showHideOndemandJobSection}>
+                            <span class="slds-icon_container slds-icon-utility-chevrondown" title="chevrondown">
+                                <lightning-icon icon-name="utility:chevrondown" alternative-text="Approved"
+                                    size="x-small" if:true={showVehicleOndemandJob}>
+                                </lightning-icon>
+                                <lightning-icon icon-name="utility:chevronright" alternative-text="Approved"
+                                    size="x-small" if:false={showVehicleOndemandJob}></lightning-icon>
+                            </span>
+                            <span class="slds-truncate slds-align_absolute-center"> &nbsp; Ondemand Jobs (W/O Tax)</span>
+                        </button>
+                    </h3>
+
+                    <lightning-datatable key-field="id" data={onDemandJobData} columns={ondemandJobColumns}
+                        onrowselection={onchangeHandler} class="table-test" if:true={showOndemanJobs}>
+                    </lightning-datatable>
+                    <div class="slds-grid slds-gutters" if:true={showOndemanJobs}>
+                        <div class="slds-col">
+                            <span style="margin-left: 12%;"><b>Total Cost</b></span>
+                        </div>
+                        <div class="slds-col">
+                            <span style="margin-left: -2%;"><b>{totalCost}</b></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="slds-p-vertical_medium slds-align_absolute-center">
+                <button class="slds-button slds-button_neutral" onclick={cancel}>Back</button>
+                <button class="slds-button slds-button_brand" onclick={calculateAmount}>Calculate</button>
+            </footer>
+
+        </template>
+
+    </c-lookup-container>
+
+</template>

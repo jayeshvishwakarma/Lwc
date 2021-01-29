@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <decisions>
+        <name>CheckAccountTeamExists</name>
+        <label>CheckAccountTeamExists</label>
+        <locationX>444</locationX>
+        <locationY>71</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>AccountTeamExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Var_AccountTeamMember</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Remove_Account_Team</targetReference>
+            </connector>
+            <label>AccountTeamExists</label>
+        </rules>
+    </decisions>
+    <description>The flow builder is used to remove all of the Account Team Members for the Account ID passed from the process builder: CTS Inactive Account</description>
+    <interviewLabel>CTS Account Team Remove {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CTS Account Team Remove</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <description>Remove all Account Team Members for the Account ID received from the Process Builder: CTS Inactive Account</description>
+        <name>Remove_Account_Team</name>
+        <label>Remove Account Team</label>
+        <locationX>802</locationX>
+        <locationY>182</locationY>
+        <inputReference>Var_AccountTeamMember</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <description>Look up Account Team for the Account ID received from the process builder: CTS Inactive Account</description>
+        <name>Lookup_Account_Team_Member</name>
+        <label>Lookup Account Team Member</label>
+        <locationX>232</locationX>
+        <locationY>66</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>CheckAccountTeamExists</targetReference>
+        </connector>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Var_AccountID</elementReference>
+            </value>
+        </filters>
+        <object>AccountTeamMember</object>
+        <outputReference>Var_AccountTeamMember</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <startElementReference>Lookup_Account_Team_Member</startElementReference>
+    <status>Active</status>
+    <variables>
+        <description>Variable to receive Account ID from Process Builder Name: CTS Inactive Account that will be used to remove Account Team</description>
+        <name>Var_AccountID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Variable to store Account Team Members info that will be removed</description>
+        <name>Var_AccountTeamMember</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>AccountTeamMember</objectType>
+    </variables>
+</Flow>

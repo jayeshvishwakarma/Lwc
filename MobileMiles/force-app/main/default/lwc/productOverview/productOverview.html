@@ -1,0 +1,91 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item flexibility="grow" size="12" padding="around-small">
+            <article class="slds-card slds-p-horizontal_medium" style="height:100%;">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2>
+                                <div class="slds-text-heading_large">Productoverzicht</div>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <lightning-layout>
+                    <lightning-layout-item flexibility="grow" size="12" padding="around-small">
+                        <div class="slds-card__body slds-card__body_inner" style="overflow:scroll; height:18rem">
+                            <table class="slds-table slds-table--bordered slds-table--striped selected-product-table">
+                                <thead>
+                                    <tr class="slds-text-title_caps">
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Remove"></div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Name">Productnaam</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Quantity">Prijs per stuk</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Quantity">Hoeveelheid</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="ToestelVerzekering">ToestelVerzekering
+                                            </div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Totaalpermaand">Totaal per maand</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src={removeIconUrl} class="slds-icon_container"
+                                                style="color:white;border:none;width:50%;" />
+                                        </td>
+                                        <td>
+                                            <lightning-input type="text" label="PRODUCTNAAM"
+                                                value="Samsung A405 Galaxy A40 4G 64GB Dual-SIM black" read-only="true"
+                                                variant="label-hidden">
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            <lightning-input type="text" label="PRIJS PER STUK" value="€ 198,00"
+                                                read-only="true" variant="label-hidden">
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            <lightning-input type="text" label="HOEVEELHEID" value="1"
+                                                variant="label-hidden">
+                                            </lightning-input>
+                                        </td>
+                                        <td>
+                                            <!-- <apex:inputField value="{!selectedItem.Bestellingproduct.ToestelVerzekering__c}" onchange="calculateTotalMaand();"/>  -->
+                                            <lightning-combobox name="DEVICE INSURANCE" label="TOESTELVERZEKERING"
+                                                value={selectedCompany} placeholder="Selecteer Betaalwijze"
+                                                options={companyOptions} onchange={handleChangeCompany}
+                                                variant="label-hidden">
+                                            </lightning-combobox>
+                                        </td>
+                                        <td>
+                                            <lightning-input type="text" label="TOTAAL PER MAAND" value="€ 10,99"
+                                                read-only="true" variant="label-hidden">
+                                            </lightning-input>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout horizontal-align="center">
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <lightning-button label="Update bestelling" title="Update bestelling">
+                        </lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </article>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

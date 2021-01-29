@@ -1,0 +1,259 @@
+<template>
+    <lightning-card>
+        <div class="slds-p-around_x-small">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container" title="search">
+                            <lightning-icon icon-name="utility:search" size="x-small"></lightning-icon>
+                            <span class="slds-assistive-text">Search</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <span>Search</span>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size--1-of-2 slds-medium-size--1-of-1 slds-large-size--12-of-12">
+                    <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+                        <lightning-accordion-section name="A" label="Search Filters">
+
+                            <div class="slds-form" role="list">
+                                <label class="slds-form-element__label" style="font-weight: 700">Campaign Fields</label>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--6-of-12"
+                                        style="padding-right: 1.5rem">
+                                        <lightning-combobox name="campaignList" variant="label-inline"
+                                            label="Campaign Name" value={campaingName} placeholder="Select a Campaign"
+                                            options={campaignOptions} onchange={campaignNameChangeHandler}>
+                                        </lightning-combobox>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--6-of-12"
+                                        style="padding-right:1.5rem ">
+                                        <lightning-combobox name="campaingType" variant="label-inline"
+                                            label="Campaign Type" value={campaingTypeValue}
+                                            placeholder="Select a Campaign Type" options={campaingType}
+                                            onchange={campaignTypeChangeHandler}>
+                                        </lightning-combobox>
+                                    </div>
+
+                                    <div class="slds-m-left_xx-large">
+                                        <template iterator:it={campaignPillSelected}>
+                                            <lightning-pill key={it.value} data-id={it.value} label={it.value}
+                                                onremove={handleRemoveCampaignType}></lightning-pill>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form__item" role="listitem">
+                                    <!-- <div class="slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--6-of-12"> -->
+                                    <lightning-input type='text' variant='label-inline' label='Campaign Subtype'
+                                        value={cmpSubTypeValue} placeholder='Enter the search term'
+                                        onchange={cmpSubTypeChangeHandler}>
+                                    </lightning-input>
+                                    <lightning-combobox name="taskPriority" label="Priority" variant="label-inline"
+                                        options={taskPriority} placeholder="Select a value" class="slds-m-left_xx-large"
+                                        value={taskPriorityValue} onchange={taskPriorityChangeHandler}>
+                                    </lightning-combobox>
+                                    <!-- </div> -->
+
+                                </div>
+
+                                <div
+                                    class="slds-border_left slds-border_right slds-border_top slds-border_bottom slds-m-bottom_x-small">
+                                    <label class="slds-form-element__label" style="font-weight: 700"> Task Due
+                                        Date</label>
+                                    <div class="slds-form__item" role="listitem">
+                                        <lightning-input type="date" autocomplete="off" placeholder="Select Start Date"
+                                            label="Start Date" variant="label-inline" value={dueDate}
+                                            onchange={startDateDateChangeHandler}>
+                                        </lightning-input>
+                                        <lightning-input type="date" autocomplete="off" placeholder="Select End Date"
+                                            label="End Date" variant="label-inline" class="slds-m-left_xx-large"
+                                            value={dueDate} onchange={endDateDateChangeHandler}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="slds-border_left slds-border_right slds-border_top slds-border_bottom slds-m-bottom_x-small">
+                                    <label class="slds-form-element__label" style="font-weight: 700"> Vehicle Sale
+                                        Date</label>
+                                    <div class="slds-form__item" role="listitem">
+                                        <lightning-input type="date" autocomplete="off" placeholder="Select Start Date"
+                                            label="Start Date" variant="label-inline" value={startSaleDateValue}
+                                            onchange={startSaleDateChangeHandler}>
+                                        </lightning-input>
+                                        <lightning-input type="date" autocomplete="off" placeholder="Select End Date"
+                                            label="End Date" variant="label-inline" class="slds-m-left_xx-large"
+                                            value={endSaleDateValue} onchange={saleEndDateDateChangeHandler}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--6-of-12"
+                                        style="padding-right:1.5rem ">
+                                        <lightning-combobox name="vehiclemodel" variant="label-inline"
+                                            label="Vehicle Model" placeholder="Select a model" value={modelValue}
+                                            options={modelOptions} onchange={modelChangeHandler}>
+                                        </lightning-combobox>
+                                    </div>
+
+                                    <div class="slds-m-left_xx-large">
+                                        <template iterator:it={ModelPillSelected}>
+                                            <lightning-pill key={it.value} data-id={it.value} label={it.value}
+                                                onremove={handleRemoveModel}></lightning-pill>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--6-of-12"
+                                        style="padding-right: 1.5rem">
+                                        <lightning-combobox name="WorkShopId" variant="label-inline"
+                                            label="Workshop Name" placeholder="Select an Option" value={workshopValue}
+                                            options={workshopOptions} onchange={workshopChangeHandler}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--6-of-12"
+                                        style="padding-right: 1.5rem">
+                                        <lightning-combobox name="ownerNames" variant="label-inline" label="Owner Name"
+                                            value={ownerNameValue} placeholder="Select an Owner Name"
+                                            options={ownerNames} onchange={ownerNameChangeHandler}>
+                                        </lightning-combobox>
+                                    </div>
+
+                                    <div class="slds-m-left_xx-large">
+                                        <template iterator:it={OwnersPillSelected}>
+                                            <lightning-pill key={it.value} data-id={it.value} label={it.value}
+                                                onremove={handleRemoveOwnerName}></lightning-pill>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning-accordion-section>
+                    </lightning-accordion>
+
+                    <div class="slds-form" role="list">
+                        <div if:true={recordCount}>
+                            <label class="slds-form-element__label">Record Count: {recordCount} records</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--12-of-12">
+                    <div class="slds-clearfix slds-m-around_x-small">
+                        <div class="slds-float_right">
+                            <lightning-button class="slds-p-around_x-small" label="Search" variant="brand"
+                                onclick={searchClickHandler}> </lightning-button>
+                            <lightning-button class="slds-p-around_x-small" label="Change Owner" variant="brand"
+                                onclick={changeOwnerHandler}> </lightning-button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div if:true={loading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+
+
+            <div if:true={showlistView} class="slds-p-top_x-small">
+                <lightning-datatable key-field="id" data={data} columns={columns} sorted-by={sortBy}
+                    sorted-direction={sortDirection} onsort={handleSortdata} show-row-number-column>
+                </lightning-datatable>
+            </div>
+
+            <div if:true={showResult} class="slds-p-top_x-small">
+                <lightning-datatable key-field="id" data={resultData} columns={resultDataColumns} show-row-number-column
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </div>
+        </div>
+    </lightning-card>
+
+    <!-- change Owner Popup modal -->
+
+    <div if:true={changeOwnerPopup}>
+        <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-modal__header_empty">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={cancelChangeOwner}>
+                        <lightning-icon icon-name="utility:close" size="xx-small" variant="inverse"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    You've selected {recordsLength} records
+                    <div if:true={inputDiv}>
+                        <lightning-input name="enter-search" placeholder="Search for user" type="search"
+                            onchange={getUsersHandler}></lightning-input>
+                    </div>
+
+                    <div if:true={pillDiv}>
+                        <lightning-pill label={selectedUserName} onremove={handleRemove}></lightning-pill>
+                    </div>
+
+                    <div if:true={resultDropDown}>
+                        <div class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                <template iterator:it={userList}>
+
+
+                                    <li key={it.value.Id} role="presentation" class="slds-listbox__item">
+                                        <div data-id={it.value.Id} data-name={it.value.Name} onclick={selectUser}
+                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                            role="option">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                <span class="slds-icon_container slds-icon-standard-account">
+                                                    <lightning-icon icon-name="standard:user" size="xx-small">
+                                                    </lightning-icon>
+                                                </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span
+                                                    class="slds-listbox__option-text slds-listbox__option-text_entity">{it.value.Name}</span>
+
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <b>The new owner will also become the owner of these records related to that are owned by the
+                        current record owner.</b>
+                    <ul>
+                        <li>Tasks</li>
+                    </ul>
+
+
+
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={cancelChangeOwner}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={saveChangeOwner}>Save</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

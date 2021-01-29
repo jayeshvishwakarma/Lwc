@@ -1,0 +1,167 @@
+<apex:page controller="AttachmentManagerController" lightningStylesheets="true">
+    <apex:sectionHeader title="Attachment" subtitle="Manager" />
+    <apex:slds />
+    <apex:form id="formId">
+        
+        
+        <script>        
+        function copySelected(){    
+            var coffee = document.forms[0];//document.getElementByName('coffee');
+            
+            var str="";
+            for (i = 0; i < coffee.length; i++) {
+                if (coffee[i].checked) {
+                    str=str+" "+coffee[i].value;
+                }
+            }
+            alert('Str '+str)
+            lstOfCheckedIds(str);
+            
+        }
+        
+        function deleteSelected(){    
+            var coffee = document.forms[0];//document.getElementByName('coffee');
+            
+            var str="";
+            for (i = 0; i < coffee.length; i++) {
+                if (coffee[i].checked) {
+                    str=coffee[i].value+' '+str;
+                }
+            }
+            alert('Str '+str)
+            lstOfCheckedIds1(str);
+            
+        }
+        
+        function selectAllCheckboxes(obj){
+            var inputCheckBox = document.getElementsByName("coffee");                
+            for(var i=0; i<inputCheckBox.length; i++){          
+                inputCheckBox[i].checked=obj.checked;
+            }
+        }
+        
+        </script>
+        
+        
+        
+        <apex:pageMessages />
+        <apex:pageBlock id="pgBlock1">
+            <apex:actionFunction name="lstOfCheckedIds" action="{!copyTo}" reRender="pgBlockSection1" >
+                <apex:param assignTo="{!sentIdToCopy}" name="str" value=""/>
+            </apex:actionFunction>
+            
+            <apex:actionFunction name="lstOfCheckedIds1" action="{!deleteAttachment}" reRender="pgBlockSection1" >
+                <apex:param assignTo="{!sentIdToDelete}" name="str" value=""/>
+            </apex:actionFunction>
+            
+            <div align="center">
+                
+                <apex:selectList size="1" value="{!search}" multiselect="false" >  
+                    <apex:selectOption itemValue="0" itemLabel="All"/>
+                    <apex:selectOption itemValue="1" itemLabel="Account"/>
+                    <apex:selectOption itemValue="2" itemLabel="Contact"/>
+                    <apex:selectOption itemValue="3" itemLabel="Opportunity"/>
+                    <apex:selectOption itemValue="4" itemLabel="Lead"/>
+                </apex:selectList>
+                
+                <apex:commandButton Styleclass="slds-button slds-button_brand" value="Search" action="{!searchByOption}"/>
+                
+                <apex:commandButton oncomplete="window.top.location.reload()" styleClass="slds-button slds-button_outline-brand" value="Copy Document" onClick="copySelected()" reRender="pgBlockSection1" />
+                
+                <apex:commandButton onClick="deleteSelected()" oncomplete="window.top.location.reload()"  Styleclass="slds-button slds-button_destructive" value="Delete" reRender="pgBlockSection1"/>
+                
+            </div>
+            
+            
+            <apex:pageBlockSection id="pgBlockSection1" columns="1" collapsible="true">
+                <apex:variable var="Count" value="{!1}"/>
+                
+                <apex:pageBlockTable Styleclass="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" id="pgBlockTable1"  value="{!lstContentDocuments}" var="objContentDocument"   rendered="{!tableview}" >
+                    
+                    <apex:column headerValue="Sno." >{!Count}<apex:variable var="Count" value="{!Count+1}"/>
+                    </apex:column>
+                    
+                    <apex:column >
+                        
+                        <apex:facet name="header"> 
+                            <input type="Checkbox" onclick="selectAllCheckboxes(this)" />Copy Or Delete
+                        </apex:facet>
+                        <!--<apex:inputCheckbox id="Count" onchange="Check('{!$Component.Count}')" value="{!isSelected}" label="CheckBox" />-->
+                        <input type="checkbox" id="Count" name="coffee" value="{!objContentDocument}" />
+                    </apex:column>
+                    
+                    <apex:column value="{!objContentDocument.Title}" />
+                    
+                    <apex:column >
+                        <apex:outputLink value="/{!objContentDocument.id}"  target="_blank">View File</apex:outputLink>
+                        
+                    </apex:column>
+                    
+                    
+                    
+                    
+                    <apex:column headerValue="File Type">
+                        <apex:image url="{!$Resource.Pdfimage}" width="40" height="40" rendered="{!objContentDocument.FileType=='PDF'}" />
+                        <apex:image url="{!$Resource.JpgImage}" width="40" height="40" rendered="{!objContentDocument.FileType=='JPG'}"/>
+                        <apex:image url="{!$Resource.CsvImage}" width="40" height="40" rendered="{!objContentDocument.FileType=='CSV'}"/>
+                        <apex:image url="{!$Resource.PngImage}" width="40" height="40" rendered="{!objContentDocument.FileType=='PNG'}"/>
+                    </apex:column>
+                    
+                    
+                </apex:pageBlockTable>
+                
+                <apex:pageBlockTable Styleclass="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" id="pgBlockTable2"  value="{!lstContentDocumentlinks}" var="objContentDocumentLink" rendered="{!tableView2}" >
+                    
+                    <apex:column headerValue="Sno." >{!Count}<apex:variable var="Count" value="{!Count+1}"/>
+                    </apex:column>
+                    
+                    <apex:column >
+                        <apex:facet name="header"> 
+                            <input type="Checkbox" onclick="selectAllCheckboxes(this)" />Copy Or Delete
+                        </apex:facet>
+                        <input type="checkbox" id="Count" name="coffee" value="{!objContentDocumentLink}" />
+                    </apex:column>
+                    
+                    <apex:column value="{!objContentDocumentLink.ContentDocument.Title}" />
+                    
+                    <apex:column >
+                        <apex:outputLink value="/{!objContentDocumentLink.Id}" target="_blank">View File</apex:outputLink>
+                    </apex:column> 
+                    
+                    <apex:column headerValue="FileType" >
+                        <apex:image url="{!$Resource.Pdfimage}" width="40" height="40" rendered="{!objContentDocumentLink.ContentDocument.FileType=='PDF'}" />
+                        <apex:image url="{!$Resource.JpgImage}" width="30" height="30" rendered="{!objContentDocumentLink.ContentDocument.FileType=='JPG'}"/>
+                        <apex:image url="{!$Resource.CsvImage}" width="30" height="30" rendered="{!objContentDocumentLink.ContentDocument.FileType=='CSV'}"/>
+                        <apex:image url="{!$Resource.PngImage}" width="30" height="30" rendered="{!objContentDocumentLink.ContentDocument.FileType=='PNG'}"/>
+                    </apex:column>
+                    
+                    <apex:column value="{!objContentDocumentLink.ContentDocument.FileType}"/>
+                    
+                    
+                </apex:pageBlockTable>
+                
+                
+                
+            </apex:pageBlockSection>
+            
+            <div align="center">
+                
+               <!------- <apex:inputField value="{!ObjContact.AccountId}"/><br/> Account
+                
+              <apex:inputField value="{!objOpportunityContactRole.ContactId}"/>Contact---------->
+                
+              <apex:selectList size="1" id="SelectOption" value="{!SentId}"  >
+                    <apex:selectOptions value="{!AccountNames}" />
+                </apex:selectList>
+                
+                <apex:selectList size="1" id="SelectOption2" value="{!SentIdContact}"  >
+                    <apex:selectOptions value="{!Contacts}" />
+                </apex:selectList>
+            </div>
+            
+            
+        </apex:pageBlock>
+        
+        
+    </apex:form>
+</apex:page>

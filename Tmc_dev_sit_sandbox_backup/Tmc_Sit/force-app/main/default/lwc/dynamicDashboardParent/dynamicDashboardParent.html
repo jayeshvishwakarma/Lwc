@@ -1,0 +1,25 @@
+<template>
+  <lightning-card title="Custom Component Dashboard">
+
+    <div if:true={showData}>
+    
+     <div>
+    <div class="slds-grid slds-wrap">
+        <template for:each={reportsData} for:item="report">
+
+      <div  key={report.Id} class="slds-col slds-size--4-of-12">
+        <c-dynamic-dashboard-child dash-board-title-message={report.Report_Name__c}
+          report-id={report.Report_Conf__c}
+          ></c-dynamic-dashboard-child>
+      </div>
+      
+    </template>
+    </div>
+  </div>
+ 
+  </div>
+  
+
+   
+  </lightning-card>
+</template>

@@ -1,0 +1,31 @@
+<template>
+
+
+    <template if:true={showForm}>
+       <lightning-record-form
+        record-id={caseRecordId}
+        object-api-name="Case"
+        fields={fields}
+        columns={columnNumber}
+        mode="readonly" density="Comfy">
+        </lightning-record-form>
+    </template>
+    <template if:false={showForm}>
+
+    <div class="slds-media__body" if:true={errorMessage}>
+        <div class="slds-text-color_error">
+            {errorMessage}
+        </div>
+    </div>
+
+      <!--<div class="slds-text-color_error">
+        <h2>Please click Call Start on a task to see call details here</h2>
+      </div>
+      
+      <lightning-input name="caseId" label="CaseId" value={recordId} onchange={setCaseId}></lightning-input>
+      <lightning-input name="servType" label="Service Type" value={campaignType} onchange={setCampType}></lightning-input>
+      <lightning-button  label="Set Values" variant="brand" title="Set Values" onclick={setLocalStorageValues}></lightning-button>
+        -->
+    </template>
+    
+</template>

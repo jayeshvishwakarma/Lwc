@@ -1,0 +1,127 @@
+<apex:page standardController="Bestellingproduct__c" tabStyle="Bestelling_MM__c" extensions="BestellingProductController" lightningStylesheets="true" id="pageId">
+    <apex:slds />
+    
+    <div class="slds-page-header">
+  <div class="slds-media">
+    <div class="slds-media__figure">
+      <span class="slds-icon_container slds-icon-custom-custom93" title="Description of icon when needed">
+        <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/custom-sprite/svg/symbols.svg#custom93')}" />
+        </svg>
+      </span>
+    </div>
+    <div class="slds-media__body">
+      <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Bestellingproduct Edit">Bestellingproduct Edit</h1>
+      <p class="slds-text-body_small slds-line-height_reset">New Bestelling</p>
+    </div>
+  </div>
+</div>
+    
+    <head>
+        <apex:includeScript value="{!$Resource.jQuery}"/>
+        <script>
+            $(document).ready(function(e){
+                if($(".product").val() != null && $("[id$=pricebookId]").val().length > 0){
+                    $(".product").removeAttr('disabled');    
+                    $(".customIcon").css("display","inline-block");
+                }else{
+                    $(".product").attr('disabled','disabled');   
+                    $(".customIcon").css("display","none");
+                }
+                $("[id$=pricebookId]").keyup(function(){
+                    var pricebookVal = $(this).val();                    
+                    if(pricebookVal != null && pricebookVal.length > 0){
+                        $(".product").removeAttr('disabled');
+                        $(".customIcon").css("display","inline-block");
+                        
+                    }else{
+                        $(".product").attr('disabled','disabled');
+                        $(".customIcon").css("display","none");
+                    }
+                });
+                $("[id$=pricebookId]").change(function(){
+                    var pricebookVal = $(this).val();                    
+                    if(pricebookVal != null && pricebookVal.length > 0){
+                        $(".product").removeAttr('disabled');
+                        $(".customIcon").css("display","inline-block");
+                        
+                    }else{
+                        $(".product").attr('disabled','disabled');
+                        $(".customIcon").css("display","none");
+                    }
+                });
+            });
+            function openChild(){
+                var priceId = $('.proName').parent().parent().find(':first-child')[0].value;
+                window.open('/apex/CustomProductLookup?id='+priceId ,'width=400,height=50','_blank');
+            }
+            function passPro(prodid,proName){
+                //alert(prodid);
+                $('.product').val(proName);
+                $('[id$="pro"]').val(prodid);
+            }
+        </script>
+        
+        
+        <script>
+            function addPbTitleId() {
+               
+                var delayMillis = 10; //1 second
+                setTimeout(function() {
+                    console.log('setTimeout');
+                    var element = document.getElementById("pageId:frm:contactBlock:pbb1:saveBtn");
+                    element = element.parentNode.parentNode;
+                    //var elementChild = element.children[1].remove(); 
+                    if(document.getElementsByClassName('pageTitleIcon').length>0){
+                        document.getElementsByClassName('pageTitleIcon')[0].setAttribute('src','/img/icon/t4v35/custom/custom93_120.png');
+                    }
+                   
+                }, delayMillis);
+            }
+            addPbTitleId();
+        </script>
+        <style>
+            .customIcon{
+                cursor:pointer;
+            }
+            .pbButton .btn{
+                float:left;
+            }
+        </style>
+    </head>
+    <apex:form id="frm" >
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlock title="Bestellingproduct Edit" id="contactBlock">
+            <apex:pageBlockButtons id="pbb1">
+                <apex:commandButton value="Save" action="{!save}" id="saveBtn" />
+                <apex:commandButton value="Save & New" action="{!saveAndNext}" />
+                <apex:commandButton value="Cancel" action="{!cancel}" immediate="true" />     
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Information" columns="2" collapsible="false">
+                <apex:inputField value="{!BestellingPro.Hoeveelheid__c}"/>   
+                <apex:pageBlockSectionItem >
+                    <apex:outputText value="Product"></apex:outputText>
+                    <apex:outputPanel layout="none">
+                        <!--<input type="text" class="product" id="productId" value="{!productName}"/>-->
+                        <span class="lookupInput">
+                            <apex:inputText styleClass="product" id="productId" value="{!productName}"/>
+                            <apex:inputHidden value="{!BestellingPro.Product__c}" id="pro"/>
+                            <img src="/img/s.gif" alt="Bestelling Lookup (New Window)" class="lookupIcon customIcon" onclick="openChild();return false;"/>
+                        </span>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+                <apex:inputField value="{!BestellingPro.Name}" required="true"/>
+                <apex:inputField value="{!BestellingPro.Bestelling__c}"/>
+                <apex:inputField value="{!BestellingPro.Verkoopprijs__c}"/>
+                <apex:inputField value="{!BestellingPro.Extra_HW_korting__c}"/>
+                <apex:inputField value="{!BestellingPro.Aanvulling_productomschrijving__c}"/>
+                <apex:inputField value="{!BestellingPro.ToestelVerzekering__c}"/>
+                <apex:inputField value="{!BestellingPro.Prijs_ToestelVerzekering__c}"/>
+                <apex:inputField value="{!BestellingPro.Totaal_per_maand_ToestelVerzekering__c}"/>
+                <apex:inputField id="pricebookId" value="{!BestellingPro.Price__c}" styleClass="proName"/> 
+                <apex:inputField value="{!BestellingPro.IMEI_nummer__c}"/>
+                <apex:inputField value="{!BestellingPro.Deselecteer_voor_verzendbevestiging__c}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>  
+</apex:page>

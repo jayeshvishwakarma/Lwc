@@ -1,0 +1,29 @@
+<template>
+        <lightning-card title="Create Account" icon-name="standard:account">
+            <div class="slds-m-around__large">
+                   <!-- <img slot="actions" title="img" src={imageUrl} style="border-radius:50%;" width="100px"/> -->
+                <template if:true={isCreated}>
+                    <lightning-input  label="Account Id" value={accountId} disabled>
+                    </lightning-input>
+
+                 </template>
+                <lightning-input label="Enter Account Name" data-my-id="txtName">
+                </lightning-input>
+
+                <lightning-input label="Enter Phone Number" data-my-id="txtPhone">
+                </lightning-input>
+
+                <lightning-input label="Enter City" data-my-id="txtCity">
+                </lightning-input><br/>
+
+                <div class="slds-m-around__large" style="margin-left:40%">
+                <lightning-button label="Save" slot="footer" onclick={handleSave} disabled={isSaveButton}>
+                </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <lightning-button label="Add New Account" slot="footer" onclick={handleClear}>
+                </lightning-button>
+                </div>
+            </div>
+        </lightning-card>
+    
+</template>

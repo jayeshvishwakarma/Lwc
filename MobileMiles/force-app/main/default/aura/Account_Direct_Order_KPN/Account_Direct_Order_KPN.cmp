@@ -1,0 +1,9 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+	<aura:attribute name="AccountId" type="Id" default="{!v.recordId}"/>
+    <c:Account_Update_CMP accRecordId="{!v.recordId}" action="Direct Order KPN"/>
+    <div class="exampleHolder">
+        <lightning:spinner alternativeText="Loading" size="small" />
+        
+    </div>
+    <h1>Updation in progress...</h1>
+</aura:component>

@@ -1,0 +1,256 @@
+<apex:page lightningStylesheets="true" controller="ShoppingPage2Controller">
+    <style>
+        .column {
+        float: left;
+        width: 33.33%;
+        padding: 0px;
+        height: 80px;
+        }
+        
+        .column3
+        {
+        float: left;
+        width: 24.9%;
+        padding: 0px;
+        height: 70px;
+        
+        }
+        
+        .column2 {
+        float: left;
+        width: 49.5%;
+        padding: 0px;
+        height: auto;
+        }
+        
+        
+        
+    </style>
+    <apex:slds />
+    <apex:form id="fromId" >
+        <apex:pageBlock rendered="{!isPgBlock1}" >
+            <div class="column" style="background-color:yellow" >
+                <h1 style="font-weight:bold;font-size:46px;margin-left:40%">E-MarT</h1>
+            </div>
+            
+            <div class="column" align='center' style="padding:20px;background-color:yellow" >
+                <apex:inputText size="30" value="{!searchProduct}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton value="Search" action="{!findProduct}" reRender="fromId" />
+            </div>
+            
+            <div class="column" align='center' style="background-color:yellow"><br/>
+                <apex:commandButton value="Login" action="{!login}"/>
+            </div>
+        </apex:pageBlock>
+        
+        <apex:pageBlock id="pgBlock" rendered="{!isPgBlock2}">
+            <div class="column3" style="background-color:yellow" >
+                <h1 style="font-weight:bold;font-size:46px;margin-left:20%">E-MarT</h1>
+            </div>
+            
+            <div class="column3" align='center' style="padding:20px;background-color:yellow" >
+                <apex:inputText size="20"  value="{!searchProduct}" />&nbsp;&nbsp;
+                <apex:commandButton value="Search" action="{!findProduct}" reRender="fromId">
+                </apex:commandButton>
+            </div>
+            
+            <div class="column3" align='right' style="background-color:yellow"><br/>
+                <h1 style="font-weight:bold;font-size:20px;">{!nameOfContact}</h1>
+            </div>
+            
+            <div class="column3" align="center" style="font-weight:bold;background-color:yellow"><br/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                    <i class="fa fa-shopping-cart" style="color:black;font-size:30px"></i>
+                <apex:commandLink value="Cart" action="{!openCart}" reRender="mainpgBlock" >
+                    <apex:param name="a1" value="{!EmailIdFromShoppingPage}" assignTo="{!EmailIdFromShoppingPage}"/>
+                </apex:commandLink>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandLink value="Logout" action="{!logout}" />
+            </div>
+            
+        </apex:pageBlock>
+        <apex:pageBlock id="pgBlockFilter" rendered="{!ispgBlockFilter}" >
+            <div>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                <apex:commandLink action="{!backToHome}" ><i class="fa fa-arrow-circle-left" style="font-size:40px;Padding:12px;color:black;"></i>
+                </apex:commandLink>
+                
+                <apex:selectList style="margin-left:40%" size="1" value="{!SearchByOption}">  
+                    <apex:selectOption itemValue="0" itemLabel="All Products"/>
+                    <apex:selectOption itemValue="1" itemLabel="Electronics"/>
+                    <apex:selectOption itemValue="2" itemLabel="Grocery"/>
+                    <apex:selectOption itemValue="3" itemLabel="Cloths"/>
+                    <apex:selectOption itemValue="4" itemLabel="Sports & Fitness"/>
+                </apex:selectList>
+                <apex:commandButton styleClass="slds-button slds-button_brand" value="Search" action="{!searchProducts}"/>&nbsp;&nbsp;&nbsp;&nbsp;Filter : By Category
+            </div>
+        </apex:pageBlock>
+        
+        <apex:pageBlock id="pgBlock2" rendered="{!isPageBlockList}">
+            <div style="background-color:#F4F6F7;"> <br/> 
+                <apex:pageMessages />
+                <apex:repeat value="{!lstProducts}" var="objProduct">
+                    {!objProduct.Product_Name__c}
+                    <apex:repeat value="{!objProduct.ContentDocumentLinks}" var="objImage" >
+                        
+                        <div  class="slds-grid slds-wrap" style="width:50%;margin-left:24%;background-color-:chartreuse">
+                            <div  id="col1" class="slds-col slds-size_8-of-8">
+                                <apex:pageblock >
+                                    <h2 align="center" style="font-weight:bold;font-size:28px;">
+                                        {!objProduct.Product_Name__c}
+                                    </h2>
+                                    <apex:outputPanel layout="Block" >  
+                                        <div align='center'>
+                                            <apex:image url="/sfc/servlet.shepherd/version/download/{!objImage.ContentDocument.LatestPublishedVersionId}" width="30%" height="30%" />
+                                        </div>
+                                    </apex:outputPanel>
+                                    
+                                    <apex:sectionHeader title="INR-{!objProduct.Price__c}/-"/>
+                                    <div>
+                                        <h2 style=" font-weight: bold;font-size:17px;">
+                                            Brand : {!objProduct.Company__c}
+                                        </h2><br/>
+                                        <h1 style=" font-weight: bold;font-size:17px;">
+                                            Description : {!objProduct.Description__c}
+                                        </h1>
+                                    </div>
+                                    <div align="right">
+                                        <apex:commandButton styleClass="slds-button slds-button_brand" value="Buy Now" action="{!buyNow}" reRender="fromId" rendered="{!if(objProduct.Stock_Quantity__c==0,false,true)}">
+                                            <apex:param assignTo="{!ProductId}" value="{!objProduct.id}" name="aa"/>
+                                        </apex:commandButton>
+                                        <apex:commandButton style="color:red;" value="Out of Stock" disabled="true" rendered="{!if(objProduct.Stock_Quantity__c==0,true,false)}" /><br/><br/>
+                                        <apex:commandButton value="Add To Cart" action="{!addToCart}" reRender="fromId">
+                                            <apex:param assignTo="{!ProductId}" value="{!objProduct.id}" name="aa"/>
+                                        </apex:commandButton>
+                                        <apex:commandButton value="Detail" action="{!detail}" reRender="fromId">
+                                            <apex:param assignTo="{!detailOfProduct}" value="{!objProduct.id}" name="a"/>
+                                            <apex:param assignTo="{!emailIdFromShoppingPage2}" value="{!EmailIdFromShoppingPage}" name="a2"/>
+                                            <apex:param assignTo="{!nameOfContact}" value="{!nameOfContact}" name="a3"/>
+                                            <apex:param assignTo="{!imageId}" value="{!objImage.ContentDocument.LatestPublishedVersionId}" name="a4"/>
+                                        </apex:commandButton>
+                                    </div>
+                                    
+                                </apex:pageblock>
+                            </div>
+                        </div>
+                    </apex:repeat>
+                </apex:repeat>
+            </div>
+        </apex:pageBlock>
+        <apex:pageBlock id="pgBlockBuyNow" rendered="{!isPgBlockBuyNow}">
+            
+            
+            <div class="slds-grid">
+                
+                <div id="col1" class="slds-col slds-size_4-of-6">
+                    <apex:pageBlock >
+                        
+                        <apex:repeat value="{!lstProducts}" var="objProduct">
+                            <apex:repeat value="{!objProduct.ContentDocumentLinks}" var="objImage" >
+                                <div>
+                                    <h1 style="font-weight:bold;font-size:22px;">
+                                        <apex:outputPanel layout="Block" >  
+                                            <div align='center'>
+                                                <apex:image url="/sfc/servlet.shepherd/version/download/{!objImage.ContentDocument.LatestPublishedVersionId}" width="20%" height="30%" />
+                                            </div>
+                                        </apex:outputPanel>
+                                    </h1><br/>
+                                    <h1 style="font-weight:bold;font-size:18px;">
+                                        Product Name : {!objProduct.Product_Name__c} 
+                                    </h1><br/>
+                                    <h1 style="font-weight:bold;font-size:18px;">
+                                        Price : INR-{!objProduct.Price__c}/-
+                                    </h1><br/>
+                                    <h1 style="font-weight:bold;font-size:18px;">
+                                        Brand : {!objProduct.Company__c}
+                                    </h1><br/>
+                                    
+                                    <div align="Center">
+                                        <apex:commandButton style="width:200px;height:50px;font-size:20px;color:white;background-color:orange;" value="Proceed To Pay" action="{!proceedToPay}">
+                                        </apex:commandButton><br/><br/>
+                                        
+                                    </div>
+                                </div></apex:repeat>
+                        </apex:repeat>
+                    </apex:pageBlock>
+                </div>
+                <div id="col2" class="slds-col slds-size_2-of-6" >
+                    <apex:pageblock >
+                        <apex:repeat value="{!lstProducts}" var="objProduct">
+                            <apex:pageBlockSection title="Price Details" collapsible="false" />
+                            <div class="column2">
+                                <h2 style="font-size:17px;">
+                                    Price : 
+                                </h2>
+                                <h2 style="font-size:16px;">
+                                    Delivery Charges :  
+                                </h2>
+                                <h2 style="font-size:16px;">
+                                    GST :  
+                                </h2>
+                                <h2 style="font-size:16px;">
+                                    SGST :  
+                                </h2>
+                                
+                            </div>
+                            <div class="column2">
+                                <h2  style="font-size:17px;margin-left:90px;">
+                                    INR-{!objProduct.Price__c}/-
+                                </h2>
+                                <h2  style="font-size:16px;margin-left:90px;">
+                                    FREE
+                                </h2>
+                                <h2  style="font-size:17px;margin-left:90px;">
+                                    4%
+                                </h2>
+                                <h2  style="font-size:17px;margin-left:90px;">
+                                    2.3%
+                                </h2>
+                                
+                            </div> 
+                            
+                        </apex:repeat>
+                    </apex:pageblock>
+                    <apex:pageBlock >
+                        <apex:repeat value="{!lstProducts}" var="objProduct">
+                            <div class="column2">
+                                <h2 style="font-size:17px;">
+                                    TOTAL AMOUNT : 
+                                </h2>
+                            </div>
+                            <div class="column2">
+                                <h2 style="font-size:17px;">
+                                    INR-{!objProduct.Price__c}/-
+                                </h2>
+                            </div>
+                        </apex:repeat>
+                    </apex:pageBlock>
+                </div>
+            </div>
+        </apex:pageBlock>
+        
+        <apex:pageBlock id="pgBlock3" rendered="{!pgBlockPay}">
+            <apex:repeat value="{!lstProducts}" var="objProduct">
+                <div align="center">
+                    <h1 style="background-color:mistyrose;font-weight:bold;font-size:20px;">
+                        Enter Card Details : <h1 style="font-weight:bold;font-size:18px;margin-left:70%"> Total Amount : INR-{!objProduct.Price__c}/-</h1> 
+                    </h1><br/>
+                    <h1 style="font-weight:bold;">
+                        Card Number : <apex:inputText value="{!cardNumber}" /> Expiry Date :<apex:inputText /> CVV : <apex:inputSecret value="{!cvv}" size="3" /> 
+                    </h1><br/>
+                    <apex:commandButton style="font-weight:bold;width:70px;height:35px;font-size:20px;" value="Pay" action="{!pay}" reRender="form">
+                    </apex:commandButton><br/><br/>
+                    <link rel="stylesheet" type="text/css" href="http://cdn.dcodes.net/2/payment_icons/dc_payment_icons.css" />
+                    <span class="dc_payment_icons_bevel_32 dc_visa_bevel" title="Visa"></span>
+                    <span class="dc_payment_icons_bevel_32 dc_visa02_bevel" title="Visa"></span>
+                    <span class="dc_payment_icons_bevel_32 dc_mastercard_bevel" title="Mastercard"></span>
+                    <span class="dc_payment_icons_bevel_32 dc_americanexpress_bevel" title="American Express"></span>
+                    <span class="dc_payment_icons_bevel_32 dc_americanexpress02_bevel" title="American Express"></span>
+                    <h1 style="font-weight:bold;font-size:15px;">
+                        Accepted Cards
+                    </h1>
+                </div>
+            </apex:repeat>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

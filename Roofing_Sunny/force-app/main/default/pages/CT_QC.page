@@ -1,0 +1,1569 @@
+<apex:page sidebar="false" standardController="QC__c" standardStylesheets="true" id="QCPage" extensions="twod_QcController" docType="html-5.0">
+    <script type="text/javascript">
+    $('body').on('DOMNodeInserted', 'div', function () {
+        if(document.getElementsByClassName('errorMsg').length>1){            
+            document.getElementsByClassName('errorMsg')[0].remove();
+        }
+        if(document.getElementsByClassName('emptyDependentLookup').length>0){
+            document.getElementsByClassName('emptyDependentLookup')[0].className='searchKey glyphicon glyphicon-search form-control';          
+        }
+        if(document.getElementsByClassName('closeIcon').length>0){
+            document.getElementsByClassName('closeIcon')[0].remove();
+        }        
+    });
+    $(function() {     
+        if('{!ThemeCategory}'=="Theme4d"){
+            $('input[class="disable mandatoryValidate form-control datePickerCust"]').daterangepicker({singleDatePicker: true,showDropdowns: true},                                                                    
+                                                                                                      function(start, end, label) {                                                          
+                                                                                                      });                 
+            
+            document.getElementById("QCPage:QCForm").onwheel = function() { 
+                for(var i=0;i<document.getElementsByClassName("daterangepicker").length;i++){
+                    if(document.getElementsByClassName("daterangepicker")[i].style.display=="block"){
+                        document.getElementsByClassName("daterangepicker")[i].style.display="none";                        
+                    }
+                }
+            };
+        }
+    });          
+    </script>
+    <html>
+        
+        <head>
+            <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8" />
+            <script type="text/javascript" src="{!$Resource.jqueryCT}"></script>
+            
+            <script src="{!$Resource.bootstrapjss}"></script>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system-vf.css')}"
+                             />
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system.css')}"
+                             />
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system.min.css')}"
+                             />
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system-vf.min.css')}"
+                             />
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+                  rel="stylesheet" />
+            <apex:includeScript value="{!$Resource.JQuery}" />
+            <apex:includeScript value="{!$Resource.bootbox}" />
+            <script type="text/javascript" src="{!$Resource.momentJS}"> </script>
+            <script type="text/javascript" src="{!$Resource.daterangepickerJS}"></script>
+            <link rel="stylesheet" type="text/css" href="{!$Resource.daterangepickerCss}" /> 
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.3/jquery.mask.js"> </script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.3/jquery.mask.min.js"> </script>
+            <style>
+                .datePickerNone{
+                display : none !important
+                }
+                
+                @font-face {
+                font-family: 'Glyphicons Halflings';
+                src: url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.eot');
+                src: url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+                }
+                .modal-content button.btn-primary {
+                color: #fff;
+                background-color: #428bca;
+                border-color: #357ebd;
+                display: inline-block;
+                padding: 6px 12px;
+                margin-bottom: 0;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.42857143;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                background-image: none;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                width: 15%;
+                }
+                
+                .tooltipcss
+                {
+                color: cornflowerblue;
+                cursor: pointer;
+                left:12px;
+                }
+                @media (max-width: 767px) {
+                .mandatory:after
+                {
+                top: -5px !important;
+                }
+                .tooltipcss
+                {
+                //top: -6px !important;
+                }
+                }
+                
+                .lookupInput > a {
+                z-index: 1000;
+                margin-top: -34px;
+                width: 0px;
+                border: none;
+                background-color: rgba(221, 218, 218, 1);
+                float: right;
+                padding-right: 36px;
+                box-shadow: none;
+                }
+                
+                .lookupInput > input {
+                font-family: inherit;
+                }
+                
+                .lookupInput > a {
+                text-decoration: none;
+                }
+                
+                .lookupInput a:focus {
+                border-color: rgba(255, 255, 255, 0);
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 255, 255, 0);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 255, 255, 0);
+                }
+                
+                .errorM3{
+                padding: 15px;
+                border-radius: 11px;
+                width: 970px;
+                margin-right: auto;
+                margin-left: auto;
+                }
+                
+                .tabContent {
+                display: block;
+                padding: 15px;
+                border-radius: 11px;
+                border-color: ghostwhite;
+                //box-shadow: 10px 20px 30px #b9b9e6;
+                }
+                .tablist{
+                display: block;
+                padding: 15px;
+                border-radius: 11px;
+                border-color: ghostwhite;
+                box-shadow: 8px -7px 30px #b9b9e6;
+                }
+                
+                .nav > li > a {
+                outline: none;
+                }
+                
+                .nav-tabs > li.active > a,
+                .nav-tabs > li.active > a:hover,
+                .nav-tabs > li.active > a:focus {
+                outline: none;
+                }
+                
+                .mandatory:after {
+                color: #d00;
+                content: "*";
+                position: absolute;
+                margin-left: 3px;
+                top: -4px;
+                font-size: 18px;
+                }
+                
+                .dateFormat {
+                padding: 0 2px;
+                display: none;
+                }
+                .productColor{
+                display: block;
+                width: 100%;
+                height: 34px;
+                padding: 6px 12px;
+                }
+                #removeBtn {
+                margin-top: -2%;
+                margin-left: 4%;
+                }
+                
+                .row{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                }
+                .panel.with-nav-tabs .panel-heading{
+                padding: 5px 5px 0 5px;
+                }
+                .panel.with-nav-tabs .nav-tabs{
+                border-bottom: none;
+                }
+                .panel.with-nav-tabs .nav-justified{
+                margin-bottom: -1px;
+                }
+                /********************************************************************/
+                /*** PANEL DEFAULT ***/
+                .with-nav-tabs.panel-default .nav-tabs > li > a,
+                .with-nav-tabs.panel-default .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-default .nav-tabs > li > a:focus {
+                color: #777;
+                }
+                .with-nav-tabs.panel-default .nav-tabs > .open > a,
+                .with-nav-tabs.panel-default .nav-tabs > .open > a:hover,
+                .with-nav-tabs.panel-default .nav-tabs > .open > a:focus,
+                .with-nav-tabs.panel-default .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-default .nav-tabs > li > a:focus {
+                color: #777;
+                background-color: #ddd;
+                border-color: transparent;
+                }
+                .with-nav-tabs.panel-default .nav-tabs > li.active > a,
+                .with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
+                .with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
+                color: #555;
+                background-color: #fff;
+                border-color: #ddd;
+                border-bottom-color: transparent;
+                }
+                .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu {
+                background-color: #f5f5f5;
+                border-color: #ddd;
+                }
+                .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a {
+                color: #777;
+                }
+                .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+                .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #ddd;
+                }
+                .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+                .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+                .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+                color: #fff;
+                background-color: #555;
+                }
+                /********************************************************************/
+                /*** PANEL PRIMARY ***/
+                .with-nav-tabs.panel-primary .nav-tabs > li > a,
+                .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
+                color: #fff;
+                }
+                .with-nav-tabs.panel-primary .nav-tabs > .open > a,
+                .with-nav-tabs.panel-primary .nav-tabs > .open > a:hover,
+                .with-nav-tabs.panel-primary .nav-tabs > .open > a:focus,
+                .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
+                color: #fff;
+                background-color: #3071a9;
+                border-color: transparent;
+                }
+                .with-nav-tabs.panel-primary .nav-tabs > li.active > a,
+                .with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
+                .with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
+                color: #428bca;
+                background-color: #fff;
+                border-color: #428bca;
+                border-bottom-color: transparent;
+                }
+                .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
+                background-color: #428bca;
+                border-color: #3071a9;
+                }
+                .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a {
+                color: #fff;
+                }
+                .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+                .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #3071a9;
+                }
+                .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+                .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+                .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+                background-color: #4a9fe9;
+                }
+                /********************************************************************/
+                /*** PANEL SUCCESS ***/
+                .with-nav-tabs.panel-success .nav-tabs > li > a,
+                .with-nav-tabs.panel-success .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-success .nav-tabs > li > a:focus {
+                color: #3c763d;
+                }
+                .with-nav-tabs.panel-success .nav-tabs > .open > a,
+                .with-nav-tabs.panel-success .nav-tabs > .open > a:hover,
+                .with-nav-tabs.panel-success .nav-tabs > .open > a:focus,
+                .with-nav-tabs.panel-success .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-success .nav-tabs > li > a:focus {
+                color: #3c763d;
+                background-color: #d6e9c6;
+                border-color: transparent;
+                }
+                .with-nav-tabs.panel-success .nav-tabs > li.active > a,
+                .with-nav-tabs.panel-success .nav-tabs > li.active > a:hover,
+                .with-nav-tabs.panel-success .nav-tabs > li.active > a:focus {
+                color: #3c763d;
+                background-color: #fff;
+                border-color: #d6e9c6;
+                border-bottom-color: transparent;
+                }
+                .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu {
+                background-color: #dff0d8;
+                border-color: #d6e9c6;
+                }
+                .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a {
+                color: #3c763d;
+                }
+                .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+                .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #d6e9c6;
+                }
+                .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+                .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+                .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+                color: #fff;
+                background-color: #3c763d;
+                }
+                /********************************************************************/
+                /*** PANEL INFO ***/
+                .with-nav-tabs.panel-info .nav-tabs > li > a,
+                .with-nav-tabs.panel-info .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-info .nav-tabs > li > a:focus {
+                color: #31708f;
+                }
+                .with-nav-tabs.panel-info .nav-tabs > .open > a,
+                .with-nav-tabs.panel-info .nav-tabs > .open > a:hover,
+                .with-nav-tabs.panel-info .nav-tabs > .open > a:focus,
+                .with-nav-tabs.panel-info .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-info .nav-tabs > li > a:focus {
+                color: #31708f;
+                background-color: #bce8f1;
+                border-color: transparent;
+                }
+                .with-nav-tabs.panel-info .nav-tabs > li.active > a,
+                .with-nav-tabs.panel-info .nav-tabs > li.active > a:hover,
+                .with-nav-tabs.panel-info .nav-tabs > li.active > a:focus {
+                color: #31708f;
+                background-color: #fff;
+                border-color: #bce8f1;
+                border-bottom-color: transparent;
+                }
+                .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu {
+                background-color: #d9edf7;
+                border-color: #bce8f1;
+                }
+                .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a {
+                color: #31708f;
+                }
+                .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+                .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #bce8f1;
+                }
+                .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+                .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+                .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+                color: #fff;
+                background-color: #31708f;
+                }
+                /********************************************************************/
+                /*** PANEL WARNING ***/
+                .with-nav-tabs.panel-warning .nav-tabs > li > a,
+                .with-nav-tabs.panel-warning .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-warning .nav-tabs > li > a:focus {
+                color: #8a6d3b;
+                }
+                .with-nav-tabs.panel-warning .nav-tabs > .open > a,
+                .with-nav-tabs.panel-warning .nav-tabs > .open > a:hover,
+                .with-nav-tabs.panel-warning .nav-tabs > .open > a:focus,
+                .with-nav-tabs.panel-warning .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-warning .nav-tabs > li > a:focus {
+                color: #8a6d3b;
+                background-color: #faebcc;
+                border-color: transparent;
+                }
+                .with-nav-tabs.panel-warning .nav-tabs > li.active > a,
+                .with-nav-tabs.panel-warning .nav-tabs > li.active > a:hover,
+                .with-nav-tabs.panel-warning .nav-tabs > li.active > a:focus {
+                color: #8a6d3b;
+                background-color: #fff;
+                border-color: #faebcc;
+                border-bottom-color: transparent;
+                }
+                .with-nav-tabs.panel-warning .nav-tabs > li.dropdown .dropdown-menu {
+                background-color: #fcf8e3;
+                border-color: #faebcc;
+                }
+                .with-nav-tabs.panel-warning .nav-tabs > li.dropdown .dropdown-menu > li > a {
+                color: #8a6d3b;
+                }
+                .with-nav-tabs.panel-warning .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+                .with-nav-tabs.panel-warning .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #faebcc;
+                }
+                .with-nav-tabs.panel-warning .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+                .with-nav-tabs.panel-warning .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+                .with-nav-tabs.panel-warning .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+                color: #fff;
+                background-color: #8a6d3b;
+                }
+                /********************************************************************/
+                /*** PANEL DANGER ***/
+                .with-nav-tabs.panel-danger .nav-tabs > li > a,
+                .with-nav-tabs.panel-danger .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-danger .nav-tabs > li > a:focus {
+                color: #a94442;
+                }
+                .with-nav-tabs.panel-danger .nav-tabs > .open > a,
+                .with-nav-tabs.panel-danger .nav-tabs > .open > a:hover,
+                .with-nav-tabs.panel-danger .nav-tabs > .open > a:focus,
+                .with-nav-tabs.panel-danger .nav-tabs > li > a:hover,
+                .with-nav-tabs.panel-danger .nav-tabs > li > a:focus {
+                color: #a94442;
+                background-color: #ebccd1;
+                border-color: transparent;
+                }
+                .with-nav-tabs.panel-danger .nav-tabs > li.active > a,
+                .with-nav-tabs.panel-danger .nav-tabs > li.active > a:hover,
+                .with-nav-tabs.panel-danger .nav-tabs > li.active > a:focus {
+                color: #a94442;
+                background-color: #fff;
+                border-color: #ebccd1;
+                border-bottom-color: transparent;
+                }
+                .with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu {
+                background-color: #f2dede; /* bg color */
+                border-color: #ebccd1; /* border color */
+                }
+                .with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > li > a {
+                color: #a94442; /* normal text color */
+                }
+                .with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+                .with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #ebccd1; /* hover bg color */
+                }
+                .with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+                .with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+                .with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+                color: #fff; /* active text color */
+                background-color: #a94442; /* active bg color */
+                }
+                
+                body .bPageBlock, body #bodyCell .bResource .secondaryPalette, body .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock {
+                background-color: #ffffff;
+                /* border-bottom: 1px solid #eaeaea; */
+                /* border-left: 1px solid #eaeaea; */
+                /* border-right: 1px solid #eaeaea; */
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                /* border-radius: 4px; */
+                border-color: white;
+                }
+                
+                .Custom7Tab .secondaryPalette, .individualPalette .Custom7Block .secondaryPalette {
+                /* background-color: #204ea9; */
+                border-color: #ffffff;
+                }
+                
+                .panel.with-nav-tabs .headCss{
+                padding: 10px; ! Important
+                }
+                .bodyCss{
+                background-color: aliceblue;
+                }
+                
+                .modal-static {
+                position: fixed;
+                top: 50% !important;
+                left: 50% !important;
+                margin-top: -100px;
+                margin-left: -100px;
+                overflow: visible !important;
+                }
+                .modal-static,
+                .modal-static .modal-dialog,
+                .modal-static .modal-content {
+                width: 200px;
+                height: 100px;
+                }
+                .modal-static .modal-dialog,
+                .modal-static .modal-content {
+                padding: 0 !important;
+                margin: 0 !important;
+                }
+                .modal-static .modal-content .icon {
+                }
+                .hideDropdown select{
+                visibility: hidden !important;
+                display: block !important;
+                }
+                .spacer{
+                height: 30px;
+                }
+            </style>
+        </head>
+        <body>
+            <div id="pageDiv">
+                
+                <apex:outputPanel id="pageMessage">
+                    <apex:PageMessages id="pgMsg" escape="false"/>
+                </apex:outputPanel>
+                <apex:form id="QCForm">
+                    <apex:actionFunction name="warrantyProductChange" action="{!warrantyProductChange}" reRender="stnProductDescription,stnProductColor"/>
+                    <apex:actionFunction name="saveDynamicControls" action="{!saveDynamicControls}"/>
+                    <apex:actionFunction name="cancel" action="{!cancel}"/>
+                    <apex:actionFunction name="loadPlantDescription" action="{!loadPlantDescription}" reRender="stnManufacturingPlantDescription" />
+                    
+                    <apex:inputHidden id="tapecodeA" value="{!tapeA}"/>
+                    <apex:inputHidden id="tapecodeB" value="{!tapeB}"/>
+                    <apex:inputHidden id="tapecodeC" value="{!tapeC}"/>
+                    <apex:inputHidden id="tapecodeD" value="{!tapeD}"/>
+                    <div class="container">
+                        <div class="panel with-nav-tabs panel-primary">
+                            <div class="panel-heading">
+                                <ul class="nav nav-tabs">
+                                    <li id="li-tab-1" class=" active"><a class="tabLinks" style="cursor: pointer;" id="tab-1" value="tab-1" onclick="changeTab(event,'div-tab-1')" role="tab" tabindex="1" aria-selected="true" aria-controls="tab-default-1">Product Details</a></li>
+                                    <li id="li-tab-2"><a class="tabLinks" style="cursor: pointer;" id="tab-2" value="tab-2" onclick="changeTab(event,'div-tab-2')" role="tab" tabindex="2" aria-selected="true" aria-controls="tab-default-2">Lab Analysis</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="panel-body">
+                                <div id="div-tab-1" class="tabContent">
+                                    <apex:pageBlock id="ProductDetails">
+                                        <div class="panel panel-primary" >
+                                            <div class="panel-heading headCss"><label>General Complaint Information</label></div>
+                                            <div class="panel-body bodyCss">
+                                                <div class="row">
+                                                    <div class="col-md-6" id="productGroupDiv">
+                                                        <label  for="productGroup" class="mandatory">{!$ObjectType.twod__Claim__c.fields.Product_Group__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Product_Group__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="productGroup" styleClass="disable mandatoryValidate form-control" value="{!qc.Product_Group__c}" ></apex:inputField>
+                                                        <label id="productGroupError" class="errorLabel" style="display:none">Please select Product Group</label>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6" id="stnManufacturingPlantDiv" >
+                                                        <label for="stnManufacturingPlant" class="mandatory">{!$ObjectType.twod__Claim__c.fields.Plant__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Plant__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="stnManufacturingPlant" styleClass="disable mandatoryValidate glyphicon glyphicon-search form-control" value="{!qc.Plant__c }"
+                                                                         onChange="ClaimManufacturingPlantChange()"/>
+                                                        <label id="stnManufacturingPlantError" class="errorLabel" style="display:none">Please select Manufacturing Plant<br/></label>
+                                                        <script type="text/javascript">
+                                                        try{
+                                                            document.getElementsByClassName('closeIcon')[0].remove();
+                                                        }catch(e){}
+                                                        </script>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6" id="stnManufacturingPlantDescriptionDiv" style="display:none">
+                                                        <label for="stnManufacturingPlantDescription" class="">Plant Description</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Plant__c.inlineHelpText}"></span>
+                                                        <apex:outputText id="stnManufacturingPlantDescription" styleClass="form-control" value="{!plantDescription}"/>                                                        
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6" id="stnProductNameDiv">
+                                                        <label for="stnProductName" class="mandatory">{!$ObjectType.twod__Claim__c.fields.twod__Warranty_Product__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.twod__Warranty_Product__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="stnProductName" styleClass="disable mandatoryValidate glyphicon glyphicon-search form-control"
+                                                                         value="{!qc.Material__c}"  onchange="warrantyProductChange();removeErrorMessage()"/>
+                                                        <label id="stnProductNameError" class="errorLabel" style="display:none">Please select Product Name</label>
+                                                        <br/>
+                                                        <script type="text/javascript">
+                                                        function removeErrorMessage(){                                                            
+                                                            for(var i=0;i<document.getElementsByClassName('errorMsg').length;i++){
+                                                                document.getElementsByClassName('errorMsg')[i].remove();
+                                                            }                                                            
+                                                        }
+                                                        if('{!qc.Material__c}'==''){
+                                                            document.getElementById('QCPage:QCForm:ProductDetails:stnProductName').disabled=true;
+                                                            document.getElementById('QCPage:QCForm:ProductDetails:stnProductName_lkwgt').style.display='none';
+                                                        }
+                                                        /*function openLookup(baseURL, width, modified, searchParam){
+                                                            console.log(baseURL +','+ width+','+ modified+','+searchParam);
+                                                            var originalbaseURL = baseURL;
+                                                            var originalwidth = width;
+                                                            var originalmodified = modified;
+                                                            var originalsearchParam = searchParam;
+                                                            
+                                                            var lookupType = baseURL.substr(baseURL.length-3, 3);
+                                                            console.log()
+                                                            if (modified == '1') baseURL = baseURL + searchParam;
+                                                            
+                                                            var isCustomLookup = false;
+                                                            
+                                                            // Following "001" is the lookup type for Account object so change this as per your standard or custom object
+                                                            if(lookupType == "{!$ObjectType.twod__Warranty_Product__c.keyPrefix}" ){
+                                                                
+                                                                var urlArr = baseURL.split("&");
+                                                                var txtId = '';
+                                                                if(urlArr.length > 2) {
+                                                                    urlArr = urlArr[1].split('=');
+                                                                    txtId = urlArr[1];
+                                                                }
+                                                                console.log(txtId);
+                                                                // Following is the url of Custom Lookup page. You need to change that accordingly
+                                                                baseURL = "/apex/CustomLookupPage?txt=" + txtId;
+                                                                
+                                                                // Following is the id of apex:form control "myForm". You need to change that accordingly
+                                                                baseURL = baseURL + "&frm=" + escapeUTF("{!$Component.myForm}");
+                                                                if (modified == '1') {
+                                                                    baseURL = baseURL + "&lksearch=" + searchParam;
+                                                                }
+                                                                
+                                                                // Following is the ID of inputField that is the lookup to be customized as custom lookup
+                                                                //isCustomLookup = true;
+                                                                if(txtId.indexOf('stnProductName') > -1 ){
+                                                                    isCustomLookup = true;
+                                                                }
+                                                            }
+                                                            var search=document.getElementById('QCPage:QCForm:ProductDetails:stnManufacturingPlant_lkid').value;
+                                                            if(isCustomLookup == true){
+                                                                baseURL=baseURL+'&search='+search;
+                                                                openPopup(baseURL, "lookup", 350, 480, "width="+width+",height=480,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", true);
+                                                            }
+                                                            else {
+                                                                if (modified == '1')
+                                                                    originalbaseURL = originalbaseURL + originalsearchParam;
+                                                                originalbaseURL=originalbaseURL+'&search='+search;
+                                                                openPopup(originalbaseURL, "lookup", 350, 480, "width="+originalwidth+",height=480,toolbar=no,status=no,directories=no,menubar=no,resizable=yes,scrollable=no", true);
+                                                            }
+                                                        }
+                                                        */
+                                                        </script>
+                                                    </div>
+                                                    <div class="col-md-6" id="stnProductDescriptionDiv">
+                                                        <label for="stnProductDescription">{!$ObjectType.twod__Claim__c.fields.Product_Name1__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Product_Name1__c.inlineHelpText}"></span>
+                                                        <apex:outputText id="stnProductDescription" styleClass="disable form-control" value="{!productName}"/>
+                                                        <label id="stnProductDescriptionError" class="errorLabel" style="display:none">Please select Product Name</label>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6" id="stnProductColorDiv">
+                                                        <label for="stnProductColor">{!$ObjectType.twod__Claim__c.fields.Product_Colour__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Product_Color__c.inlineHelpText}"></span>
+                                                        <apex:outputText id="stnProductColor" styleClass=" disable form-control" value="{!productColour}"/>
+                                                        <label id="stnProductColorError" class="errorLabel" style="display:none">Please select Product Color</label>
+                                                    </div>
+                                                    <div class="col-md-6"  id="stnJobsiteOwnerTypeDiv">
+                                                        <label for="stnJobsiteOwnerType" class="mandatory" tabindex="1">{!$ObjectType.twod__Claim__c.fields.OwnershipType__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.OwnershipType__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="stnJobsiteOwnerType" styleClass="disable mandatoryValidate form-control" value="{!qc.Ownership_Type__c}" onChange="ownershipChange(this.value)" />
+                                                        <label id="stnJobsiteOwnerTypeError" class="errorLabel" style="display:none">Please select Jobsite OwnerType</label>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6" id="stnInstallDateDiv">
+                                                        <label for="stnInstallDate"  class="mandatory">{!$ObjectType.twod__Claim__c.fields.Install_Date__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Install_Date__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="stnInstallDate" styleClass="disable mandatoryValidate form-control datePickerCust"
+                                                                         style="width:100%" value="{!qc.Date_of_Installation__c}" onchange="dateChange()"
+                                                                         />
+                                                        <label id="stnInstallDateError" class="errorLabel" style="display:none">Please select Install Date</label>
+                                                        <label id="stnInstallDate1Error" class="errorLabel" style="display:none">Install Date Should be less than Today</label>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6"  id="stnTransferredDateDiv" style="display:none">
+                                                        <label for="stnTransferredDate" class="mandatory">{!$ObjectType.twod__Claim__c.fields.Transferred_Date__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Transferred_Date__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="stnTransferredDate" styleClass="disable mandatoryValidate form-control datePickerCust"
+                                                                         style="width:100%" value="{!qc.Date_of_Transfer__c}" onchange="dateChange()"
+                                                                         />
+                                                        <label id="stnTransferredDateError" class="errorLabel" style="display:none">Please select Transferred Date</label>
+                                                        <label id="stnTransferredDate1Error" class="errorLabel" style="display:none">Transferred Date should be greater than Install Date</label>
+                                                        <label id="stnTransferredDate2Error" class="errorLabel" style="display:none">Transferred Date Should be less than Today</label>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6" id="stnQuantityDiv">
+                                                        <label for="stnQuantity" class="mandatory">{!$ObjectType.twod__Claim__c.fields.material_quantity__c.Label} (in squares)</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.material_quantity__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="stnQuantity"  styleClass="disableFull mandatoryValidate form-control" value="{!qc.material_quantity__c}" onkeyup="validateNumber('stnQuantity','stnErrorQuantity2'),validatefirst('stnQuantity','stnErrorQuantity1'),validateDifference()" />
+                                                        <label id="stnQuantityError" class="errorLabel" style="display:none"> Please Enter Quantity</label>
+                                                        <label id="stnErrorQuantity1" class="errorLabel" style="display:none"> Quantity should be greater than 0</label>
+                                                        <label id="stnErrorQuantity2" class="errorLabel" style="display:none"> Quantity should be number</label>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6" id="stnDefectiveQuantityDiv">
+                                                        <label for="stnDefectiveQuantity" class="mandatory">{!$ObjectType.twod__Claim__c.fields.Quantity__c.Label} (in squares)</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Quantity__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="stnDefectiveQuantity" styleClass="disableFull mandatoryValidate form-control" value="{!qc.Quantity__c}" onkeyup="validateNumber('stnDefectiveQuantity','stnClaimQtyError2'),validatefirst('stnDefectiveQuantity','stnClaimQtyError1'),validateDifference()"/>
+                                                        <label id="stnDefectiveQuantityError" class="errorLabel" style="display:none"> Please Enter Quantity</label>
+                                                        <label id="stnClaimQtyError1" class="errorLabel" style="display:none"> Quantity should be greater than 0</label>
+                                                        <label id="stnClaimQtyError2" class="errorLabel" style="display:none"> Quantity should be number</label>
+                                                        <label id="stnClaimQtyError3" class="errorLabel" style="display:none"> Quantity should be number</label>
+                                                        <label id="stnClaimQtyError4" class="errorLabel" style="display:none"> Defective Quantity should be Less than Apllied Quantity</label>
+                                                        <br/>
+                                                    </div>
+                                                    <apex:outputPanel rendered="{!IF(claimType=='Standard' || claimType=='International',true,false)}">
+                                                        
+                                                        <div class="col-md-6" style="width:57%">
+                                                            <!-- Tape Code Section -->
+                                                            
+                                                            <label>Tape Code</label>
+                                                            <br/>   
+                                                            <table data-toggle="table" data-striped="true">
+                                                                <tr>
+                                                                    <td>
+                                                                        <label style="width:60%">Year Code</label><span style="lefft:5px;" class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Enter the first two letters of the of the four letter combination"></span>
+                                                                    </td>
+                                                                    
+                                                                    <td>
+                                                                        <label style="width:70%">Plant Code</label><span   class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Enter the second two letters of the four letter combination"></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label style="width:50%">Roll #</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Enter the number combination"></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        
+                                                                        <label style="width:70%">Reference #</label><span   class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="Enter the letter and number combination"></span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style="width:100%">
+                                                                    <td >
+                                                                        <input id="box1" class="disableField form-control" maxlength="2" type="text"  onkeypress="return onlyAlphabets(event);" style="width:80%"/>
+                                                                    </td>
+                                                                    
+                                                                    <td>
+                                                                        <input id="box2" class="disableField form-control" maxlength="2" type="text" onkeypress="return onlyAlphabets(event);" style="width:80%"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="box3" class="disableField form-control" maxlength="6" type="text"  onkeydown="return validateNumber(event)" style="width:80%"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        
+                                                                        <input id="box4" class="disableField form-control" maxlength="6" type="text"  onkeypress="return onlyAlpaNumeric(event);" style="width:80%"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <br/><br/><br/>
+                                                            <input type="button" Class="slds-button slds-button--brand" id="idBtn" value="Add" onclick="addCode()"  style="float:left"/><br/><br/>
+                                                            
+                                                        </div>
+                                                        <div class="col-md-6" style="width:21%">
+                                                            <label for="TapeA" style="float:left;">Entered Tape Codes</label>
+                                                            <br/>
+                                                            <br/>
+                                                            &nbsp; &nbsp;<label id="tap1" style="width:100%;;">{!tapeA}</label><label style="width:10%;float:left"/><img  class="disableFull" src="{!$Resource.Cross_Image}" id="tap1img"  style="float:left;display:none;margin-left:-42px;margin-top:-22px" onclick="removeCode('tap1','tap1img')" height="15" width="15"/><br/>
+                                                            &nbsp; &nbsp; <label id="tap2"  style="width:100%;">{!tapeB}</label><label style="width:10%;float:left"/><img  class="disableFull" src="{!$Resource.Cross_Image}" id="tap2img" style="float:left;display:none;margin-left:-42px;margin-top:-22px;" onclick="removeCode('tap2','tap2img')" height="15" width="15"/><br/>
+                                                            &nbsp; &nbsp; <label id="tap3"  style="width:100%;">{!tapeC}</label><label style="width:10%;float:left;"/><img class="disableFull" src="{!$Resource.Cross_Image}" id="tap3img" style="float:left;display:none;margin-left:-42px;margin-top:-22px;" onclick="removeCode('tap3','tap3img')" height="15" width="15"/><br/>
+                                                            &nbsp; &nbsp;<label id="tap4"  style="width:100%;">{!tapeD}</label><label style="width:10%;float:left;"/><img class="disableField" src="{!$Resource.Cross_Image}" id="tap4img" style="float:left;display:none;margin-left:-42px;margin-top:-22px;" onclick="removeCode('tap4','tap4img')" height="15" width="15"/><br/>
+                                                            <br/>
+                                                            <!-- Tape Code Section -->
+                                                        </div>
+                                                    </apex:outputPanel>
+                                                    <div class="col-md-6">
+                                                        <label for="stnDefectDetails" class="">{!$ObjectType.twod__Claim__c.fields.Defect_Details__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Defect_Details__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="stnDefectDetails" styleClass="disableFull form-control"
+                                                                         value="{!qc.Defect_Details__c}" />
+                                                        <br/>
+                                                    </div>
+                                                    <!--CERP-49 : Add Class Action Form Received field  -->
+                                                    <div class="col-md-6" id="classActionFormRcvdDiv">
+                                                        <label for="classActionFormRcvd" class="mandatory">{!$ObjectType.QC__c.fields.Class_Action_Form_received__c.Label}</label>
+                                                        <span
+                                                              class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip"
+                                                              data-placement="right" title="{!$ObjectType.QC__c.fields.Class_Action_Form_received__c.inlineHelpText}"></span>
+                                                        <apex:inputField id="classActionFormRcvd" styleClass="mandatoryValidate form-control" value="{!qc.Class_Action_Form_Received__c}"
+                                                                         />
+                                                        <label id="classActionFormRcvdError" class="errorLabel" style="display:none">Please choose a value.</label>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-md-6 checkbox" id="classActionCheckBox" style="display:none">
+                                                        <br/><label><input type="checkbox" id="stnClassAction" value="" onChange="classActionChange()" >{!$ObjectType.twod__Claim__c.fields.isClassAction__c.Label}</input></label>
+                                                    <apex:inputHidden id="stnClassActionValue" value="{!isClassAction}" /> 
+                                                    <br/>
+                                                </div>
+                                                <div class="col-md-6" id="stnStatusThirdPartyDiv" style="display:none">
+                                                    <label for="stnStatusThirdParty">{!$ObjectType.twod__Claim__c.fields.Status_of_third_party_appeal__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Status_of_third_party_appeal__c.inlineHelpText}"></span>
+                                                    <apex:inputField id="stnStatusThirdParty" styleClass="disableField form-control" value="{!qc.Status_of_third_party_appeal__c}"  />
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <center>
+                                        <input type="button" Class="slds-button slds-button--brand" id="cancelbtn" value="Cancel" onclick="cancel()"  />
+                                        <input type="button" Class="slds-button slds-button--brand" id="next" value="Next" onclick="changeTab(event,'div-tab-2')"  />                                            
+                                    </center>
+                                </apex:pageBlock>
+                            </div>
+                            <div id="div-tab-2" class="tabContent" style="display:none">
+                                <apex:pageBlock id="LabAnalysis">                                  
+                                    <div class="panel panel-primary" >
+                                        <div class="panel-heading headCss"><label>Claim Category</label></div>
+                                        <div class="panel-body bodyCss">
+                                            <div class="col-md-12">
+                                                <label for="ClaimType" class="mandatory">{!$ObjectType.QC__c.fields.Primary_Defect_Code__c.Label}:</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Primary_Defect_Code__c.inlineHelpText}"></span>
+                                                <apex:inputField value="{!qc.Primary_Defect_Code__c}" id="warrantyCode" styleClass="disable glyphicon glyphicon-search form-control">
+                                                    <apex:actionSupport status="status" event="onchange" action="{!loadDynamicControls}" onComplete="sampleMethod();" reRender="options,savepnl,primaryDescription" />
+                                                </apex:inputField>
+                                                <label id="warrantyCodeError" class="" style="color:red;display:none">Please Enter Primary Defect Code</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <apex:outputPanel id="primaryDescription">
+                                                    <apex:outputPanel rendered="{!primaryDescription != ''}">
+                                                        <br/>
+                                                        <label for="ClaimType" >Description : </label>
+                                                    </apex:outputPanel>
+                                                    <apex:outputText value="{!primaryDescription}" rendered="{!primaryDescription != ''}"/>
+                                                    <br/><br/>
+                                                </apex:outputPanel></div>
+                                            <div class="col-md-12">
+                                                <label for="ClaimType">{!$ObjectType.QC__c.fields.Secondary_Defect_Code__c.Label}:</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.twod__claim__c.fields.Secondary_Defect_Code__c.inlineHelpText}"></span>
+                                                <apex:inputField value="{!qc.Secondary_Defect_Code__c}" styleClass="disable glyphicon glyphicon-search form-control">
+                                                    <apex:actionSupport event="onchange" action="{!loadDescription}" onComplete="sampleMethod();" reRender="secondaryDescription" />
+                                                </apex:inputField></div>
+                                            <div class="col-md-12">
+                                                <apex:outputPanel id="secondaryDescription">
+                                                    <apex:outputPanel rendered="{!secondaryDescription != ''}">
+                                                        <br/>
+                                                        <label for="ClaimType" >Description : </label>
+                                                    </apex:outputPanel>
+                                                    <apex:outputText value="{!secondaryDescription}" rendered="{!secondaryDescription != ''}"/>
+                                                </apex:outputPanel>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    
+                                    <apex:outputPanel id="options">
+                                        <br/>
+                                        <apex:outputPanel rendered="{!qc.Primary_Defect_Code__c != ''}">
+                                            <div class="panel panel-primary">
+                                                <div class=" panel-heading headCss"><label>Claim Questionnaire</label> </div>
+                                                <div class="panel-body bodyCss">
+                                                    <apex:actionStatus id="status">
+                                                        <apex:facet name="start">
+                                                            <img src="/img/loading.gif" />
+                                                        </apex:facet>
+                                                    </apex:actionStatus>
+                                                    <apex:repeat var="dynaControl" value="{!dynaControls}">
+                                                        <div class="row">
+                                                            <div class="col-md-6 {!dynaControl.controlType}">
+                                                                <apex:outputLabel value="{!dynaControl.controlLabel}" rendered="{!dynaControl.controlLabel !='NA'}"/>
+                                                                <apex:outputPanel rendered="{!dynaControl.required}"><span class="mandatory"></span></apex:outputPanel>
+                                                                <apex:outputPanel rendered="{!dynaControl.helpText !=''}">
+                                                                    <span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!dynaControl.helpText}"></span>
+                                                                </apex:outputPanel>
+                                                                <label></label>
+                                                                <apex:outputText rendered="{!dynaControl.controlType=='Radio'}">
+                                                                    <apex:selectradio value="{!dynaControl.controlVal}" styleClass="radioOpt" >
+                                                                        <apex:selectOptions value="{!dynaControl.controlOptions}" />
+                                                                    </apex:selectradio>
+                                                                </apex:outputText>
+                                                                <apex:outputText rendered="{!dynaControl.controlType=='Text'}" >
+                                                                    <apex:inputText size="4" value="{!dynaControl.controlVal}" styleClass="disable" style="margin-left: 13px;"/>
+                                                                    <span> {!dynaControl.inputTextLabel}</span>
+                                                                </apex:outputText>
+                                                                <apex:outputText rendered="{!dynaControl.controlType=='TextMask'}">
+                                                                    <apex:inputText size="4" value="{!dynaControl.controlVal}" styleClass="disable theText" style="margin-left: 13px;" />
+                                                                    <script>                                                                    
+                                                                    
+                                                                    $(document).ready(function(){
+                                                                        $('[data-toggle="tooltip"]').tooltip();
+                                                                    });
+                                                                    $('.theText').mask('00&00',{placeholder: "__&__"});
+                                                                    </script>
+                                                                    <span> {!dynaControl.inputTextLabel}</span>
+                                                                </apex:outputText>
+                                                                <apex:outputText rendered="{!dynaControl.controlType=='Textarea'}" >
+                                                                    <br/><apex:inputTextarea html-maxlength="255" value="{!dynaControl.controlVal}" styleClass="disable form-control" />                                                                    
+                                                                </apex:outputText>
+                                                                <script>
+                                                                //TextArea Styling
+                                                                if('{!dynaControl.controlType}'=='Textarea'){
+                                                                    var clName=document.getElementsByClassName('Textarea');
+                                                                    console.log(clName);
+                                                                    for(i=0;i<clName.length;i++){
+                                                                        document.getElementsByClassName('Textarea')[i].className='col-md-12';
+                                                                    }
+                                                                }
+                                                                $(document).ready(function(){                                                                    
+                                                                    $('[data-toggle="tooltip"]').tooltip();
+                                                                });
+                                                                
+                                                                //Radio Styling          
+                                                                if('{!dynaControl.controlType}'=='Radio'){
+                                                                    var StringVal='{!dynaControl.controlOptions}';
+                                                                    var radio=StringVal.split("],");                                                            
+                                                                    console.log(radio);
+                                                                    var sizeOpt=radio.length;
+                                                                    var clName=document.getElementsByClassName('Radio');
+                                                                    var newClassName='col-md-6';
+                                                                    if(sizeOpt>=4){
+                                                                        newClassName='col-md-8';
+                                                                    }
+                                                                    if(sizeOpt>6){
+                                                                        newClassName='col-md-10';
+                                                                    }
+                                                                    if(sizeOpt>8){
+                                                                        newClassName='col-md-12';
+                                                                    }
+                                                                    document.getElementsByClassName('Radio')[0].className=newClassName;
+                                                                }
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                        <div class="spacer"></div>
+                                                    </apex:repeat>
+                                                </div>
+                                            </div>
+                                        </apex:outputPanel>
+                                    </apex:outputPanel>
+                                    <div class="panel panel-primary" >
+                                        <div class="panel-heading headCss"><label>Lab Recommendations</label></div>
+                                        <div class="panel-body bodyCss">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label for="ClaimType" class="mandatory">{!$ObjectType.QC__c.fields.Lab_Status__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.QC__c.fields.Lab_Status__c.inlineHelpText}"></span>
+                                                    <apex:inputField value="{!qc.Lab_Status__c}" id="Lab_Status" styleClass="disable form-control">  
+                                                        <label id="stnLabStatusError" class="errorLabel" style="display:none">Please select Lab Status</label>
+                                                    </apex:inputField>
+                                                    <br/>
+                                                </div>  
+                                                <div class="col-md-12">
+                                                    <label for="reject reason" class="">{!$ObjectType.QC__c.fields.Reject_Reason__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.QC__c.fields.Reject_Reason__c.inlineHelpText}"></span>
+                                                    <apex:inputField value="{!qc.Reject_Reason__c}" id="reject_reason" styleClass="disable form-control">                                                        
+                                                    </apex:inputField>
+                                                    <br/>
+                                                </div> 
+                                                <div class="col-md-12">
+                                                    <label for="other reason" class="">{!$ObjectType.QC__c.fields.Other_Reason__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.QC__c.fields.Other_Reason__c.inlineHelpText}"></span>
+                                                    <apex:inputField value="{!qc.Other_Reason__c}" id="other_reason" styleClass="disable form-control">                                                        
+                                                    </apex:inputField>
+                                                    <br/>
+                                                </div>                                                 
+                                                <div class="col-md-12">
+                                                    <label for="ClaimType" class="">{!$ObjectType.QC__c.fields.Lab_Comments__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.QC__c.fields.Lab_Comments__c.inlineHelpText}"></span>
+                                                    <apex:inputField value="{!qc.Lab_Comments__c}" id="Lab_Comments" styleClass="disable form-control">                                                        
+                                                    </apex:inputField>
+                                                    <br/>
+                                                </div>                                                
+                                                <div class="col-md-12">
+                                                    <label for="ClaimType" class="">{!$ObjectType.QC__c.fields.Photo_Comments__c.Label}</label><span class="glyphicon glyphicon-question-sign tooltipcss" data-toggle="tooltip" data-placement="right" title="{!$ObjectType.QC__c.fields.Photo_Comments__c.inlineHelpText}"></span>
+                                                    <apex:inputField value="{!qc.Photo_Comments__c}" id="Photo_Comments" styleClass="disable form-control">                                                        
+                                                    </apex:inputField>
+                                                    <br/>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <apex:outputText id="savepnl">
+                                        <center>
+                                            <input type="button" Class="slds-button slds-button--brand" id="prevbtn" value="Previous" onclick="changeTab(event,'div-tab-1')"  />
+                                            <input type="button" Class="slds-button slds-button--brand" id="savebtn" value="Save" onclick="save()"  />
+                                            <input type="button" Class="slds-button slds-button--brand" id="cancelbtn" value="Cancel" onclick="cancel()"  />
+                                        </center>
+                                        <script type="text/javascript">
+                                        $("[id$=savebtn]").removeClass("btn");
+                                        </script>
+                                    </apex:outputText>
+                                </apex:pageBlock>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </apex:form>
+        </div>
+    </body>
+    <script>
+    
+    function save(){
+        var lab_status=document.getElementById('QCPage:QCForm:LabAnalysis:Lab_Status').value ;
+        var reject_reason=document.getElementById('QCPage:QCForm:LabAnalysis:reject_reason').value ;
+        var other_reason=document.getElementById('QCPage:QCForm:LabAnalysis:other_reason').value;
+        var err_count=0;
+        if(reject_reason =='Other' && (other_reason =='' || other_reason ==null || other_reason =='undefined')){
+            err_count=1;
+            alert("Please enter Other Reject Reason");
+        }
+        if(lab_status =='Reject' && (reject_reason =='' || reject_reason ==null || reject_reason =='undefined')){
+            alert("Please enter Reject Reason");
+            err_count=1;
+        }
+        //14-Feb-2018 Making Lab Status as Mandatory
+        if(lab_status =='' || lab_status ==null || lab_status =='undefined'){
+            alert("Lab Status is mandatory");
+            err_count=1;
+        }        
+        if( document.getElementById('QCPage:QCForm:LabAnalysis:warrantyCode').value == '' )
+        {
+            err_count=1;
+            document.getElementById('warrantyCodeError').style.display = "block";
+        }
+        if(err_count ==0){
+            document.getElementById('warrantyCodeError').style.display = "none";
+            saveDynamicControls();
+        }
+    }
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    
+    $(function() {
+        console.log('{!claimType}');
+        onloadclassActionChange();
+        ClaimManufacturingPlantChange()
+        ownershipChange('{!qc.Ownership_Type__c}');
+        if('{!claimType}'=='International')
+        {
+            //document.getElementById('stnTransferredDateDiv').style.display = "none";
+            //document.getElementById('stnJobsiteOwnerTypeDiv').style.display = "none";
+        }
+        
+        
+        var startYear=Number(1960); 
+        var endYear=new Date().getFullYear(); 
+        console.log('end year'+endYear);        
+        var optionsString='';
+        if(startYear<endYear){
+            //Loops through each date and renders the string for an option tag and addes it to the Optrionsstring variable
+            for(i=startYear;i<Number(endYear)+1;i++){
+                optionsString += "<option value=\""+i+"\">"+i+"</option>";
+            }
+            //Replace the innerHTML of the calendar picker year select tag with the Optionsstring we constructed.
+            $('#calYearPicker').html(optionsString);
+        }
+        if('{!claimType}'=='Short_Term')
+        {
+            document.getElementById('li-tab-1').style.display = "none";
+            document.getElementById('li-tab-2').className="active";
+            document.getElementById('li-tab-1').className="";
+            document.getElementById('div-tab-1').style.display = "none";
+            document.getElementById('div-tab-2').style.display = "";
+            document.getElementById('prevbtn').style.display = "none";
+        }
+        if('{!tapeA}'!='')
+        {
+            document.getElementById('tap1img').style.display = "";
+        }
+        if('{!tapeB}'!='')
+        {
+            document.getElementById('tap2img').style.display = "";
+        }
+        if('{!tapeC}'!='')
+        {
+            document.getElementById('tap3img').style.display = "";
+        }
+        if('{!tapeD}'!='')
+        {
+            document.getElementById('tap4img').style.display = "";
+        }
+        
+        if({!isDisabled}){
+            var disable=document.getElementsByClassName('disable');
+            
+            for(var i=0;i<=disable.length;i++){
+                console.log(disable[i]);
+                try{
+                    disable[i].disabled=true;
+                }
+                catch(e){}
+            }
+            document.getElementById('QCPage:QCForm:ProductDetails:stnManufacturingPlant_lkwgt').style.display = "none";
+            document.getElementById('QCPage:QCForm:ProductDetails:stnProductName_lkwgt').style.display = "none";
+            document.getElementById('QCPage:QCForm:LabAnalysis:warrantyCode_lkwgt').style.display = "none";
+            document.getElementById('QCPage:QCForm:LabAnalysis:j_id61_lkwgt').style.display = "none";
+        }
+        if({!isDisabledFull}){
+            var disableFull=document.getElementsByClassName('disableFull');
+            for(var i=0;i<=disableFull.length;i++){
+                console.log(disableFull[i]);
+                try{
+                    disableFull[i].disabled=true;
+                }
+                catch(e){}
+            }
+        }
+        
+    });
+    
+    function onloadclassActionChange(){
+        console.log('-----classaction----'+{!isClassAction});
+        document.getElementById("stnClassAction").checked = {!isClassAction};
+        if(document.getElementById("stnClassAction").checked){
+            console.log('-----classaction--1ins--');
+            //document.getElementById('stnStatusThirdPartyDiv').style.display = "block"; 
+        }
+    }
+    
+    function classActionChange(){
+        console.log(document.getElementById("stnClassAction").checked);
+        document.getElementById("QCPage:QCForm:ProductDetails:stnClassActionValue").value = document.getElementById("stnClassAction").checked;
+        if(document.getElementById("stnClassAction").checked){
+            // document.getElementById('stnStatusThirdPartyDiv').style.display = "block"; 
+        }else{
+            //document.getElementById('stnStatusThirdPartyDiv').style.display = "none";
+            document.getElementById('QCPage:QCForm:ProductDetails:stnStatusThirdParty').value= '';
+        }
+        
+    }
+    function changeTab(event,divId){
+        if(divId=='div-tab-1')
+        {
+            document.getElementById('div-tab-1').style.display = "";
+            document.getElementById('div-tab-2').style.display = "none";
+            document.getElementById('li-tab-1').className= "active";
+            document.getElementById('li-tab-2').className="";
+        }
+        else
+        {
+            validate();
+            var isError=false;
+            var errorLabel=document.getElementsByClassName('errorLabel');
+            console.log(errorLabel);
+            for(i=0;i<errorLabel.length;i++){
+                if((errorLabel[i].style.display=='block') || (errorLabel[i].style.display=='') ){
+                    console.log(errorLabel[i]);
+                    isError=true;
+                }
+            }
+            if(!isError){
+                document.getElementById('div-tab-1').style.display = "none";
+                document.getElementById('div-tab-2').style.display = "";
+                document.getElementById('li-tab-2').className="active";
+                document.getElementById('li-tab-1').className="";
+            }
+        }
+    }
+    
+    function validate(){
+        var mandatory=document.getElementsByClassName('mandatoryValidate');
+        var fieldIdArray;
+        var labelId;
+        var DivId;
+        for(i=0;i<mandatory.length;i++)
+        {
+            if(mandatory[i].value=='' || mandatory[i].value==null ){
+                
+                fieldIdArray=(mandatory[i].id).split(':');
+                if(fieldIdArray[fieldIdArray.length - 1].indexOf('_')<0)
+                {
+                    labelId=fieldIdArray[fieldIdArray.length - 1] + 'Error';
+                    console.log(labelId);
+                    DivId=fieldIdArray[fieldIdArray.length - 1] + 'Div';
+                    console.log(DivId);
+                    if(document.getElementById(DivId).style.display != "none"){
+                        console.log(document.getElementById(labelId));
+                        document.getElementById(labelId).style.display = "block";
+                        document.getElementById(labelId).style.color = "red"
+                    }
+                }
+            }
+            else{
+                fieldIdArray=(mandatory[i].id).split(':');
+                labelId=fieldIdArray[fieldIdArray.length - 1] + 'Error';
+                document.getElementById(labelId).style.display = "none";
+            }
+        }
+    }
+    
+    function ClaimManufacturingPlantChange(){
+        var plant=document.getElementById('QCPage:QCForm:ProductDetails:stnManufacturingPlant').value;
+        console.log(plant);
+        try{
+            document.getElementsByClassName('closeIcon')[0].remove();
+        }catch(e){} 
+        for(var i=0;i<document.getElementsByClassName('errorMsg').length;i++){
+            document.getElementsByClassName('errorMsg')[i].remove();
+        }
+        if(plant!=''){
+            document.getElementById('QCPage:QCForm:ProductDetails:stnProductName').disabled=false;
+            document.getElementById('QCPage:QCForm:ProductDetails:stnProductName_lkwgt').style.display='';
+            document.getElementById('stnManufacturingPlantDescriptionDiv').style.display='';
+        }
+        else{
+            document.getElementById('QCPage:QCForm:ProductDetails:stnProductName').disabled=true;
+            document.getElementById('QCPage:QCForm:ProductDetails:stnProductName_lkwgt').style.display='none';
+            document.getElementById('stnManufacturingPlantDescriptionDiv').style.display='none';
+        }
+        loadPlantDescription();
+    }
+    
+    function validateNumber(fieldId,error){
+        console.log(fieldId);
+        var numberValue=$('[id$='+fieldId).val();
+        if(numberValue=='')
+        {
+            removeError(error);
+            return null;
+        }
+        var exp=/^\d+$/;
+        if(numberValue.match(exp)){
+            removeError(error);
+        }
+        else{
+            addError(error);
+            return false;
+        }
+    }
+    
+    function validatefirst(fieldId,error){
+        
+        var txtvalue=$('[id$='+fieldId).val();
+        if(txtvalue=='')
+        {
+            removeError(error);
+            return null;
+        }
+        if(txtvalue<=0)
+        {
+            //$('[id$='+fieldId).val('');
+            addError(error);
+            return false;
+        }
+        else{
+            removeError(error);
+        }
+        
+    }
+    
+    function validateDifference(){
+        var installed=parseInt(document.getElementById('QCPage:QCForm:ProductDetails:stnQuantity').value);
+        var affected=parseInt(document.getElementById('QCPage:QCForm:ProductDetails:stnDefectiveQuantity').value);
+        error='stnClaimQtyError4';
+        console.log('in'+installed+'--'+affected);
+        if(affected>installed)
+        {
+            addError(error);
+        }
+        else{
+            removeError(error);
+        }
+        
+    }
+    
+    function addError(ErrorId) {
+        var objError = document.getElementById(ErrorId);
+        objError.style.display = "block";
+        objError.style.color = "red";
+    }
+    
+    function removeError(ErrorId) {
+        var objError = document.getElementById(ErrorId);
+        objError.style.display = "none";
+    }
+    
+    function onlyAlphabets(e) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+                else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode==8)
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            
+        }
+    }
+    
+    function onlyAlpaNumeric(event){
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        var charCode = window.event.keyCode;
+        if (regex.test(str) || charCode==8) {
+            return true;
+        }
+        
+        event.preventDefault();
+        return false;
+    }
+    
+    
+    function addCode(){
+        //alert("coming");
+        var box1=$("#box1").val();
+        var box2=$("#box2").val();
+        var box3=$("#box3").val(); 
+        var box4=$("#box4").val();
+        box2=box2.toUpperCase();
+        box3=box3.toUpperCase();
+        box4=box4.toUpperCase();
+        var tape1=document.getElementById("tap1").innerHTML;
+        var tape2=document.getElementById("tap2").innerHTML;
+        var tape3=document.getElementById("tap3").innerHTML;
+        var tape4=document.getElementById("tap4").innerHTML;
+        console.log('box1+'+tape1+'tape2'+tape2+'tape3'+tape3);
+        var box1Array=[];
+        var box1regex=/[PATHFINDER]/;
+        box1=box1.toUpperCase();
+        var unformattedBox="("+box1+")";
+        
+        console.log('unformatted'+unformattedBox);
+        var errorMsg="";
+        console.log(box1.length);
+        var occurance_count=0;
+        
+        for (var i = 0; i < box1.length; i++) {
+            var item= box1.charAt(i);
+            if( item.indexOf("B") >=0 || item.indexOf("M") >=0 || item.indexOf("G") >=0 || item.indexOf("W") >=0 || item.indexOf("J") >=0 ){
+                occurance_count++;
+            }
+        }
+        
+        if((box1.length !=2 || !box1.match(box1regex) || box1.length =='') ){
+            console.log("djhfsdf1");
+            errorMsg="Box A (Year) should contain any 2 letters from ( P, A, T, H, F, I, N, D, E, R) Or AA/BJ/GW/MN";
+        }
+        
+        if(box2.length !=2){
+            console.log("djhfsdf");
+            errorMsg+="\n Box B (Plant) should contain 2 characters";
+        }
+        
+        console.log( 'count'+ occurance_count);
+        if((box1.length ==2 && box2.length ==2 && box1.match(box1regex)) || (box1.length ==2 && box2.length ==2 && occurance_count ==2)){
+            console.log("matched");
+            box1=box1.toUpperCase();
+            var formattedboxA='';
+            if(box1 !='AA' && box1 !='BJ' && box1 !='GW' && box1 !='MN'){
+                console.log('coming in not aa');
+                for (var i = 0; i < box1.length; i++) {
+                    box1Array.push((box1.charAt(i)).toUpperCase());
+                }
+                
+                for(var i = 0; i < box1Array.length; i++)
+                    
+                    switch(box1Array[i]) {
+                        case 'P':formattedboxA +=1;
+                            
+                            break;
+                        case 'A':formattedboxA +=2;
+                            
+                            break;
+                        case 'T':formattedboxA +=3;
+                            
+                            break;
+                        case 'H':formattedboxA +=4;
+                            break;
+                        case 'F':formattedboxA +=5;
+                            break;
+                        case 'I':formattedboxA +=6;
+                            break;
+                        case 'N':formattedboxA +=7;
+                            break;
+                        case 'N':formattedboxA +=7;
+                            break;
+                        case 'D':formattedboxA +=8;
+                            break;
+                        case 'E':formattedboxA +=9;
+                            break;
+                        case 'R':formattedboxA +=0;
+                            break;
+                        default:alert("Box A (Year) should contain any 2 letters from ( P, A, T, H, F, I, N, D, E, R) Or AA/BJ/GW/MN");
+                            
+                    }
+            }
+            else if(box1 =='AA' || box1 =='aa' ){
+                console.log('coming in aa');
+                formattedboxA='90';
+            }
+                else if(box1 =='BJ' || box1 =='bj' ){
+                    formattedboxA='91';
+                }
+                    else if(box1 =='GW' || box1 =='gw' ){
+                        formattedboxA='92';
+                    }
+                        else if(box1 =='MN' || box1 =='mn' ){
+                            formattedboxA='93';
+                            
+                        }    
+            
+            console.log('coming in not null boxA'+formattedboxA );
+            console.log(formattedboxA.length);
+            if(formattedboxA !='' && formattedboxA !='undefined' && formattedboxA.length==2){
+                console.log('coming in not null boxA');
+                box1=formattedboxA;
+                if(box1.indexOf("9") != 0){
+                    box1="20"+box1;
+                }
+                else{
+                    box1="19"+box1;
+                }
+                //CERP-21.. Logic to check if installation year is before tape code year
+                
+                var install=new Date(document.getElementById('QCPage:QCForm:ProductDetails:stnInstallDate').value);
+                var installation_year = install.getFullYear();
+                
+                if(box1 > installation_year){
+                    alert('Attention: Year entered for Date of Installation is prior to Tape Code Year entered. Please review.');
+                    return null;
+                }
+                if(installation_year - box1 > 2){
+                    alert('Attention: Year entered for Date of Installation is greater than 2 years after to Tape Code Year entered. Please review.');
+                    
+                }
+                var tapecode='';
+                tapecode=unformattedBox+'&nbsp;'+box1+'&nbsp;'+box2+'&nbsp;'+box3+'&nbsp;'+box4;
+                if((box4 =='' || box4 ==null || box4 =='undefined') && (box3 !='' && box3 !=null && box3 !='undefined')){
+                    
+                    tapecode=unformattedBox+'&nbsp;'+box1+'&nbsp;'+box2+'&nbsp;'+'&nbsp;&nbsp;'+box3;
+                }
+                
+                if(tape1 ==null ||  tape1 =='' || tape1 =='undefined'){
+                    
+                    
+                    document.getElementById("tap1").innerHTML=tapecode;
+                    $('[id$=tapecodeA').val(tapecode);
+                    //document.getElementById('{!$Component.claimPage.claimForm:shortTermClaim1:tapecodeA}').innerHTML=;
+                    //document.getElementById("tap1img").style.display=="block";
+                    // $('#tap1').css('display', 'block');
+                    $('#tap1img').css('display', 'block');
+                    $("#box1").val('');
+                    $("#box2").val('');
+                    $("#box3").val('');
+                    $("#box4").val('');
+                }
+                else if(tape2 ==null || tape2 =='' || tape2 =='undefined'){
+                    console.log('coming in tape2');
+                    document.getElementById("tap2").innerHTML=tapecode;
+                    $('[id$=tapecodeB').val(tapecode);
+                    //$('#tap2').css('display', 'block');
+                    $('#tap2img').css('display', 'block');
+                    $("#box1").val('');
+                    $("#box2").val('');
+                    $("#box3").val('');
+                    $("#box4").val('');
+                }
+                    else if(tape3 ==null || tape3=='' || tape3 =='undefined'){
+                        document.getElementById("tap3").innerHTML=tapecode;
+                        $('[id$=tapecodeC').val(tapecode);
+                        //$('#tap3').css('display', 'block');
+                        $('#tap3img').css('display', 'block');
+                        $("#box1").val('');
+                        $("#box2").val('');
+                        $("#box3").val('');
+                        $("#box4").val('');
+                    }
+                        else if(tape4 ==null || tape4=='' || tape4 =='undefined'){
+                            
+                            document.getElementById("tap4").innerHTML=tapecode;
+                            $('[id$=tapecodeD').val(tapecode);
+                            //$('#tap4').css('display', 'block');
+                            $('#tap4img').css('display', 'block');
+                            $("#box1").val('');
+                            $("#box2").val('');
+                            $("#box3").val('');
+                            $("#box4").val('');
+                        }
+                
+                            else{
+                                alert("You can add only 4 Tape Codes");
+                                $("#box1").val('');
+                                $("#box2").val('');
+                                $("#box3").val('');
+                                $("#box4").val('');
+                            }
+            }
+        }
+        else{
+            
+            
+            alert(errorMsg);
+            
+        }
+        
+    }
+    function removeCode(tapId,imgId){
+        //alert(tapId);
+        if(tapId =='tap1'){
+            $('[id$=tapecodeA').val('');
+        }
+        if(tapId =='tap2'){
+            $('[id$=tapecodeB').val('');
+        }
+        if(tapId =='tap3'){
+            $('[id$=tapecodeC').val('');
+        }
+        if(tapId =='tap4'){
+            $('[id$=tapecodeD').val('');
+        }
+        document.getElementById(tapId).innerHTML='';
+        document.getElementById(imgId).style.display="none";
+    }
+    function onlyAlphabets(e) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+                else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode==8)
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            
+        }
+    }
+    
+    function ownershipChange(value){
+        console.log(value)
+        if(value=='Second')
+        {
+            document.getElementById('stnTransferredDateDiv').style.display="";
+            dateChange();
+        }
+        else{
+            document.getElementById('stnTransferredDateDiv').style.display="none";
+            document.getElementById('stnTransferredDate1Error').style.display="none";
+            document.getElementById('stnTransferredDateError').style.display="none";
+            document.getElementById('stnTransferredDate2Error').style.display="none";
+        }
+    }
+    
+    function dateChange(){
+        var install=new Date(document.getElementById('QCPage:QCForm:ProductDetails:stnInstallDate').value);
+        var transfer=new Date(document.getElementById('QCPage:QCForm:ProductDetails:stnTransferredDate').value);
+        var today=Date();
+        var todayn=new Date(today);
+        console.log(install);
+        console.log(todayn);
+        if(install>todayn){
+            console.log('1');
+            document.getElementById('stnInstallDate1Error').style.display="block";
+            document.getElementById('stnInstallDate1Error').style.color = "red";
+        }
+        else{
+            document.getElementById('stnInstallDate1Error').style.display="none";
+        }
+        if(transfer>todayn){
+            console.log('1');
+            document.getElementById('stnTransferredDate2Error').style.display="block";
+            document.getElementById('stnTransferredDate2Error').style.color = "red";
+        }
+        else{
+            document.getElementById('stnTransferredDate2Error').style.display="none";
+        }
+        
+        if(install>=transfer && (document.getElementById('stnTransferredDateDiv').style.display!="none")){
+            document.getElementById('stnTransferredDateError').style.display="none";
+            document.getElementById('stnTransferredDate1Error').style.display="block";
+            document.getElementById('stnTransferredDate1Error').style.color = "red";
+        }
+        else{
+            document.getElementById('stnTransferredDateError').style.display="none";
+            document.getElementById('stnTransferredDate1Error').style.display="none";
+        }
+    }
+    
+    function validateNumber(evt) {
+        var e = evt || window.event;
+        var key = e.keyCode || e.which;
+        
+        if (!e.shiftKey && !e.altKey && !e.ctrlKey &&
+            // numbers
+            key >= 48 && key <= 57 ||
+            // Numeric keypad
+            key >= 96 && key <= 105 ||
+            // Backspace and Tab and Enter
+            key == 8 || key == 9 || key == 13 ||
+            // Home and End
+            key == 35 || key == 36 ||
+            // left and right arrows
+            key == 37 || key == 39 ||
+            // comma, period and minus, . on keypad
+            key == 190 || key == 188 || key == 109 || key == 110 ||
+            // Del and Ins
+            key == 46 || key == 45) {
+            // input is VALID
+        }
+        else {
+            // input is INVALID
+            e.returnValue = false;
+            if (e.preventDefault) e.preventDefault();
+        }
+    }
+    </script>
+</html>
+</apex:page>

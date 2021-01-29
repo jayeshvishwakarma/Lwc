@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <name>Assign_OoS_Status</name>
+        <label>Assign OoS Status</label>
+        <locationX>476</locationX>
+        <locationY>578</locationY>
+        <assignmentItems>
+            <assignToReference>OoS_Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Out_of_Scope_Status</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Assign_VDU_Category</name>
+        <label>Assign VDU Category</label>
+        <locationX>180</locationX>
+        <locationY>168</locationY>
+        <assignmentItems>
+            <assignToReference>Repair_Category</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Repair_Category_List</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OoS_Status</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Repair_Category_Decision</targetReference>
+        </connector>
+    </assignments>
+    <choices>
+        <name>OoS_Not_Applicable</name>
+        <choiceText>Not Applicable</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Not Applicable</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>OoS_Payment_Received</name>
+        <choiceText>Payment Received</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Payment Received</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>OoS_Pre_Approved</name>
+        <choiceText>Pre-Approved</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Pre-Approved</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>OoS_Sent_Invoice</name>
+        <choiceText>Sent Invoice</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Sent Invoice</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>OoS_Sent_Quote_Waiting_for_Signature</name>
+        <choiceText>Sent Quote - Waiting for Signature</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Sent Quote - Waiting for Signature</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>OoS_Waiting_for_Quote</name>
+        <choiceText>Waiting for Quote</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Waiting for Quote</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_DOA_GPSI</name>
+        <choiceText>Installation DOA - GPSI</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Installation DOA - GPSI</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Epic_Warranty</name>
+        <choiceText>Epic Warranty (Non-DOA)</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Epic Warranty (Non-DOA)</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Field_Campaign</name>
+        <choiceText>Field Campaign</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Field Campaign</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_From_Epic</name>
+        <choiceText>From Epic - Return to Inventory</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>From Epic - Return to Inventory</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_GPSI_Warranty</name>
+        <choiceText>GPSI Warranty (Non-DOA)</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>GPSI Warranty (Non-DOA)</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Installation_DOA</name>
+        <choiceText>Installation DOA - Epic</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Installation DOA - Epic</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_OoS</name>
+        <choiceText>Out of Scope</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Out of Scope</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Recall</name>
+        <choiceText>Recall</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Recall</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Refresh_Recertify</name>
+        <choiceText>Refresh/Recertify</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Refresh/Recertify</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Refurb</name>
+        <choiceText>Refurb/Conversion</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Refurb/Conversion</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Seasonal</name>
+        <choiceText>Seasonal</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Seasonal</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Standard_RMA</name>
+        <choiceText>Standard RMA</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Standard RMA</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Repair_Ticket_Category_Unused</name>
+        <choiceText>Unused - Return to Inventory</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Unused - Return to Inventory</stringValue>
+        </value>
+    </choices>
+    <decisions>
+        <name>Repair_Category_Decision</name>
+        <label>Repair Category Decision</label>
+        <locationX>333</locationX>
+        <locationY>274</locationY>
+        <defaultConnectorLabel>Not Out of Scope</defaultConnectorLabel>
+        <rules>
+            <name>Is_Out_of_Scope</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Repair_Category</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Repair_Ticket_Category_OoS</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Category_Out_of_Scope</targetReference>
+            </connector>
+            <label>Is Out of Scope</label>
+        </rules>
+    </decisions>
+    <description>changed to Field Campaign</description>
+    <interviewLabel>VDU Category {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>VDU Category</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <name>Category_Out_of_Scope</name>
+        <label>Category Out of Scope</label>
+        <locationX>473</locationX>
+        <locationY>439</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Assign_OoS_Status</targetReference>
+        </connector>
+        <fields>
+            <name>OoS_Screen</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:18px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;Category = Out of Scope&lt;/B&gt;&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Out_of_Scope_Status</name>
+            <choiceReferences>OoS_Pre_Approved</choiceReferences>
+            <choiceReferences>OoS_Waiting_for_Quote</choiceReferences>
+            <choiceReferences>OoS_Sent_Quote_Waiting_for_Signature</choiceReferences>
+            <choiceReferences>OoS_Sent_Invoice</choiceReferences>
+            <choiceReferences>OoS_Payment_Received</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:14px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;Out of Scope Status&lt;/B&gt;&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Repair_Ticket</name>
+        <label>Repair Ticket</label>
+        <locationX>180</locationX>
+        <locationY>53</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Assign_VDU_Category</targetReference>
+        </connector>
+        <fields>
+            <name>Repair_Ticket_Caption</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:16px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;Model: &lt;/B&gt;&lt;FONT KERNING=&quot;1&quot;&gt;&lt;B&gt;{!VDU_Model}&lt;/B&gt;&lt;/FONT&gt;&lt;B&gt; &lt;/B&gt;&lt;/FONT&gt;&lt;/SPAN&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:16px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;SN: {!VDU_SN} &lt;/B&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;DIV ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:16px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;/FONT&gt;&lt;/DIV&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Blank_A</name>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Reason_For_Return_Text</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:16px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;Why is this VDU being returned?&lt;/B&gt;&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Ready_to_Create_Repair_Ticket</name>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:16px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Repair_Category_List</name>
+            <choiceReferences>Repair_Ticket_Category_Standard_RMA</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_DOA_GPSI</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_GPSI_Warranty</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_Epic_Warranty</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_OoS</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_Refurb</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_Seasonal</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_Unused</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_From_Epic</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_Refresh_Recertify</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_Recall</choiceReferences>
+            <choiceReferences>Repair_Ticket_Category_Field_Campaign</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>Repair_Ticket_Category_Standard_RMA</defaultSelectedChoiceReference>
+            <fieldText>&lt;SPAN ALIGN=&quot;LEFT&quot;&gt;&lt;FONT FACE=&quot;Arial&quot; STYLE=&quot;font-size:16px&quot; COLOR=&quot;#000000&quot; LETTERSPACING=&quot;0&quot; KERNING=&quot;0&quot;&gt;&lt;B&gt;Repair Category:&lt;/B&gt;&lt;/FONT&gt;&lt;/SPAN&gt;</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Repair_Ticket</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>OoS_Status</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>Repair_Category</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>VDU_Model</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>VDU_SN</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

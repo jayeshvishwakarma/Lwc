@@ -1,0 +1,31 @@
+<apex:page docType="html-5.0" showHeader="false" cache="false" standardController="EZSign__Signature__c" extensions="updateSigQuote">
+<html>
+<head>
+<style>
+body{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;}
+table td{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+table th{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}        
+table th.blauw {font-weight: bold; font-size: 11px; color: #003366; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+table th.blauw2 {font-weight: bold; font-size: 11px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#003366; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+</style>
+</head>
+<body>
+<div style="width:970px;height:20px;margin:0 auto;background:url(http://www.mobilemiles.nl/images/layout/header-bg.png) no-repeat left top;"></div>
+<div  style="width:910px;margin:0 auto;padding:20px 30px;overflow:hidden;background:url(https://www.cloudeen.nl/servlet/servlet.ImageServer?id=015570000054YTd&oid=00D20000000I5DP&lastMod=1520686170000) repeat-y;">
+<table width="640px" align="center">
+<tr><td width="640px"  >
+<apex:image id="header" value="https://www.cloudeen.nl/servlet/servlet.ImageServer?id=015D0000002hJkB&oid=00D20000000I5DP&lastMod=1415906791000" width="730" height="86"/><br/>
+
+Hartelijk dank voor uw bevestiging! Wij zullen de opdracht zorgvuldig verwerken.<br/><br/>
+Heeft u vragen, dan kunt u contact opnemen met onze Servicedesk. Wij zijn per e-mail bereikbaar via bedrijfsrelaties@mobilemiles.nl of telefonisch op 085 486 5555. <br/>
+<br/>
+Met vriendelijke groet,<br/><br/>
+
+Mobile Miles<br/>
+
+</td></tr></table>
+</div>
+<div style="width:970px;height:20px;margin:0 auto;background:url(http://www.mobilemiles.nl/images/layout/footermenu-bg.png) no-repeat left top;"></div>
+</body>
+</html>
+</apex:page>

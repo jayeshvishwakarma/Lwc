@@ -1,0 +1,9 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId">
+    <ltng:require styles="{!$Resource.ModalWidthCSS}" />
+    <c:indtLostCaseAnalysis recordId="{!v.recordId}"></c:indtLostCaseAnalysis>
+    <aura:html tag="style">
+        .modal-footer, .slds-modal__footer{
+        visibility: hidden;
+        }
+    </aura:html>
+</aura:component>

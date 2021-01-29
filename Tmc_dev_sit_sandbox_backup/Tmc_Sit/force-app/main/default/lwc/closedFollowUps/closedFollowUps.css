@@ -1,0 +1,28 @@
+.cardBody{
+    margin-top:-10px;
+}
+
+.slds-card__body{
+    margin-top:-10px;
+}
+
+.mobileCards{
+    box-shadow: 0 7px 6px 0 rgba(0, 0, 0, 0.3);
+}
+
+.firstgrid{
+    padding-left: 0rem;
+    font-size:15px;
+    width:55%;
+}
+.secondgrid{
+    padding-left: 0rem;
+    padding-right: 0rem;
+    font-size:15px;
+    width:45%;
+}
+
+.hrHeight{
+    margin: 1rem 0;
+    border-top: 1px solid grey;
+}

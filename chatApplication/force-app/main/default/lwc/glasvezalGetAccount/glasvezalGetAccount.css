@@ -1,0 +1,29 @@
+.alignment{
+    margin-left: 15rem;
+    margin-right: 7rem;
+    height:30rem;
+    width:50rem;
+   
+ }
+ .accInput{
+    margin-left:8rem
+ }
+ 
+ .btn{
+    width: 100px;
+    padding: 5px;
+    border: none;
+    cursor:pointer;
+    }
+ @media only screen and (max-width: 600px) {
+    .accInput{
+        margin-left:3rem
+     }   
+    .alignment{
+        margin-left: 0;
+        margin-right: 0;
+        height:100%;
+        width:100%;
+       
+     }
+ }

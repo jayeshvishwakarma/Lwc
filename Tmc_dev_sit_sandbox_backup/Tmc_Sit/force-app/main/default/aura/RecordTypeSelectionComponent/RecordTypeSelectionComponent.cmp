@@ -1,0 +1,25 @@
+<aura:component>
+    
+    <!--Declare Attributes-->
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'MOS', 'value': 'MOS'},
+    {'label': 'Non MOS', 'value': 'Non MOS'}
+    ]"/>
+    <aura:attribute name="value" type="String" default="MOS"/> 
+    <aura:registerEvent name="recordTypePassEvent" type="c:PassRecordTypeValue"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <!--Component Start-->
+    <div class="slds-m-around--xx-large">
+        <div class="container-fluid">
+            <lightning:radioGroup name="radioGroup"
+                                  label="Select Case Type"
+                                  required="true"
+                                  options="{!v.options}"
+                                  value="{!v.value}"
+                                  type="radio"/>
+        </div>
+        <br/>
+        <lightning:button variant="brand" label="Next" onclick="{!c.handleCreateRecord}" />  
+    </div>
+</aura:component>

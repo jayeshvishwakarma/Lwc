@@ -1,0 +1,23 @@
+<apex:page standardController="Quote">
+  <script type="text/javascript"> var __sfdcSessionId = '{!GETSESSIONID()}'; </script>
+   <script src="../../soap/ajax/43.0/connection.js" type="text/javascript"></script>
+  <script>
+       
+        
+        try{ 
+        
+        
+        var query = "SELECT Id, Name FROM EZSign__Signature__c WHERE EZSign__Signature_Key__c ='{!Quote.Signature_Key__c}' limit 1"; 
+        
+        
+        var records = sforce.connection.query(query); 
+        var recordsArr = records.getArray('records'); 
+        
+        recordId = recordsArr[0].Id; 
+       // alert(recordId);
+        window.location = "/apex/cloudeen_overeenkomst?id="+recordId; 
+        }catch(e){ 
+        alert('Exception : ' +e); 
+        }
+  </script>
+</apex:page>

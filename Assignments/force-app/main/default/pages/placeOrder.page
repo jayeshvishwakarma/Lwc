@@ -1,0 +1,164 @@
+<apex:page controller="PlaceOrderController" lightningStylesheets="true" >
+    <style>
+        .column {
+        float: left;
+        width: 33.33%;
+        padding: 0px;
+        height: 70px;
+        }
+        
+        .column2 {
+        float: left;
+        width: 49.5%;
+        padding: 0px;
+        height: auto;
+        }
+        
+    </style>
+    
+    <apex:slds />
+    <apex:form id="form" >
+        <apex:pageBlock id="mainPgBlock" >
+            
+            
+            <apex:pageBlock id="pgBlock1">
+                <div class="column" style="background-color:yellow" >
+                </div>
+                
+                <div class="column" align="center" style="background-color:yellow" >
+                    <h1 style="font-weight: bold;font-size:46px;">E-MarT</h1>
+                </div>
+                
+                <div class="column" style="background-color:yellow"><br/>
+                    
+                </div>
+            </apex:pageBlock>
+            
+            <apex:pageBlock id="pgBlock" rendered="{!pgBlock2}" >
+                
+                <div class="slds-grid">
+                    
+                    <div id="col1" class="slds-col slds-size_4-of-6">
+                        <apex:pageBlock >
+                            <apex:repeat value="{!lstContacts}" var="objContact">
+                                <div>
+                                    <h1 style="background-color:mistyrose;font-weight:bold;font-size:22px;">
+                                        Deliver To :
+                                    </h1><br/>
+                                    <h1 style="font-weight:bold;font-size:18px;">
+                                        Name : {!objContact.Name}
+                                    </h1><br/>
+                                    <h1 style="font-weight:bold;font-size:18px;">
+                                        Contact : {!objContact.Phone}
+                                    </h1><br/>
+                                    
+                                    <h1 style="font-weight:bold;font-size:18px;">
+                                        Address : {!objContact.Address__c}
+                                    </h1><br/>
+                                    
+                                    <h1 style="font-weight:bold;font-size:18px;">
+                                        Country : {!objContact.Country__c}
+                                    </h1><br/>
+                                    
+                                    <h1 style="font-weight:bold;font-size:18px;">
+                                        Email : {!objContact.email}
+                                    </h1>
+                                    
+                                    <div align="Center">
+                                        <apex:commandButton style="width:200px;height:50px;font-size:20px;color:white;background-color:orange;" value="Proceed To Pay" action="{!proceedToPay}" >
+                                        </apex:commandButton><br/><br/>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </apex:repeat>
+                        </apex:pageBlock>
+                    </div>
+                    <div id="col2" class="slds-col slds-size_2-of-6" >
+                        <apex:pageblock >
+                            
+                            <apex:repeat value="{!lstCarts}" var="objCart">
+                                
+                                <apex:pageBlockSection title="Price Details" collapsible="false" />
+                                <div class="column2">
+                                    <h2 style="font-size:17px;">
+                                        Price : 
+                                    </h2>
+                                    <h2 style="font-size:16px;">
+                                        Delivery Charges :  
+                                    </h2>
+                                    <h2 style="font-size:16px;">
+                                        GST :  
+                                    </h2>
+                                    <h2 style="font-size:16px;">
+                                        SGST :  
+                                    </h2>
+                                     <h2 style="font-size:16px;">
+                                        Quantity :  
+                                    </h2>
+                                    
+                                </div>
+                                <div class="column2">
+                                    <h2  style="font-size:17px;margin-left:90px;">
+                                        INR-{!objCart.ProductId__r.Price__c}/-
+                                    </h2>
+                                    <h2  style="font-size:16px;margin-left:90px;">
+                                        FREE
+                                    </h2>
+                                    <h2  style="font-size:17px;margin-left:90px;">
+                                        4%
+                                    </h2>
+                                    <h2  style="font-size:17px;margin-left:90px;">
+                                        2.3%
+                                    </h2>
+                                     <h2  style="font-size:17px;margin-left:90px;">
+                                        {!objCart.Quantity__c}
+                                    </h2>
+                                    
+                                </div> 
+                            </apex:repeat>
+                            
+                        </apex:pageblock>
+                        <apex:pageBlock >
+                            <div class="column2">
+                                <h2 style="font-size:17px;">
+                                    TOTAL AMOUNT : 
+                                </h2>
+                            </div>
+                            <div class="column2">
+                                <h2 style="font-size:17px;">
+                                    INR-{!TotalAmount}/-
+                                </h2>
+                            </div>
+                            
+                        </apex:pageBlock>
+                    </div>
+                </div>
+            </apex:pageBlock>
+            
+            <apex:pageBlock id="pgBlock3" rendered="{!pgBlock3}">
+                <div align="center">
+                    <h1 style="background-color:mistyrose;font-weight:bold;font-size:20px;">
+                        Enter Card Details : <h1 style="font-weight:bold;font-size:18px;margin-left:70%"> Total Amount : INR-{!TotalAmount}/-</h1> 
+                    </h1><br/>
+                    <h1 style="font-weight:bold;">
+                        Card Number : <apex:inputText value="{!cardNumber}" /> Expiry Date :<apex:inputText /> CVV : <apex:inputSecret value="{!cvv}" size="3" /> 
+                    </h1><br/>
+                    <apex:commandButton style="font-weight:bold;width:70px;height:35px;font-size:20px;" value="Pay" action="{!pay}" reRender="form">
+                    </apex:commandButton><br/><br/>
+                    <link rel="stylesheet" type="text/css" href="http://cdn.dcodes.net/2/payment_icons/dc_payment_icons.css" />
+					<span class="dc_payment_icons_bevel_32 dc_visa_bevel" title="Visa"></span>
+                    <span class="dc_payment_icons_bevel_32 dc_visa02_bevel" title="Visa"></span>
+                    <span class="dc_payment_icons_bevel_32 dc_mastercard_bevel" title="Mastercard"></span>
+                    <span class="dc_payment_icons_bevel_32 dc_americanexpress_bevel" title="American Express"></span>
+                    <span class="dc_payment_icons_bevel_32 dc_americanexpress02_bevel" title="American Express"></span>
+                    <h1 style="font-weight:bold;font-size:15px;">
+                        Accepted Cards
+                    </h1>
+                </div>
+            </apex:pageBlock>
+            <apex:pageMessages />
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

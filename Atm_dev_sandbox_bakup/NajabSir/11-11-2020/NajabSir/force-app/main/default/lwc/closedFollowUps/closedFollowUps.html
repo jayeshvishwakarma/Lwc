@@ -1,0 +1,166 @@
+<template>
+    <div class="slds-spinner_container" if:true={isLoading}>
+        <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+        <span class="slds-assistive-text">Loading</span>
+        <div class="slds-spinner__dot-a"></div>
+        <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+
+    <div class="slds-align_absolute-center" style="height: 4rem; font-size: 25px; font-weight: bolder; color: #003A7A;">
+        Closed Follow Ups
+    </div>
+
+    <lightning-card class="cardBody mobileCards">
+            
+            <div class="slds-p-horizontal_medium">
+
+                <div if:false={browserFormFactor}>
+                    <hr class="hrHeight"></hr>
+                    <template for:each={responseResult} for:item="fieldData" for:index="index">
+                            <div class="slds-grid slds-gutters" key={fieldData} >
+                                <div class="slds-col slds-size_2-of-3 firstgrid">
+                                    <template for:each={labelDataList} for:item="label">
+                                        <b key={label}>• {label}</b>: <br key={label}/>
+                                    </template>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3 secondgrid">
+                                    <template for:each={fieldData} for:item="data">
+                                            <span key={data} if:true={data.isTextField} style="font-size: 12px;">
+                                                    {data.fieldData}
+                                            </span>
+                                            
+                                            <span key={data} if:true={data.isDateField}>
+                                                <lightning-formatted-date-time key={data}
+                                                    value={data.fieldData}
+                                                    year="numeric"
+                                                    month="numeric"
+                                                    day="numeric">
+                                                </lightning-formatted-date-time>
+                                            </span>
+                                            <span key={data} if:true={data.isDateTimeField}>
+                                                <lightning-formatted-date-time key={data}
+                                                        value={data.fieldData} 
+                                                        year="2-digit" 
+                                                        month="short" 
+                                                        day="2-digit"
+                                                        hour="2-digit"
+                                                        minute="2-digit">
+                                                </lightning-formatted-date-time>
+                                            </span>
+                                            <br key={data}/>
+                                    </template>       
+                                
+                                </div>
+                            </div>
+                            <hr key={svoc} class="hrHeight"></hr>                                                               
+                    </template>
+                </div>
+
+                <div if:true={browserFormFactor}>
+                    <div if:true={table}>
+                        <template if:true={responseResult}>
+                            <div class="slds-scrollable_x">
+                                <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal">
+                                    <thead>
+                                        <tr>
+                                            <template for:each={labelDataList} for:item="label">
+                                                    <td key={label}>
+                                                        <b> {label} </b>
+                                                    </td>
+                                            </template>
+                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody> 
+                                            
+                                        <template for:each={responseResult} for:item="fieldData" for:index="index">
+                                            <tr key={fieldData} class="slds-hint-parent">
+
+                                                <template for:each={fieldData} for:item="data">
+                                                    <td key={data} if:true={data.isTextField} style="font-size: 12px;">
+                                                            {data.fieldData}
+                                                    </td>
+                                                    
+                                                    <td key={data} if:true={data.isDateField}>
+                                                        <lightning-formatted-date-time key={data}
+                                                            value={data.fieldData}
+                                                            year="numeric"
+                                                            month="numeric"
+                                                            day="numeric">
+                                                        </lightning-formatted-date-time>
+                                                    </td>
+                                                    <td key={data} if:true={data.isDateTimeField}>
+                                                        <lightning-formatted-date-time key={data}
+                                                                value={data.fieldData} 
+                                                                year="2-digit" 
+                                                                month="short" 
+                                                                day="2-digit"
+                                                                hour="2-digit"
+                                                                minute="2-digit">
+                                                        </lightning-formatted-date-time>
+                                                    </td>
+                                                </template>
+
+                                            </tr>
+                                        </template>
+                                    
+                                    </tbody>
+                                </table>
+                                    
+                            </div>
+                        </template>
+                    </div>
+
+                    <div if:false={table}>
+                        <hr class="hrHeight"></hr>
+                        <template for:each={responseResult} for:item="fieldData" for:index="index">
+                                <div class="slds-grid slds-gutters" key={fieldData} >
+                                    <div class="slds-col slds-size_2-of-3 firstgrid">
+                                        <template for:each={labelDataList} for:item="label">
+                                            <b key={label}>• {label}</b>: <br key={label}/>
+                                        </template>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 secondgrid">
+                                        <template for:each={fieldData} for:item="data">
+                                            <span key={data} if:true={data.isTextField} style="font-size: 12px;">
+                                                    {data.fieldData}
+                                            </span>
+                                            
+                                            <span key={data} if:true={data.isDateField}>
+                                                <lightning-formatted-date-time key={data}
+                                                    value={data.fieldData}
+                                                    year="numeric"
+                                                    month="numeric"
+                                                    day="numeric">
+                                                </lightning-formatted-date-time>
+                                            </span>
+                                            <span key={data} if:true={data.isDateTimeField}>
+                                                <lightning-formatted-date-time key={data}
+                                                        value={data.fieldData} 
+                                                        year="2-digit" 
+                                                        month="short" 
+                                                        day="2-digit"
+                                                        hour="2-digit"
+                                                        minute="2-digit">
+                                                </lightning-formatted-date-time>
+                                            </span>
+                                            <br key={data}/>
+                                        </template>       
+                                    
+                                    </div>
+                                </div>
+                                <hr key={svoc} class="hrHeight"></hr>                                                               
+                        </template>
+                    </div>
+
+                </div>
+
+            </div>
+            </lightning-card>
+        <br><br>
+        <div class="slds-align_absolute-center" if:false={browserFormFactor}>
+            <lightning-button label="Cancel" icon-name="utility:close" title="Cancel" variant="brand" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+        </div>
+
+</template>

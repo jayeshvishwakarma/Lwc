@@ -1,0 +1,313 @@
+<template>
+    <c-lookup-container class="slds-container_x-large slds-container_center">
+        <div class="slds-container_x-large slds-container_center">
+
+            <div if:true={hideComponent}>
+                <div class="slds-align_absolute-center"
+                    style="height: 4rem; font-size: 22px; font-weight: bolder; color: #003A7A;">
+                    You cannot access the stock check page.
+                </div>
+            </div>
+
+            <div if:false={hideComponent} style="background: white; min-height:250px;">
+
+                <div class="slds-align_absolute-center"
+                    style="height: 4rem; font-size: 25px; font-weight: bolder; color: #003A7A;">
+                    STOCK AVAILABILITY
+                </div>
+
+                <div class="slds-m-around_medium">
+
+                    <div class="slds-spinner_container" if:true={isLoading}>
+                        <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative"
+                            role="alert">
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                        </div>
+                    </div>
+					<div if:true={isATM}>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                    <lightning-combobox
+                                                    name="type"
+                                                    label="State"
+                                                    value={selectedState}
+                                                    placeholder="Select An Option"
+                                                    options={stateList}
+                                                    onchange={handleStateList}
+                                                    required></lightning-combobox>
+
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                    <lightning-combobox
+                                                    name="type"
+                                                    label="City"
+                                                    value={selectedCity}
+                                                    placeholder="Select An Option"
+                                                    options={cityList}
+                                                    onchange={handleCityList}
+                                                    required></lightning-combobox>
+
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+            </div>
+
+                    <div if:false={isParts}>
+
+                        <!--  Before Search Component  -->
+                        <!-- Combobox is added by sunit as Stock check flow is changed and API is changed on 2019-10-29 -->
+						<div if:true={showTypeOptions}>
+                        <div if:true={typeOptions}>
+                            <lightning-combobox name="type" label="Type" value={typeValue} placeholder="Select Type"
+                                options={typeOptions} onchange={handleTypeChange}></lightning-combobox>
+                        </div>
+						</div>
+
+                        <div if:false={showDealerCEOParts}>
+                            
+
+                            <lightning-combobox if:true={accessoriesTypeSelected} name="model" label="Model"
+                                value={selectedModel} placeholder="Select Model" options={modelList}
+                                onchange={handleModelChange}></lightning-combobox>
+                            <lightning-combobox if:true={accessoriesTypeSelected} name="variant" label="Variant"
+                                value={selectedVariant} placeholder="Select Variant" options={variants}
+                                onchange={handleVariantChange}></lightning-combobox>
+
+
+                            <div if:true={showAccSearch}>
+                                <lightning-layout if:true={showModelVariant}>
+                                    <lightning-layout-item size="12" flexibility="grow" class="slds-p-around_xx-small">
+                                        <label class="slds-form-element__label">{modelSearchBoxLabel}</label>
+                                        <c-lookup-input-field data-name="model" object-name="Product2"
+                                            record-type="Variants" is-mobile is-custom-search
+                                            custom-placeholder={placeHolder} oncustomsearch={handleCustomSearch}
+                                            onchange={handleProductSearch}>
+                                        </c-lookup-input-field>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+
+                            <div if:true={showVarSearch}>
+
+                                <!-- Adding Label Field   {showUserSpecific} Add label field-->
+                                <div if:true={showUserSpecific}>
+                                    <lightning-combobox name="level" label="Level" value={levelValue}
+                                        placeholder="Select Level" options={levelOptions} onchange={handleLevelChange}>
+                                    </lightning-combobox>
+                                </div>
+                                <!-- Adding Label Field
+            </div>
+            <div if:true={showVarSearchOnLabel}>-->
+                                <lightning-layout if:true={showModelVariant}>
+                                    <lightning-layout-item size="12" flexibility="grow" class="slds-p-around_xx-small">
+                                        <label class="slds-form-element__label">{modelSearchBoxLabel}</label>
+                                        <c-lookup-input-field data-name="model" object-name="Product2"
+                                            record-type="Variants" is-mobile is-custom-search
+                                            custom-placeholder={placeHolder} oncustomsearch={handleCustomSearch}
+                                            onchange={handleProductSearch}>
+                                        </c-lookup-input-field>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+
+
+
+                            <!--** This is Outlet/Consingnee Code type head search section **-->
+
+                            <lightning-layout if:true={showAccountSearchUI}>
+                                <lightning-layout-item size="12" flexibility="grow" class="slds-p-around_xx-small">
+                                    <label class="slds-form-element__label"> 'Enter Outlet/Consignee Code' </label>
+                                    <c-lookup-input-field data-name="model" object-name="Account" record-type="Variants"
+                                        is-mobile is-custom-search custom-placeholder='Enter Outlet/Consignee Code'
+                                        oncustomsearch={handleOutletCustomSearch} onchange={handleOutletSelect}>
+                                    </c-lookup-input-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <!--****************************************************************-->
+                            <!--  After Search Component  -->
+
+                            <template if:true={selectedRecord}>
+
+                                <lightning-combobox if:false={accessoriesTypeSelected} name="Color" label="Color"
+                                    value={selectedColorVarientRecords} placeholder="Select An Option"
+                                    options={colorOptions} onchange={handleColor} required></lightning-combobox>
+                                <br />
+                            </template>
+
+
+                            <template if:true={showOutletTypes}>
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <lightning-combobox name="type" label="Outlet"
+                                                    value={selectedOutletType} placeholder="Select An Option"
+                                                    options={dealerAccountOptions} onchange={handleDealerAccountSelect}
+                                                    required></lightning-combobox>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            </template>
+
+
+                            <template if:true={showButton}>
+                                <div class="slds-align_absolute-center">
+                                    <button class="slds-button slds-button_brand" onclick={checkStock}>Check
+                                        Stock</button>
+                                </div>
+                            </template>
+                        </div>
+
+                        <div if:true={showDealerCEOParts}>
+
+                            <template if:true={tempShowOutletTypes}>
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <lightning-combobox name="type" label="Outlet"
+                                                    value={selectedOutletType} placeholder="Select An Option"
+                                                    options={dealerAccountOptions} onchange={handleDealerAccountSelect}
+                                                    required></lightning-combobox>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            </template>
+
+                            <lightning-layout if:true={showPartTypeSelect}>
+                                <lightning-layout-item size="12" flexibility="grow" class="slds-p-around_xx-small">
+                                    <label class="slds-form-element__label">{modelSearchBoxLabel}</label>
+                                    <c-lookup-input-field data-name="model" object-name="Product2"
+                                        record-type="Variants" is-mobile is-custom-search
+                                        custom-placeholder={placeHolder} oncustomsearch={handlePartCustomSearch}
+                                        onchange={handlePartSelect}>
+                                    </c-lookup-input-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <template if:true={showCheckStockButton}>
+                                <div class="slds-align_absolute-center">
+                                    <button class="slds-button slds-button_brand" onclick={checkStock}>Check
+                                        Stock</button>
+                                </div>
+                            </template>
+
+                        </div>
+
+                        <br />
+
+                        <template if:true={showDetails}>
+
+                            <template if:false={showNoDataError}>
+
+                                <template if:false={showVehicleStateLevel}>
+                                    <lightning-datatable key-field="id" columns={carsColumns} data={responseResult}
+                                        class="slds-max-medium-table_stacked" hide-checkbox-column
+                                        show-row-number-column if:false={accessoriesTypeSelected}>
+                                    </lightning-datatable>
+                                </template>
+
+                                <template if:true={showVehicleStateLevel}>
+                                    <lightning-datatable key-field="id" columns={carsColumns2} data={responseResult}
+                                        class="slds-max-medium-table_stacked" hide-checkbox-column
+                                        show-row-number-column if:false={accessoriesTypeSelected}>
+                                    </lightning-datatable>
+                                </template>
+
+
+                                <lightning-datatable key-field="id" columns={accessoriesColumns} data={responseResult}
+                                    class="slds-max-medium-table_stacked" hide-checkbox-column show-row-number-column
+                                    if:true={accessoriesTypeSelected}>
+                                </lightning-datatable>
+
+                            </template>
+
+                        </template>
+
+                        <template if:true={showNoDataError}>
+                            <div class="slds-text-color_destructive slds-p-left_x-large slds-align_absolute-center">No
+                                Record Found</div>
+                        </template>
+
+                    </div>
+                </div>
+
+                <div if:true={isParts}>
+
+                    <lightning-combobox name="type" label="Type" value={selecetdProductType} placeholder="Select Type"
+                        options={productTypeOptions} onchange={handlePartTypeChange}></lightning-combobox>
+
+
+                    <div if:true={isMSILParts}>
+                        <!--** This is Outlet/Consingnee Code type head search section **-->
+                        <lightning-layout if:true={showAccountSearch}>
+                            <lightning-layout-item size="12" flexibility="grow" class="slds-p-around_xx-small">
+                                <label class="slds-form-element__label"> Enter Outlet/Consignee Code </label>
+                                <c-lookup-input-field data-name="model" object-name="Account" 
+                                record-type="Variants"
+                                is-mobile 
+                                is-custom-search
+                                custom-placeholder = "Enter Outlet/Consignee Code"
+                                oncustomsearch={handleOutletCustomSearch}
+                                onchange={handleOutletSelect}>
+                                </c-lookup-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+
+                    <lightning-layout if:true={showPartTypeSelect}>
+                        <lightning-layout-item size="12" flexibility="grow" class="slds-p-around_xx-small">
+                            <label class="slds-form-element__label">{modelSearchBoxLabel}</label>
+                            <c-lookup-input-field data-name="model" object-name="Product2" record-type="Variants"
+                                is-mobile is-custom-search custom-placeholder={placeHolder}
+                                oncustomsearch={handlePartCustomSearch} onchange={handlePartSelect}>
+                            </c-lookup-input-field>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <template if:true={showCheckStockButton}>
+                        <div class="slds-align_absolute-center">
+                            <button class="slds-button slds-button_brand" onclick={checkStock}>Check Stock</button>
+                        </div>
+                    </template>
+
+                    <div if:true={showDetails}>
+
+                        <div if:false={showNoDataError}>
+                            <lightning-datatable key-field="id" columns={accessoriesColumns} data={responseResult}
+                                class="slds-max-medium-table_stacked" hide-checkbox-column show-row-number-column
+                                if:true={isParts}>
+                            </lightning-datatable>
+                        </div>
+                    </div>
+
+                    <div if:true={showNoDataError}>
+                        <div class="slds-text-color_destructive slds-p-left_x-large slds-align_absolute-center">No
+                            Record Found</div>
+                    </div>
+
+                    <!-- END OF PARTS -->
+                </div>
+
+            </div>
+        </div>
+    </c-lookup-container>
+</template>

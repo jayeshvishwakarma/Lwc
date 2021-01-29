@@ -1,0 +1,55 @@
+<aura:component controller = "FollowUpRelatedToController" implements="force:hasRecordId,force:lightningQuickAction">
+    <aura:attribute name="newFollowUp" type="Task" default="{sobjectType: 'Custom_Activity__c'}"/>
+    <aura:attribute name="wrapperClass" type="FollowUpRelatedToController.WrapperClass" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="mapCallOriginToPhoneNumber" type="Map" />
+    <aura:attribute name="validateRecordDateBasis" type="boolean" default="false"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:handler name="init"  value="{!this}" action="{!c.doInit}"/>
+    <div>
+        <aura:if isTrue="{!v.showSpinner}" >
+            <lightning:spinner size="small" variant="brand" />
+        </aura:if>
+        
+        <lightning:select class="field" label="Call Origin" aura:id ="callOrigin" value="{!v.newFollowUp.Call_Origin__c}" messageWhenValueMissing="Complete this field" required="true" onchange="{!c.getPhoneNumber}">       
+            <option value="" >--None--</option>
+            <aura:iteration items="{!v.wrapperClass.callOriginPicklist}" var="callOriginValue">
+                <option value="{!callOriginValue}" >{!callOriginValue}</option>
+            </aura:iteration> 
+        </lightning:select>
+        
+        <div  class="slds-size--1-of-1 slds-p-horizontal_x-small" >
+            <lightning:textarea label="Comments" value="{!v.newFollowUp.Comments__c}" name="Description" />
+        </div>
+        
+        <lightning:select class="field" label="Call Purpose" aura:id="callPurpose" value="{!v.newFollowUp.Call_Purpose__c}" messageWhenValueMissing="Complete this field" required="true" >       
+            <option value="" >--None--</option>
+            <aura:iteration items="{!v.wrapperClass.callPurposePicklist}" var="callPurposeValue">
+                <option value="{!callPurposeValue}" >{!callPurposeValue}</option>
+            </aura:iteration> 
+        </lightning:select>
+        
+        <div class="slds-size--1-of-1 slds-p-horizontal_x-small" >
+            <br></br>
+            <lightning:input aura:id="followuptime" type="datetime" label="Next Follow Up Time" value="{!v.newFollowUp.Next_Follow_Up_time__c}"  name="Next Follow Up Time"  messageWhenValueMissing="Complete this field" required="true" min="{!v.wrapperClass.todayDate}"/>
+        </div>
+        
+        <div class="slds-size--1-of-1 slds-p-horizontal_x-small slds-p-vertical_large" >
+            <lightning:input type="checkbox"  label="Repeat Call Notification"  aura:id="callNotificationCheckBox" checked="{!v.newFollowUp.Repeat_Call_Notification__c}"/>
+        </div>
+
+		<lightning:select class="field" label="Send SMS" aura:id="sendSMS" value="{!v.newFollowUp.Send_SMS__c}" messageWhenValueMissing="Complete this field" required="true" >       
+            <option value="" >--None--</option>
+            <aura:iteration items="{!v.wrapperClass.sendSMSPicklist}" var="sendSMSValue">
+                <option value="{!sendSMSValue}" >{!sendSMSValue}</option>
+            </aura:iteration> 
+        </lightning:select> 
+        
+        <div class="slds-size--1-of-1 slds-p-horizontal_x-small" >
+            <lightning:input label="Mobile" value="{!v.newFollowUp.Mobile__c}" name="Customer Mobile" disabled="true"/>
+        </div>
+        <br></br>
+        
+        <lightning:button class="slds-float--right slds-button__icon_right" variant="brand" label="Save" onclick = "{!c.save}"/>
+    </div>
+</aura:component>

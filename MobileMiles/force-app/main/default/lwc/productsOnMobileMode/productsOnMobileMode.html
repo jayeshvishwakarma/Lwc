@@ -1,0 +1,159 @@
+<template>
+    <div class="container">
+
+        <!-- FILTER PANAL -->
+        <div class="sidepanel filterPanel">
+            <a href="javascript:void(0)" class="closebtn" onclick={closeFilterPanel}>×</a>
+            <div class="filter-input-container">
+                <lightning-combobox name="SelecteerMerk" label="Selecteer merk" value="Alle merken" options={brands}
+                    onchange={handleBrandChange}></lightning-combobox>
+                <!-- <br />
+                <lightning-input type="text" name="Search" label="Search"></lightning-input> -->
+            </div>
+        </div>
+        <div class="sidepanel_backdrop"></div>
+
+        <template if:true={filteredProducts}>
+
+            <lightning-layout multiple-rows>
+                <!--  <lightning-layout-item size="12" padding="horizontal-small" small-device-size="12"
+                    medium-device-size="12" large-device-size="12">
+                    <div class="header slds-m-bottom_medium">
+                        <p class="title">Apple iPhone mobiele telefoons</p>
+                        <p class="subtitle">Je kunt bij Belsimpel terecht voor alle Apple iPhones. We hebben ...</p>
+                        <p class="total_results_count">135 resultaten</p>
+                    </div>
+                </lightning-layout-item> -->
+
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                    <div class="search-bar">
+                        <div class="search-input">
+                            <lightning-input type="search" onchange={handleProductSearching} variant="label-hidden" name="Search" label="Search">
+                            </lightning-input>
+                        </div>
+                        <div onclick={handleSubmit} title="Bestellen" class="shopping-cart">
+                            <span class="slds-badge slds-badge_lightest">{selectedProductCount}</span>
+                            <span class="slds-icon_container slds-m-right_x-small slds-icon__svg--default">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="slds-icon slds-icon-text-default" aria-hidden="true">
+                                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#cart">
+                                    </use>
+                                </svg>
+                                <span class="slds-assistive-text">cart</span>
+                            </span>
+                        </div>
+                    </div>
+
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                    <div class="header-action">
+                        <div class="filter">
+                            <span onclick={openFilterPanel} class="actions">
+                                <span class="slds-icon_container slds-m-right_x-small slds-icon__svg--default">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="slds-icon slds-icon-text-default slds-icon_x-small" aria-hidden="true">
+                                        <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#filter"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Filter</span>
+                                </span>
+                                <span class="meta_title">Filter</span>
+                            </span>
+                        </div>
+                        <div class="sort">
+                            <span onclick={handleDataSorting} class="actions">
+                                <span class="slds-icon_container slds-m-right_x-small slds-icon__svg--default">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="slds-icon slds-icon-text-default slds-icon_x-small" aria-hidden="true">
+                                        <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#sort"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Sort</span>
+                                </span>
+                                <span class="meta_title">Sorteer</span>
+                            </span>
+                        </div>
+                    </div>
+
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <div class="product-container">
+                <lightning-layout multiple-rows>
+                    <!-- Product Itme Loop -->
+                    <template for:each={filteredProducts} for:item="pro" for:index="index">
+                        <lightning-layout-item key={pro.Id} size="12" small-device-size="12" medium-device-size="6"
+                            large-device-size="4">
+                            <!-- Product Items -->
+                            <div class="product_items">
+                                <div class="columns">
+                                    <div class="image_container">
+                                        <img src={pro.imgURL} alt={pro.Product2.Name} />
+                                    </div>
+                                    <div class="body">
+                                        <div class="header">
+                                            <a href="javascript.void(0)">{pro.Product2.Name}</a>
+                                        </div>
+                                        <div class="description">
+                                            {pro.Product2.Description}
+                                        </div>
+                                        <!-- <div class="rating_reviews">
+                                            <div class="star-rating">
+                                                <input type="radio" data-id="5-stars" name="rating" value="5" />
+                                                <label for="5-stars" class="star">&#9733;</label>
+                                                <input type="radio" data-id="4-stars" name="rating" value="4" />
+                                                <label for="4-stars" class="star">&#9733;</label>
+                                                <input type="radio" data-id="3-stars" name="rating" value="3" />
+                                                <label for="3-stars" class="star">&#9733;</label>
+                                                <input type="radio" data-id="2-stars" name="rating" value="2" />
+                                                <label for="2-stars" class="star">&#9733;</label>
+                                                <input type="radio" data-id="1-star" name="rating" value="1" />
+                                                <label for="1-star" class="star">&#9733;</label>
+                                            </div>
+                                            <div class="reviews">
+                                                370 geverifieerde reviews
+                                            </div>
+                                        </div>
+                                        <div class="order_availability">
+                                            <p>Op voorraad: levering in 1-2 werkdagen</p>
+                                        </div> -->
+                                        <div class="order_wrapper">
+                                            <div class="order">
+                                                <ul>
+                                                    <!-- <li class="previous_price">
+                                                        <span class="price_strikethrough">000,00</span>
+                                                    </li> -->
+                                                    <li class="now_product_price">
+                                                        € {pro.UnitPrice}
+                                                    </li>
+                                                </ul>
+                                                <div class="add-to-cart">
+                                                    <button data-product-id={pro.Product2Id} onclick={handleProductSelection} class="slds-button slds-button_neutral">
+                                                        <span
+                                                            class="slds-icon_container slds-m-right_x-small slds-icon__svg--default">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                class="slds-icon slds-icon-text-default slds-icon_x-small"
+                                                                aria-hidden="true">
+                                                                <use
+                                                                    xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#cart">
+                                                                </use>
+                                                            </svg>
+                                                            <span class="slds-assistive-text">Sort</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="extra_costs_info">
+                                                Incl. btw | Gratis verzending
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </div>
+        </template>
+
+    </div>
+</template>

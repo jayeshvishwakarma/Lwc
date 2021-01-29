@@ -1,0 +1,8 @@
+<apex:page showHeader="false" renderAs="pdf" sidebar="false" >
+<html>
+<body>
+<p>Google chart api shows a QR code</p>
+    <div><img  src="http://chart.apis.google.com/chart?cht=qr&chd=t:60,40&chs=200x200&chl= https://sandbox-cloudeen.cs108.force.com/kpneen/s/aanmeldformulier-glasvezel/" /> </div>
+</body>
+</html>
+</apex:page>

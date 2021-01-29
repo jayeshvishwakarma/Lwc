@@ -1,0 +1,7 @@
+.THIS .cuf-scroller-content{
+    background:#fff;      
+}
+.THIS .modal-body{ 
+    height: 250px !important;
+    max-height: 147px !important;
+}

@@ -1,0 +1,113 @@
+<template>
+    <lightning-card title="Contacts" icon-name="custom:custom15">
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12"  >
+            <lightning-combobox
+                    name=''
+                    style='width:40%'
+                    value={recordsPerPage}
+                    options={options}
+                    onchange={handleChangeOptionEntries}    
+            ></lightning-combobox>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12">  
+              <lightning-input
+                    name=''
+                    placeholder='Search by name'
+                    style='margin-left:55%;width:40%;'
+                    value={search}
+                    onchange={handleSearch}
+                >
+                </lightning-input>
+            </div>
+
+        </div><br/>
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+        <thead style="background: #ffff;">
+            <tr style="font-size:15px;font-weight:bold;">
+                <th class="headerSortDown" data-id="FirstName" onclick={handleSort}>
+                   FirstName
+                </th>
+                <th data-id="LastName" onclick={handleSort}>
+                    LastName
+                </th>
+                <th data-id="Email" onclick={handleSort}>
+                    Email
+                </th>
+                <th data-id="Name" onclick={handleSort}>
+                    Name
+                </th>
+                <th data-id="IsDeleted" onclick={handleSort}>
+                    IsDeleted
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <template if:true = {lstContacts} for:each = {lstContacts} for:item = "objContact">
+            <tr style="line-height: 30px;" key = {objContact.Id}>
+
+                <td data-label={objContact.FirstName}>
+                    <div title={objContact.FirstName}>{objContact.FirstName}</div>
+                </td>
+                <td data-label={objContact.LastName}>
+                    <div  title={objContact.LastName}>{objContact.LastName}</div>
+                </td>
+                <td data-label={objContact.Email}>
+                    <div  title={objContact.Email}>{objContact.Email}</div>
+                </td>
+                <td data-label={objContact.Name}>
+                    <div title={objContact.Name}>{objContact.Name}</div>
+                </td>
+                <td data-label={objContact.IsDeleted}>
+                    <div title={objContact.IsDeleted}>{objContact.IsDeleted}</div>
+                </td>
+            </tr>
+        </template>
+        </tbody>
+        </table>
+
+        
+        <template if:false = {lstContacts}>
+            <div style="text-align:center; font-size:15px;">No records to display ! </div>
+         </template>
+
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" style="padding:10px;">
+                <span>Showing {countRecords} of {countOfAllRecords}</span>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12" style="margin-left:25%;padding:10px;"> 
+                <lightning-button
+                    label="Prev"
+                    name=""
+                    onclick={prevPage}
+                    disabled={isPrevButton}
+                    >
+                </lightning-button>
+
+                <template if:true={pageButtons} for:each={pageButtons} for:item="eachPageNumber">
+                   
+                        <lightning-button
+                        key={eachPageNumber}
+                        label={eachPageNumber.label}
+                        name=""
+                        data-page-number={eachPageNumber.value}
+                        onclick={getPage}
+                        >
+                        </lightning-button>
+
+                </template>
+
+                <lightning-button
+                label="Next"
+                name=""
+                onclick={nextPage}
+                disabled={isNextButton}>
+                </lightning-button>
+
+             </div>
+
+        </div>
+    </lightning-card>
+</template>

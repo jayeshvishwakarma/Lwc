@@ -1,0 +1,7 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		This cmp is used to invoke serviceCalculator LWC. serviceCalculator LWC is used to calculate the 
+        Service Cost for the searched Vehicle
+	</aura:example>
+</aura:documentation>

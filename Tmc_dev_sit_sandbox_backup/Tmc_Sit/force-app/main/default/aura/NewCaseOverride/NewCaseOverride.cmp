@@ -1,0 +1,34 @@
+<!-- This Component is common for all the new Case Type process. From here only the process will be segregated  -->
+<aura:component implements="lightning:actionOverride,lightning:hasPageReference" controller="NewCaseOverrideController">
+    <aura:attribute name="currentUserProfileName" type="String" access="private"/>
+    <aura:attribute name="mosRecordTypeId" type="String" access="private"/>
+    <aura:attribute name="isATMCaseComponentShow" type="Boolean" default="false" />
+    <aura:attribute name="isDealerInboundCaseComponentShow" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <!-- To Show ATM Component -->
+    <aura:if isTrue="{!v.isATMCaseComponentShow}">
+       <c:CreateCaseBridgeCmp   />
+    </aura:if>
+    <!-- To Show Dealer Inbound Component -->
+    <aura:if isTrue="{!v.isDealerInboundCaseComponentShow}">
+        <!-- Call the Component here  -->
+        <aura:html tag="style">
+        .slds-modal__container { 
+        max-width : 40% !important; 
+        } 
+        </aura:html>
+        <c:createDealerInboundCase oncloseCmp="{!c.closePopup}"/>
+    </aura:if>
+</aura:component>
+
+
+<!--System Administrator-->
+<!-- Custom Label to maintain the accessible profiles -->
+<!--
+    1. MOS_Complaint_Profiles
+    2. ATM_Complaint_Profiles
+    3. Dealer_Inbound_Complaint_Profiles
+-->

@@ -1,0 +1,151 @@
+<template>
+  <div class="slds-page-header slds-page-header_record-home">
+    <div class="slds-page-header__row">
+      <div class="slds-page-header__col-title">
+        <div class="slds-media">
+          <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-standard-task">
+              <lightning-icon icon-name="standard:approval" alternative-text="Approval">
+              </lightning-icon>
+              <span class="slds-assistive-text">Approval Request</span>
+            </span>
+          </div>
+          <div class="slds-media__body">
+            <div class="slds-page-header__name">
+              <div class="slds-page-header__name-title">
+                <h1>
+                  <span>Approval Request</span>
+                  <!--<span class="slds-page-header__title slds-truncate" title="Case Actions Approval">Case Actions
+                    Approval</span>
+                    <span class="processStatus status-pending runtime_approval_processOutputStatus" > Pending </span>-->
+                  <div data-aura-rendered-by="6:2460;a" style="padding-top: 2px;">
+                    <span data-aura-rendered-by="10:2460;a"
+                      data-aura-class="uiOutputText runtime_approval_processOutputName"
+                      class="uiOutputText runtime_approval_processOutputName"
+                      style="font-size: large;font-weight: bold;">Case Actions Approval</span>
+                    <span class="forStatus" data-aura-rendered-by="16:2460;a" data-aura-class="runtime_approval_processOutputStatus"
+                      title={status}>{status}</span>
+                  </div>
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slds-page-header__col-actions">
+        <div class="slds-page-header__controls">
+          <div class="slds-page-header__control">
+            <ul class="slds-button-group-list">
+              <li>
+                <button class="slds-button slds-button_neutral" onclick={handleApprove}
+                  if:false={deviceFormFactor}>Approve</button>
+              </li>
+              <li>
+                <button class="slds-button slds-button_neutral" onclick={handleReject}
+                  if:false={deviceFormFactor}>Reject</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slds-page-header__row slds-page-header__row_gutters">
+      <div class="slds-page-header__col-details">
+        <ul class="slds-page-header__detail-row" if:false={deviceFormFactor}>
+          <li class="slds-page-header__detail-block">
+            <div class="slds-text-title slds-truncate slds-p-left_medium" title="Submitter">Submitter</div>
+            <div class="slds-truncate slds-p-left_medium">{submittedBy}</div>
+          </li>
+          <li class="slds-page-header__detail-block">
+            <div class="slds-text-title slds-truncate slds-p-left_medium" title="Date Submitted">Date Submitted</div>
+            <div class="slds-truncate slds-p-left_medium">{createdDate}</div>
+          </li>
+          <li class="slds-page-header__detail-block">
+            <div class="slds-text-title slds-truncate slds-p-left_medium" title="Actual Approver">Actual Approver</div>
+            <div class="slds-truncate slds-p-left_medium">{actorName}</div>
+          </li>
+          <li class="slds-page-header__detail-block">
+            <div class="slds-text-title slds-truncate slds-p-left_medium" title="Assigned To">Assigned To</div>
+            <div class="slds-truncate slds-p-left_medium" title="Assigned To">{originalActorName}</div>
+          </li>
+        </ul>
+        <!--///////////////////for mobile view///////////////////////////-->
+        <div class="slds-page-header__detail-row" if:true={deviceFormFactor}>
+          <div class="slds-grid slds-wrap">
+          <div class="slds-col slds-size_1-of-3">
+            <div class="slds-text-title slds-truncate" style="font-size:14px">Submitter</div>
+          </div>
+          <div class="slds-col slds-size_2-of-3">
+            <div class="slds-text-title slds-truncate" style="font-size:14px">{submittedBy}</div>
+          </div>
+          <hr style="margin:0.5rem 0; width:100%;"/>
+          <div class="slds-col slds-size_1-of-3">
+            <div class="slds-text-title slds-truncate" style="font-size:14px">Date Submitted</div>
+          </div>
+          <div class="slds-col slds-size_2-of-3">
+            <div class="slds-text-title slds-truncate" style="font-size:14px">{createdDate}</div>
+          </div>
+          <hr style="margin:0.5rem 0; width:100%;"/>
+          <div class="slds-col slds-size_1-of-3">
+            <div class="slds-text-title slds-truncate" style="font-size:14px">Actual Approver</div>
+          </div>
+          <div class="slds-col slds-size_2-of-3">
+            <div class="slds-text-title slds-truncate" style="font-size:14px">{actorName}</div>
+          </div>
+          <hr style="margin:0.5rem 0; width:100%;"/>
+          <div class="slds-col slds-size_1-of-3">
+            <div class="slds-text-title slds-truncate" style="font-size:14px">Assigned To</div>
+          </div>
+          <div class="slds-col slds-size_2-of-3">
+            <div class="slds-text-title slds-truncate" style="font-size:14px">{originalActorName}</div>
+          </div>
+          <hr style="margin:0.5rem 0; width:100%;"/> 
+          
+          <div class="slds-p-vertical_medium slds-align_absolute-center">
+            <button class="slds-button slds-button_neutral" onclick={handleApprove}>Approve</button>
+            <button class="slds-button slds-button_brand" onclick={handleReject}>Reject</button>
+        </div> 
+        </div>
+       </div>
+        <!--/////////////////////////////////////////////////////////////////////////////////-->
+      </div>
+    </div>
+
+  </div>
+  <template if:true={isModalOpen}>
+    <!-- Modal/Popup Box LWC starts here -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <!-- Modal/Popup Box LWC header here -->
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick={closeModal}>
+            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+            </lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{status}</h2>
+        </header>
+        <!-- Modal/Popup Box LWC body starts here -->
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <lightning-input type="string" label="Comments" class="requiredValue" required></lightning-input>
+        </div>
+        <!-- Modal/Popup Box LWC footer starts here -->
+        <footer class="slds-modal__footer">
+          <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+          <button class="slds-button slds-button_brand" if:true={forApprove} title="Approve"
+            onclick={handleApproveRecSave}>Approve</button>
+          <button class="slds-button slds-button_brand" if:true={forReject} title="Reject"
+            onclick={handleRejctRecSave}>Reject</button>
+        </footer>
+      </div>
+      <template if:true={showSpinner}>
+        <div class="slds-m-top_xx-large">
+          <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+        </div>
+      </template>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

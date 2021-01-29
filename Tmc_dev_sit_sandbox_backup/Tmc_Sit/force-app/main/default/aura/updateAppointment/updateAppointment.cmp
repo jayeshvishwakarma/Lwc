@@ -1,0 +1,6 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForRecordHome,force:appHostable">
+    <ltng:require styles="{!$Resource.updateAppointment}" />
+    <div class="slds-grid_pull-padded-large">
+        <c:createAppointment recordId="{!v.recordId}" onfinish="{!c.handleFinish}" componentName="Update Appointment" />
+    </div>
+</aura:component>

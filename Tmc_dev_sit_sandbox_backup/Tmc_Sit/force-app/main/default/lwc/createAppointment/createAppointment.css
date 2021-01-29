@@ -1,0 +1,23 @@
+:host>div {
+    background-color: white;
+}
+
+body {
+    overflow: visible !important;
+    height : 20px ;
+}
+
+.slds-page-header {
+    box-shadow: 0 0px 0px 0;
+}
+
+:host.disabled>div {
+    pointer-events: none;
+}
+.customRequired{
+    font-weight: 400; } .customRequired:before{    
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; } .none{
+    display:none; }

@@ -1,0 +1,63 @@
+<template>
+    <!-- <div class="slds-form-element" style="z-index: 9999;">
+        <lightning-card
+        title="List Views"
+        icon-name="custom:custom63">
+
+            <lightning-combobox 
+                    label="Select an object"
+                    name="List View Object" 
+                    value={selectedObject} 
+                    placeholder="Select Object" 
+                    options={objectOptions}
+                    
+                    onchange={handleChange} 
+                    >
+            </lightning-combobox>
+        </lightning-card>
+    </div> -->
+
+<lightning-card>
+    <div class="slds-form-element" style="z-index: 9999;">
+        <label class="slds-form-element__label" for="combobox-id-1">Relate to</label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+
+                <input type="text" onclick={focusHandler} value={defaultValue} class="slds-input"
+                    placeholder="Opportunity"></input>
+            </div>
+            <div if:true={focus}>
+                <div id="listbox-id-1" class="slds-dropdown_large slds-dropdown_fluid" role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+
+                        <li  data-name="Opportunity" onclick={handleChange} role="presentation" class="slds-listbox__item slds-border_bottom">
+                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                role="option">
+                                <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                <span class="slds-media__body">
+                                    <span class="slds-truncate" title="Accounts"> Enquiry</span>
+                                </span>
+                            </div>
+                        </li>
+
+                        <li data-name="Campaign" onclick={handleChange}  role="presentation" class="slds-listbox__item slds-border_bottom">
+                            <div  class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                role="option">
+                                <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                <span class="slds-media__body">
+                                    <span class="slds-truncate" title="Accounts"> Event</span>
+                                </span>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <c-lwc-list-view-list objectname={selectedObject}></c-lwc-list-view-list>
+
+</lightning-card>
+</template>

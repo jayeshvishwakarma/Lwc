@@ -1,0 +1,10 @@
+.btn-css{
+    font-size: .875rem !important;
+    color: #09f !important;
+    border-color: aliceblue !important;
+    border: 1px solid #09f !important;
+    padding: 2px 22px!important;
+    line-height: 1 !important;
+    border-radius: 20px !important; 
+    background-color: #fff !important;        
+}

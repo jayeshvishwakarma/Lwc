@@ -1,0 +1,148 @@
+.THIS.tile {
+    position: inherit;
+    display: inline-block;
+    width: 100%;
+    height: 100px;
+    padding: -1px !important;
+    border: 1px solid rgb(217, 219, 221);
+    border-top: none;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.THIS.tile:hover {
+    box-shadow : 4px 3px 11px 1px rgb(115, 115, 115);
+}
+.THIS.box-style{
+    padding: 1px;
+    border: 1px solid rgb(217, 219, 221);
+    border-bottom: none;
+    margin-bottom: -1px;
+    background-color: rgb(70, 155, 252);
+    border-radius: 10px 10px 0px 0px;
+    height:45px;
+    
+}
+.THIS.innertile {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: auto;
+    height: auto; 
+    border-radius: 20px;
+    
+}
+.THIS .innertile:hover {
+   
+    
+}
+.THIS .lower-third {
+    position: absolute;
+    bottom: 200;
+    left: 0;
+    right: 0;
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, .4);
+    padding: 6px 8px;
+}
+.THIS.selected{
+    border: 3px solid rgb(0, 112, 210);
+}
+.THIS .aClass{
+    text-decoration:none;
+    font-weight:bold;
+    cursor:pointer;
+}
+.THIS.slds-box{
+    background-color: aliceblue;
+}
+.THIS .contentClass{
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    transition: all .8s ease !important;
+    text-align: center !important;
+    font-family: "Ek Mukta" !important;
+    color: #ffffff;
+	font-size: .8rem;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-weight: bold;
+}
+.THIS.containerforImg {
+ position: relative !important;
+ text-align: center !important;
+ color: white !important;
+    border-radius: 20px 20px 20px 20px;
+
+}
+
+.THIS.imagecss{
+    height:auto;
+    width:auto;
+    border-radius:20px;
+}
+.THIS.containerforImg:hover {
+   
+   
+}
+.THIS .centered {
+ position: absolute;
+ width: 100%;
+ font-size: 17px;
+ Color:White;
+ top: 12%;
+ height: 45px;
+ left: 50%;
+ Background-color: rgba(20, 20, 20, 0.54);
+ border-radius: 20px 20px 0px 0px;
+ transform: translate(-50%, -50%);
+ padding-top:10px;
+}
+
+.THIS.shadow {
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+    transition: .3s;
+    background-color: white;
+    border-radius: 20px 20px 20px 20px;
+    height:180px;
+    width: 270px;
+}
+
+.THIS.tileitem:hover{
+    box-shadow: 0 10px 20px 0 rgba(0,0,0,.2);
+   
+}
+
+.THIS.tileitem{
+
+border-radius: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+	height: 200px;
+    position: relative;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+    transition: .3s;
+    text-align:center;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+    transition: .3s;
+    cursor: pointer;
+}
+.THIS .title{
+    font-size: var(--lwc-fontSizeXLarge, 20px);
+    border-radius: 20px 20px 0px 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+	color: #fff;
+	
+	position: absolute;
+    width: 100%;
+	padding: .5rem;
+
+}
+        
+@media only screen and (max-width: 768px) {
+    .THIS.tile {
+        height: 170px;
+    }
+}

@@ -1,0 +1,12 @@
+<apex:component >
+    
+        * MobileMiles Korting Zakelijk Mobiel
+      
+
+    <p>Vanuit het Mobile Miles loyaliteitsprogramma ontvangt u korting op de mobiele abonnementskosten.
+        Deze korting spaart u maandelijks op en kunt u op ieder gewenst moment op uw bankrekening laten uitkeren of verzilveren voor
+        toestellen. Het is tevens mogelijk om met Voorschot MobileMiles direct bij aanvang van de overeenkomst (een deel van) de eenmalige
+        kosten te voldoen.</p>
+    
+    
+</apex:component>

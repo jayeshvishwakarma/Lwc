@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Run_Invocable_Method</name>
+        <label>Run Invocable Method</label>
+        <locationX>270</locationX>
+        <locationY>352</locationY>
+        <actionName>C_ReparentAIAttachments</actionName>
+        <actionType>apex</actionType>
+        <inputParameters>
+            <name>Ids</name>
+            <value>
+                <elementReference>InternalCaseRecord</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <interviewLabel>Case - Clone Selected Attachments To Case {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - Clone Selected Attachments To Case</label>
+    <processType>AutoLaunchedFlow</processType>
+    <startElementReference>Run_Invocable_Method</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>InternalCaseRecord</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

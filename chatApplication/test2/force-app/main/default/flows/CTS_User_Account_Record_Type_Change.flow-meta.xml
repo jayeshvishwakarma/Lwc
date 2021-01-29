@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <processMetadataValues>
+            <name>ActionCallType</name>
+            <value>
+                <stringValue>flow</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>flowSelection</name>
+            <value>
+                <stringValue>CTS User Account Record Type Flow</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>Fire Change RT Flow</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <actionName>CTS_User_Account_Record_Type_Flow</actionName>
+        <actionType>flow</actionType>
+        <inputParameters>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>recordId</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>maxOccurs</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>objectType</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Reference</stringValue>
+                </value>
+            </processMetadataValues>
+            <name>recordId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>vrAcctRecordTypeDeveloperName</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>maxOccurs</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>objectType</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Reference</stringValue>
+                </value>
+            </processMetadataValues>
+            <name>vrAcctRecordTypeDeveloperName</name>
+            <value>
+                <elementReference>myVariable_current.RecordType.DeveloperName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>vrDistributorEndUserFlag</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>maxOccurs</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>objectType</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Reference</stringValue>
+                </value>
+            </processMetadataValues>
+            <name>vrDistributorEndUserFlag</name>
+            <value>
+                <elementReference>myVariable_current.Distributor_End_User__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>vrChannel</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>maxOccurs</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>objectType</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Reference</stringValue>
+                </value>
+            </processMetadataValues>
+            <name>vrChannel</name>
+            <value>
+                <elementReference>myVariable_current.CTS_Channel__c</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <assignments>
+        <name>myVariable_waitStartTimeAssignment</name>
+        <label>myVariable_waitStartTimeAssignment</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>myDecision</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_pmetdec</targetReference>
+            </connector>
+            <label>CTS Distributor End User Changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_1_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>100</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_1_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_1_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <description>Allows the user to request an immediate record type change via quick action button</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+OR(
+ISCHANGED([Account].Distributor_End_User__c),
+ISCHANGED([Account].CTS_Channel__c)),
+[Account].isNew__c = FALSE,
+OR(
+[Account].RecordTypeName__c  == &quot;CTS_EU&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_MEIA&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_LATAM&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_EU_Distributor_End_User&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_MEIA_Distributor_End_User&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_LATAM_Distributor_End_User&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_EU_INDIRECT&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_LATAM_INDIRECT&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_MEIA_INDIRECT&quot;
+))</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+OR(
+ISCHANGED({!myVariable_current.Distributor_End_User__c}),
+ISCHANGED({!myVariable_current.CTS_Channel__c})),
+{!myVariable_current.isNew__c} = FALSE,
+OR(
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_EU&quot;,
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_MEIA&quot;,
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_LATAM&quot;,
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_EU_Distributor_End_User&quot;,
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_MEIA_Distributor_End_User&quot;,
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_LATAM_Distributor_End_User&quot;,
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_EU_INDIRECT&quot;,
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_LATAM_INDIRECT&quot;,
+{!myVariable_current.RecordTypeName__c}  == &quot;CTS_MEIA_INDIRECT&quot;
+))</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+OR(
+ISCHANGED([Account].Distributor_End_User__c),
+ISCHANGED([Account].CTS_Channel__c)),
+[Account].isNew__c = FALSE,
+OR(
+[Account].RecordTypeName__c  == &quot;CTS_EU&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_MEIA&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_LATAM&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_EU_Distributor_End_User&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_MEIA_Distributor_End_User&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_LATAM_Distributor_End_User&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_EU_INDIRECT&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_LATAM_INDIRECT&quot;,
+[Account].RecordTypeName__c  == &quot;CTS_MEIA_INDIRECT&quot;
+))</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+OR(
+ISCHANGED({!myVariable_old.Distributor_End_User__c}),
+ISCHANGED({!myVariable_old.CTS_Channel__c})),
+{!myVariable_old.isNew__c} = FALSE,
+OR(
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_EU&quot;,
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_MEIA&quot;,
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_LATAM&quot;,
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_EU_Distributor_End_User&quot;,
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_MEIA_Distributor_End_User&quot;,
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_LATAM_Distributor_End_User&quot;,
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_EU_INDIRECT&quot;,
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_LATAM_INDIRECT&quot;,
+{!myVariable_old.RecordTypeName__c}  == &quot;CTS_MEIA_INDIRECT&quot;
+))</expression>
+    </formulas>
+    <interviewLabel>CTS_User_Account_Record_Type_Change-12_InterviewLabel</interviewLabel>
+    <label>CTS User Account Record Type Change</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>Account</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_waitStartTimeVariable</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Flow.CurrentDateTime</elementReference>
+        </value>
+    </variables>
+</Flow>

@@ -1,0 +1,56 @@
+<apex:page controller="AccountDetailsController" tabStyle="Account"  lightningStylesheets="true">
+    <apex:slds />
+    <div class="slds-box slds-theme_shade slds-theme_alert-texture">
+        <apex:sectionHeader subtitle="Accounts" title="Details" />
+    </div>
+    <apex:form >
+        <apex:actionFunction name="ShowContacts" action="{!showContacts}" reRender="pgBlockOne" oncomplete="">
+            <apex:param assignTo="{!accountRecordId}" name="one" id="one" value="{!accountRecordId}"/></apex:actionFunction>
+            <!--<apex:actionFunction name="EditContact" action="{!editContact}" reRender="pgBlockOne">
+                <apex:param assignTo="{!accountRecordId}" name="two" id="two" value="{!accountRecordId}"/></apex:actionFunction>
+            
+            <apex:actionFunction name="DeleteContact" action="{!deleteContact}" reRender="pgBlockOne">
+                <apex:param assignTo="{!accountRecordId}" name="three" id="three" value="{!accountRecordId}"/></apex:actionFunction>-->
+        
+        
+        <apex:pageBlock id="pgBlockOne">
+            <apex:pageBlockSection collapsible="true" columns="1">
+                <apex:pageBlockTable id="pgBlockTable" value="{!lstAccounts}" var="objAccount">
+                    <apex:column value="{!objAccount.Name}" />
+                    <apex:column value="{!objAccount.Industry}" />
+                    <apex:column value="{!objAccount.Phone}" />
+                    <apex:column value="{!objAccount.Rating}" />
+                    <apex:column value="{!objAccount.Type}"/>
+                    <apex:column >
+                        <apex:commandButton onclick="checkValue('{!objAccount.Id}')" styleClass="slds-button slds-button_outline-brand" value="Show Contacts" >
+                            <!--<apex:param value="{!objAccount.id}" assignTo="{!accountRecordId}" name="one" id="OneId" />-->
+                        </apex:commandButton>
+                    </apex:column>
+                    <apex:column >
+                        <apex:commandButton onclick="checkValue('{!objAccount.Id}')" styleClass="slds-button slds-button_outline-brand" value="Edit">
+                            <apex:param value="{!objAccount.id}" assignTo="{!accountRecordId}" name="one" id="TwoId" />
+                        </apex:commandButton>
+                    </apex:column>
+                    <apex:column >
+                        <apex:commandButton styleClass="slds-button slds-button_outline-brand" action="{!deleteRecord}" value="Delete" reRender="pgBlockTable">
+                        <apex:param value="{!objAccount.id}" assignTo="{!accountRecordId}" name="one" id="ThreeId" />
+                        </apex:commandButton>
+                    </apex:column>
+                    
+                    
+                    
+                </apex:pageBlockTable>
+                <apex:commandButton styleClass="slds-button slds-button_brand" value="Add Account" action="{!addAccount}" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+    </apex:form>
+    <script>
+    function checkValue(recordId)
+    {
+        ShowContacts(recordId);
+        
+    }
+    
+    </script>
+</apex:page>

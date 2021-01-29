@@ -1,0 +1,49 @@
+<apex:component >
+    <h2>
+        3. Stappenplan
+    </h2>    
+
+    <p>Voor een succesvolle oplevering van KPN ÉÉN maakt Mobile Miles en KPN gebruik van een stappenplan. Het stappenplan kent de volgende fasen:</p>
+    
+    <h3>Voorbereiden lokaal netwerk voor IP-telefonie</h3>
+    <p>
+        Uw lokale LAN-netwerk moet geschikt zijn voor IP-telefonie. 
+        Wij adviseren u dit na te vragen bij uw leverancier.
+    </p>
+    
+    <h3>Aanleg verbindingen met het KPN ÉÉN-platform</h3>
+    <p>
+        Zodra het lokale netwerk geschikt is voor IP-telefonie worden 
+        alle benodigde verbindingen met het KPN ÉÉN- platform aangevraagd. 
+        Zodra de verbindingen actief zijn, plaatst onze monteur de 
+        router om verbinding te maken met het KPN ÉÉN-platform.
+    </p>
+    
+    <h3>Activeren van de dienst KPN ÉÉN</h3>
+    <p>
+        Zodra de verbinding met het KPN ÉÉN-platform is aangelegd, 
+        worden de profielen van de gebruikers, gebruikersopties en 
+        groepsopties geactiveerd. 
+        Samen met u vullen we het nummerplan in zodat bekend is hoe 
+        we de telefonische bereikbaarheid van uw bedrijf gaan vormgeven.
+    </p>
+    
+    <h3>Installatie nieuwe toestellen</h3>
+    <p>
+        Onze monteur plaatst bij u op locatie toestellen 
+        (indien mogelijk naast de huidige toestellen). 
+        Een korte gebruikerstraining hoort bij deze fase van het project. 
+        Daarnaast is er een handleiding voor veelgebruikte functies.
+    </p>
+    <h3>Overzetten vaste telefoonnummers</h3>
+    <p>
+        Zodra de nieuwe toestellen zijn geplaatst en aangesloten wordt 
+        begonnen met het overzetten van de telefoonnummers. 
+        De telefoonnummers die u hebt gespecificeerd worden van uw 
+        huidige leverancier naar KPN overgezet. 
+        Om ervoor te zorgen dat uw telefonische bereikbaarheid wordt gewaarborgd, 
+        stemmen we de datum met uw af. 
+        Wij regelen alleen het overzetten van het telefoonnummer. 
+        U dient zelf uw vaste abonnement op te zeggen bij uw leverancier.
+    </p>
+</apex:component>

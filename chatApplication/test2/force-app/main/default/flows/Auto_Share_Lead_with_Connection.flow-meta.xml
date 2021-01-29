@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <interviewLabel>Auto Share Lead with Connection {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Auto Share Lead with Connection</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Auto_share_lead_record_with_Partners</name>
+        <label>Auto share lead record with Partners</label>
+        <locationX>250</locationX>
+        <locationY>229</locationY>
+        <inputAssignments>
+            <field>ConnectionId</field>
+            <value>
+                <elementReference>VarT_ConnectionId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LocalRecordId</field>
+            <value>
+                <elementReference>VarT_LeadID</elementReference>
+            </value>
+        </inputAssignments>
+        <object>PartnerNetworkRecordConnection</object>
+    </recordCreates>
+    <startElementReference>Auto_share_lead_record_with_Partners</startElementReference>
+    <status>Active</status>
+    <variables>
+        <description>ID of the connection a record is sahred with</description>
+        <name>VarT_ConnectionId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>04Pj0000000KzBIEA0</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>VarT_LeadID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue/>
+        </value>
+    </variables>
+</Flow>

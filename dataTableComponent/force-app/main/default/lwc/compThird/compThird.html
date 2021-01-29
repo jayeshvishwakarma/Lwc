@@ -1,0 +1,27 @@
+<template>
+    <div class="slds-m-around_small">
+        <lightning-card  title="Student Detail" icon-name="custom:custom5">
+            <div class="slds-m-around_small">
+                <template if:true={student.data} for:each={student.data} for:item="objStudent">
+                    <div key={objStudent.city__c} class="slds-m-around__large">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_2-of-12">
+                                    <span><img src={objStudent.ImageUrl__c} style="border-radius:90px;"/></span>
+                            </div>
+                            <div class="slds-col slds-size_10-of-12">
+                                <p><b>First Name : {objStudent.First_Name__c}</b></p>
+                                <p><b>Last Name : {objStudent.Last_Name__c}</b></p>
+                                <p><b>City : {objStudent.City__c}</b></p>
+                                <p><b>Email : {objStudent.EmailId__c}</b></p>
+                            </div>
+        
+                        </div>
+                    
+                    </div>
+    
+                </template>
+            </div>
+        </lightning-card>
+
+    </div>
+</template>

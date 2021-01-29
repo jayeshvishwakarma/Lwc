@@ -1,0 +1,92 @@
+<template>
+    <div class="slds-align_absolute-center slds-p-vertical_medium container">
+        <lightning-button variant="brand-outline" label="Bestellen" title="Bestellen" onclick={handleBestellenClick}></lightning-button>
+    </div>
+    <div style="background: rgb(239, 239, 239);">
+        <lightning-layout horizontal-align="space">
+            <lightning-layout-item padding="around-small" size="4">
+            <h1 class="heading">Selecteer producten</h1>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-combobox
+                    name="BrandName"
+                    label="Selecteer merk"
+                    value={selectedBrandValue}
+                    options={brands}
+                    onchange={handleBrandChange} ></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-input type="text" placeholder="Zoek toestel" value={productName} style="margin-top:5px" onchange={handleProductSerach}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+     <div class="scrollit">
+   <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" width="100%">
+            <thead>
+                <tr class="slds-line-height_reset">
+                     <th scope="col" style="width: 30px">
+                        <div class="slds-truncate divCursor" style="padding: .3rem 0px;">
+                            <input type="Checkbox" checked={selectAllCheckbox} onchange={handleSelectAllCheckbox}></input></div>
+                    </th>
+                    <th scope="col" style="width: 80px">                    
+                        <div class="slds-truncate" style="padding: .3rem;" title="HOEVEELHEID">HOEVEELHEID </div>     
+                    </th>
+                    <th scope="col" style="width: 130px">
+                        <div class="sort">
+                            <div class="slds-truncate divCursor" data-id="Name" title="PRODUCTNAAM" onclick={handleSortProducts}>PRODUCTNAAM</div>
+                            <div>
+                                <lightning-icon data-value="Name" icon-name={sortingIcon} size="xx-small" ></lightning-icon>
+                            </div>
+                        </div>
+                    </th>
+                    <th scope="col" style="width: 200px">
+                        <div class="sort">
+                            <div class="slds-truncate divCursor" data-id="Description" title="OMSCHRIJVING" onclick={handleSortProducts}>OMSCHRIJVING</div>
+                            <div >
+                                <lightning-icon icon-name={sortingIcon} size="xx-small" ></lightning-icon>
+                            </div>
+                        </div>
+                    </th>
+                    <th scope="col" style="width: 100px">
+                        <div class="slds-truncate" style="padding: .3rem;" title="PRODUCTFOTO" >PRODUCTFOTO </div>
+                    </th>
+                    <th scope="col" style="width: 70px">
+                        <div class="sort">
+                            <div class="slds-truncate divCursor" data-id="UnitPrice" title="PRIJS EXCL. BTW" onclick={handleSortProducts}>PRIJS EXCL. BTW</div>
+                            <div>
+                                <lightning-icon icon-name={sortingIcon} size="xx-small" ></lightning-icon>
+                            </div>
+                        </div>
+                    </th>               
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={allProducts} for:item="objProduct" for:index="index">
+                    <tr class="slds-hint-parent" key={objProduct.Id}>
+                        <td data-label="Checkbox">
+                            <div class="slds-truncate" style="margin-top: .5rem;"> <input type="Checkbox" data-index={index} data-id={objProduct.Id} onchange={handleProductSelection} checked={objProduct.selectedProduct}></input></div>
+                        </td>
+                       <td data-label="HOEVEELHEID">
+                            <div class="slds-truncate" > <lightning-input type="number" min="1" label="Quantity" variant="label-hidden" value={objProduct.hoeveelheid} data-index={index} data-id={objProduct.Id} onchange={handleHoeveelheidChange}></lightning-input></div>
+                        </td>
+                        <td data-label="PRODUCTNAAM" style="white-space :break-spaces">
+                            <div  title={objProduct.Product2.Name}> {objProduct.Product2.Name} </div>
+                        </td>
+                        <td data-label="OMSCHRIJVING" style="white-space :break-spaces">
+                            <div  title={objProduct.Product2.Description}>{objProduct.Product2.Description}</div>
+                        </td>
+                        <td data-label="PRODUCTFOTO">
+                            <div class="slds-truncate" title="Productfoto"><img src={objProduct.imgURL} width="150px" height="200px"/></div>
+                        </td>
+                        <td data-label="PRIJS EXCL. BTW">
+                            <div class="slds-truncate" title="unitprice">&euro; {objProduct.UnitPrice}</div>
+                        </td>              
+                    </tr>
+                </template> 
+            </tbody>
+        </table>
+        </div>
+        <div class="slds-align_absolute-center slds-p-vertical_medium container">
+            <lightning-button variant="brand-outline" label="Bestellen" title="Bestellen" onclick={handleBestellenClick}></lightning-button>
+        </div>
+</template>

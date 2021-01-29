@@ -1,0 +1,87 @@
+<!---
+ * @File Name          : ChangeOwnerCase.cmp
+ * @Description        : This js class is used for Case Change Owner functionality
+ * @Author             : Shalini Singh
+ * @Group              : 
+ * @Last Modified By   : Shalini Singh
+ * @Last Modified On   : 27/10/2020, 12:37:23 PM 
+ * @Modification Log   : 
+ *==============================================================================
+ * Ver         Date                     Author                    Modification
+ *==============================================================================
+ * 1.0    27/10/2020,   12:37:23 PM    Shalini Singh    Initial Version
+-->
+<template>
+    <template if:true={isUserEligible}>
+    <div if:false={selectedRecord}>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <c-search-component onchange={handleOnchange} place-holder-name="Enter Owner Name">
+                        </c-search-component>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <template if:true={error}>
+            <template if:true={error.details}>
+                <template if:true={error.details.body}>
+                    {error.details.body.message}
+                </template>
+            </template>
+        </template>
+    </div>
+
+    <template if:false={showList}>
+        <template for:each={partnerUser} for:item="record">
+            <c-record-list key={record.Id} record={record} onselect={handleSelect} iconname={iconname}
+                fieldname={searchfield}>
+            </c-record-list>
+        </template>
+    </template>
+    <template if:true={selectedRecord}>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+
+                        <label class="slds-form-element__label"></label>
+                        <div class="slds-combobox__form-element slds-input-has-icon 
+                                            slds-input-has-icon_left-right" role="none">
+                            <span class="slds-icon_container
+                                                slds-icon-standard-product 
+                                                slds-combobox__input-entity-icon" title="Product">
+                                <lightning-icon icon-name={iconname}></lightning-icon>
+                            </span>
+                            <input class="slds-input slds-combobox__input
+                                            slds-combobox__input-value" id="combobox-id-5" aria-controls="listbox-id-5"
+                                autocomplete="off" role="textbox" type="text" placeholder="Select an Option" readonly=""
+                                value={selectedRecord.Name} disabled required />
+
+                            <button class="sicon_container slds-button slds-button_icon 
+                                                    slds-input__icon slds-input__icon_right"
+                                title="Remove selected option" style="margin-right: 0.6%;" onclick={handleRemove}>
+                                <lightning-icon icon-name="utility:close" size="small" style="margin-top: inherit;">
+                                </lightning-icon>
+                                <span class="slds-assistive-text">Remove selected option</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </br>
+        <div class="slds-m-left_x-small slds-align_absolute-center">
+            <lightning-button variant="brand" label="Save" title="save" onclick={changeOwner}></lightning-button>
+            <lightning-button variant="brand" label="Cancel" class="slds-p-left_small" title="Cancel" onclick={cancel}>
+            </lightning-button>
+        </div>
+    </template>
+    <div if:true={loadSpinner}>
+        <lightning-spinner variant="brand" alternative-text="Loading"></lightning-spinner>
+    </div>
+</template>
+</template>

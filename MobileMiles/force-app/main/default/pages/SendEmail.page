@@ -1,0 +1,7 @@
+<apex:page action="{!sendmail}" controller="SendEmailController" tabstyle="account">
+<apex:sectionHeader title="Send Email" subtitle="Bestelling"/>
+<apex:pageMessages />
+<apex:form >
+<apex:commandButton value="Go Back" action="/{!record.id}" />
+</apex:form>
+</apex:page>

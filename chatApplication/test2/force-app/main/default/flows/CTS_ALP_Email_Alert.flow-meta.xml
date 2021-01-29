@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>CTS_ALP_Alert_Email</name>
+        <label>CTS #ALP Alert Email</label>
+        <locationX>558</locationX>
+        <locationY>224</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>vrBodyText</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>ctsglobalsalesexcellencecoe@irco.com, hobbescs@gmail.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>An #ALP Chatter post has been made.</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <interviewLabel>CTS #ALP Email Alert {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CTS #ALP Email Alert</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Lookup_ALP_Record</name>
+        <label>Lookup ALP Record</label>
+        <locationX>321</locationX>
+        <locationY>363</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>CTS_ALP_Alert_Email</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>sObjFeedItem.ParentId</elementReference>
+            </value>
+        </filters>
+        <object>CTS_Asset_Life_Plan_Records__c</object>
+        <outputReference>sObjALPRecord</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Lookup_Feed_Item</name>
+        <label>Lookup Feed Item</label>
+        <locationX>190</locationX>
+        <locationY>229</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Lookup_ALP_Record</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>FeedItem</object>
+        <outputReference>sObjFeedItem</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Body</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>CreatedById</queriedFields>
+        <queriedFields>ParentId</queriedFields>
+    </recordLookups>
+    <startElementReference>Lookup_Feed_Item</startElementReference>
+    <status>Active</status>
+    <textTemplates>
+        <name>vrBodyText</name>
+        <text>Date Posted: {!sObjFeedItem.CreatedDate}
+ALP Record: {!sObjALPRecord.Name}
+ALP Record Id: {!sObjALPRecord.Id}
+Posted Body: {!sObjFeedItem.Body}</text>
+    </textTemplates>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>sObjALPRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CTS_Asset_Life_Plan_Records__c</objectType>
+    </variables>
+    <variables>
+        <name>sObjFeedItem</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FeedItem</objectType>
+    </variables>
+    <variables>
+        <name>vrFeedBody</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

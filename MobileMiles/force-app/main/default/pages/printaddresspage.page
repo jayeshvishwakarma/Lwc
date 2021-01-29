@@ -1,0 +1,15 @@
+<apex:page standardController="Account"  sidebar="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+        
+       
+         {!Account.Name}<br/>
+         {!Account.T_a_v__c}<br/> 
+         {!Account.ShippingStreet}<br/> 
+         {!Account.ShippingPostalCode} {!Account.ShippingCity}<br/>
+      
+ 
+</html> 
+
+ 
+</apex:page>

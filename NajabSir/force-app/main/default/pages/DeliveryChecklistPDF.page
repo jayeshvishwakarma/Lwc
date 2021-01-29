@@ -1,0 +1,293 @@
+<apex:page controller="DeliveryChecklistPDFController" renderAs="pdf" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <style>
+                @page {
+                    margin-top:15px;
+                    margin-right:20px;
+                    margin-left:20px;
+                    margin-bottom:0px !important;
+                
+                @top-center {
+                    content: element(header);
+                }
+                @bottom-left {
+                    content: element(footer);
+                }
+                
+                }
+                
+                div.header {
+                    padding: 10px;
+                    position: running(header);
+                }
+                
+                div.footer{
+                    display: block;
+                    padding: 5px;
+                    position: running(footer);
+                }
+            </style>
+        </head>
+        <body style="font-family: Arial, Helvetica, sans-serif;">
+           
+            <div class="header">
+                <apex:image url="{!If(contains(userChannel,'Nexa'),$Resource.NexaLogo , $Resource.MarutiLogoImage)}" styleClass="imageStyle" width="100%" />
+            </div>
+            
+            <br/><br/><br/><br/><br/> 
+            
+            <div class="content">
+            <h4>Dear {!CustomerName}</h4>
+                <div style="margin-top:2%;font-size:14px">
+                    Welcome to Maruti!!
+                </div>
+                
+                <div style="margin-top:2%;">
+                    <p style="font-size:14px">
+                        <apex:outputText value="{!$Label.Delivery_Checklist_Header_Message}"></apex:outputText>
+                    </p>
+                </div>
+                
+                <div style="margin-top:2%;font-size:20;font-weight: bold;">
+                    Relationship Manager : {!OwnerName}
+                </div>
+                <div style="margin-top:0.5%;font-size:14.3px">
+                    Contact Number : {!ownerPhone}<br/>
+                    Email : {!ownerEmail}
+                </div>
+                <div style="margin-top:2%;font-size:13px">
+                    Invoice Number: {!invoiceNumber} 
+                </div>
+                <div style="margin-top:2%;font-size:13px">
+                    Invoice Date: <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!invoiceDate}" /> 
+                                            </apex:outputText>
+                </div>
+                <div style="margin-top:5%">
+                    <table style="width:100%;" border="1" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th style="width:2%;font-size:14px;font-weight:bold;">S.NO.</th>
+                            <th style="width:13%;font-size:14px;font-weight:bold;">Category</th>
+                            <th style="width:29%;font-size:14px;font-weight:bold;">Description</th>
+                            <th style="width:6%;font-size:14px;font-weight:bold;">Done? Yes / No</th>
+                            <th style="width:13%;font-size:14px;font-weight:bold;">Date Expected</th>
+                            <th style="width:22%;font-size:14px;font-weight:bold;">Remarks</th>
+                        </tr>
+                        <tr>
+                            <td style="width:2%;font-size:14px;">1</td>
+                            <td style="width:13%;font-size:14px;">DSE Explanation</td>
+                            <td colspan="4" >
+                                <table style="width:100%;" border="0.2" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[0].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[0].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[0].Date_Expected__c}" /> 
+                                            </apex:outputText>
+                                        </td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[0].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[1].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[1].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[1].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[1].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[2].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[2].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[2].Date_Expected__c}" /> 
+                                            </apex:outputText>
+                                        </td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[2].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[3].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[3].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[3].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[3].Remarks__c}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                       <tr>
+                            <td style="width:2%;font-size:14px;">2</td>
+                            <td style="width:13%;font-size:14px;">Accessories</td>
+                            <td colspan="4" >
+                                <table style="width:100%;" border="0.2" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[4].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[4].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[4].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[4].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;;">{!surveyQuestionResponseList[5].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[5].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[5].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[5].Remarks__c}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:2%;font-size:14px;">3</td>
+                            <td style="width:13%;font-size:14px;">Documentation given to Customer</td>
+                            <td colspan="4" >
+                                <table style="width:100%;" border="0.2" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[6].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[6].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[6].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[6].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[7].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[7].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[7].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[7].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[8].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[8].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[8].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[8].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[9].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[9].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[9].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[9].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[10].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[10].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[10].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[10].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[11].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[11].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[11].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[11].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[12].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[12].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[12].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[12].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[13].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[13].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[13].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[13].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[14].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[14].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[14].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[14].Remarks__c}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:2%;font-size:14px;">4</td>
+                            <td style="width:13%;font-size:14px;">Tools</td>
+                            <td colspan="4" >
+                                <table style="width:100%;" border="0.2" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[15].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[15].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[15].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[15].Remarks__c}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[16].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[16].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[16].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[16].Remarks__c}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:2%;font-size:14px;">5</td>
+                            <td style="width:13%;font-size:14px;">Others</td>
+                            <td colspan="4" >
+                                <table style="width:100%;" border="0.2" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td style="width:41%;font-size:14px;">{!surveyQuestionResponseList[17].Survey_Question__r.Question__c}</td>
+                                        <td style="width:9%;font-size:14px;">{!surveyQuestionResponseList[17].Response__c}</td>
+                                        <td style="width:19%;font-size:14px;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!surveyQuestionResponseList[17].Date_Expected__c}" /> 
+                                            </apex:outputText></td>
+                                        <td style="width:31%;font-size:14px;">{!surveyQuestionResponseList[17].Remarks__c}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="margin-top:2%;font-size:12px">
+                        Regards<br/>
+                        Team MSIL<br/>
+                        Dealership Name : {!dealerName}<br/>
+                        *This is auto generated mail, Please do not reply directly to this email.
+                    </div>
+                </div>
+            
+            </div>
+        </body>
+    </html>
+</apex:page>

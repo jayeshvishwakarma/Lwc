@@ -1,0 +1,42 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasSObjectName,force:hasRecordId" access="global" >
+<aura:html tag="style">
+    .cuf-scroller-content{
+        background:#fff;
+      }
+      .slds-modal__container { 
+          width: 65%;
+          max-width: 55rem; 
+      }
+      .slds-m-bottom_small{
+          margin-top : -18px;
+    }
+  </aura:html>
+  <aura:attribute name="recordId" type="String"/>
+  <aura:attribute name="caseRecord" type="Object"
+                  description="A simplified view record object to be displayed"/>
+  <aura:attribute name="recordError" type="String"
+                  description="An error message bound to force:recordData"/>
+
+  <force:recordData aura:id="recordLoader" 
+                    fields="Business_Area__c"
+                    recordId="{!v.recordId}"
+                    targetFields="{!v.caseRecord}"
+                    targetError="{!v.recordError}"
+                  />
+
+  <aura:if isTrue="{!or(v.caseRecord.Business_Area__c=='Service-Workshop',v.caseRecord.Business_Area__c=='Service-Bodyshop')}">
+        <c:dealerResolution recordId="{!v.recordId}" 
+                    onclose="{!c.handelClose}"
+                    ProcessName='Service_Complaint_Closure' onopenFile="{!c.openFile}" />
+
+        <aura:set attribute="else">
+         <c:dealerResolution recordId="{!v.recordId}" 
+                             onclose="{!c.handelClose}"
+                             ProcessName='Case_Closure' onopenFile="{!c.openFile}" />
+
+        </aura:set>
+  </aura:if>
+
+  
+  
+</aura:component>

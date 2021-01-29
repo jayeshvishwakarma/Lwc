@@ -1,0 +1,2 @@
+.THIS.loderSpinner.slds-spinner_container {z-index: 11 !important;}
+.THIS.spinner-body {height: calc(100% + 73px);position: fixed;top: 0;left: 0;bottom: 0;right: 0; z-index:9}

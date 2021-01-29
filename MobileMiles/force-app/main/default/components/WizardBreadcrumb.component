@@ -1,0 +1,190 @@
+<apex:component id="breadcrumb" allowDML="true" > 
+
+
+
+<style>
+/* from: http://techinterviewpuzzles.appspot.com/articles/CSS/6-graceful-css-breadcrumb-Navigation-designs */
+.breadcrumbs-two{
+  overflow: hidden;
+  width: 100%;
+}
+
+.breadcrumbs-two li{
+  float: left;
+  margin: 0 .5em 0 1em;
+}
+
+.breadcrumbs-two a{
+  background: #ddd;
+  padding: .7em 1em;
+  float: left; 
+  text-decoration: none;
+  color: #444;
+  /* text-shadow: 0 1px 0 rgba(255,255,255,.5); */  
+  position: relative;
+}
+
+.breadcrumbs-two a:hover{
+  background: #13aabd;
+  color: white;
+}
+
+.breadcrumbs-two a::before{
+  content: "";
+  position: absolute;
+  top: 50%; 
+  margin-top: -1.5em;   
+  border-width: 1.5em 0 1.5em 1em;
+  border-style: solid;
+  border-color: #ddd #ddd #ddd transparent;
+  left: -1em;
+}
+
+.breadcrumbs-two a:hover::before{
+  border-color: #13aabd #13aabd #13aabd transparent;
+}
+
+.breadcrumbs-two a::after{
+  content: "";
+  position: absolute;
+  top: 50%; 
+  margin-top: -1.5em;   
+  border-top: 1.5em solid transparent;
+  border-bottom: 1.5em solid transparent;
+  border-left: 1em solid #ddd;
+  right: -1em;
+}
+
+.breadcrumbs-two a:hover::after{
+  border-left-color: #13aabd;
+}
+
+
+
+.breadcrumbs-two .current,
+.breadcrumbs-two .current:hover{
+  font-weight: bold;
+  background: #14aabe;
+  color: white;
+}
+.breadcrumbs-two a.current::before,
+.breadcrumbs-two a.current:hover::before {
+  border-color: #14aabe #14aabe #14aabe transparent;
+}
+.breadcrumbs-two a.current::after,
+.breadcrumbs-two a.current:hover::after {
+  border-left-color: #14aabe;
+}
+
+
+.breadcrumbs-two .exit,
+.breadcrumbs-two .exit:hover{
+  background: #ff6455;
+/*   text-shadow: none; */
+}
+.breadcrumbs-two a.exit::before,
+.breadcrumbs-two a.exit:hover::before {
+  border-color: #ff6455 #ff6455 #ff6455 transparent;
+}
+.breadcrumbs-two a.exit::after,
+.breadcrumbs-two a.exit:hover::after {
+  border-left-color: #ff6455;
+}
+
+
+
+.breadcrumbs-two .closed,
+.breadcrumbs-two .closed:hover{
+  background: lightgray;
+/*   text-shadow: none; */
+}
+.breadcrumbs-two a.closed::before,
+.breadcrumbs-two a.closed:hover::before {
+  border-color: lightgray lightgray lightgray transparent;
+}
+.breadcrumbs-two a.closed::after,
+.breadcrumbs-two a.closed:hover::after {
+  border-left-color: lightgray;
+}
+
+
+.breadcrumbs-two .open,
+.breadcrumbs-two .open:hover{
+  background: #ddd;
+}
+.breadcrumbs-two a.open::before,
+.breadcrumbs-two a.open:hover::before {
+  border-color: #ddd #ddd #ddd transparent;
+}
+.breadcrumbs-two a.open::after,
+.breadcrumbs-two a.open:hover::after {
+  border-left-color: #ddd;
+}
+
+
+.breadcrumbs-two a.finished,
+.breadcrumbs-two a.finished:hover{
+  background: #99db76;
+  color: white;
+}
+.breadcrumbs-two a.finished::before,
+.breadcrumbs-two a.finished:hover::before {
+  border-color: #99db76 #99db76 #99db76 transparent;
+}
+.breadcrumbs-two a.finished::after,
+.breadcrumbs-two a.finished:hover::after {
+  border-left-color: #99db76;
+}
+
+.stappen .open {
+}
+
+.stappen .finished {
+  background: #99db76;
+}
+
+.stappen .exit {
+  background: #ff6455;
+}
+</style>
+
+<script>
+
+j$(document).ready(function() {
+    j$(".breadcrumbs-two a").click(function(event) {
+        event.preventDefault();
+        j$(this).parent().find('a').removeClass("opentab");
+        j$(this).addClass("opentab");
+        var tab = $(this).attr("href");
+        console.debug(tab);
+        j$(".tab-content").not(tab).css("display", "none");
+        j$(tab).show();
+    });
+}); 
+</script>
+
+    <apex:attribute name="c" type="WizardComponent" description="the Wizard Component Class" required="true"/> 
+    <apex:attribute name="onStepClicked" type="ApexPages.Action" description="Will be called when a step is clicked"/>
+
+
+
+    <apex:outputPanel >
+        <ul class="breadcrumbs-two">
+            <apex:repeat value="{!c.steps}" var="stap">
+
+                <li>
+                    <apex:commandLink immediate="true" action="{!onStepClicked}" styleClass="{!IF(stap==c.Current, 'current', IF(((stap.Ready)), 'finished', 'Open') )}">
+                        <apex:param name="newStep" value="{!stap.step}" assignTo="{!newStep}"/>
+                        <apex:outputText value="{!stap.step}. {!stap.Name}" />
+                    </apex:commandLink>
+                </li>
+      
+ 
+           
+            </apex:repeat>
+        </ul>
+
+     </apex:outputPanel> 
+
+
+</apex:component>

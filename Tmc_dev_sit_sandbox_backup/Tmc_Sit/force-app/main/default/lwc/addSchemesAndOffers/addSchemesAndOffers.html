@@ -1,0 +1,152 @@
+<template>
+
+    <!-- =======     FOR SPINNER USE ONLY     ======= -->
+    <lightning-spinner alternative-text="Loading" size="medium" if:true={isLoading}></lightning-spinner>
+
+    <c-section-header section-heading="Add Schemes And Offers" section-sub-heading={state.headerValue}
+        icon-name="standard:product_item" id="extwarranty"></c-section-header>
+
+    <div if:false={state.addSchemes.isCommercial}>
+        <!-- FOR NEXA AND ARENA OFFERS -->
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Corporate Offers" name='corporateDiscountValue'
+                        checked={state.addSchemes.corporateDiscountValue} onchange={handleCorporateDiscountChange}>
+                    </lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input label="Employer Name" value={state.addSchemes.employerName} readonly>
+                    </lightning-input>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Exchange Bonus" name='exchangeBonusValue'
+                        checked={state.addSchemes.exchangeBonusValue} onchange={handleExchangeBonusChange}>
+                    </lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Exchange Value" name='exchangeValue'
+                        checked={state.addSchemes.exchangeValue} onchange={handleExchangeChange}></lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Rural Offers" name='ruralOffersValue'
+                        checked={state.addSchemes.ruralOffersValue} onchange={handleRuralOffersChange}></lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Other Offers" name='otherDiscountValue'
+                        checked={state.addSchemes.otherDiscountValue} onchange={handleOtherDiscountChange}>
+                    </lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div if:true={state.addSchemes.isCommercial}>
+        <!-- FOR COMMERCIAL OFFERS -->
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Exchange Bonus" name='exchangeBonusValue'
+                        checked={state.addSchemes.exchangeBonusValue} onchange={handleComExchangeBonus}>
+                    </lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Exchange Value" name='exchangeValue'
+                        checked={state.addSchemes.exchangeValue} onchange={handleExchangeChange}></lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Acquisition Discount" name='acquisitionDiscountValue'
+                        checked={state.addSchemes.acquisitionDiscountValue} onchange={handleComAcquiOffer}></lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Loyalty Discount" name='loyaltyDiscountValue'
+                        checked={state.addSchemes.loyaltyDiscountValue} onchange={handleComLoyaltyOffer}></lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Bulk Discount" name='bulkDiscountValue'
+                        checked={state.addSchemes.bulkDiscountValue} onchange={handleBulkDiscountChange}>
+                    </lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-top_medium">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-border_bottom">
+                    <lightning-input type="checkbox" label="Special Discount" name='specialDiscountValue'
+                        checked={state.addSchemes.specialDiscountValue} onchange={handleSpecialDiscountChange}>
+                    </lightning-input>
+                    <div class="slds-p-top_small"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="slds-align_absolute-center slds-p-top_small">
+        <lightning-button label="Cancel" title="Cancel" variant="brand" icon-name="utility:close" onclick={handleCancel}>
+        </lightning-button>
+        <span class="slds-p-left_x-small">
+            <lightning-button label="Save" title="Save" icon-name="utility:forward" variant="brand" onclick={handleSave}
+                icon-position="right"></lightning-button>
+        </span>
+    </div>
+
+</template>

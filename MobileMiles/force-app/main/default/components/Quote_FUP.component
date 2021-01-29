@@ -1,0 +1,29 @@
+<apex:component >
+	<h2>
+		7. Fair Use Policy
+    </h2>    
+
+	<h3>Mobiel:</h3>
+	<p>
+		Voor onbeperkt sms’en met een mobiel nummer gelden de Algemene Voorwaarden van Zakelijk Mobiel; 
+		zoals beschreven in artikel 1.7 lid 6 van de Algemene Voorwaarden voor Mobiele Telecommunicatiediensten. 
+		Bij constatering van onredelijk gebruik wordt contact opgenomen met de klant.
+	</p>
+
+	<h3>Vast en mobiel bellen:</h3>
+	<p>
+		Als u over een periode van 3 of meer maanden meer minuten belt dan 4x het gemiddelde van onze klanten dan nemen wij contact met u op en doen wij u een ander passend aanbod.
+	</p>
+
+	<h3>Mobiele Vaste telefonie:</h3>
+	<p>
+		Indien gebeld wordt naar 090x/18xy/084/087/066/067 nummers dan worden alleen de kosten voor bellen voor het betaalnummer in rekening gebracht.
+	</p>
+
+	<h3>Mobiele Vaste telefonie:</h3>
+	<p>
+		Indien gebeld wordt naar internationale nummers dan worden alleen de kosten voor bellen naar het internationale nummer in rekening gebracht. 
+		Tevens wordt het gebeld worden in het buitenland ook in rekening gebracht.
+	</p>
+
+</apex:component>

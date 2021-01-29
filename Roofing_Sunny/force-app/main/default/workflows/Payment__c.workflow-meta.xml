@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Payments_fail_to_release_to_SAP</fullName>
+        <description>Payments fail to release to SAP</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>greg.nardi@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>LastModifiedById</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Sent_to_SAP_Failed</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_Email_AFter_Recieviong_SAP_Order_Free_Material</fullName>
+        <ccEmails>CTCustomerServARCSNC@saint-gobain.com</ccEmails>
+        <ccEmails>RPG.FMC@saint-gobain.com</ccEmails>
+        <description>twod Send Email After Receiving SAP Order #(Free Material) - 1501</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>walter.roach@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Order_is_received_from_SAP_Free_Material_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_Email_After_Recieving_SAP_Order_Credit_Debit</fullName>
+        <description>twod Send Email After Receiving SAP Order #(Credit Debit)</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>walter.roach@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Order_is_received_from_SAP_Credit_Debit_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>Short_Term_Claim_Check_Release_Notification</fullName>
+        <description>Short Term Claim Check Release Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Claim_Creator_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Payment_Email_Warranty_Check_Released</template>
+    </alerts>
+    <alerts>
+        <fullName>Short_Term_Claim_Check_Update_Notification</fullName>
+        <description>Short Term Claim Check Update Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Claim_Creator_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Sales_User_Payment_Email_Warranty_Check</template>
+    </alerts>
+    <alerts>
+        <fullName>Short_Term_Claim_Credit_Debit_Update_Notification</fullName>
+        <description>Short Term Claim Credit/Debit Update Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Claim_Creator_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Sales_User_Payment_W_Email_Credit_Debit</template>
+    </alerts>
+    <alerts>
+        <fullName>Short_Term_Claim_Free_Material_Update_Notification</fullName>
+        <description>Short Term Claim Free Material Update Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Claim_Creator_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Sales_User_Payment_Email_Free_Material</template>
+    </alerts>
+    <alerts>
+        <fullName>twod_Email_to_Contact_on_Free_Material_Order</fullName>
+        <description>twod Email to Contact on Free Material Order</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Contact_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderAddress>rpg.fmc@saint-gobain.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>TWOD_Email_Templates_Backup/Contact_Payment_Email_Free_Material</template>
+    </alerts>
+    <alerts>
+        <fullName>twod_Email_to_Contact_on_Free_Material_Order_Solar</fullName>
+        <description>twod Email to Contact on Free Material Order Solar</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Contact_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderAddress>rpg.solar@saint-gobain.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>TWOD_Email_Templates_Backup/Contact_Payment_Email_Free_Material</template>
+    </alerts>
+    <alerts>
+        <fullName>twod_Send_Email_After_Receiving_SAP_Order_Free_Material_1102</fullName>
+        <ccEmails>RoofOrdersCA@saint-gobain.com</ccEmails>
+        <ccEmails>RPG.FMC@saint-gobain.com</ccEmails>
+        <description>twod Send Email After Receiving SAP Order #(Free Material) - 1102</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>walter.roach@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>TWOD_Email_Templates_Backup/Order_is_received_from_SAP_Free_Material_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>twod_Send_Email_After_Receiving_SAP_Order_Free_Material_1501_Solar</fullName>
+        <ccEmails>CT-Customer-Service-Solar@saint-gobain.com, RPG.solar@saint-gobain.com</ccEmails>
+        <description>twod Send Email After Receiving SAP Order #(Free Material) - 1501 Solar</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>stephanie.s.maio@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderAddress>rpg.solar@saint-gobain.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>TWOD_Email_Templates_Backup/Order_is_received_from_SAP_Free_Material_Template</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>SAP_Sequence_Update</fullName>
+        <description>SAP Sequence Update</description>
+        <field>SAP_Sequence__c</field>
+        <formula>SAP_Sequence_Old__c</formula>
+        <name>twod SAP Sequence Update</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Payments Fail To Release To SAP</fullName>
+        <actions>
+            <name>Payments_fail_to_release_to_SAP</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Payment__c.Sent_to_SAP__c</field>
+            <operation>contains</operation>
+            <value>Failed</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Payment_Type__c</field>
+            <operation>equals</operation>
+            <value>Credit/Debit,Free Material</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Payment_SAP_SequenceOld _To_SAP_Sequence%5F%5Fc</fullName>
+        <actions>
+            <name>SAP_Sequence_Update</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Payment__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Check</value>
+        </criteriaItems>
+        <description>Put SAP sequence old to SAP sequence</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Send Email for Credit%2FDebit</fullName>
+        <actions>
+            <name>Send_Email_After_Recieving_SAP_Order_Credit_Debit</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Payment__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Credit/Debit</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Order_Number__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Send Email for Free Material</fullName>
+        <actions>
+            <name>Send_Email_AFter_Recieviong_SAP_Order_Free_Material</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Payment__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Free Material</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Order_Number__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Send Email for Free Material - 1102</fullName>
+        <actions>
+            <name>twod_Send_Email_After_Receiving_SAP_Order_Free_Material_1102</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Payment__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Free Material</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Order_Number__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Sales_Org__c</field>
+            <operation>equals</operation>
+            <value>1102</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Send Email for Free Material - 1501</fullName>
+        <actions>
+            <name>Send_Email_AFter_Recieviong_SAP_Order_Free_Material</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Payment__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Free Material</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Order_Number__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Sales_Org__c</field>
+            <operation>equals</operation>
+            <value>1501</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Settlement_Type__c</field>
+            <operation>notEqual</operation>
+            <value>PVW - Photo Voltaic War</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Send Email for Free Material - 1501 Solar</fullName>
+        <actions>
+            <name>twod_Send_Email_After_Receiving_SAP_Order_Free_Material_1501_Solar</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Payment__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Free Material</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Order_Number__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Sales_Org__c</field>
+            <operation>equals</operation>
+            <value>1501</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Settlement_Type__c</field>
+            <operation>equals</operation>
+            <value>PVW - Photo Voltaic War</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Send Email to Contact for Free Material</fullName>
+        <actions>
+            <name>twod_Email_to_Contact_on_Free_Material_Order</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Payment__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Free Material</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Order_Number__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Released_To_SAP__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Settlement_Type__c</field>
+            <operation>notEqual</operation>
+            <value>PVW - Photo Voltaic War</value>
+        </criteriaItems>
+        <description>Send notice to Contact email when a Free Material Order is released to SAP</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>twod Send Email to Contact for Free Material Solar</fullName>
+        <actions>
+            <name>twod_Email_to_Contact_on_Free_Material_Order_Solar</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Payment__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Free Material</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Order_Number__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Released_To_SAP__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Payment__c.Settlement_Type__c</field>
+            <operation>equals</operation>
+            <value>PVW - Photo Voltaic War</value>
+        </criteriaItems>
+        <description>Send notice to Contact email when a Free Material Order is released to SAP</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

@@ -1,0 +1,16 @@
+.slds-timeline__item_expandable {
+    padding-bottom: 0;
+}
+
+.slds-timeline__trigger {
+    padding: 0;
+}
+
+.slds-timeline__item_sms::before {
+    background: #88c651;
+}
+
+.slds-timeline__item_expandable.slds-is-open .slds-timeline__item_details {
+    margin: 10px 0px;
+    padding: 10px;
+}

@@ -1,0 +1,89 @@
+<template>
+    <!-- if user is Authorized then only he/she can view/edit the form -->
+    <div if:true={authUser}>
+        <lightning-card title={checklistType} icon-name="custom:custom63">
+
+            <lightning-record-edit-form record-id={recordId} object-api-name="Preliminary_Checklist__c" density="comfy">
+                <div class="slds-box">
+
+                    <div class="slds-grid slds-wrap">
+                        <template for:each={wiredPreCheckListMDT.data} for:item='item'>
+                            <div key={item.id} class="slds-col slds-size_1-of-1">
+                                <!-- if Status is complete than open form in read only mode -->
+                                <div if:true={readOnlyMode}>
+                                    <!-- if label of the field is custom -->
+                                    <div if:true={item.Is_Label__c}>
+                                        <div class="slds-form-element slds-form-element_stacked">
+                                            <div class="slds-form-element__label">
+                                                {item.Custom_Label_Name__c}
+                                            </div>
+                                            <div class="slds-form-element__control">
+                                                <lightning-output-field field-name={item.Field_API_Name__c}
+                                                    variant="label-hidden">
+                                                </lightning-output-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- for standard field reference -->
+                                    <div if:false={item.Is_Label__c}>
+                                        <lightning-output-field field-name={item.Field_API_Name__c}>
+                                        </lightning-output-field>
+                                    </div>
+                                </div>
+                                <!-- for first time open form in edit mode -->
+                                <div if:true={editOnlyMode}>
+                                    <!-- if label of the field is custom -->
+                                    <div if:true={item.Is_Label__c}>
+                                        <div class="slds-form-element slds-form-element_stacked">
+                                            <div class="slds-form-element__label">
+                                                <div if:true={item.Is_Mandatory__c}>
+                                                    <abbr class="slds-required">*</abbr>{item.Custom_Label_Name__c}
+                                                </div>
+                                                <div if:false={item.Is_Mandatory__c}>
+                                                    {item.Custom_Label_Name__c}
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__control">
+                                                <div if:true={item.Is_Field_Read_Only__c}>
+                                                    <lightning-output-field field-name={item.Field_API_Name__c}
+                                                        variant="label-hidden">
+                                                    </lightning-output-field>
+                                                </div>
+                                                <div if:false={item.Is_Field_Read_Only__c}>
+                                                    <lightning-input-field field-name={item.Field_API_Name__c}
+                                                        required={item.Is_Mandatory__c}
+                                                        data-field={item.Field_API_Name__c} variant="label-hidden">
+                                                    </lightning-input-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- for standard field reference -->
+                                    <div if:false={item.Is_Label__c}>
+                                        <div if:true={item.Is_Field_Read_Only__c}>
+                                            <lightning-output-field field-name={item.Field_API_Name__c}>
+                                            </lightning-output-field>
+                                        </div>
+                                        <div if:false={item.Is_Field_Read_Only__c}>
+                                            <lightning-input-field field-name={item.Field_API_Name__c}
+                                                required={item.Is_Mandatory__c} data-field={item.Field_API_Name__c}>
+                                            </lightning-input-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <!-- show footer buttons in edit mode -->
+                    <template if:true={editOnlyMode}>
+                        <div class="slds-align_absolute-center">
+                            <lightning-button label="Submit Checklist" variant="brand" onclick={handleSubmitClick}>
+                            </lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </lightning-record-edit-form>
+        </lightning-card>
+    </div>
+
+</template>

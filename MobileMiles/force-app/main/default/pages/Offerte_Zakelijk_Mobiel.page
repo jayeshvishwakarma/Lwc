@@ -1,0 +1,291 @@
+<apex:page docType="html-5.0" showHeader="false" cache="false" standardController="EZSign__Signature__c" extensions="updateSigQuote">
+<html>
+<head>
+<style>
+body{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;}
+table td{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+table th{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}        
+table th.bold {font-weight: bold; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+table th.blauw2 {font-weight: bold; font-size: 11px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#003366; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+table th.groen1 {font-weight: bold; font-size: 11px; color: #339933; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+table th.groen {font-weight: bold; font-size: 11px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#339933; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+</style>
+</head>
+<body>
+<div style="width:970px;height:20px;margin:0 auto;background:url(http://www.mobilemiles.nl/images/layout/header-bg.png) no-repeat left top;"></div>
+<div  style="width:910px;margin:0 auto;padding:20px 30px;overflow:hidden;background:url(http://www.mobilemiles.nl/images/layout/container-bg.png) repeat-y;">
+<table width="730px" align="center">
+<tr><td width="730px"  >
+<apex:image id="header" value="/servlet/servlet.ImageServer?id=015D0000002hJkB&oid=00D20000000I5DP&lastMod=1415906791000" width="730" height="86"/><br/>
+
+{!theQuote.Aanhef__c} {!theQuote.Achternaam__c},<br/><br/>
+Met Zakelijk Mobiel kunt u op alle fronten onbezorgd zaken doen, met de kwaliteit die u van KPN gewend bent en een supersnelle mobiel internet ervaring door 4G.<br/><br/>
+
+Nooit meer onverwachte kosten door onbeperkt bellen en sms’en en grote MB bundels met een zeer laag bovenbundel tarief. Tegoeden gelden op bedrijfsniveau waarbij gebruikers met elkaar delen en de mogelijkheid hebben tot extra SIM-kaarten voor het aansluiten van laptops, tablets en meer, zonder dat daar een extra abonnement voor nodig is.<br/><br/>
+
+Profiteer ook van het zakelijke loyaliteitsprogramma. 100% vertrouwd KPN met extra voordeel voor {!theQuote.Collectief_MM__c} leden.
+<br/><br/>
+<table border="0" id="tableid">
+    <tr>
+        <th class="groen" colspan="5" align="left" width="730">Abonnementen</th>
+        
+    </tr>
+    <apex:outputPanel rendered="{!isNotEmpty}">
+    <tr>
+       <th class="bold" align="left">Aansluiting</th> 
+       <th class="bold" align="left">Abonnement</th> 
+        <th class="bold" align="left">Minuten + Sms + MB</th>
+         <th class="bold" align="left">Modules</th>       
+          <th class="bold" style="text-align:right;">Prijs</th>       
+                       </tr>
+     <apex:repeat value="{!qliList}" var="qli">
+     <tr>
+        <td align="left" style="vertical-align:text-top;">{!qli.X06_nummer__c}</td>
+        <td align="left" style="vertical-align:text-top;">{!qli.Abonnement__c}</td>  
+        <td align="left" style="vertical-align:text-top;">{!qli.Minuten_Sms_MB__c} </td>
+        <td align="left" style="vertical-align:text-top;">{!qli.Modules__c}</td>
+        <td align="right" style="vertical-align:text-top;"><apex:outputField value="{!qli.Prijs_per_maand__c}"/></td>
+             </tr>
+       
+          </apex:repeat>
+     </apex:outputPanel>  
+     <tr>
+        <td colspan="5" align="left"></td>
+        
+    </tr>
+   <tr>
+        <td colspan="5" align="left"></td>
+        
+    </tr>
+   
+   <tr>
+        <td colspan="4" align="left">Totaal abonnementskosten: </td>
+        <td align="right"> <apex:outputField value="{!theQuote.Totaal_prijs_per_maand__c}"></apex:outputField></td>
+    </tr>
+    <tr>
+        <td colspan="4" align="left">Variabele kosten: </td>
+        <td align="right"> <apex:outputField value="{!theQuote.Overige_kosten__c}"></apex:outputField></td>
+    </tr>
+   <tr>
+    <td colspan="4" align="left"><apex:outputText value=" {0, number, 0}" >
+                    <apex:param value="{!theQuote.Mobile_Miles_kortingspercentage__c}"/>
+        </apex:outputText>% <a target="_new" href="http://www.mobilemiles.nl/CMS/show.do?ctx=27137,507117&anav=507118#sg518731">MobileMiles loyaliteitskorting</a> op het gehele factuurbedrag: </td>
+    <td align="right"> <apex:outputField value="{!theQuote.MobileMiles_SO_korting__c}"></apex:outputField></td>
+    </tr>  
+   <tr>
+    <td colspan="4" align="left"><b>Totaal per maand:</b></td>
+    <td align="right"> <b><apex:outputField value="{!theQuote.Totaal_per_maand__c}"></apex:outputField></b></td>
+    </tr>
+   
+    <tr>
+    <td colspan="4" align="left">Uw huidige kosten: </td>
+    <td align="right"> <apex:outputField value="{!theQuote.Huidige_kosten__c}"></apex:outputField></td>
+    </tr> 
+<tr>
+        <td colspan="4" align="left"><b>Uw besparing:</b></td>
+        <td align="right" style="text-align:right;"><b><apex:outputField value="{!theQuote.Besparing_per_maand__c}"></apex:outputField></b></td> 
+    </tr>       
+<tr>
+        <td colspan="5" align="left"></td>
+        
+    </tr>
+   <tr>
+        <td colspan="5" align="left"></td>
+        
+    </tr>
+    <tr>
+        <td colspan="5" align="left"></td>
+        
+    </tr>
+<tr>
+        <th class="blauw2" colspan="5" align="left">Toestellen</th>
+        
+    </tr>
+  <apex:outputPanel >
+  <tr>
+    <th class="bold" align="left">Aantal</th>
+    <th class="bold" align="left">Toestel</th>
+    <th class="bold" align="left"></th>
+    <th class="bold" align="left"></th>
+    <th class="bold" style="text-align:right;">Prijs</th>
+  </tr>
+  <apex:repeat value="{!qliList}" var="qli">
+    <tr style="{! IF( AND( ISBLANK(qli.Aantal_toestellen__c), ISBLANK(qli.Toestel__c), ISBLANK(qli.Prijs_eenmalig__c) ), 'display:none', 'display:table-row' ) }">
+      <td  align="left" style="vertical-align:text-top;">
+        {!qli.Aantal_toestellen__c}
+      </td>
+      <td colspan="3" align="left" style="vertical-align:text-top;">
+        {!qli.Toestel__c}
+      </td>
+      <td align="right" style="vertical-align:text-top;"><apex:outputField value="{!qli.Prijs_eenmalig__c}"/>   
+      </td>
+    </tr>
+  </apex:repeat>
+</apex:outputPanel>
+
+       <tr>
+        <td colspan="4" align="left">Totaal eenmalig: </td>
+        <td align="right"> <apex:outputField value="{!theQuote.Totaal_prijs_eenmalig__c}"></apex:outputField></td>
+    </tr>    
+<tr>
+        <td colspan="4" align="left">Voorschot MobileMiles loyaliteitskorting: </td>
+        <td align="right"> <apex:outputField value="{!theQuote.Toegekend_VMM_min__c}"></apex:outputField></td>
+    </tr> 
+
+<tr>
+        <td colspan="4" align="left"><b>Te voldoen per factuur: </b></td>
+        <td align="right"><b> <apex:outputField value="{!theQuote.Te_voldoen_per_factuur__c}"></apex:outputField></b></td>
+    </tr> 
+</table>
+
+{!theQuote.Vrije_tekstveld__c}<br/><br/>
+<B>Voordelig bellen en internetten in het buitenland:</B><br/>
+Met Zakelijk Mobiel kunt u gebruik maken van gratis te activeren voordeelopties voor bellen en internetten buiten
+Nederland. Het mooie is dat u deze alleen betaalt in de maanden dat u daadwerkelijk in of naar het buitenland heeft gebeld of
+gebruik heeft gemaakt van Internet.<br/><br/>
+<font color= "#339933"><B>A) </B></font><B>Bellen in EU:</B> €5,00 per 100 minuten bellen/gebeld worden binnen de EU<br/>
+<font color= "#339933"><B>B) </B></font><B>Bellen naar EU:</B> €5,00 per 100 minuten bellen naar EU-nummers<br/> 
+<font color= "#339933"><B>C) </B></font><B>Bellen naar buiten EU:</B> €5,00 per 20 minuten bellen naar nummers buiten de EU<br/> 
+<font color= "#339933"><B>D) </B></font><B>Internet EU:</B> €5,00 per 100MB e-mail/internet in de EU<br/> 
+<font color= "#339933"><B>E) </B></font><B>Internet World:</B> €50,00 per 100MB e-mail/internet buiten de EU<br/><br/> 
+<B>Overige (voordeel)opties:</B><br/><br/>
+
+<font color= "#339933"><B>F) </B></font><B>Onbeperkt Onderling Bellen:</B> Gratis bellen met collega's binnen Nederland voor €5,00 per maand<br/>
+<font color= "#339933"><B>G) </B></font><B>BIS:</B> BlackBerry Internet functionaliteit voor € 5,00 per maand<br/>  
+<font color= "#339933"><B>H) </B></font><B>BES:</B> BlackBerry Enterprise functionaliteit voor € 15,00 per maand<br/><br/>  
+<b>Delen van tegoeden met collega's:</b><br/> 
+Alle Zakelijk Mobiel abonnementen van dezelfde variant, delen hun tegoeden tussen alle gebruikers. Dit 
+geldt voor zowel de minuten als de MB’s. Als aan het eind van de maand blijkt dat sommige gebruikers meer hebben verbruikt, en 
+anderen minder dan hun tegoed, wordt dit automatisch met elkaar verrekend. 
+<br/><br/> 
+
+Kijk <a target="_new" href="http://www.mobilemiles.nl/CMS/show.do?ctx=27137,641910&anav=641911">hier</a> voor de uitgebreide tarieven en de complete dienstbeschrijving van KPN Zakelijk Mobiel.<br/><br/>
+
+<b> Bevestig nu eenvoudig online en profiteer snel van dit aantrekkelijke voorstel! </b><br/>
+Geef onderstaand uw geboortedatum en het nummer van een geldig legitimatiebewijs in, onderteken voor akkoord en druk op de knop "Verzenden". <br/>
+<br/>
+<apex:form >
+<apex:pageBlock >
+<apex:pageBlockSection >
+<apex:inputField value="{!theSig.Geboortedatum__c}" onblur="callSigUpdate();return false;" rendered="{!nullGeb}">
+<apex:actionFunction name="callSigUpdate" action="{!updateTheSig}" reRender=""/>
+</apex:inputField>
+<apex:outputField value="{!theSig.Geboortedatum__c}" rendered="{!NOT(nullGeb)}"/>
+<br/>
+<apex:inputField value="{!theSig.Legitimatienummer__c}" onblur="callSigUpdate2();return false;" rendered="{!nullLegit}">
+<apex:actionFunction name="callSigUpdate2" action="{!updateTheSig}" reRender=""/>
+</apex:inputField>
+<apex:outputField value="{!theSig.Legitimatienummer__c}" rendered="{!NOT(nullLegit)}"/>
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+<br/>
+<EZSign:getSignature drawOnly="true" returnToRecord="0" /><br/>
+{!theQuote.Tijdstempel_tekst__c}&nbsp;
+
+<apex:outputText value="{0,date,d-M-yyyy}" >
+                    <apeX:param value="{!theQuote.Tijdstempel__c}"/>
+                </apex:outputText>
+
+
+ {!theQuote.IP_adres_stempel__c}<br/><br/>
+
+Ik kies voor een abonnement met een looptijd van {!theQuote.Looptijd__c} bij KPN,  ga akkoord met de <a target="_new" href="http://www.kpn.com/allevoorwaarden.htm">voorwaarden</a> en verklaar bevoegd te zijn deze aanvraag namens {!theQuote.Bedrijfsnaam__c} te doen.<br/><br/>
+<i>Disclaimer<br/>
+Deze offerte is geldig tot:&nbsp; <apex:outputText value="{0,date,d-M-yyyy}" >
+                    <apeX:param value="{!theQuote.ExpirationDate}"/>
+                </apex:outputText>. De ingangsdatum is afhankelijk van de huidige contractvorm c.q. contract einddatum.<br/>
+Alle tarieven zijn exclusief btw. Typefouten en prijswijzigingen voorbehouden. 
+</i><br/><br/> 
+<apex:form ><apex:commandLink value="Afdrukken" onclick="window.print();"/></apex:form>
+
+</td></tr></table>
+</div>
+<div style="width:970px;height:20px;margin:0 auto;background:url(http://www.mobilemiles.nl/images/layout/footermenu-bg.png) no-repeat left top;"></div>
+</body>
+</html>
+<script type="text/javascript">
+var allButtons = document.getElementsByTagName('button');
+var allLabels = document.getElementsByTagName('label');
+var allPars = document.getElementsByTagName('p');
+var allLinks = document.getElementsByTagName('a');
+for (var i=0; i<allButtons.length; i++){
+    if (allButtons[i].innerHTML == 'Submit'){
+        allButtons[i].innerHTML = 'Verzenden';
+    }
+}
+for (var j=0; j<allLabels.length; j++){
+    if (allLabels[j].innerHTML == 'Type your name'){
+        allLabels[j].innerHTML = 'Typ uw naam';
+    }
+}
+for (var k=0; k<allPars.length; k++){
+    if (allPars[k].innerHTML == 'Review your signature'){
+        allPars[k].innerHTML = 'Controleer uw handtekening';
+    }
+    else if (allPars[k].innerHTML == 'Draw your signature'){
+        allPars[k].innerHTML = 'Zet uw handtekening';
+    }
+}
+for (var l=0; l<allLinks.length; l++){
+    if (allLinks[l].innerHTML == 'Type It'){
+        allLinks[l].innerHTML = 'Typen';
+    }
+    else if (allLinks[l].innerHTML == 'Draw It'){
+        allLinks[l].innerHTML = 'Tekenen';
+    }
+    else if (allLinks[l].innerHTML == 'Clear'){
+        allLinks[l].innerHTML = 'Wissen';
+    }
+}
+</script>
+<script src="/js/dojo/0.4.1/dojo.js"></script>
+
+<script src="/soap/ajax/11.1/connection.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+dojo.require("dojo.collections.Store");
+dojo.require("dojo.charting.Chart");
+dojo.require('dojo.json');
+var arYears = getYears();
+function swapYears(){
+
+// Contact Birth day
+if(document.getElementById('calYearPicker') != null) {
+var select = document.getElementById('calYearPicker');
+var curValue = select.value;
+var parentx = select.parentNode;
+parentx.removeChild(select);
+select = document.createElement('select');
+select.size = 1;
+select.id = 'calYearPicker';
+select.name = 'calYearPicker';
+parentx.appendChild(select);
+}
+if(select != null) {
+for(x=0;x<100;x++) {
+select.options[x] = new Option(arYears[x], arYears[x], false, false);
+}
+}
+}
+
+function getYears() {
+sforce.sessionId = getCookie('sid');
+sforce.connection.sessionId=sforce.sessionId;
+var out = [];
+
+// generate dates for the last 100 years
+var currentTime = new Date()
+var year = currentTime.getFullYear()
+try {
+for(x=0;x<100;x++) {
+out[x] = x+year-99;
+}
+} catch(error) {
+alert(error);
+}
+return out;
+}
+dojo.addOnLoad(swapYears);
+</script>
+</apex:page>

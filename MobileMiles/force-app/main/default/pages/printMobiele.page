@@ -1,0 +1,30 @@
+<apex:page standardController="Mobiele_aansluiting__c"  sidebar="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Print a Label</title> 
+    <script src="{!$Resource.dymoFramework}" type="text/javascript" charset="UTF-8"> </script>
+    <script src="{!$Resource.printLabel}" type="text/javascript" charset="UTF-8"> </script>
+</head>
+
+<body>
+ 
+    <div id="textDiv">
+        <textarea name="textTextArea" id="textTextArea"  rows='5' cols='40'>
+        Mobiel nummer: {!Mobiele_aansluiting__c.Name}
+        Simkaartnummer: {!Mobiele_aansluiting__c.KPN_Simkaartnummer__c}
+        Type abonnement: {!Mobiele_aansluiting__c.Abonnement__c}
+        {!Mobiele_aansluiting__c.ingangsdatum_tekst_label__c}
+        </textarea>
+    </div>
+
+        <div id="printDiv">
+            <button id="printButton">Print</button>
+        </div>
+
+</body> 
+ 
+</html> 
+
+ 
+</apex:page>

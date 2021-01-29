@@ -1,0 +1,52 @@
+<apex:component >
+    <h2>
+        De belangrijkste voordelen van KPN ÉÉN op een rijtje
+    </h2>    
+
+    <h3>Eenvoudig en zorgeloos</h3>    
+    <p>
+        Met KPN ÉÉN hebt u het gemak van één contract, één factuur, één aanspreekpunt, 
+        één helpdesk en een volledig geïntegreerde hosted oplossing voor vast en 
+        mobiel internet als vaste en mobiele telefonie. 
+        Mutaties kunt u laten uitvoeren door Mobile Miles via de 
+        Mobile Miles Servicedesk. Bel gratis 088-4865555. 
+           </p>
+
+    <h3>Flexibel</h3>
+    <p>
+        KPN ÉÉN biedt u een grote mate van flexibiliteit. 
+        Zo kan KPN ÉÉN naadloos meegroeien of krimpen met uw bedrijf doordat u heel 
+        eenvoudig het aantal gebruikers of telefoonnummers kunt laten aanpassen. 
+        De behoefte kan per type gebruiker verschillen. 
+        Daarom kunt u aan de hand van 5 gebruikersprofielen en diverse gebruikersopties, 
+        per gebruiker de gewenste functionaliteiten kiezen. 
+        Ook kunt u maandelijks nieuwe gebruikers- of groepsopties toevoegen of opzeggen. 
+        Op deze manier betaalt u dus alleen voor wat u gebruikt.
+    </p>
+    <h3>Onbeperkt bellen</h3>
+    <p>
+        Met KPN ÉÉN belt u vanaf uw vaste en/of mobiele telefoon – afhankelijk van het gekozen
+        gebruikersprofiel - onbeperkt naar alle vaste en mobiele nummers in Nederland. De gesprekstarieven voor
+        internationaal bellen en voor bellen naar servicenummers brengen wij apart in rekening.
+    </p>
+    <h3>Geen investering in telefooncentrale nodig</h3>
+    <p>
+        U hoeft niet te investeren in een nieuwe telefooncentrale op locatie 
+        als u overstapt naar KPN ÉÉN.
+        De telefooncentralefunctionaliteiten worden direct vanuit het netwerk van KPN aangeboden.
+    </p>
+    <h3>Klaar voor de toekomst</h3>
+    <p>
+        KPN ÉÉN is een goed uitgangspunt voor doorgroei naar een 
+        totaalcommunicatie-oplossing waarbij modules zoals Office 365, 
+        Zakelijk Pinnen en Zakelijk Alarm eenvoudig toe te voegen zijn. 
+        Daarnaast bent u altijd verzekerd van de nieuwste functionaliteiten, 
+        doordat het platform steeds up-to-date wordt gehouden. 
+        U beschikt dus altijd over de meest recente telefooncentrale in de Cloud.
+    </p>
+    <h3>Bereikbaar op de manier die u wenst</h3>
+    <p>
+        KPN ÉÉN heeft verschillende functionaliteiten die het mogelijk 
+        maken om overal bereikbaar te zijn op de manier die u wilt.
+    </p>
+</apex:component>

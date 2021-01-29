@@ -1,0 +1,46 @@
+<aura:component controller="PicklistSelectController" implements="force:appHostable,flexipage:availableForAllPageTypes"
+                description="Renders a lightning:select component with options populated from a picklist field.">
+	
+    <!-- required -->
+    <aura:attribute name="objectName" type="String" required="true" default="Account"/>
+    <aura:attribute name="fieldName" type="String" required="true" default="Type"/>
+
+    <!-- optional -->
+    <aura:attribute name="label" type="String"  description="Text that describes the desired select input. Default is the field's label."/>
+    <aura:attribute name="value" type="String" description="The value of the select, also used as the default value to select the right option during init. If no value is provided, the first option will be selected."/>    
+    <aura:attribute name="uppercase" type="Boolean" description="This option is to make picklist values to upper case when it is set to true" default="false"/>    
+    <aura:attribute name="class" type="String" description="A CSS class that will be applied to the outer element. This style is in addition to base classes associated with the component."/>
+    <aura:attribute name="defaultSelected" type="String" description="The value of the select, also used as the default value."/>
+    <aura:attribute name="isRequired" type="Boolean" default="false"  description="This attribute is to make this fields mandatory"/>
+    <aura:attribute name="requiredMsg" type="String" default="Complete this field."  description="This attribute is to display the mandatory message"/>
+    <!-- event handlers, as exposed by lightning:select component -->
+    <aura:attribute name="onblur" type="Aura.Action" description="The action triggered when the element releases focus."/>
+    <aura:attribute name="onfocus" type="Aura.Action" description="The action triggered when the element receives focus."/>
+    <aura:attribute name="onchange" type="Aura.Action" description="The action triggered when a value attribute changes."/>
+    
+    <aura:attribute name="options" type="List" access="private" description="The picklist options to choose from. Populated during component initialization."/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+      
+    <lightning:select required="{!v.isRequired}" messageWhenValueMissing="{!v.requiredMsg}" name="picklistSelect"
+                      label="{!v.label}"
+                      value="{!v.value}"
+                      class="{!v.class}"
+                      onblur="{!v.onblur}"
+                      onfocus="{!v.onfocus}"
+                      onchange="{!v.onchange}">
+       
+        <aura:iteration var="opt" items="{!v.options}">            
+            <aura:if isTrue="{!equals(opt.value, v.value)}">
+                <option value="{!opt.value}" selected="true">{!opt.label}</option>
+                <aura:set attribute="else">
+					<option value="{!opt.value}">{!opt.label}</option>
+			    </aura:set>
+            </aura:if>
+            
+            
+        </aura:iteration>
+        
+    </lightning:select>
+    
+</aura:component>

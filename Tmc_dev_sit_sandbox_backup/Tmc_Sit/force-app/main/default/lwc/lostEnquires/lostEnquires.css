@@ -1,0 +1,34 @@
+@media only screen and (max-width: 600px) {
+    .slds-page-header_vertical {
+        /*display: inline-block;*/
+        display: grid;
+        overflow: hidden;
+        white-space: nowrap;
+        margin: 0px;
+    }
+    .EnqHeader{
+        padding-bottom: 10px;
+    }
+    .slds-card__body{
+        margin-top: 0px;
+    }
+    .slds-text-align--right{
+        border-top: 0px;
+    }
+    .cobtn, .slds-button_brand{
+        padding-right: 10px;
+        margin: 2px;
+    }
+    .slds-fade-in-open{
+        position: fixed;
+    }
+    .slds-modal__container{
+        display: block;
+    }
+    .mobileSelectAllCheckBox{
+        display: block !important;
+    }
+}
+.mobileSelectAllCheckBox{
+    display: none;
+}

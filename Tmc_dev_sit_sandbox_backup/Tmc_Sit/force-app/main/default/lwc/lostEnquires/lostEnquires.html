@@ -1,0 +1,349 @@
+<template>
+    <!-- Spinner -->
+    <div if:true={showLoadingSpinner}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </div>
+    <!-- Spinner -->
+    <!--{isValid}-->
+    <template if:false={isValid}>
+        <div class="slds-align_absolute-center"
+            style="height: 10rem; font-size: 22px; font-weight: bolder; color: #003A7A;">
+            Only TL are allowed to access this tab
+        </div>
+    </template>
+
+    <!-- Accept All Enquiry Modal Start -->
+    <template if:true={isAcceptAllEnqModal}>
+        <section role="dialog" aria-hidden="true" style="overflow:scroll;" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container"> 
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeAcceptAllEnqModal}>
+                        <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="Close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Accept All Enquires</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>Do you want to Accept All Selected Enquiries.</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral uiButton forceActionButton" onclick={closeAcceptAllEnqModal} aria-live="off" data-aura-class="uiButton forceActionButton">Cancel</button>
+                    <button class="slds-button slds-button_brand uiButton forceActionButton" onclick={acceptAllEnquiryRecord} aria-live="off" data-aura-class="uiButton forceActionButton">Accept</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template> 
+    <!-- Accept All Enquiry Modal End --> 
+
+    <!-- Reject All Enquiry Modal Start -->
+    <template if:true={isRejectAllEnqModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeRejectAllEnqModal}>
+                        <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="Close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">Reject All Enquires</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <p>Do you want to Reject All Selected Enquiries.</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeRejectAllEnqModal}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={rejectAllEnquiryRecord}>Reject</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- Reject All Enquiry Modal End --> 
+
+    <!-- Change Enquiry Owner Modal Start -->
+    <template if:true={isChangeEnquiryOwnerModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeChangeEnquiryOwnerModal}>
+                        <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="Close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-modal__title slds-hyphenate">Change Enquiry Owner</h2>
+                </header>
+                <div class="slds-modal__content scrollable slds-p-around_medium" id="modal-content-id-3" style="height: 200px; max-height: 200px;">
+                    <div if:false={selectedRecord}>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <c-search-component onchange={handleOnchange} place-holder-name="Enter Owner Name">
+                                        </c-search-component>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <template if:true={error}>
+                            <template if:true={error.details}>
+                                <template if:true={error.details.body}>
+                                    {error.details.body.message}
+                                </template>
+                            </template>
+                        </template>
+                    </div>      
+                    <template if:false={showList}>
+                        <template for:each={partnerUser} for:item="record">
+                            <c-record-list key={record.Id} record={record} onselect={handleSelect} iconname={iconname}
+                                fieldname={searchfield}>
+                            </c-record-list>
+                        </template>
+                    </template>
+                    <template if:true={selectedRecord}>            
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">            
+                                        <label class="slds-form-element__label"></label>
+                                        <div class="slds-combobox__form-element slds-input-has-icon 
+                                                            slds-input-has-icon_left-right" role="none">
+                                            <span class="slds-icon_container
+                                                                slds-icon-standard-product 
+                                                                slds-combobox__input-entity-icon" title="Product">
+                                                <lightning-icon icon-name={iconname}></lightning-icon>
+                                            </span>
+                                            <input class="slds-input slds-combobox__input
+                                                            slds-combobox__input-value" id="combobox-id-5" aria-controls="listbox-id-5"
+                                                autocomplete="off" role="textbox" type="text" placeholder="Select an Option" readonly=""
+                                                value={selectedRecord.Name} disabled required />
+                
+                                            <button class="sicon_container slds-button slds-button_icon 
+                                                                    slds-input__icon slds-input__icon_right"
+                                                title="Remove selected option" style="margin-right: 0.6%;" onclick={handleRemove}>
+                                                <lightning-icon icon-name="utility:close" size="small" style="margin-top: inherit;">
+                                                </lightning-icon>
+                                                <span class="slds-assistive-text">Remove selected option</span>
+                                            </button>
+                                        </div>
+                                        <!--New change : show designation of selected user-->
+                                        <template if:true={selectedRecord.Designation__c}>
+                                            <lightning-input name="UserDesignation" label="Designation" type="text"
+                                                value={selectedRecord.Designation__c} disabled></lightning-input>
+                                        </template>
+                                        <template if:false={selectedRecord.Designation__c}>
+                                            <lightning-input name="UserDesignation" label="Designation" type="text"
+                                                value={selectedRecord.Profile.Name} disabled></lightning-input>
+                                        </template>                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>               
+                </div>                
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeChangeEnquiryOwnerModal}>Cancel</button>
+                    <template if:true={selectedRecord}>
+                        <button class="slds-button slds-button_brand" onclick={changeOwner}>Save</button>
+                    </template>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- Change Enquiry Owner Modal End -->
+
+    <!-- 2nd Change Enquiry Owner Modal Start -->
+    <!--<template if:true={isChangeEnquiryOwnerModal}>
+        <div class="demo-only">
+            <section role="alertdialog" tabindex="0" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt" aria-modal="true">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-theme_success slds-theme_alert-texture">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 class="slds-text-heading_medium" id="prompt-heading-id">Change Enquiry Owner</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+                        <div if:false={selectedRecord}>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <c-search-component onchange={handleOnchange} place-holder-name="Enter Owner Name">
+                                            </c-search-component>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <template if:true={error}>
+                                <template if:true={error.details}>
+                                    <template if:true={error.details.body}>
+                                        {error.details.body.message}
+                                    </template>
+                                </template>
+                            </template>
+                        </div>      
+                        <template if:false={showList}>
+                            <template for:each={partnerUser} for:item="record">
+                                <c-record-list key={record.Id} record={record} onselect={handleSelect} iconname={iconname}
+                                    fieldname={searchfield}>
+                                </c-record-list>
+                            </template>
+                        </template>
+                        <template if:true={selectedRecord}>            
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">            
+                                            <label class="slds-form-element__label"></label>
+                                            <div class="slds-combobox__form-element slds-input-has-icon 
+                                                                slds-input-has-icon_left-right" role="none">
+                                                <span class="slds-icon_container
+                                                                    slds-icon-standard-product 
+                                                                    slds-combobox__input-entity-icon" title="Product">
+                                                    <lightning-icon icon-name={iconname}></lightning-icon>
+                                                </span>
+                                                <input class="slds-input slds-combobox__input
+                                                                slds-combobox__input-value" id="combobox-id-6" aria-controls="listbox-id-6"
+                                                    autocomplete="off" role="textbox" type="text" placeholder="Select an Option" readonly=""
+                                                    value={selectedRecord.Name} disabled required />
+                    
+                                                <button class="sicon_container slds-button slds-button_icon 
+                                                                        slds-input__icon slds-input__icon_right"
+                                                    title="Remove selected option" style="margin-right: 0.6%;" onclick={handleRemove}>
+                                                    <lightning-icon icon-name="utility:close" size="small" style="margin-top: inherit;">
+                                                    </lightning-icon>
+                                                    <span class="slds-assistive-text">Remove selected option</span>
+                                                </button>
+                                            </div>
+                                            <template if:true={selectedRecord.Designation__c}>
+                                                <lightning-input name="UserDesignation" label="Designation" type="text"
+                                                    value={selectedRecord.Designation__c} disabled></lightning-input>
+                                            </template>
+                                            <template if:false={selectedRecord.Designation__c}>
+                                                <lightning-input name="UserDesignation" label="Designation" type="text"
+                                                    value={selectedRecord.Profile.Name} disabled></lightning-input>
+                                            </template>                
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>      
+                    </div>
+                    <footer class="slds-modal__footer slds-theme_default">
+                        <button class="slds-button slds-button_neutral" onclick={closeChangeEnquiryOwnerModal}>Cancel</button>
+                        <button class="slds-button slds-button_brand">Save</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>-->
+    
+    <!-- All Lost Enquiry list Start --> 
+    <template if:true={isValid}>
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid slds-page-header_vertical">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate EnqHeader">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-contact" title="All Lost Enquiries">
+                            <lightning-icon icon-name="standard:opportunity" title="opportunity"></lightning-icon>
+                            <span class="slds-assistive-text">Enquiry</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h1 class="slds-card__header-title">
+                            <span class="slds-text-heading_small" style="font-size: 1.5rem; font-weight: 600;">All Lost Enquiries</span>
+                        </h1>
+                    </div>
+                </div>
+                <!--<lightning-button class="slds-button" label="Accept All" variant="brand" slot="actions" onclick={AcceptAllEnqModal}></lightning-button>
+                <lightning-button class="slds-button" label="Reject All" variant="brand" slot="actions" onclick={RejectAllEnqModal}></lightning-button>-->
+                <!--<lightning-button class="slds-button cobtn" label="Change Owner" variant="brand" slot="actions" onclick={ChangeEnquiryOwnerModal}></lightning-button>-->
+                <button class="slds-button slds-button_brand" onclick={AcceptAllEnqModal}>Accept All</button>
+                <button class="slds-button slds-button_brand" onclick={RejectAllEnqModal}>Reject All</button>
+                <!--<button class="slds-button slds-button_brand" onclick={ChangeEnquiryOwnerModal} style="padding-left: .7rem; padding-right: .7rem;">Change Owner</button>-->
+                
+            </div>
+            <div class="slds-card__body">
+                <table class="slds-table slds-table_fixed-layout slds-table_bordered slds-no-row-hover slds-table_cell-buffer slds-max-medium-table_stacked-horizontal">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col" style="width: 3.25rem;" class="slds-text-align--right">
+                                <div title="Select All">
+                                    <lightning-input type="checkbox" data-id="singleCheck" onchange={selectAllCheckboxes}> </lightning-input>
+                                </div>
+                            </th>
+                            <th scope="col" class="slds-cell-wrap">
+                                <div title="Enq Name">Enq Name</div>
+                            </th>
+                            <th scope="col" class="slds-cell-wrap">
+                                <div title="Enq Stage">Enq Stage</div>
+                            </th>
+                            <th scope="col" class="slds-cell-wrap">
+                                <div title="DMS Enquiry Number">DMS Enquiry Number</div>
+                            </th>
+                            <th scope="col" class="slds-cell-wrap">
+                                <div title="Mobile">Mobile</div>
+                            </th>
+                            <th scope="col" class="slds-cell-wrap">
+                                <div title="DSE Name">DSE Name</div>
+                            </th>                        
+                        </tr>
+                    </thead>
+                    <tbody>   
+                        <template if:true={listOfLostEnquires}>
+                            <div class="mobileSelectAllCheckBox" style="display: none;">
+                                <div class="slds-grid slds-gutters slds-p-top_medium slds-p-left_x-small">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-border_bottom">
+                                            <lightning-input type="checkbox" label="Select All" data-id="mobSingleCheck"
+                                                style="left: 5px;" onchange={selectAllCheckboxes}>
+                                            </lightning-input> 
+                                            <div class="slds-p-top_small"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                        </template>
+                                         
+                        <template for:each={listOfLostEnquires} for:item="oppVar" for:index="ind">
+                           <tr key={oppVar.objOpp.Id} class="slds-hint-parent">
+                                <td style="width: 3.25rem;" class="slds-text-align--right" data-label="">
+                                    <lightning-input type="checkbox" class="checkVal" onchange={chnageCheckboxValue} data-id={ind} data-row-index={ind}> </lightning-input>
+                                </td>
+                                <td class="slds-cell-wrap" data-label="Enq Name">
+                                    <div title={oppVar.objOpp.Name}>{oppVar.objOpp.Name}</div>
+                                </td>
+                                <td class="slds-cell-wrap" data-label="Enq Stage">
+                                    <div title={oppVar.objOpp.StageName}>{oppVar.objOpp.StageName}</div>
+                                </td>
+                                <td class="slds-cell-wrap" data-label="DMS Enquiry Number">
+                                    <div title={oppVar.objOpp.DMS_Enquiry_Name__c}>{oppVar.objOpp.DMS_Enquiry_Name__c}</div>
+                                </td>
+                                <td class="slds-cell-wrap" data-label="Mobile">
+                                    <div title={oppVar.objOpp.Mobile__c}>{oppVar.objOpp.Mobile__c}</div>
+                                </td>
+                                <td class="slds-cell-wrap" data-label="DSE Name">
+                                    <div title={oppVar.objOpp.DSE_Name__c}>{oppVar.objOpp.DSE_Name__c}</div>
+                                </td>
+                            </tr>
+                        </template>    
+                    </tbody>
+                </table>                                    
+                <template if:false={dealerAccount}>
+                    <div class="slds-align_absolute-center"
+                        style="height: 10rem; font-size: 22px; font-weight: bolder; color: #000000;">
+                        No Records Found.
+                    </div>
+                </template>
+            </div>
+        </article>
+    </template>
+    <!-- All Lost Enquiry list End --> 
+</template>

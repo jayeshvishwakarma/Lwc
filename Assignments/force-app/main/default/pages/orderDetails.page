@@ -1,0 +1,95 @@
+<apex:page controller="orderDetailsController" lightningStylesheets="true">
+    <style>
+        .column {
+        float: left;
+        width: 33.33%;
+        padding: 0px;
+        height: 70px;
+        }
+        
+        .column2 {
+        float: left;
+        width: 49.5%;
+        padding: 0px;
+        height: auto;
+        }
+        
+    </style>
+    <apex:slds />
+    <apex:form id="form" >
+        <apex:pageBlock id="mainPgBlock" >
+            
+            
+            <apex:pageBlock id="pgBlock1">
+                <div class="column" style="background-color:yellow" >
+                </div>
+                
+                <div class="column" align="center" style="background-color:yellow" >
+                    <h1 style="font-weight: bold;font-size:46px;">E-MarT</h1>
+                </div>
+                
+                <div class="column" style="background-color:yellow"><br/>
+                    <apex:commandButton value="Home" action="{!Home}" />
+                </div>
+            </apex:pageBlock>
+            <apex:pageMessages />
+            
+            <apex:pageBlock >
+                <div align="center">
+                    <h1 style="background-color:mistyrose;font-weight:bold;font-size:22px;">
+                        Order Details : 
+                    </h1><br/>
+                </div>
+                
+                <div class="column2" style="font-weight:bold;font-size:15px">
+                    <apex:repeat value="{!lstorderDetails}" var="objOrderDetail">
+                        <h1>
+                            Order Id : {!objOrderDetail.id} 
+                        </h1><br/>
+                        <h1>
+                            Transaction Id : {!objOrderDetail.TransactionId__r.id} 
+                        </h1><br/>
+                        <apex:repeat value="{!lstCarts}" var="objCart">
+                            <h1>
+                                Product : {!objCart.ProductId__r.Product_Name__c} 
+                            </h1><br/>
+                            <h1>
+                                Quantity : {!objOrderDetail.Quantity__c} 
+                            </h1><br/>
+                        </apex:repeat>
+                        <h1>
+                            Total Amount : {!objOrderDetail.Total_Amount__c} 
+                        </h1><br/>
+                    </apex:repeat>
+                </div>
+                <div class="column2" style="font-weight:bold;font-size:15px">
+                    <apex:repeat value="{!lstContacts}" var="objContact">
+                        <h1>
+                            Customer Name : {!objContact.name} 
+                        </h1><br/>
+                        <h1>
+                            Customer Phone : {!objContact.phone} 
+                        </h1><br/>
+                        <h1>
+                            Customer Email : {!objContact.email} 
+                        </h1><br/>
+                        <h1>
+                            Customer Address : {!objContact.Address__c} 
+                        </h1><br/>
+                        <h1>
+                            Customer Country : {!objContact.Country__c} 
+                        </h1><br/>
+                    </apex:repeat>
+                </div>
+                
+            </apex:pageBlock>
+            <div align="center" style="font-weight:bold;font-size:30px;">
+                <h1>
+                    <i>Thankyou For Shopping With Us !!!!</i> 
+                </h1>
+                
+            </div>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

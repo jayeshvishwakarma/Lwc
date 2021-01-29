@@ -1,0 +1,25 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="GLOBAL" >       
+   
+	
+	<article class="slds-card">
+		
+		<div class="slds-card__body">
+			<ul class="slds-card__body_inner slds-grid slds-wrap slds-grid_pull-padded">
+				<li class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-4">
+					<article class="slds-tile slds-media slds-card__tile slds-hint-parent">						
+						<div class="slds-media__body">							
+                                
+                                <div class="slds-align--absolute-center imagePreview" >
+                                	<img src="https://cdn2.iconfinder.com/data/icons/scrap/Adobe%20-%20Acrobat.png"/>                                
+                                </div>          
+                            	<div class="tileLabel">PDF File</div>
+						</div>
+					</article>
+				</li>
+				
+				
+			</ul>
+		</div>
+		
+	</article>
+</aura:component>

@@ -1,0 +1,64 @@
+<template>
+
+<template if:true={isSpinnerShow}>
+    <lightning-spinner variant="brand" size="medium" alternative-text="loading"></lightning-spinner>
+</template>
+
+<template if:true={showFirstScreen}>
+<lightning-combobox
+        name=""
+        label="Choose"
+        placeholder="Select An Option"
+        options={options}
+        onchange={handleChange}
+        required></lightning-combobox>   
+</template>
+<template if:true={suzukiconnect}>
+    <lightning-input type='text' label='Remark' value={suzukiConnectRemark}></lightning-input>
+</template>
+<div class=" slds-p-top_medium"></div>
+<template if:true={showNextScreen}>
+<button class="slds-button slds-button_brand" onclick={handleNext}>Next</button>
+</template>
+
+<template if:true={showScreen}>
+    
+    <lightning-record-edit-form record-id={recordId} object-api-name="Case" onload={handleOnload} onsubmit={handleSubmit}  onerror={handleError} onsuccess={handleSuccess} >
+        <lightning-messages></lightning-messages>
+
+    <template if:true={showReassigntoCCMScreen}>
+        <lightning-input type='text' 
+        label='Case Owner'  
+        value='CRM 1 SPOCs'
+        disabled></lightning-input>
+    </template>
+    <template if:true={showstatusField}>
+        <lightning-input type='text' 
+        label='Status'  
+        value={value}
+        disabled></lightning-input>
+    </template>
+    <template if:true={showsendBacktoPreviousScreen}>
+        <div class=" slds-p-left_x-large slds-m-vertical_small" if:true={message}> {message} </div>
+        <lightning-input type='text' 
+        label='Case Owner'  
+        value={value}
+        disabled></lightning-input>
+        <div class=" slds-p-top_medium"></div>
+        <lightning-textarea name="Remarks" label="Remarks" value={remarks} onchange={handleremarkchange}></lightning-textarea>
+    </template>
+
+                    <div class=" slds-p-top_medium"></div>
+
+                    <lightning-button class="submit-btn slds-hide" type="submit" label="save" variant="brand"></lightning-button>
+                </lightning-record-edit-form>
+
+<button class="slds-button slds-button_brand" onclick={handlePrevious}>Previous</button>
+<button class="slds-button slds-button_brand" onclick={saveOwner}>Save</button>
+</template>
+
+<template if:true={showUpdateCategoryDetailsScreen}>
+<c-update-case-category case-id={recordId} ></c-update-case-category>
+</template>
+
+</template>

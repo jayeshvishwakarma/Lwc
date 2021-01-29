@@ -1,0 +1,469 @@
+<apex:page showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardController="EZSign__Signature__c" extensions="overeenkomstController" id="pg">
+     <html>
+        <head>
+            <script  src="https://code.jquery.com/jquery-3.3.1.min.js"  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="  crossorigin="anonymous"></script>
+            <style>
+ 
+                p,h1,h2,h3,body,td,th,li,header,footer,* {
+                    font-family: Arial,Helvetica,SansSerif,sans-serif;
+                }
+                p,h1,h2,h3,body,td,th,li,header,footer {
+                    font-size: 9pt;
+                }
+                h1,h2 {
+                    font-size: 12pt;
+                }
+                
+                td,th {
+                    vertical-align:top;
+                }                                
+
+                .quoteTable td {
+                    border-bottom: 1pt solid black;
+                    text-align: center;
+                }
+                .quoteTable thead  th{
+                    background-color: #CCD7E7;
+                    font-size: 8pt;
+                    padding: 0.5em;
+                }
+                
+                .quoteTable tfoot td {
+                    text-align: left;
+                    background-color: #CCD7E7;
+                    padding: 0.5em 0;
+                    margin: 0;
+                    font-weight: bold;
+                }
+                .padded-table td {
+                    padding: 0.5em;
+                    border-bottom: 0.5pt solid gray;
+                }
+                                                 
+                .checkbox {
+                    width: 1em;
+                    height: 1em;
+                    border: 1pt solid black;
+                    display: inline-block;
+                }
+                
+                .groupTable th{
+                    padding-right : 0px !important;
+                }
+                body{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;}
+                table td{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+                table th{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}        
+                table th.bold {font-weight: bold; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+                table th.blauw2 {font-weight: bold; font-size: 11px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#003366; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+                table th.groen1 {font-weight: bold; font-size: 11px; color: #339933; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+                table th.groen {font-weight: bold; font-size: 11px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#339933; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+                .groupTable{
+                    text-align: center;
+                }    
+
+                .sigPadButton {
+                    background-color: green !important;
+                    color: white !important;
+                }
+                
+                .sigPadButton:hover {
+                    background-color: #88c651 !important;
+                }
+                
+                #sigContainer {
+                    width: 400px !important;
+                }
+                
+                .typeIt {
+                    display: none !important;
+                }
+
+            </style>
+            <title>Quote</title>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementById("typedName").value = "{!Quote.Voornaam__c} {!Quote.Achternaam__c}";                    
+                });
+                $( document ).ready(function() {
+                    $("#pg\\:combitekst img").each(function(item){
+                        //console.log($(this).attr("src"));
+                        var imgurl = "/excellence" + $(this).attr("src");
+                        $(this).attr("src",imgurl);
+                    });
+                });
+            </script>    
+            
+        </head>
+        <body>
+
+                        
+<div  style="width:910px;margin:0 auto;padding:20px 30px;overflow:hidden;background:url(https://www.cloudeen.nl/servlet/servlet.ImageServer?id=015570000054YTd&oid=00D20000000I5DP&lastMod=1520686170000) repeat-y; ">
+    <div style="margin-bottom: 34px;">
+        <apex:image id="header" value="/servlet/servlet.ImageServer?id=0152o0000063ekD&oid=00D20000000I5DP&lastMod=1552596259000" width="900" height="63"/>
+        <div style="text-align:center;"><h1 style="font-size: 24pt;display:inline;">Overeenkomst</h1></div>
+   </div> 
+<!--<header class="onlyprint page-top-left" style="height: 3cm;top:0;left:0;padding-top:1cm">
+
+    <h1 style="font-size: 24pt;display:inline;">Overeenkomst</h1>
+</header>
+<header class="onlyprint page-top-right" style="height: 3cm;top:0;right:0;padding-top:1cm;text-align:right;">
+</header>
+
+<footer class="onlyprint page-bottom-left" style="xbackground-color:blue;left:0;bottom:0;padding-bottom:2cm;height:4cm;">
+Pagina <span class="currentPage"></span> van <span class="totalPages"></span>
+</footer>
+
+<footer class="onlyprint page-bottom-right" style="xbackground-color:red;text-align:right;right:0;bottom:0;padding-bottom:2cm;height:4cm;">
+Paraaf klant
+</footer> -->
+<apex:outputPanel layout="none" rendered="{!quote.ExpirationDate < TODAY() && TEXT($User.UserType) != 'Standard'}" > 
+   <b> <h2>This quote has been expired.</h2></b>
+</apex:outputPanel>
+<apex:outputPanel layout="none" rendered="{!quote.ExpirationDate >= TODAY() || TEXT($User.UserType) == 'Standard'}">
+<table>
+    <tr>
+        <td width="20%">Behorende bij offerte met kenmerk</td> 
+        <td width="40%">{!quote.offertenummer__c}</td>
+        <td width="40%"></td>
+    </tr>
+    <tr><td nowrap="nowrap"></td></tr>
+    <tr>
+        <td>Contractant</td>
+        <td>
+            Naam <!-- en voorletters of bedrijfsnaam --> contractant<br/>
+            {!account.name}
+        </td>
+        <td>
+           BTW-nummer<br/>
+            {!quote.BTW_nummer__c}
+        </td>
+    </tr>
+    <tr><td nowrap="nowrap"></td></tr>
+    <tr>
+        <td></td>
+        <td>
+            Vestigingsadres<br/>
+            {!quote.Vestigingsstraat__c}<br/>
+            {!quote.Postcode__c} {!quote.Plaats__c}<br/>
+        </td>
+        <td>
+            Aansluitadres (indien afwijkend)<br/>
+            {!quote.Aansluitadres__c} {!quote.Aansluitadres_huisnummer__c}<br/>
+            {!quote.Aansluitadres_Postcode__c} {!quote.Aansluitadres_plaats__c}
+        </td>
+    </tr>
+    <tr><td nowrap="nowrap"></td></tr>
+    <tr>
+        <td></td>
+        <td>
+            Telefoonnummer<br/>
+            {!quote.Telefoon__c}
+        </td>
+        <td>
+            Factuuradres <br/>
+            {!quote.Factuurstraat__c}<br/>
+            {!quote.Factuurpostcode__c} {!quote.Factuurplaats__c}
+            
+        </td>
+    </tr>
+    <tr><td nowrap="nowrap"></td></tr>
+    <tr>
+        <td></td>
+        <td>
+            Contactpersoon<br/>
+            {!quote.Voornaam__c} {!quote.Achternaam__c}
+        </td>
+        <td>
+            Inschrijfnummer KVK<br/>
+            {!account.KvK_nummer__c}
+        </td>
+    </tr>
+    <tr><td nowrap="nowrap"></td></tr>
+    <tr>
+        <td></td>
+        <td>
+            E-mailadres<br/>
+            {!quote.E_mailadres__c}
+        </td>
+        <td>
+            Factuur E-mailadres<br/>
+            {!quote.E_mail_factuuradres__c}
+        </td>
+        
+    </tr>
+</table>
+   
+<hr/>
+<h3>Apparatuur en abonnementen</h3>
+    <apex:variable var="totalEenmalig" value="{!0}" />
+    <apex:variable var="totalMaandelijks" value="{!0}" />
+
+    <apex:repeat value="{!groupedItems}" var="group">
+        <apex:dataTable value="{!group.items}" var="qli" styleClass="quoteTable groupTable" width="100%" >
+            <apex:column style="width:10.5cm; text-align: left;">
+                <apex:facet name="header">{!group.name}</apex:facet>
+                <div>
+                    <apex:outputText style="text-align:left;" value="{!qli.product2.name}" /><br/>
+                   <i> <apex:outputText style="text-align:left;" value="{!qli.Beschrijving_tbv_overeenkomst__c}" /></i>
+                </div>
+            </apex:column>
+            <apex:column style="width:2cm;text-align:right !important;padding-right:10px !important;" >
+                <apex:facet name="header"><div style="width:100%;text-align:right !important;">Aantal</div></apex:facet>
+                <apex:outputText value="{0,number,#.##}">    
+                    <apex:param value="{!qli.quantity}"/>
+                </apex:outputText>
+            </apex:column>
+            
+            <apex:column style="width:3.4cm;text-align:right !important;padding-right:0px !important;">
+                <apex:facet name="header"><div style="width:100%;text-align:right !important;padding-right:0px !important;">Maandelijkse kosten</div></apex:facet>
+                
+              <!--  <apex:outputText styleClass="euroFormat" escape="false" value="{0,number,###,###,###,##0.00}" rendered="{! qli.totalprice != null}">
+                    <apex:param value="{!qli.totalprice}" />
+                </apex:outputText> -->
+                <apex:outputText styleClass="euroFormat" escape="false" value="{!IF(qli.Per_maand__c == null ,'0.00', qli.Per_maand__c)}"  />
+                <apex:variable var="totalMaandelijks" value="{! qli.totalprice + totalMaandelijks }" rendered="{! qli.totalprice != null}"/>
+            </apex:column>
+            <apex:column style="width:3.5cm;text-align:right;">
+                <apex:facet name="header"><div style="width:100%;text-align:right;">Eenmalige kosten &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></apex:facet>
+                
+                <apex:outputText styleClass="euroFormat" value="{!qli.Eenmalige_kosten_caas_offerte__c}" escape="false"  />
+            </apex:column>
+            
+        </apex:dataTable>
+    </apex:repeat>
+
+
+    <table class="quoteTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tfoot>
+            <tr>
+                <td style="width:10.0cm; text-align: left;">
+                    <span style="padding-left: 0.5em;">Totaal</span>
+                </td>
+              
+               
+                <td style="width:6.0cm;text-align:right; ">
+                       
+                       <!-- <apex:outputText styleClass="euroFormat" value="{!totalMaandelijks }" escape="false" rendered="{! totalMaandelijks != 0}"/> -->
+                        <apex:outputText styleClass="euroFormat" value="{!quote.Totaal_maandelijkse_kosten_new__c}" escape="false" />
+
+                </td>
+                <td style="width:3.5cm; text-align: right;">
+                      <!--  <apex:outputText styleClass="euroFormat" value="{! totalEenmalig}" escape="false" rendered="{! totalEenmalig != 0}"/> -->
+                        <apex:outputText styleClass="euroFormat" value="{!quote.Totaal_eenmalige_kosten__c}" escape="false" />   
+                        <!--
+                        <apex:outputText styleClass="euroFormat"  value="{0,number,###,###,###,##0.00}" escape="false" rendered="{! totalEenmalig != 0}">
+                            <apex:param value="{! totalEenmalig}"/>
+                        </apex:outputText> --></td>
+             <td style="width:0.4cm; text-align: right;">&nbsp;</td>   
+               
+            </tr>
+        </tfoot>
+    </table>
+
+<p>
+{!quote.Proefmaand_Tele2_tekst__c}
+</p>
+
+<table class="padded-table">
+    <tr>
+        <td width="30%">Contractperiode</td>
+        <td width="70%">
+            De dienst wordt afgenomen voor de periode van {!quote.Looptijd__c}.
+            Na het aflopen van de contractduur wordt de overeenkomst automatisch voor onbepaalde tijd verlengd en is deze op elk moment opzegbaar met inachtneming van een opzegtermijn van 1 maand.
+        </td>
+    </tr>
+    <tr>
+        <td>Geldigheid</td>
+        <td>
+            Deze offerte is geldig t/m: 
+            <apex:outputText value="{0, date, dd'-'MM'-'yyyy}">
+                <apex:param value="{!quote.ExpirationDate}" />
+            </apex:outputText>
+        </td>
+    </tr>
+   
+        
+    <tr>
+        <td>Betaling</td>
+        <td>
+                      {!quote.IBAN__c}<br/> 
+            Incassant ID: NL12ZZZ333034180000<br/><br/> 
+            Door ondertekening van de overeenkomst geeft u toestemming aan Tele2 Nederland B.V. om maandelijks incasso-opdrachten te sturen naar uw bank om een bedrag van uw rekening af te schrijven en;
+uw bank om maandelijks een bedrag van uw rekening af te schrijven overeenkomstig de opdracht van Tele2 Nederland B.V.<br/>
+            
+         
+            
+        </td>
+    </tr>
+</table>
+
+<p>
+Alle genoemde bedragen zijn exclusief BTW. Eventuele kortingen vervallen na de looptijd van het contract.
+</p>
+<p>
+De navolgende bijlagen maken onverkort deel uit van deze Overeenkomst. 
+De contractant heeft deze voorwaarden ontvangen. 
+Voor deze voorwaarden kunt u ook altijd terecht op www.tele2.nl/zakelijk/voorwaarden.
+</p>
+
+<table>
+    
+  <tr>
+        <td >- Deze Overeenkomst</td>
+        
+        
+    </tr>  
+     <tr>
+        <td >- Algemene Voorwaarden Tele2 Zakelijk Mobiel</td>
+        
+        
+    </tr>
+        <tr>
+        <td >- Fair Use Policy Tele2 Zakelijk Mobiel</td>
+        
+    </tr>
+    
+    <tr>
+        <td >- Tariefdocument Zakelijk Mobiel</td>
+        
+    </tr>
+     
+</table>
+
+<p>
+De volgorde van de Bijlagen – zoals genoemd in de vorige alinea – bepaalt de rangorde die zal worden gehanteerd bij de uitleg van de afzonderlijke bepalingen van deze Overeenkomst. 
+In geval van tegenstrijdigheid tussen deze afzonderlijke bepalingen zal het hoger in rangorde geplaatste onderdeel van deze Overeenkomst prevaleren boven elk daaronder geplaatst onderdeel. 
+Voor aanvullende informatie over de Bijlagen verwijs ik u naar de website van Tele2 (www.tele2.nl/zakelijk) of neem contact op met uw accountmanager.
+</p>
+<p>
+Contractant is verplicht om de Dienst te gebruiken in combinatie met een mobiel toestel dat geschikt is voor het 4G-netwerk van Tele2. 
+Daarnaast dient Contractant het mobiele toestel zo in te stellen dat Contractant altijd het 4G-netwerk van Tele2 gebruikt. Tele2 kan controleren of Contractant aan deze verplichtingen voldoet.
+</p>
+<p>
+Als Contractant geen geschikt mobiel toestel voor het 4G-netwerk van Tele2 gebruikt, heeft Tele2 het recht om de functionaliteit van de Dienst te beperken of het abonnement voor de Dienst te beëindigen en daarvoor een afkoopsom te sturen met de resterende abonnementskosten conform artikel 16.3 en 16.8.1. Tele2 waarschuwt Contractant eerst per e-mail voordat Tele2 de functionaliteit van de dienst beperkt of beëindigt.
+</p>
+<p>
+Door ondertekening komt u met Tele2 overeen dat Tele2 de in dit voorstel genoemde diensten zal leveren en dat u de genoemde diensten zult afnemen. Er komt derhalve dan een bindende Overeenkomst tot stand.
+</p>
+
+<p>
+Aanbiedingen geschieden onder voorbehoud van acceptatie na credit check. Indien u wordt afgewezen door de credit check komt de offerte te vervallen.
+</p>
+
+<p style="margin-top:4em;"></p>
+
+<p>Ondertekening</p>
+        
+ 
+<table width="100%">
+    <tr>
+        <td width="50%"><h3>Naam contractant</h3></td>
+        <td width="50%"><h3></h3></td>
+    </tr>
+
+    <tr>
+        <td>
+            {!account.name}<br/>
+            {!quote.Signature_Name__c}
+        </td>
+        
+    </tr>
+
+    <tr>
+        <td>
+            Datum<br/>
+            <apex:outputText value="{0, date, dd'-'MM'-'yyyy}">
+                <apex:param value="{!quote.Handtekening_datum__c}" />
+            </apex:outputText><br/>
+        </td>
+        
+    </tr>   
+
+    <tr>
+        <td>
+             <EZSign:getSignature defaultAction="drawIt" requireDraw="true" requireName="true" returnToRecord="false" /><br /><br />
+        </td>
+        <td>
+               
+        </td>
+    </tr>
+    <tr>
+        <td style="border-bottom: 1pt dotted black;"></td>
+        <td style="border-bottom: 1pt dotted black;"></td>
+    </tr>
+   
+</table>
+     
+        <p>
+        Tele2 Nederland B.V., Postbus 22697, 1100 DD Amsterdam.
+        </p>
+        
+ </apex:outputPanel>
+       
+</div>
+ 
+        </body>
+    </html>
+    <script type="text/javascript">
+        var allButtons = document.getElementsByTagName('button');
+        var allLabels = document.getElementsByTagName('label');
+        var allPars = document.getElementsByTagName('p');
+        var allLinks = document.getElementsByTagName('a');
+        for (var i=0; i<allButtons.length; i++){
+            if (allButtons[i].innerHTML == 'Submit'){
+                allButtons[i].innerHTML = 'Verzenden';
+            }
+        }
+        for (var j=0; j<allLabels.length; j++){
+            if (allLabels[j].innerHTML == 'Type your name'){
+                allLabels[j].innerHTML = 'Typ uw naam';
+            }
+        }
+        for (var k=0; k<allPars.length; k++){
+            if (allPars[k].innerHTML == 'Review your signature'){
+                allPars[k].innerHTML = 'Controleer uw handtekening';
+            }
+            else if (allPars[k].innerHTML == 'Draw your signature'){
+                allPars[k].innerHTML = 'Zet uw handtekening';
+            }
+        }
+        for (var l=0; l<allLinks.length; l++){
+            if (allLinks[l].innerHTML == 'Type It'){
+                allLinks[l].innerHTML = 'Typen';
+            }
+            else if (allLinks[l].innerHTML == 'Draw It'){
+                allLinks[l].innerHTML = 'Tekenen';
+            }
+            else if (allLinks[l].innerHTML == 'Clear'){
+                allLinks[l].innerHTML = 'Wissen';
+            }
+        }
+
+        function convertintoEuro(){
+            for(var i = 0 ; i< document.getElementsByClassName('euroFormat').length ; i++){
+                document.getElementsByClassName('euroFormat')[i].innerHTML = '&euro; ' + convert(document.getElementsByClassName('euroFormat')[i].innerHTML);
+            }
+        }
+        function convert(number){                
+            var numberStr = parseFloat(number).toFixed(2).toString();
+            var numFormatDec = numberStr.slice(-2); /*decimal 00*/
+            
+            numberStr = numberStr.substring(0, numberStr.length-3); /*cut last 3 strings*/
+            
+            var numFormat = new Array;
+            
+            while (numberStr.length > 3) {
+                numFormat.unshift(numberStr.slice(-3));
+                numberStr = numberStr.substring(0, numberStr.length-3);
+            }
+            numFormat.unshift(numberStr);
+            if(numFormat.length > 1 && numFormat[0] == '-'){// added by sagar sadhnani to show correct format for negative number when number is less than 4 digits : 14 April 2017
+                return numFormat.join('') + ',' + numFormatDec;
+            }
+            
+            return numFormat.join('.') + ',' + numFormatDec; /*format 000.000.000,00 */
+        }
+     convertintoEuro();
+    </script>        
+</apex:page>

@@ -1,0 +1,41 @@
+.dv.THIS .dekstoptext{
+    position: relative;
+    bottom: 61px !important;
+    font-size: 27px;    
+    color: #fff;
+    font-weight: 800;
+    padding-left: 25px;
+}
+.pic.THIS{
+    text-align: center;
+    background-color: #fff;
+}
+@media screen and (max-width: 1024px) {
+    .dv.THIS .dekstoptext{
+        position: absolute;
+        top: 26%!important;
+        font-size: 23px;   
+        color: #fff;
+        font-weight: 800;
+        padding-left: 25px;
+	}
+
+}
+
+
+
+@media screen and (max-width: 700px) and (min-width: 300px) {
+    .dv.THIS .dekstoptext{
+        position: relative;
+        top: 273px !important;
+        font-size: 24px !important;        
+	}
+}
+
+@media screen and (max-width: 1000px) and (min-width: 700px) {
+        .dv.THIS .dekstoptext{
+            position: relative;
+            top: 452px !important;
+            font-size: 24px !important;
+    }
+}

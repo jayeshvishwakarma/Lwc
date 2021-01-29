@@ -1,0 +1,16 @@
+<template>
+    <div class="slds-m-around__large">
+    <lightning-card>
+        <lightning-input
+            label="Enter PNR Number"
+            value={PNRNumber}
+            onchange={catchPNR}
+        >
+    </lightning-input>
+        <lightning-button label="Check"
+            onclick={getPNRStatus}
+        >
+        </lightning-button>
+    </lightning-card>
+</div>
+</template>

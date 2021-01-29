@@ -1,0 +1,82 @@
+<apex:page standardController="twod__Claim__c" extensions="PrintClaimDetail"   showHeader="false" standardStylesheets="true" sidebar="flase">
+<br></br>
+
+<apex:outputlink value="/{!twod__Claim__c.id}" onClick="window.print();" style="font-weight: bold;float: right;">Print Page</apex:outputlink>
+<br></br>
+<!-- <apex:detail relatedList="true" inlineEdit="false"/>  -->
+<apex:detail relatedList="false" inlineEdit="false"/>
+<apex:pageBlock title="Claim History">
+	<apex:pageBlockTable value="{!claimHistoryList}" var="item">
+		<apex:column >
+         	<apex:facet name="header">Created Date</apex:facet>
+               <apex:outputField value="{!item.CreatedDate}"/>
+        </apex:column>
+        <apex:column >
+         	<apex:facet name="header">User</apex:facet>
+              {!item.CreatedBy.name}
+        </apex:column>
+        <apex:column >
+         	<apex:facet name="header">Action</apex:facet>
+             {!item.Field}
+        </apex:column>
+	</apex:pageBlockTable>
+</apex:pageBlock>
+	
+<apex:pageBlock title="Notes (Content Document)" >
+	<apex:repeat value="{!contentVersionList}" var="notItem" >
+	<apex:pageBlockSection title="Title: {!notItem.Title}" columns="2" showHeader="true">
+		<apex:outputText value="{!notItem.Description}" escape="false"/>
+		<apex:outputField value="{!notItem.LastModifiedDate}"/>
+		<apex:pageBlockSectionItem >
+		<apex:outputLabel value="Created By" for="Created_By"/>
+		<apex:outputText value="{!notItem.CreatedBy.name}"/>
+		</apex:pageBlockSectionItem>
+	</apex:pageBlockSection>
+	    </apex:repeat>
+</apex:pageBlock>  
+<!--<apex:relatedList list="AttachedContentNotes" title="Notes (Content)"/>  -->
+	
+<!--<apex:pageBlock title="Attachment Details" >
+	<apex:repeat value="{!attList}" var="att" id="theRepeat">
+	<apex:pageBlockSection title="File Name: {!att.name}" columns="2" showHeader="true">
+		<apex:outputLink value="{!URLFOR($Action.Attachment.Download,att.id)}" target="_blank" style="font-weight: bold;">
+         View File</apex:outputLink>
+		<apex:outputText value="{!att.LastModifiedDate}"/>
+	</apex:pageBlockSection>
+	    </apex:repeat>
+</apex:pageBlock>   -->
+<apex:relatedList list="CombinedAttachments" title="Notes and Attachments"/>
+<apex:pageBlock title="Notes Details (Texts)" >
+	<apex:repeat value="{!noteList}" var="notItem" id="theRepeat">
+	<apex:pageBlockSection title="Title: {!notItem.Title}" columns="2" showHeader="true">
+		<apex:outputText value="{!notItem.body}"/>
+		<apex:outputField value="{!notItem.LastModifiedDate}"/>
+		<apex:pageBlockSectionItem >
+		<apex:outputLabel value="Created By" for="Created_By"/>
+		<apex:outputText value="{!notItem.CreatedBy.name}"/>
+		</apex:pageBlockSectionItem>
+		
+	</apex:pageBlockSection>
+	    </apex:repeat>
+</apex:pageBlock> 
+
+<apex:relatedList list="AttachedContentDocuments" title="Files"/> 
+<apex:relatedList list="RelatedContentDistributionList" title="Content Deliveries" />
+<apex:relatedList list="OpenActivities" title="Open Activities" />
+<apex:relatedList list="ActivityHistories" title="Activity Histories" />
+<apex:relatedList list="QC__r" title="QC" />
+<apex:relatedList list="Sampling_QC__r" title="Samples" />
+<apex:relatedList list="Claim_Interested_Parties__r" title="Claim Interested Parties" />
+<apex:relatedList list="Payments__r" title="Payments" />
+<apex:relatedList list="Inspections__r" title="Inspections" />
+<apex:relatedList list="Sertifi_EContracts__r" title="Sertifi EContracts" />
+<apex:relatedList list="Sertifi_EContracts__r" title="Sertifi EContracts" />
+<apex:relatedList list="ProcessSteps" title="Approval History" />
+
+
+<!--<apex:relatedList list= "AttachedContentNotes" title="Notes"/>  -->
+<!--<apex:relatedList list="CombinedAttachments" title="Attachments"/>    -->
+
+
+
+</apex:page>

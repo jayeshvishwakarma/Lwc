@@ -1,0 +1,270 @@
+<apex:component >
+    <head>   
+        <script type="text/javascript" src="{!$Resource.jqueryCT}"></script>
+        <script src="{!$Resource.bootstrapjss}"></script>       
+        <link rel="stylesheet" href="{!$Resource.boostrapcss}"/>
+        <link rel="stylesheet" href="{!$Resource.BootStrapValidatorCss}"/>
+        <script type="text/javascript" src="{!$Resource.momentJS}"> </script>
+        
+        <script type="text/javascript" src="{!$Resource.BootStrapValidatorJS}"></script>
+        <script type="text/javascript" src="{!$Resource.daterangepickerJS}"></script>
+        <link rel="stylesheet" type="text/css" href="{!$Resource.daterangepickerCss}" /> 
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/> 
+        <apex:attribute name="url" type="String"  description="URL for home Page" />
+        <style>           
+            .glyphicon-refresh-animate {
+            -animation: spin .7s infinite linear;
+            -webkit-animation: spin2 .7s infinite linear;
+            }
+            
+            @-webkit-keyframes spin2 {
+            from { -webkit-transform: rotate(0deg);}
+            to { -webkit-transform: rotate(360deg);}
+            }
+            
+            @keyframes spin {
+            from { transform: scale(1) rotate(0deg);}
+            to { transform: scale(1) rotate(360deg);}
+            }
+            
+            h3 {
+            font: 24px/120% "Gotham SSm A","Gotham SSm B",sans-serif;
+            text-transform: uppercase;
+            }
+            
+            h2 {
+            font: 28px/120% "Gotham SSm A","Gotham SSm B",sans-serif;
+            text-transform: uppercase;
+            }
+            .mandatory:after {
+            color: #d00;
+            content: "*";
+            position: absolute;
+            margin-left: 3px;
+            top: 3px;
+            font-size: 18px;
+            }    
+            
+            .table1 {
+            background-color: rgba(118, 224, 96, 0);
+            background-color: #adceea;
+            color: black;
+            border-radius: 23px;
+            table-layout:fixed;
+            }
+            .material-switch > input[type="checkbox"] {
+            display: none;   
+            }
+            
+            .material-switch > label {
+            cursor: pointer;
+            height: 0px;
+            position: relative; 
+            width: 40px;  
+            }
+            
+            .material-switch > label::before {
+            background: rgb(0, 0, 0);
+            box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            content: '';
+            height: 16px;
+            margin-top: -8px;
+            position:absolute;
+            opacity: 0.3;
+            transition: all 0.4s ease-in-out;
+            width: 40px;
+            }
+            .material-switch > label::after {
+            background: rgb(255, 255, 255);
+            border-radius: 16px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+            content: '';
+            height: 24px;
+            left: -4px;
+            margin-top: -8px;
+            position: absolute;
+            top: -4px;
+            transition: all 0.3s ease-in-out;
+            width: 24px;
+            }
+            .material-switch > input[type="checkbox"]:checked + label::before {
+            background: inherit;
+            opacity: 0.5;
+            }
+            .material-switch > input[type="checkbox"]:checked + label::after {
+            background: inherit;
+            left: 20px;
+            }
+            .table-attachment {
+            background-color: white;
+            color: black;
+            border-radius: 23px;
+            table-layout:fixed;
+            }
+            
+            td{
+            overflow: hidden;
+            word-wrap:break-word;           
+            }
+            
+            .table-head{
+            text-align:center;
+            font-weight: bold;
+            }
+            
+            .table-Label{
+            font-weight: 600;
+            }
+            
+            .node-webform .field-name-body {
+            background-color: #fff;
+            margin-bottom: 30px;
+            text-align: center;
+            }
+            
+            
+            
+            .funkyradio label {
+            width: 100%;
+            border-radius: 3px;
+            border: 1px solid #D1D3D4;
+            font-weight: normal;
+            }
+            
+            .funkyradio input[type="radio"]:empty {
+            display: none;
+            }
+            
+            .funkyradio input[type="radio"]:empty ~ label{
+            position: relative;
+            line-height: 2.5em;
+            text-indent: 3.25em;
+            margin-top: 2em;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            }
+            
+            .funkyradio input[type="radio"]:empty ~ label:before{
+            position: absolute;
+            display: block;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            content: '';
+            width: 2.5em;
+            background: #D1D3D4;
+            border-radius: 3px 0 0 3px;
+            }
+            
+            .funkyradio input[type="radio"]:hover:not(:checked) ~ label{
+            color: #888;
+            }
+            
+            .funkyradio input[type="radio"]:hover:not(:checked) ~ label:before{
+            content: '\2714';
+            text-indent: .9em;
+            color: #C2C2C2;
+            }
+            
+            .funkyradio input[type="radio"]:checked ~ label {
+            color: #080808;
+            font-weight: bolder;
+            }
+            
+            .funkyradio input[type="radio"]:checked ~ label:before {
+            content: '\2714';
+            text-indent: .9em;
+            color: #333;
+            background-color: #ccc;
+            }
+            
+            .funkyradio input[type="radio"]:focus ~ label:before {
+            box-shadow: 0 0 0 3px #999;
+            }
+            
+            .funkyradio-success input[type="radio"]:checked ~ label:before {
+            color: #fff;
+            background-color: #5cb85c;
+            }
+            
+            .form-horizontal .form-group {
+            margin-right: 0px; 
+            margin-left: 0px; 
+            }
+            
+            .alert-danger {
+            color: #ffffff;
+            background-color: #b10000;
+            border-color: #ebccd1;
+            }
+            
+            .alert {
+            border-radius: 30px;
+            }
+            
+            .logo{
+            
+            }
+            
+            .user-row {
+            margin-bottom: 14px;
+            }
+            
+            .user-row:last-child {
+            margin-bottom: 0;
+            }
+            
+            .dropdown-user {
+            margin: 13px 0;
+            padding: 5px;
+            height: 100%;
+            }
+            
+            .dropdown-user:hover {
+            cursor: pointer;
+            }
+            
+            .table-user-information > tbody > tr {
+            border-top: 1px solid rgb(221, 221, 221);
+            }
+            
+            .table-user-information > tbody > tr:first-child {
+            border-top: 0;
+            }
+            
+            
+            .table-user-information > tbody > tr > td {
+            border-top: 0;
+            }
+            .toppad
+            {margin-top:20px;
+            }
+            
+        </style>                      
+        
+    </head>
+    <div style="background-color: #027cc5;">        
+        <div class="container" style="background-color: #027cc5;" >
+            <div class="row logo" style="padding-bottom: 22px;">
+                <div class="col-sm-2" style="cursor:pointer" onclick="window.location.assign('https://www.certainteed.com')" >
+                    <br/>
+                    <apex:image url="{!$Resource.certainteedLogo}" style="height: 50px;cursor:pointer" styleClass="logo" />         </div>
+                <div class="col-sm-8">
+                    
+                </div>
+                <div class="col-sm-2" style="padding-top: 22px;">
+                    <div style="cursor:pointer" onclick="window.location.assign('{!url}')">                        
+                        <apex:image url="{!$Resource.HomePage}" style="height: 50px;cursor:pointer"  />
+                        <span style="color: white;font-weight: bold;">HOME</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</apex:component>

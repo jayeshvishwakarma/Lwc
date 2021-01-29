@@ -1,0 +1,24 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="assetValue" type="Boolean" default="false"/>
+    <aura:attribute name="customerAssetId" type="String"/>
+    <force:recordData aura:id="recordLoader"
+                      fields="AssetId,Customer__c,Id"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.simpleRecord}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.recordError))}">
+        <div class="recordError">
+            {!v.recordError}</div>
+    </aura:if>
+    <!-- Display create Case cmp and pass either Customer or AssetId -->
+    <aura:if isTrue="{!v.assetValue}">
+        <lightning:workspaceAPI aura:id="workspace"/>
+       <c:createCase parentRecordId="{!v.customerAssetId}" caseId="{!v.recordId}" sourceCmp="Suzuki Connect Child Case" onclose="{!c.closeModel}"></c:createCase>
+    </aura:if>
+</aura:component>

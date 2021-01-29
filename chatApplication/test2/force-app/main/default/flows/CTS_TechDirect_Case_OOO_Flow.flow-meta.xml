@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <processMetadataValues>
+            <name>apexSelection</name>
+            <value>
+                <stringValue>Process Out of Office Settings</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>Process Out of Office Reassignment</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <actionName>CTS_TechDirect_ProcessOOOSettings</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>myDecision2</targetReference>
+        </connector>
+        <inputParameters>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>SObject</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>cases</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>maxOccurs</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>objectType</name>
+                <value>
+                    <stringValue>Case</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>SObject</stringValue>
+                </value>
+            </processMetadataValues>
+            <name>cases</name>
+            <value>
+                <elementReference>myVariable_current</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_TechDirect_Community_Case_Assignment_from_OOO</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_3_A1</name>
+        <label>Send Email to new Owner</label>
+        <locationX>300</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_TechDirect_Community_Case_Assignment_from_OOO</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>myRule_3_A2</targetReference>
+        </connector>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_pmetdec</targetReference>
+            </connector>
+            <label>Process Out of Office Settings</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision2</name>
+        <label>myDecision2</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_3</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_3_pmetdec</targetReference>
+            </connector>
+            <label>Send Email Alert to newly assigned Owner</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_1_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>100</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_1_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_1_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myDecision2</targetReference>
+            </connector>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_3_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>300</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_3_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_3_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_3_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_3_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_3_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <description>Case Out of Office Reassignment handling</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>$Setup.Case_Settings__c.Out_of_Office_Routing_Enabled__c &amp;&amp;
+
+([Case].RecordType.Name == &apos;CTS Tech Direct Article Feedback&apos; ||
+[Case].RecordType.Name == &apos;CTS Tech Direct Site Feedback&apos; ||
+[Case].RecordType.Name == &apos;CTS TechDirect Ask a Question&apos; ||
+[Case].RecordType.Name == &apos;CTS TechDirect Issue Escalation&apos; ||
+[Case].RecordType.Name == &apos;CTS TechDirect Start Up&apos; || 
+[Case].RecordType.Name == &apos;CTS Non-Warranty Claims&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Transfers&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Account Management&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Account Management (Problem)&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Account Management (Incident)&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Account Management (Closed)&apos; ) &amp;&amp;
+
+(ISNEW() || ISCHANGED([Case].OwnerId)) &amp;&amp; LEFT([Case].OwnerId, 3) == &apos;005&apos;</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Setup.Case_Settings__c.Out_of_Office_Routing_Enabled__c} &amp;&amp;
+
+({!myVariable_current.RecordType.Name} == &apos;CTS Tech Direct Article Feedback&apos; ||
+{!myVariable_current.RecordType.Name} == &apos;CTS Tech Direct Site Feedback&apos; ||
+{!myVariable_current.RecordType.Name} == &apos;CTS TechDirect Ask a Question&apos; ||
+{!myVariable_current.RecordType.Name} == &apos;CTS TechDirect Issue Escalation&apos; ||
+{!myVariable_current.RecordType.Name} == &apos;CTS TechDirect Start Up&apos; || 
+{!myVariable_current.RecordType.Name} == &apos;CTS Non-Warranty Claims&apos; || 
+{!myVariable_current.RecordType.Name} == &apos;CTS OM Transfers&apos; || 
+{!myVariable_current.RecordType.Name} == &apos;CTS OM Account Management&apos; || 
+{!myVariable_current.RecordType.Name} == &apos;CTS OM Account Management (Problem)&apos; || 
+{!myVariable_current.RecordType.Name} == &apos;CTS OM Account Management (Incident)&apos; || 
+{!myVariable_current.RecordType.Name} == &apos;CTS OM Account Management (Closed)&apos; ) &amp;&amp;
+
+(ISNEW() || ISCHANGED({!myVariable_current.OwnerId})) &amp;&amp; LEFT({!myVariable_current.OwnerId}, 3) == &apos;005&apos;</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>$Setup.Case_Settings__c.Out_of_Office_Routing_Enabled__c &amp;&amp;
+
+([Case].RecordType.Name == &apos;CTS Tech Direct Article Feedback&apos; ||
+[Case].RecordType.Name == &apos;CTS Tech Direct Site Feedback&apos; ||
+[Case].RecordType.Name == &apos;CTS TechDirect Ask a Question&apos; ||
+[Case].RecordType.Name == &apos;CTS TechDirect Issue Escalation&apos; ||
+[Case].RecordType.Name == &apos;CTS TechDirect Start Up&apos; || 
+[Case].RecordType.Name == &apos;CTS Non-Warranty Claims&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Transfers&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Account Management&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Account Management (Problem)&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Account Management (Incident)&apos; || 
+[Case].RecordType.Name == &apos;CTS OM Account Management (Closed)&apos; ) &amp;&amp;
+
+(ISNEW() || ISCHANGED([Case].OwnerId)) &amp;&amp; LEFT([Case].OwnerId, 3) == &apos;005&apos;</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Setup.Case_Settings__c.Out_of_Office_Routing_Enabled__c} &amp;&amp;
+
+({!myVariable_old.RecordType.Name} == &apos;CTS Tech Direct Article Feedback&apos; ||
+{!myVariable_old.RecordType.Name} == &apos;CTS Tech Direct Site Feedback&apos; ||
+{!myVariable_old.RecordType.Name} == &apos;CTS TechDirect Ask a Question&apos; ||
+{!myVariable_old.RecordType.Name} == &apos;CTS TechDirect Issue Escalation&apos; ||
+{!myVariable_old.RecordType.Name} == &apos;CTS TechDirect Start Up&apos; || 
+{!myVariable_old.RecordType.Name} == &apos;CTS Non-Warranty Claims&apos; || 
+{!myVariable_old.RecordType.Name} == &apos;CTS OM Transfers&apos; || 
+{!myVariable_old.RecordType.Name} == &apos;CTS OM Account Management&apos; || 
+{!myVariable_old.RecordType.Name} == &apos;CTS OM Account Management (Problem)&apos; || 
+{!myVariable_old.RecordType.Name} == &apos;CTS OM Account Management (Incident)&apos; || 
+{!myVariable_old.RecordType.Name} == &apos;CTS OM Account Management (Closed)&apos; ) &amp;&amp;
+
+(ISNEW() || ISCHANGED({!myVariable_old.OwnerId})) &amp;&amp; LEFT({!myVariable_old.OwnerId}, 3) == &apos;005&apos;</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND( 
+   $Setup.Case_Settings__c.Out_of_Office_Routing_Enabled__c, 
+   OR( 
+      [Case].RecordType.Name = &apos;CTS Tech Direct Article Feedback&apos;, 
+      [Case].RecordType.Name = &apos;CTS Tech Direct Site Feedback&apos;, 
+      [Case].RecordType.Name = &apos;CTS TechDirect Ask a Question&apos;, 
+      [Case].RecordType.Name = &apos;CTS TechDirect Issue Escalation&apos;, 
+      [Case].RecordType.Name = &apos;CTS TechDirect Start Up&apos; 
+   ), 
+   OR(  
+      ISNEW(), 
+      ISCHANGED([Case].OwnerId) 
+   ), 
+   LEFT([Case].OwnerId, 3) = &apos;005&apos;, 
+   OR( 
+      AND( 
+         ISNEW(), 
+         NOT ISBLANK([Case].RS_CRS_Previous_Owner__c) 
+      ), 
+      AND( 
+         NOT ISNEW(), 
+         ISCHANGED([Case].RS_CRS_Previous_Owner__c) 
+      ) 
+   ) 
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_3</name>
+        <dataType>Boolean</dataType>
+        <expression>AND( 
+   {!$Setup.Case_Settings__c.Out_of_Office_Routing_Enabled__c}, 
+   OR( 
+      {!myVariable_current.RecordType.Name} = &apos;CTS Tech Direct Article Feedback&apos;, 
+      {!myVariable_current.RecordType.Name} = &apos;CTS Tech Direct Site Feedback&apos;, 
+      {!myVariable_current.RecordType.Name} = &apos;CTS TechDirect Ask a Question&apos;, 
+      {!myVariable_current.RecordType.Name} = &apos;CTS TechDirect Issue Escalation&apos;, 
+      {!myVariable_current.RecordType.Name} = &apos;CTS TechDirect Start Up&apos; 
+   ), 
+   OR(  
+      ISNEW(), 
+      ISCHANGED({!myVariable_current.OwnerId}) 
+   ), 
+   LEFT({!myVariable_current.OwnerId}, 3) = &apos;005&apos;, 
+   OR( 
+      AND( 
+         ISNEW(), 
+         NOT ISBLANK({!myVariable_current.RS_CRS_Previous_Owner__c}) 
+      ), 
+      AND( 
+         NOT ISNEW(), 
+         ISCHANGED({!myVariable_current.RS_CRS_Previous_Owner__c}) 
+      ) 
+   ) 
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND( 
+   $Setup.Case_Settings__c.Out_of_Office_Routing_Enabled__c, 
+   OR( 
+      [Case].RecordType.Name = &apos;CTS Tech Direct Article Feedback&apos;, 
+      [Case].RecordType.Name = &apos;CTS Tech Direct Site Feedback&apos;, 
+      [Case].RecordType.Name = &apos;CTS TechDirect Ask a Question&apos;, 
+      [Case].RecordType.Name = &apos;CTS TechDirect Issue Escalation&apos;, 
+      [Case].RecordType.Name = &apos;CTS TechDirect Start Up&apos; 
+   ), 
+   OR(  
+      ISNEW(), 
+      ISCHANGED([Case].OwnerId) 
+   ), 
+   LEFT([Case].OwnerId, 3) = &apos;005&apos;, 
+   OR( 
+      AND( 
+         ISNEW(), 
+         NOT ISBLANK([Case].RS_CRS_Previous_Owner__c) 
+      ), 
+      AND( 
+         NOT ISNEW(), 
+         ISCHANGED([Case].RS_CRS_Previous_Owner__c) 
+      ) 
+   ) 
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_3_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND( 
+   {!$Setup.Case_Settings__c.Out_of_Office_Routing_Enabled__c}, 
+   OR( 
+      {!myVariable_old.RecordType.Name} = &apos;CTS Tech Direct Article Feedback&apos;, 
+      {!myVariable_old.RecordType.Name} = &apos;CTS Tech Direct Site Feedback&apos;, 
+      {!myVariable_old.RecordType.Name} = &apos;CTS TechDirect Ask a Question&apos;, 
+      {!myVariable_old.RecordType.Name} = &apos;CTS TechDirect Issue Escalation&apos;, 
+      {!myVariable_old.RecordType.Name} = &apos;CTS TechDirect Start Up&apos; 
+   ), 
+   OR(  
+      ISNEW(), 
+      ISCHANGED({!myVariable_old.OwnerId}) 
+   ), 
+   LEFT({!myVariable_old.OwnerId}, 3) = &apos;005&apos;, 
+   OR( 
+      AND( 
+         ISNEW(), 
+         NOT ISBLANK({!myVariable_old.RS_CRS_Previous_Owner__c}) 
+      ), 
+      AND( 
+         NOT ISNEW(), 
+         ISCHANGED({!myVariable_old.RS_CRS_Previous_Owner__c}) 
+      ) 
+   ) 
+)</expression>
+    </formulas>
+    <interviewLabel>CTS_TechDirect_Case_OOO_Flow-8_InterviewLabel</interviewLabel>
+    <label>CTS TechDirect Case OOO Flow</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>Case</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_3_A2</name>
+        <label>Clear Previous Owner</label>
+        <locationX>300</locationX>
+        <locationY>300</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Previous Owner</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue>User</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>GlobalConstant</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>RS_CRS_Previous_Owner__c</field>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <startElementReference>myDecision</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+</Flow>

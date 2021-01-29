@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,flexipage:availableForRecordHome,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId"> 
+    
+    <aura:html tag="style">
+        .slds-backdrop {
+            background: rgba(43, 40, 38, 0) !important;
+            visibility: hidden !important;
+            }
+            .slds-fade-in-open {
+            display:none !important;
+            }
+            .slds-modal {
+            display: none;
+            visibility: hidden !important;
+            }
+
+    </aura:html>
+  
+
+<c:callStart recordId="{!v.recordId}"></c:callStart>
+</aura:component>

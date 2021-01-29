@@ -1,0 +1,206 @@
+<template>
+  <div class="" if:true={cmpVisible}>
+    <div class="slds-page-header communitySectionColor headerInfo">
+      <div class="slds-page-header__row">
+        <div class="slds-page-header__col-title">
+          <div class="slds-media">
+            <div class="slds-media__figure">
+              <span class="slds-icon_container slds-icon-standard-task" title="Last Visit Details">
+                <lightning-icon icon-name="custom:custom62" alternative-text="Approved">
+                </lightning-icon>
+                <span class="slds-assistive-text">Last Visit Details</span>
+              </span>
+            </div>
+            <div class="slds-media__body">
+              <div class="slds-page-header__name">
+                <div class="slds-page-header__name-title">
+                  <h1>
+                    <span class="slds-page-header__title slds-truncate" title="Last Visit Details">Last Visit
+                      Details</span>
+                  </h1>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slds-m-top_small"></div>
+
+    <template if:true={loading}>
+      <div class="slds-p-top_xx-large"></div>
+      <div class="slds-p-top_xx-large"></div>
+      <div class="slds-p-top_xx-large"></div>
+      <div class="slds-is-relative slds-p-vertical_small">
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+      </div>
+    </template>
+    <template if:true={lookupEnable}>
+      <div class="slds-form__row">
+        <div class="slds-form__item" role="listitem">
+          <div class="slds-combobox__form-element slds-input-has-icon 
+            slds-input-has-icon_left-right">
+            <template if:false={asset}>
+              <c-search-component name="AssetId" label="Asset" onchange={handleAssetSearch}
+                place-holder-name="Search Asset" class="customRequired" onclick={handleAssetSearch}>
+              </c-search-component>
+            </template>
+
+            <template if:false={asset}>
+              <div if:true={assetSearchResultList}>
+                <div for:each={assetSearchResultList} for:item="record" key={record.Id}>
+                  <c-record-list key={record.Id} record={record} onselect={handleSelect} iconname="standard:product">
+                  </c-record-list>
+                </div>
+              </div>
+            </template>
+            <template if:true={asset}>
+              <label class="slds-form-element__label customRequired">Asset</label>
+              <input class="slds-input slds-combobox__input
+           slds-combobox__input-value" id="combobox-id-5" aria-controls="listbox-id-5" autocomplete="off"
+                role="textbox" type="text" placeholder="Select an Option" readonly="" value={asset.Name} disabled />
+              <button class="sicon_container slds-button slds-button_icon 
+                            slds-input__icon slds-input__icon_right" title="Remove selected option"
+                style="margin-right: 0.6%; margin-top: -0.1%;" onclick={handleRemove}>
+                <lightning-icon icon-name="utility:close" size="small" style="margin-top: inherit;"></lightning-icon>
+                <span class="slds-assistive-text">Remove selected option</span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <div class="slds-text-color_error" if:true={errorMessage}>
+      <div class="slds-p-top_xx-large"></div>
+      {errorMessage}
+    </div>
+
+    <div if:true={assetSelected}>
+      <label class="slds-form-element__label slds-align_absolute-center" style="font-size: 16px;">Registration Number:
+        {assetNameParam}</label>
+      <lightning-datatable key-field="serviceDate" data={responseData} columns={lastVisitDeatilscolumns}
+        class="slds-max-medium-table_stacked" hide-checkbox-column onrowaction={handleRowAction} show-row-number-column>
+      </lightning-datatable>
+
+    </div>
+
+    <lightning-accordion allow-multiple-sections-open active-section-name="dealerDetails" if:true={loaded}>
+      <lightning-button label="Back" title="back" icon-name="utility:back" onclick={showHistoryTable}>
+      </lightning-button>
+      <lightning-button label="Create Case" title="caseCreation" class="slds-float_right" variant="brand"
+        onclick={handleOpenCreateCase}>
+      </lightning-button>
+      <lightning-accordion-section name="dealerDetails" label="Dealer Details">
+        <div class="slds-form" role="list">
+          <div class="slds-form__row" for:each={dealerData} for:item="row" key={row.id}>
+            <div if:true={col.label} class="slds-form__item" role="listitem" for:each={row.list} for:item="col"
+              key={col.label}>
+              <div if:true={col.label}
+                class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                <span class="slds-form-element__label"> {col.label} </span>
+                <div class="slds-form-element__control">
+                  <div class="slds-form-element__static">
+                    <div if:false={col.isDate}>{col.value}</div>
+                    <lightning-formatted-date-time value={col.value} year="2-digit" month="short" day="2-digit"
+                      hour="numeric" minute="2-digit" weekday="long" if:true={col.isDate}>
+                    </lightning-formatted-date-time>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- To show only phone number field from api -->
+        <div class="slds-form" role="list">
+          <div class="slds-form__row">
+            <div class="slds-form__item" role="listitem">
+              <div class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                <span class="slds-form-element__label"> Phone </span>
+                <div class="slds-form-element__control">
+                  <div class="slds-form-element__static">
+                    <div>{phone}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </lightning-accordion-section>
+
+      <lightning-accordion-section name="repairsDemandedData" label="Repairs Demanded">
+        <lightning-datatable key-field="code" class="slds-max-medium-table_stacked" data={repairsDemandedData}
+          columns={repairsDemandedColumns} hide-checkbox-column>
+        </lightning-datatable>
+      </lightning-accordion-section>
+
+      <lightning-accordion-section name="labourDetailsData" label="Labour Details">
+        <lightning-datatable key-field="code" class="slds-max-medium-table_stacked" data={labourDetailsData}
+          columns={labourDetailsColumns} hide-checkbox-column>
+        </lightning-datatable>
+      </lightning-accordion-section>
+
+      <lightning-accordion-section name="partDetailsData" label="Part Details">
+        <lightning-datatable key-field="description" class="slds-max-medium-table_stacked" data={partDetailsData}
+          columns={partDetailsColumns} hide-checkbox-column>
+        </lightning-datatable>
+      </lightning-accordion-section>
+
+      <lightning-accordion-section name="pricingData" label="Pricing Details (Including taxes)">
+        <!-- <lightning-datatable key-field="labourAmt" data={pricingData} columns={pricingColumns} hide-checkbox-column>
+        </lightning-datatable> -->
+
+
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+          <thead>
+            <tr class="slds-line-height_reset">
+              <th class="" scope="col">
+                <div class="slds-truncate" title="Labour Amount">Labour Amount</div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncate" title="Part Amount">Part Amount</div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncate" title="Total Amount">Total Amount</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="slds-hint-parent">
+              <th data-label="Labour Amount" scope="row">
+                <div class="slds-truncate" title={pricingData.labourAmt}>
+                  {pricingData.labourAmt}
+                </div>
+              </th>
+              <td data-label="Part Amount">
+                <div class="slds-truncate" title=pricingData.partAmt>
+                  {pricingData.partAmt}
+                </div>
+              </td>
+              <td data-label="Total Amount">
+                <div class="slds-truncate" title={pricingData.totalAmt}>
+                  {pricingData.totalAmt}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </lightning-accordion-section>
+
+    </lightning-accordion>
+
+    <footer class="slds-m-top_x-large slds-p-vertical_large slds-align_absolute-center">
+      <button if:true={cancelButton} class="slds-button slds-button_neutral" onclick={closeModal}>Close</button>
+      <button if:true={searchButton} class="slds-button slds-button_brand" onclick={handleSearch}>Search</button>
+    </footer>
+  </div>
+  <div class="slds-align_absolute-center">
+    <div class="exampleHolder" if:false={cmpVisible}>
+     <!--  <c-create-Dealer-Inbound-Case service-history={serviceHistory} customer-enquiry-id={recordId}
+        source-cmp="Service History"></c-create-Dealer-Inbound-Case> -->
+    </div>
+  </div>
+</template>

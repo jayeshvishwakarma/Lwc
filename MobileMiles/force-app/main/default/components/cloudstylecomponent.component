@@ -1,0 +1,67 @@
+<apex:component >
+    <style>
+        .slds-scope .slds-media__body{
+            
+            font-size: .875rem;
+            
+            line-height: normal;
+        }
+        .slds-scope .slds-form-element__label{
+            
+            font-size: .875rem;
+            
+            line-height: normal;
+        }
+        .slds-scope .slds-text-heading_small{
+            
+            font-size: .875rem;
+           
+            line-height: normal;          
+        }
+        .slds-scope button, .slds-scope input[type=button], .slds-scope input[type=reset], .slds-scope input[type=submit]{
+            
+            font-size: .875rem;
+
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+            
+        }
+        .slds-scope .slds-icon-custom-custom110{
+            background-color: #006600 !important;
+        }
+        .slds-scope .slds-icon-custom-custom111{
+            background-color: #006600 !important;
+        }
+        .slds-scope .slds-icon-custom-custom68{
+            background-color: #006600 !important;
+        }
+        .slds-scope .slds-icon-custom-custom75{
+            background-color: #006600 !important;
+        }
+        .slds-scope .slds-icon-standard-contact{
+            background-color: #006600 !important;
+        }
+        .slds-scope .slds-icon-standard-account{
+            background-color: #006600 !important;
+        }
+        .slds-scope .slds-icon-standard-file{
+            background-color: #006600 !important;
+        }
+        .slds-scope .slds-input{
+            
+            font-size: .875rem;
+            
+            line-height: normal;
+        }
+        .slds-scope .slds-button--brand:focus, .slds-scope .slds-button--brand:hover, .slds-scope .slds-button_brand:focus, .slds-scope .slds-button_brand:hover{
+           background-color: #efefef;
+           color: #09f;
+
+       }
+    </style>
+</apex:component>

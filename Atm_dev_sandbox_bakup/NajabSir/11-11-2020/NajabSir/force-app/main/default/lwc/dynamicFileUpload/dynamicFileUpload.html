@@ -1,0 +1,160 @@
+<template>
+  <!--Main Header-->
+         <div class="slds-section slds-is-open" data-id="detail-section">
+              <div class="spinner" if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="small"></lightning-spinner>
+               </div>
+            <h3 class="slds-section__title">
+             <button aria-controls="section" aria-expanded="true" class="slds-button slds-section__title-action">
+             <span class="slds-truncate slds-p-left_x-small" title="Closure Document"> {documentHeader} </span>
+             </button>
+            </h3>
+            <!--Detail Section-->
+           <div aria-hidden="false" class="slds-section__content slds-m-left_xx-small bg-color-white" id="section" >   
+               
+              <div class="slds-border_bottom"></div>
+              <!--Rendered for MSIL Query for No Response-->
+              <template if:true={showMessageIfNoResponseRequired}>
+                <div class="slds-align_absolute-center slds-m-top_x-small">This will be sent to the department head for approval.</div>
+              </template>
+              <!--Document iteration list-->
+
+                     <template for:each={Filewrapper} for:item="object" for:index="indexmain">
+                         <div key = {object.MasterDocName} class="slds-m-left_xxx-small slds-m-top_x-small slds-m-bottom_xx-small">
+                          &nbsp;&nbsp;<template if:true={object.required}><span style="color: red;">*</span></template>&nbsp;{object.MasterDocName}
+                         </div>
+                             <div class="slds-m-bottom_small " key ={object.MasterDocName}>
+                               <!--If Document Type Is picklist-->
+                               <template if:true={object.isPickList}>
+                                     <div class='slds-m-horizontal_x-small'>
+                                         <lightning-combobox name={object.MasterDocName} label="" value={value} placeholder="Select" options={options} onchange={handleChange} readonly={isReadonly} disabled={cannotUpload}></lightning-combobox>
+                                     </div>
+                                     <!--OTP Screen-->
+                                         <template if:true={showOtpScreen}>
+                                           <!--OTP Send Screen-->
+                                             <template if:true={isNotVerifed}>
+                                               <div class=" slds-m-horizontal_x-small slds-m-vertical_small slds-grid slds-gutters">
+                                                  <div class="slds-size_1-of-3 ">
+                
+                                                    <input type="text"  placeholder="OTP" onchange={enteredOTP} class="slds-input" maxlength="6" pattern="\d*"/>
+                
+                                                  </div>
+                                                  <div class="slds-size_2-of-3 slds-clearfix ">
+                                                     <div class="slds-float_left slds-m-left_small">
+                                                       <button  class=" slds-button slds-button_brand button"  title="Send OTP" onclick={sendOTP} disabled={disableOtpSendBtn}>
+                                                        Send OTP</button>&nbsp;
+                                                       <button   class="slds-button slds-button_brand button" title="Verify" onclick={VerifyOTP}>
+                                                        Verify</button>
+                                                     </div>
+                                                  </div> 
+                                              </div>
+                                             </template>
+                                             <!--OTP Verified Screen-->
+                                             <template if:false={isNotVerifed}>
+                                                 <div class="slds-align_absolute-center">OTP has been Verified </div>
+                                             </template>
+                                         </template>
+
+                                         <!--Document Upload Screen-->
+                                         <template if:true={showUploadScreen}>
+                                          <template if:true={showClarificationNoteReason}>
+                                            <div class='slds-m-horizontal_x-small slds-m-top_x-small'>
+                                                <lightning-combobox required label="Clarification Note reason" value={clarificationNoteReasonValue} 
+                                                placeholder="Select" options={clarificationNoteReasonoptions} onchange={handleClarificationNoteChange} readonly={isReadonly} disabled={cannotUpload}></lightning-combobox>
+                                            </div>
+                                              </template>
+                                         <template for:each={object.childRecordList} for:item="child" for:index="index">
+                                             <!--Upload Screen-->
+                                            <template if:false={child.isDownloded}>  
+
+                                             <div class="slds-grid slds-gutters slds-m-horizontal_x-small" key ={child.isDownloded}>
+
+                                             <div class="slds-size_2-of-3 ">
+                                             <lightning-file-upload  disabled={cannotUpload} label="" name={object.MasterDocName} accept=".jpg,.jpeg,.png,.pdf,.docx,.xls,.csv,.txt,.xlsx" record-id={caseObjectId} onuploadfinished={handleUploadFinished} >
+                                             </lightning-file-upload>  
+                                             </div>
+                                             <div class="slds-size_1-of-3"></div>
+
+                                             </div>  
+
+                                            </template>
+                                            <!--Uploaded Document Screen-->
+                                             <template if:true={child.isDownloded}>
+
+                                             <div class="slds-grid slds-gutters slds-m-horizontal_x-small " key ={child.isDownloded}>
+
+                                             <div class="slds-size_2-of-3 slds-text-title_caps">
+                                                  <div class="slds-m-top_xx-small">&nbsp;<i>{child.fileuniquename}</i></div>
+                                             </div>
+
+                                             <div class="slds-size_1-of-3 slds-clearfix ">
+                                               <div class="slds-m-left_medium slds-float_left slds-m-top_xx-small">
+                                                    <a onclick={preview} data-index={child.documentid}>View</a> 
+                                                    <template if:true={candelete}>&nbsp;| <a onclick={deletedoc} data-index={child.documentid}>Del</a></template>
+                                               </div>
+                                             </div>
+
+                                             </div>
+                                             </template>
+                                         </template>
+                                         
+                                         </template>
+                                         <!--Text Box Screen-->
+                                         <template if:true={showTextScreen}>
+                                          <div class='slds-m-horizontal_x-small'>
+                                          <lightning-textarea name="" label="Remarks" value={comment} onchange={handlecomment} disabled={cannotUpload}></lightning-textarea>
+                                          </div>
+                                         </template>
+
+                                 </template>
+                                 <!--If Document type is File Upload-->
+                                 <template if:false={object.isPickList}>
+                                   
+                                    <template for:each={object.childRecordList} for:item="child" for:index="index">
+                                       <!--File Upload Screen-->
+                                        <template if:false={child.isDownloded}>  
+
+                                         <div class="slds-grid slds-gutters slds-m-horizontal_x-small" key ={child.isDownloded}>
+
+                                         <div class="slds-size_2-of-3 ">
+                                         <lightning-file-upload  disabled={cannotUpload} label="" name={object.MasterDocName} accept=".jpg,.jpeg,.png,.pdf,.docx,.xls,.csv,.txt,.xlsx" record-id={caseObjectId} onuploadfinished={handleUploadFinished} >
+                                         </lightning-file-upload>  
+                                         </div>
+                                         <div class="slds-size_1-of-3"></div>
+
+                                         </div>  
+
+                                        </template>
+                                      <!-- Uploaded File Screen-->
+                                         <template if:true={child.isDownloded}>
+
+                                         <div class="slds-grid slds-gutters slds-m-horizontal_x-small " key ={child.isDownloded}>
+
+                                         <div class="slds-size_2-of-3 slds-text-title_caps">
+                                              <div class="slds-m-top_xx-small">&nbsp;<i>{child.fileuniquename}</i></div>
+                                         </div>
+
+                                         <div class="slds-size_1-of-3 slds-clearfix ">
+                                           <div class="slds-m-left_medium slds-float_left slds-m-top_xx-small">
+                                                <a onclick={preview} data-index={child.documentid}>View</a> <template if:true={candelete}>&nbsp;| <a onclick={deletedoc} data-index={child.documentid}>Del</a></template>
+                                           </div>
+                                         </div>
+
+                                         </div>
+                                         </template>
+                                     </template>
+                                
+                                 </template>
+                             </div>
+
+                  <div class="slds-border_bottom" key ={object.MasterDocName}></div>
+
+                </template>
+
+            <div class="slds-border_bottom"></div>
+
+
+         </div>
+      </div>
+
+</template>

@@ -1,0 +1,6 @@
+<aura:component implements="force:hasSObjectName,force:hasRecordId,force:lightningQuickActionWithoutHeader" >
+    <div class="slds-theme--default">
+        <!-- To update the transfer from the case actions  object -->
+        <c:updateCaseCategory caseActionId ="{!v.recordId}" ></c:updateCaseCategory>
+    </div>
+</aura:component>

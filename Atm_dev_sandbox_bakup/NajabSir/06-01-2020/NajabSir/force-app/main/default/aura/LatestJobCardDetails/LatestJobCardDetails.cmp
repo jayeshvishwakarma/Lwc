@@ -1,0 +1,4 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+        <ltng:require styles="{!$Resource.ModalWidthCSS}" />
+        <c:getLatestJobCardDetails recordId="{!v.recordId}"></c:getLatestJobCardDetails>
+</aura:component>

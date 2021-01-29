@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForRecordHome" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="recId" type="String"/>
+    
+    <iframe aura:id="vfFrame" src="/lightning/r/Report/00O1s000000FZ6tEAG/view" />
+    
+</aura:component>

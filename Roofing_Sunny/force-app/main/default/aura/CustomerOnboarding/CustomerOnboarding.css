@@ -1,0 +1,19 @@
+.THIS .slds-scrollable_x {
+    overflow-y:visible !important;
+    overflow-x:visible !important;
+    min-width: 150px;
+}
+
+.THIS .slds-scrollable_y {
+    overflow-y:visible !important;
+    overflow-x:visible !important; 
+    min-height: 150px;
+    
+}
+.THIS .slds-select-auto-width {
+    width: auto;
+}
+.THIS button{
+    background-color:#00a1e0;
+    color: white;
+}

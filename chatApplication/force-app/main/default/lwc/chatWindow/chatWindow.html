@@ -1,0 +1,54 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner
+            alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+    </template>
+
+    <template if:true = {userObj}>
+    <lightning-card>
+       
+        <div class="slds-grid slds-box" style="height:4rem; padding:10px; background-color:#404040">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12" >
+                <span><center><img src={userObj.FullPhotoUrl} style="border-radius:70%;" width="40px;" height="40px;"/></center></span>   
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_11-of-12" >
+                <span style="margin-top:40%;margin-left:3%;color:white;font-size:17px;font-family:Segoe UI,Helvetica Neue,Helvetica,Lucida Grande,Arial,Ubuntu,Cantarell,Fira Sans,sans-serif">{userObj.Name}</span> 
+            </div>
+            
+        </div>
+
+        <div class="slds-scrollable_y" style="height:24rem;background-color:rgba(244, 255, 250, 0.897)">
+        <template for:each={lstMessages} for:item="objMessages">
+            <div class="slds-grid " key={objMessages.id} >
+            <div class={objMessages.styleClass} >
+                <p><span style="font-size:14px;">{objMessages.message}</span></p>
+                <span><img width="12px;" src={objMessages.tickImage}/></span>
+            </div>
+        </div>
+        </template>
+        </div> 
+
+        <div class="slds-grid" style="background-color:rgba(244, 255, 250, 0.897)">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_10-of-12">       
+            <span onkeypress = {keycheck} >
+                <lightning-input placeholder = "Enter message" 
+                    onchange = {handleChangeInput} 
+                    data-id = "message"
+                    value = {message}>
+                </lightning-input></span>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12"> 
+               &nbsp;&nbsp;&nbsp; 
+            <lightning-icon style = "margin-top:18px"
+                    onclick = {handleSendMessage} 
+                    class = "pointer"
+                    icon-name = "utility:send">
+            </lightning-icon>
+               
+            </div>
+        </div>
+
+    </lightning-card>
+</template>
+</template>

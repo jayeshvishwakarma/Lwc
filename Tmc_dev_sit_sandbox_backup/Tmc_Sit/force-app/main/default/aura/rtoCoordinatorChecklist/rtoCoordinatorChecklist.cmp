@@ -1,0 +1,5 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" >
+<c:preliminaryChecklist recordId="{!v.recordId}" checklistType="RTO Coordinator Checklist" selectedType=""
+        onclose="{!c.closeQuickAction}">
+    </c:preliminaryChecklist>	
+</aura:component>

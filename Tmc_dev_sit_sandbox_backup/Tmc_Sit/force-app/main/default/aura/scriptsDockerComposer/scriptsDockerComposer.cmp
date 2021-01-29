@@ -1,0 +1,102 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,lightning:availableForFlowScreens"
+    controller="getCurrentUserProfileName">
+    <aura:attribute name="isLarge" type="Boolean" default="true" />
+    <aura:attribute name="isOpen" type="Boolean" default="false" />
+    <aura:attribute name="showSurvey" type="Boolean" default="false" />
+    <aura:attribute name="showFlow" type="Boolean" default="false" />
+    <aura:attribute name="displayFlow" type="Boolean" default="false" />
+    <aura:attribute name="surveyId" type="String" />
+    <aura:attribute name="caseId" type="String" />
+    <aura:attribute name="enquiryId" type="String" />
+    <aura:attribute name="accountId" type="String" />            
+    <aura:attribute name="surveyFormURL" type="String"/>
+    <aura:attribute name="reloadForm" type="boolean" default="true" />
+    <aura:attribute name="showError" type="boolean" default="false" />
+    <aura:attribute type="Aura.Component[]" name="firstPanel" />
+    <aura:attribute name="choices" type="List" default="[]" />
+    <aura:attribute name="campMetadata" type="List" />
+    <aura:attribute name="choiceMade" type="String" />
+    <aura:attribute name="showChoices" type="Boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <!-- Call cacheServiceLayerCMP LWC Component to get call details in community-->
+    <c:cacheServiceLayerCMP aura:id="cacheCmp" />
+    <!--show scripts only on desktop and tablets. Not phone-->
+    <aura:if isTrue="{!and(v.reloadForm,v.isLarge)}">
+        <div>
+            <!--button to open Scripts-->
+            <div class="{!'docker-button '+ (v.isOpen ? 'slds-hide' : '')}">
+                <lightning:button variant="brand" label="Scripts" title="Scripts" onclick="{!c.toggleOpen}" />
+            </div>
+            <!-- section to show script if button is clicked-->
+            <div class="{!'slds-docked_container '+ (!v.isOpen ? 'slds-hide' : '')}">
+                <section
+                    class="{!'slds-docked-composer slds-grid slds-grid_vertical slds-p-bottom_small '+ (v.isOpen ? 'slds-is-open' : '')}"
+                    role="dialog" aria-labelledby="dialog-heading-id-1" aria-describedby="dialog-content-id-1">
+                    <header class="slds-docked-composer__header slds-grid slds-shrink-none" aria-live="assertive">
+                        <div class="slds-media slds-media_center slds-no-space">
+                            <div class="slds-media__figure slds-m-right_x-small">
+                                <lightning:icon iconName="standard:call" size="small" alternativeText="Call Scripts"
+                                    title="Call Scripts" />
+                            </div>
+                            <div class="slds-media__body">
+                                <h2 class="slds-truncate" id="dialog-heading-id-1" title="Scripts">Scripts</h2>
+                            </div>
+                        </div>
+                        <div class="slds-col_bump-left slds-shrink-none">
+                            <lightning:buttonIcon iconName="utility:minimize_window" variant="bare"
+                                onclick="{!c.toggleOpen}" alternativeText="Minimize" title="Minimize"/>
+                            <lightning:buttonIcon iconName="utility:refresh" variant="bare" onclick="{!c.resetScript}"
+                                alternativeText="Reload" title="Reload" />
+                        </div>
+                    </header>
+                    <div class="slds-docked-composer__body slds-align_absolute-center" aura:id="outerdiv"
+                        id="dialog-content-id-2">
+                        <!-- show radio button choice to user to select script -->
+                        <aura:if isTrue="{!v.showChoices}">
+                            <div class="slds-grid slds-shrink-none">
+                                <div class="slds-col slds-box slds-theme_default">
+                                    <lightning:radioGroup name="radioGroupRequired" label="Available Scripts"
+                                        options="{! v.choices }" value="{! v.choiceMade }"
+                                        onchange="{! c.handleChange }" type="radio" />
+                                </div>
+                            </div>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.displayFlow}">
+                            <!--if user chooses a flow show a flow-->
+                            {!v.firstPanel}
+                            <lightning:flow aura:id="flowData" />
+                        </aura:if>
+                       
+
+                        <!--if user chooses a survey, show an iframe with survey url-->
+                        <aura:if isTrue="{!v.showSurvey}">
+                            <div aura:id="childComp">
+                                <!-- <c:AdHocCampaignScriptRedirectCMP surveyId="{!v.surveyId}" /> -->
+                                <div class="slds-box slds-theme_default">
+                                    <div class="slds-section slds-is-open">
+                                        <div aria-hidden="false" class="slds-section__content">
+                                            <!--  <iframe src="{!v.surveyFormURL}" height="250" class="responsive" frameBorder="0" /> -->
+                                            <!--<iframe src="{!v.surveyFormURL}" class="responsive" frameBorder="0" />-->
+                                            <c:takeSurveyLWC surveyId="{!v.surveyId}" caseId="{!v.caseId}" onfinish="{!c.handleFinish}" contactId="{!v.accountId}" enquiryId="{!v.enquiryId}"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </aura:if>
+                    </div>
+                    <!-- show an error if call is not started or no script exists-->
+                    <aura:if isTrue="{!v.showError}">
+                        <div class="slds-media__body slds-grid slds-shrink-none">
+                            <div class="slds-text-color_error slds-col">
+                                <h2>Script will be visible once call is started.</h2>
+                            </div>
+                        </div>
+                    </aura:if>
+                </section>
+            </div>
+        </div>
+    </aura:if>
+
+</aura:component>

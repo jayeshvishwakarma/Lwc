@@ -1,0 +1,466 @@
+<apex:page Controller="twod_PaymentSummaryCtl" sidebar="false" id="PaymentSummaryPage" docType="html-5.0">
+    <html>
+        <head> 
+            <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8" />
+            <script  src="{!$Resource.jqueryCT}"></script>
+            <script src="{!$Resource.bootstrapjss}"></script>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system-vf.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system.min.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.twod__slds, '/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/>
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+            
+            <style>
+                body {
+                overflow-x: auto;
+                }
+                @font-face {
+                font-family: 'Glyphicons Halflings';
+                src: url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.eot');
+                src: url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/resource/BootstrapLatest/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+                }
+                
+                tr:nth-of-type(odd) {
+                background: #eee;
+                }
+                
+                th {
+                font-weight: bold;
+                }
+                
+                td,
+                th {
+                padding: 6px;
+                text-align: left;
+                }
+                
+                .responsive-header {
+                display: none;
+                }
+                .center {
+                //margin: auto;
+                width: 50%;
+                padding: 10px;
+                position:left;
+                }
+                .foo {
+                float: left;
+                width: 20px;
+                height: 20px;
+                margin: 5px;
+                border: 1px solid rgba(0, 0, 0, .2);
+                }
+                
+                .blue {
+                background: #13b4ff;
+                }
+            </style>
+        </head>
+        <script>                
+        
+        //Variable for Color Selections
+        var successComments = ["Success"];
+        var failureComments = ["Failed"];
+        var successColour='rgb(144, 216, 160);';
+        var failurColour='#dc8c8c';
+        var noResponseColour='rgb(212, 226, 84);';
+        
+        Visualforce.remoting.timeout = 120000;
+        var $j = jQuery.noConflict(); 
+        
+        
+        
+        function toggle(source) {
+            checkboxes = document.getElementsByName('foo');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                
+                checkboxes[i].checked = source.checked;
+            }
+        }
+        /*
+        function checkAll(cb,cbid)
+        {
+            var inputElem = document.getElementsByTagName("input");        
+            var isNullPayment=false;
+            var isNullSAPAccount=false;
+            for(var i=0; i<inputElem.length; i++)
+            {             
+                if(inputElem[i].id.indexOf(cbid)!=-1){                                        
+                    inputElem[i].checked = cb.checked;
+                    var reqIndex = (inputElem[i].id).substring(("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:").length, (inputElem[i].id).indexOf(":checkedone"));                    
+                    var amount=document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":totalAmt").innerHTML;
+                    var paymentType=document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":paymentType").innerHTML; 
+                    var sapAccountId=document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":sapAccountId").value;
+                    amount=amount.replace('$','');
+                    if(amount.indexOf('&')>=0){
+                        amount=0.00;
+                    }
+                    if((paymentType =='Check' || paymentType =='Credit/Debit')  && (amount ==0.00 || amount=='undefined' || amount==null)){                        
+                        document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":checkedone").checked = false;
+                        isNullPayment=true;
+                    }
+                    if((paymentType =='Check') && (sapAccountId==null || sapAccountId=='undefined' || sapAccountId=='')){
+                       
+                        isNullSAPAccount=true;
+                        document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":checkedone").checked = false;            
+                    }
+                }
+            }
+            if(isNullPayment && cb.checked){
+                alert("You can not select a Payment which has no Payment Lines or Total Amount is 0");
+                return;
+            }
+            if(isNullSAPAccount && cb.checked){
+               alert("Ensure that all check payments have associated GL Account/Profit Center details");                    
+            }
+            
+        }
+        */
+        /* function setRowColour(){
+            var len={!summaryLength}
+            console.log(len); 
+            for(i=0;i<len;i++)
+            {
+                var val=document.getElementById('PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:'+i+':SentToSap').innerText;
+                console.log(val);
+                //background-color: #dc8c8c;        
+                var child=document.getElementsByClassName('bodyTable')[0].childNodes;
+                var index=(i*2)+1;
+                if(failureComments.indexOf(val)>=0)
+                {                    
+                    document.getElementsByClassName('bodyTable')[0].childNodes[index].style='background-color:'+failurColour;
+                }
+                else if(successComments.indexOf(val)>=0)
+                {
+                    var index=(i*2)+1;
+                    document.getElementsByClassName('bodyTable')[0].childNodes[index].style='background-color:'+successColour;
+                }
+                else
+                {
+                    var index=(i*2)+1;
+                    //document.getElementsByClassName('bodyTable')[0].childNodes[index].style='background-color:'+noResponseColour;
+                }
+            }
+        }*/
+        /* Added By Hampesh for checking amount */
+        function checkTotalAmt(val){            
+            var reqIndex = val.substring(("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:").length, val.indexOf(":checkedone"));            
+            console.log("index"+reqIndex );
+            var amount=document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":totalAmt").innerHTML;
+            var sapAccountId=document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":sapAccountId").value;
+            var approveStatus=document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":aprrovestatus").innerHTML;
+            var sap=document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":releasesap").value;
+            console.log('checkbox==>'+amount);
+            amount=amount.replace('$','');
+            if(amount.indexOf('&')>=0){
+                amount=0.00;
+            }
+            var paymentType=document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":paymentType").innerHTML; 
+            console.log("amount"+amount);
+            console.log("type"+paymentType);
+            if((paymentType =='Check' || paymentType =='Credit/Debit')  && (amount ==0.00 || amount=='undefined' || amount==null)){
+                alert("You can not select a Payment which has no Payment Lines or Total Amount is 0");
+                document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":checkedone").checked = false;
+                return;
+            }
+            if((paymentType =='Check') && (sapAccountId==null || sapAccountId=='undefined' || sapAccountId=='')){
+                alert("Ensure that all check payments have associated GL Account/Profit Center details");
+                document.getElementById("PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:"+reqIndex+":checkedone").checked = false;            
+            }
+            /* if(paymentType =='Free Material' && approveStatus =='Approved'){
+                       alert('Payment is already Approved');
+                     } */
+                    
+                }
+        </script>
+        <body> 
+            <apex:form id="summaryFId" >
+                <apex:pageblock id="sumpageBlockId" >
+                    <apex:actionRegion id="actionBlock">
+                        <apex:outputPanel id="csiPanel" >
+                            <div class="panel panel-primary">
+                                <div class=" panel-heading headCss">
+                                    <h4>
+                                        Payment Summary
+                                    </h4> </div>
+                                <div class="panel-body bodyCss">
+                                    <!--                                MAIN TABLE -->
+                                    <div class="center" >
+                                        <!--<span style="color:red;font-weight:bold">*Attention: Release to SAP will not be available between 12/17/2018 to 01/02/2019*</span><br />                                       
+                                        <span style="color:red;font-weight:bold">*Attention: Release to SAP will not be available for Canadian payments until further notice.*</span><br /><br />--> 
+                                        <apex:commandLink value="Queue For Approval" onclick="return queueForApprovalUpdate();" id="add3" styleClass="slds-button slds-button--brand" oncomplete="showdiv();laborSection();" rerender="csiPanel" />
+                                        &nbsp;&nbsp;
+                                        <!--rendered="false"--><apex:commandLink value="Release To SAP" onclick="return saveValidation();" id="add1" styleClass="slds-button slds-button--brand" oncomplete="showdiv();laborSection();" rerender="csiPanel" />
+                                        &nbsp;&nbsp;
+                                        <apex:commandLink value="Close" action="{!cancel}" id="can" styleClass="slds-button slds-button--brand"/> &nbsp;&nbsp;
+                                        
+                                        
+                                    </div>                           
+                                    <div id="summaryTable">
+                                        
+                                        <table class="responsive-table" >
+                                            <thead>
+                                                <tr> 
+                                                <!-- CT Multi currency changes-->
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver;font-weight: normal;" class="table1Header"><label>S.No</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Name.Label}</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Payment_Type__c.Label}</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Settlement_Type__c.Label}</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Ship_Credit_Debit_Date__c.Label}</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>Check #/Order #</label></td>
+                                                    <td style="{! IF((isCAD),'background-color:  #0070D2 ;color:silver','display:none')}" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Total_Amount_Converted__c.Label}</label></td> 
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Total_Amount__c.Label}</label></td>  
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Approval_Status__c.Label}</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Released_To_SAP__c.Label}</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Sent_to_SAP__c.Label}</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Paid_Y_N__c.Label}</label></td>
+                                                    <td style="background-color:  #0070D2 ;color:silver" class="table1Header"><label>{!$ObjectType.Payment__c.fields.Void_Payment__c.Label}</label></td>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody id='bodyTable' class='bodyTable'>
+                                                <apex:variable var="call" value="{!0}" />
+                                                <apex:repeat value="{!PaymentInfo}" var="cs" id="repeatBlock">
+                                                    <tr>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <!-- <input type="checkbox" id="checkhold" name="foo" value="{!cs.selected}"/>-->
+                                                            <apex:inputCheckbox id="checkedone" value="{!cs.selected}" onclick="checkTotalAmt(this.id)"/>
+                                                            <apex:inputHidden id="sapAccountId" value="{!cs.pay.SAP_Accounts__c}"/>
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:variable var="call" value="{!call+1}"/>
+                                                            <apex:outputText value="{!call}"/>
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <!--<apex:outputField id="paymentName" value="{!cs.pay.Name}" />  -->
+                                                            <apex:outputLink value="/{!cs.pay.Id}">{!cs.pay.Name}</apex:outputLink>
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputText value="{!cs.pay.Payment_Type__c}" id="paymentType"/>
+                                                            <apex:inputHidden id="hiddenId" value="{!cs.pay.Id}"/>
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputText value="{!cs.pay.Settlement_Type__c}"/>
+                                                        </td>                                                
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputField value="{!cs.pay.Ship_Credit_Debit_Date__c}"/>
+                                                            
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputField value="{!cs.pay.Check_Number__c}" rendered="{!if(cs.pay.Check_Number__c!=null,true,false)}"/>
+                                                            <apex:outputField value="{!cs.pay.Order_Number__c}" rendered="{!if(cs.pay.Order_Number__c!=null,true,false)}"/>
+                                                        </td>
+                                                        <!-- CT Multi currency changes-->
+                                                        <td style="{! IF((isCAD),'height: 40px;','display:none')}" class="table1d">
+                                                            <apex:outputField value="{!cs.pay.Total_Amount_Converted__c}" id="totalAmtConv"/>
+                                                        </td> 
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputField value="{!cs.pay.Total_Amount__c}" id="totalAmt"/>
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputField value="{!cs.pay.Approval_Status__c}" id="aprrovestatus"/>
+                                                        </td> 
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputField value="{!cs.pay.Released_To_SAP__c}" id="releasesap"/>
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputField id="SentToSap" value="{!cs.pay.Sent_to_SAP__c}" rendered="{!(cs.pay.Payment_Type__c=='Check' )}"/> 
+                                                            <apex:outputLink value="/{!Right(cs.pay.Sent_to_SAP__c,18)}" target="_blank" rendered="{!(cs.pay.Sent_to_SAP__c!=null && cs.pay.Payment_Type__c!='Check' )}">{!Left(cs.pay.Sent_to_SAP__c,7)}</apex:outputLink>                                                   
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputField value="{!cs.pay.Paid_Y_N__c}"/>
+                                                        </td>
+                                                        <td style="height: 40px;" class="table1d">
+                                                            <apex:outputField value="{!cs.pay.Void_Payment__c}"/>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    
+                                                </apex:repeat>
+                                                <script type="text/javascript">
+                                                var $j = jQuery.noConflict();
+                                                function saveValidation() {
+                                                    
+                                                    var listWrapper = '{!PaymentInfo}';
+                                                    var listSize = {!PaymentInfo.size};
+                                                    console.log('Wrap**'+listWrapper);
+                                                    var i;
+                                                    var checkbox;
+                                                    var text;
+                                                    var wrapperAry = [];
+                                                    for (i = 0; i < listSize; i++) {
+                                                        checked = document.getElementById('PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:' + i + ':checkedone').checked;
+                                                        text = document.getElementById('PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:' + i + ':hiddenId').value;
+                                                        if(document.getElementById('PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:' + i + ':checkedone').checked == true){
+                                                            wrapperAry.push(text);
+                                                        }
+                                                    }
+                                                    // Do whatever you need to do here...
+                                                    console.log( text +'=' + checked);
+                                                    console.log(wrapperAry);
+                                                    
+                                                    var onHold_check = confirm('Package can be Released to SAP only when Package is Approved. Ensure that today is not the first 2 business days of the month for credit and debits released to SAP');
+                                                    if(onHold_check == true ) {
+                                                        
+                                                        waitingDialog.show('Loading...');
+                                                        twod_PaymentSummaryCtl.processSelected(wrapperAry,
+                                                                                               function(result, event)
+                                                                                               {
+                                                                                                   if(event.status){
+                                                                                                       waitingDialog.hide();
+                                                                                                       $j("#summaryTable").load(location.href + " #summaryTable");
+                                                                                                   }else if (event.type = 'exception'){
+                                                                                                       alert(event.message);
+                                                                                                       waitingDialog.hide();
+                                                                                                   }else{
+                                                                                                       waitingDialog.hide();
+                                                                                                   }
+                                                                                               },{escape: true}
+                                                                                              );
+                                                    }
+                                                    //SapRelease();
+                                                    
+                                                    else{
+                                                        //alert('Can\'t release the Payment Package to SAP when Claim status is not approved');  
+                                                    }   
+                                                    
+                                                    
+                                                }
+                                                
+                                                function queueForApprovalUpdate(){
+                                                    var  queueApproval = confirm('Selected packages will be Queued for Approval');
+                                                    var listWrapper = '{!PaymentInfo}';
+                                                    var listSize = {!PaymentInfo.size};
+                                                    console.log('Wrap**'+listWrapper);
+                                                    var i;
+                                                    var checkbox;
+                                                    var text;
+                                                    var wrapperAry = [];
+                                                    for (i = 0; i < listSize; i++) {
+                                                        checked = document.getElementById('PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:' + i + ':checkedone').checked;
+                                                        text = document.getElementById('PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:' + i + ':hiddenId').value;
+                                                        if(document.getElementById('PaymentSummaryPage:summaryFId:sumpageBlockId:repeatBlock:' + i + ':checkedone').checked == true){
+                                                            wrapperAry.push(text);
+                                                        }
+                                                    }
+                                                    // Do whatever you need to do here...
+                                                    console.log( text +'=' + checked);
+                                                    console.log(wrapperAry);
+                                                    
+                                                    if(queueApproval == true){
+                                                        
+                                                        waitingDialog.show('Loading...');
+                                                        twod_PaymentSummaryCtl.queueForApprovalSelected('{!claimId}',wrapperAry,
+                                                                                                        function(result, event)
+                                                                                                        {
+                                                                                                            console.log('result'+result);
+                                                                                                            if(result == 'Success'){   
+                                                                                                                
+                                                                                                                waitingDialog.hide();
+                                                                                                                $j("#summaryTable").load(location.href + " #summaryTable");
+                                                                                                            }
+                                                                                                            else{
+                                                                                                                //alert('Can\'t send new Payment Package for Approval untill the existing packages are Approved or Rejected');
+                                                                                                                if(result!='' && result !='undefined' && result !='Initiated'){
+                                                                                                                    result='The following Payments do not have any Payment Lines \n'+result;
+                                                                                                                    
+                                                                                                                }
+                                                                                                                if(result =='Initiated'){
+                                                                                                                    result ='Can\'t send new Payment Package for Approval untill the existing packages are Approved or Rejected';
+                                                                                                                }
+                                                                                                                alert(result);
+                                                                                                                waitingDialog.hide();
+                                                                                                            }  
+                                                                                                        },{escape: true}
+                                                                                                       );
+                                                    }
+                                                }
+                                                </script>
+                                            </tbody>
+                                        </table>                                    
+                                    </div> 
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                    </apex:actionRegion>                        
+                </apex:pageblock>
+            </apex:form>
+            <div>
+                
+                <div id="push"></div>
+                
+            </div>
+        </body>      
+        <script>
+        /**
+        * Module for displaying "Waiting for..." dialog using Bootstrap
+        *
+        * @author Santhosh
+        */
+        
+        var waitingDialog = waitingDialog || (function ($) {
+            'use strict';
+            
+            // Creating modal dialog's DOM
+            var $dialog = $(
+                '<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:10%; overflow-y:visible;">' +
+                '<div class="modal-dialog modal-m">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
+                '<div class="modal-body">' +
+                '<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
+                '</div>' +
+                '</div></div></div>');
+            
+            return {
+                /**
+         * Opens our dialog
+         * @param message Custom message
+         * @param options Custom options:
+         *                options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
+         *                options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
+         */
+                show: function (message, options) {
+                    // Assigning defaults
+                    if (typeof options === 'undefined') {
+                        options = {};
+                    }
+                    if (typeof message === 'undefined') {
+                        message = 'Loading';
+                    }
+                    var settings = $.extend({
+                        dialogSize: 'sm',
+                        progressType: '',
+                        onHide: null // This callback runs after the dialog was hidden
+                    }, options);
+                    
+                    // Configuring dialog
+                    $dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
+                    $dialog.find('.progress-bar').attr('class', 'progress-bar');
+                    if (settings.progressType) {
+                        $dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
+                    }
+                    $dialog.find('h3').text(message);
+                    // Adding callbacks
+                    if (typeof settings.onHide === 'function') {
+                        $dialog.off('hidden.bs.modal').on('hidden.bs.modal', function (e) {
+                            settings.onHide.call($dialog);
+                        });
+                    }
+                    // Opening dialog
+                    $dialog.modal();
+                },
+                /**
+         * Closes dialog
+         */
+                hide: function () {
+                    $dialog.modal('hide');
+                }
+            };
+            
+        })(jQuery);
+        </script>
+    </html>
+    
+</apex:page>

@@ -1,0 +1,6 @@
+<apex:page standardController="Porteringen_mobiel__c" extensions="PorteringToWSGrexxOrder" action="{!CreateOrder}" >
+    <apex:pageMessages escape="false"/>
+    <apex:form >
+        <apex:commandButton value="Send anyway" action="{!CreateOrderForce}" rendered="{!showCreateOrderForce}" />
+    </apex:form>
+</apex:page>

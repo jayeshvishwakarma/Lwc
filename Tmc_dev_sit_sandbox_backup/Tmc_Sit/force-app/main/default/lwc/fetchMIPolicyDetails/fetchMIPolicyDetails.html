@@ -1,0 +1,41 @@
+<template>
+    <lightning-card title="Search Policy Details" icon-name="action:new_note">
+        
+        <lightning-button label="Create Case" slot="actions" if:true={ifpolicynumber} onclick={handleCreateCase}>
+        </lightning-button>
+        <div class="slds-p-left_medium slds-p-right_medium">
+            <lightning-input label="Enter Policy Number" onchange={handlePolicyNumberChange}></lightning-input>
+            </br>
+            <div class="inlineFooter" style="position: sticky; background-color: rgb(255, 255, 255);">
+                <div class="button-container slds-text-align_center forceRecordEditActions">
+                        <div class="actionsContainer">
+                                <div class="button-container-inner">
+                                    <lightning-button name="c-indt-Insurance-Summary" class="slds-m-horizontal--xxx-small" variant="brand" label="Get Policy Details" onclick={handleSearch}></lightning-button>
+                                    <lightning-button name="c-claim-details" class="slds-m-horizontal--xxx-small" variant="brand" label="Fetch Claim" onclick={handleSearch}></lightning-button>
+                                </div>
+                        </div>
+                </div>
+        </div>
+            <!--for policy details-->
+            <br>
+            <div if:true={showPolicyDetails} style="font-size: 20px;" ><b>Policy Detail</b></div>
+            <c-indt-Insurance-Summary ondatafetched={policyDetailReceived} globalpolicynumber={policynumber} parent-component="Policy Search Details">
+            </c-indt-Insurance-Summary>
+            <br>
+            <div if:true={showPolicyClaimDetails} style="font-size: 20px;"><b>Policy Claim Detail</b></div>
+            <br>
+            <c-claim-details></c-claim-details>
+
+            <template if:true={isModalOpen}>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container"> <!-- Modal/Popup Box LWC body starts here -->
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                            <c-create-Dealer-Inbound-Case  policy-number={policynumber} source-cmp="Policy Search" oncasecancel={closeCaseModel}></c-create-Dealer-Inbound-Case>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

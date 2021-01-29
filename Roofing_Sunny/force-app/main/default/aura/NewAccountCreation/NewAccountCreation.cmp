@@ -1,0 +1,322 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" controller="CustomerOnboardingController" >    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="isFromCase" type="boolean"  default="true"/>
+    <aura:attribute name="newActRec" type="Account"/> 
+    <aura:attribute name="request" type="Case"/> 
+    <aura:attribute name="accountId" type="String"/> 
+    <aura:attribute name="caseId" type="String"/>  
+    <aura:attribute name="customerRegion" type="String"/>  
+    <aura:attribute name="tmUser" type="User"/>      
+    <aura:attribute name="temptmUser" type="User"/>
+    <aura:attribute name="loggedinUser" type="User"/>      
+    <aura:attribute name="selectedLookUpRecord" type="sObject" default="{}"/>
+    <aura:attribute name="selectedWarehouse" type="sObject" default="{}"/>
+    <aura:attribute name="selectedCustomerGroup" type="sObject" default="{}"/>  
+    <aura:attribute name="lookupRenderInd" type="boolean" default="false"/> 
+    <aura:attribute name="tmInd" type="boolean" default="false"/> 
+    <aura:attribute name="soldToTMInd" type="boolean" default="false"/>
+    <aura:attribute name="showSave" type="boolean" default="false"/>     
+    
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'US', 'value': 'US'},
+                                                        {'label': 'CANADA', 'value': 'CANADA'},
+                                                        {'label': 'EXPORT', 'value': 'EXPORT'}
+                                                        ]"/> 
+    <aura:attribute name="priceoptions" type="List" default="[
+                                                             {'label': 'Yes', 'value': 'Yes'},
+                                                             {'label': 'No', 'value': 'No'}
+                                                             ]"/> 
+    <aura:attribute name="checkboxValue" type="List"/>
+    <aura:attribute name="pricesheetValue" type="List"/>
+    <aura:attribute name="valOption" type="Boolean" default="false"/>
+    <aura:handler name="change" value="{!v.checkboxValue}" action="{!c.checkboxHandler}"/>
+    <aura:handler name="change" value="{!v.pricesheetValue}" action="{!c.pricesheetcheckboxHandler}"/>
+    <aura:attribute name="address1" type="String" default = ''/>
+    <aura:attribute name="address2" type="String" default = ''/>
+    <aura:attribute name="requiredErr" type="Boolean" default="false"/>
+    <aura:attribute name="requiredSuc" type="Boolean" default="false"/>
+    <aura:attribute name="errorMsg" type="String" />
+    <aura:attribute name="successMsg" type="String" />
+    <aura:method name="submitAccount" action="{!c.submitAccount}">    
+    </aura:method>
+    <aura:method name="saveAccount" action="{!c.saveAccount}">    
+    </aura:method>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.selectedLookUpRecord}" action="{!c.soldTopartnerChange}"/> 
+    <aura:handler name="change" value="{!v.newActRec.LOB__c}" action="{!c.solarCustomerCheck}"/>
+    <aura:handler name="change" value="{!v.newActRec.Solar__c}" action="{!c.solarCustomerCheck}"/>
+    <aura:handler name="change" value="{!v.newActRec.Structus_Price_Code__c}" action="{!c.solarCustomerCheck}"/>    
+    <!--<aura:if isTrue="{!!v.showSave}"> 
+       <div class="slds-text-heading-large slds-text-align-center">New Ship-To Account Request</div>
+    </aura:if>-->
+    <div style="background-color:white; padding-left: 20px;padding-right: 20px;padding-bottom: 10px;">
+        <fieldset class="slds-form--compound">           
+            <div class="form-element__group">
+                <aura:if isTrue="{!v.requiredSuc}">
+                    <div>
+                        <ui:message title="Confirmation" severity="confirm" closable="true">                          
+                            <aura:unescapedHtml value="{!v.successMsg}" />
+                        </ui:message>
+                    </div>
+                </aura:if>
+                 <aura:if isTrue="{!v.requiredErr}">
+                    <div class="recordError">
+                        <ui:message title="Error" severity="error" closable="true">                          
+                            <aura:unescapedHtml value="{!v.errorMsg}" />
+                        </ui:message>
+                    </div>
+                </aura:if>
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Customer Details">Customer Details</span>
+                    </h3>
+                   
+                    <div aria-hidden="false" class="slds-section__content">
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">                             
+                                <lightning:select required="true" name="salesorg" messageWhenValueMissing="Sales org is Required." label="Sales Org" value="{!v.newActRec.LOB__c}">
+                                    <option value="" selected="selected"></option> 
+                                    <option value="1501">1501 - Roofing</option>                               
+                                    <option value="1102">1102 - Roofing Canada</option>                                                                                           
+                                </lightning:select>                        
+                            </div>   
+                            <aura:if isTrue="{!v.showSave}">
+                                 <aura:if isTrue="{!v.request.Status == 'Submitted to CSR Queue' || v.request.Status == 'Submitted to EXIM CSR Queue' || v.request.Status == 'Submitted to Canadian Customer Service Queue' || and(v.request.Status == 'Rejected', and(v.request.CreatedBy.Profile.Name != 'Customer Service', v.request.CreatedBy.Profile.Name != 'Customer Service - Manager'))}">
+                                        <div class="slds-form-element slds-size--1-of-3">
+                                            <lightning:select name="region" label="My Sales Region" value="{!v.customerRegion}">
+                                                <option value="" selected="selected"></option> 
+                                                <option value="Northeast Queue">Northeast</option> 
+                                                <option value="Southeast Queue">Southeast</option> 
+                                                <option value="Central Queue">Central</option> 
+                                                <option value="West Queue">West</option>                              
+                                            </lightning:select>  
+                                        </div>  
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!and(v.lookupRenderInd, !v.tmInd)}">
+                                                <div class="slds-form-element slds-size--1-of-3">
+                                                    <c:customLookup objectAPIName="User" fieldsToShow="Name, Role__c" addlfieldsToQuery=",Email" searchField="Name" IconName="standard:user" lookupFilter="isActive = true AND Role__c='TM'" selectedRecord="{!v.tmUser}" label="Territory Manager"/>
+                                                </div>  
+                                            </aura:if>
+                                             <aura:if isTrue="{!v.tmInd}">
+                                                <div class="slds-form-element slds-size--1-of-3">
+                                                    <span class="slds-form-element__label">Territory Manager</span>
+                                                    <br/> {!v.tmUser.Name}
+                                                </div>  
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>    
+                            	<aura:set attribute="else">
+                                    <aura:if isTrue="{!and(v.loggedinUser.Profile.Name != 'Customer Service',v.loggedinUser.Profile.Name != 'Customer Service - Manager')}">
+                                        <div class="slds-form-element slds-size--1-of-3">
+                                             <lightning:select name="region" label="My Sales Region" value="{!v.customerRegion}">
+                                                <option value="" selected="selected"></option> 
+                                                <option value="Northeast Queue">Northeast</option> 
+                                                <option value="Southeast Queue">Southeast</option> 
+                                                <option value="Central Queue">Central</option> 
+                                                <option value="West Queue">West</option>                              
+                                            </lightning:select>  
+                                        </div>  
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!and(v.lookupRenderInd, !v.tmInd)}">
+                                                <div class="slds-form-element slds-size--1-of-3">
+                                                    <c:customLookup objectAPIName="User" fieldsToShow="Name, Role__c" addlfieldsToQuery=", Email"  searchField="Name" IconName="standard:user" lookupFilter="isActive = true AND Role__c='TM'" selectedRecord="{!v.tmUser}" label="Territory Manager"/>
+                                                </div>  
+                                            </aura:if>
+                                             <aura:if isTrue="{!v.tmInd}">
+                                                <div style="padding-top: 5px; padding-left: 15px;" class="slds-form-element slds-size--1-of-3">
+                                                    <span class="slds-form-element__label">Territory Manager</span>
+                                                    <br/>{!v.tmUser.Name}
+                                                </div>  
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>    
+                                 </aura:set>
+                            </aura:if>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">                        
+                                <lightning:checkboxGroup name="Checkbox Group"
+                                                         label="Please select One"
+                                                         options="{!v.options}"
+                                                         value="{!v.checkboxValue}"
+                                                         />
+                            </div>        
+                            <!--<div class="slds-form-element slds-size-1-of-3">                       
+                                <lightning:input type="checkbox" label="Continue with setup with SAP # already existing"  checked="{!v.newActRec.Cont_setup_with_SAP_already_existing__c}"/>                           
+                            </div> -->
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-5">    
+                                <div class="form-element__group">
+                                    <div class="slds-form-element__row">
+                                        <div class="slds-form-element slds-size--4-of-4 slds-form-element__label" >  
+                                            Is your customer?
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element__row">
+                                        <div class="slds-form-element slds-size--1-of-4" >                         
+                                            <lightning:input label="Solar" type="checkbox" checked="{!v.newActRec.Solar__c}"/>
+                                        </div> 
+                                        <div class="slds-form-element slds-size--2-of-4" >                       
+                                            <lightning:input label="Job Site" type="checkbox"  checked="{!v.newActRec.Job_Site__c}"/>
+                                        </div>
+                                        <div class="slds-form-element slds-size--1-of-4" >                       
+                                            <lightning:input label="EDI" type="checkbox"  checked="{!v.newActRec.Will_Customer_Use_EDI__c}"/>
+                                        </div>  
+                                        
+                                    </div>                           
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-size--1-of-5">                      
+                                <span onkeypress="{!c.limitChars}" class="slds-size--11-of-12">
+                                <lightning:input class="slds-text-title--caps" aura:id="txtedpar" style="width: 150px;" label="EDPAR #" value="{!v.newActRec.EDPAR__c}"/>
+                                </span>
+                            </div> 
+                        </div>
+                        <!--<aura:if isTrue="{!v.valOption}">-->         
+                        
+                        <aura:if isTrue="{!and(and(v.newActRec.ShippingCountry !=undefined,v.newActRec.ShippingCountry !=''), or(and(v.newActRec.LOB__c == '1102',v.newActRec.ShippingCountry!='CANADA'), and(v.newActRec.LOB__c == '1501',v.newActRec.ShippingCountry!='UNITED STATES')))}">
+                            <div class="slds-form-element__row">                                
+                                <div class="slds-form-element slds-size--2-of-5" >                         
+                                    <lightning:input type="checkbox" label="AEB Check Completed?"  checked="{!v.newActRec.AEB_Check_Completed__c}"/>                           
+                                </div>  
+                                
+                            </div>
+                        </aura:if>  
+                    </div>
+                </div>
+                <div class="slds-section slds-is-open">
+                     <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Customer Information">Customer Information</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <div class="slds-form-element__row">
+                            <aura:if isTrue="{!v.lookupRenderInd}">
+                                <div class="slds-form-element slds-size--1-of-3">                         
+                                    <c:customLookup objectAPIName="Account" isRequired="true" fieldsToShow="BPCS_Account_ID__c,Name"  addlfieldsToQuery=",Res_TM__c,Res_TM__r.Email" searchField="BPCS_Account_ID__c,Name,ShippingCity, ShippingState, ShippingCountry,ShippingPostalCode,Res_TM__c,Res_TM__r.Email" lookupFilter="Status_Code_BPCS__c = 'Active' AND Hierarchy_Level_BPCS__c = '4-Sold To'" doGlobalSearch="true" IconName="standard:account" selectedRecord="{!v.selectedLookUpRecord}" label="Sold-to Account Number for Partnering"/>
+                                </div>                          
+                                <div style="display: none;" class="slds-form-element slds-size--1-of-3">                       
+                                    <lightning:input  disabled="true" value="{!v.selectedLookUpRecord.Name}"/>   
+                                    <lightning:input  disabled="true" value="{!v.selectedLookUpRecord.Res_TM__r.Email}"/>   
+                                </div>   
+                            </aura:if>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">
+                                <lightning:input label="Account Name" messageWhenValueMissing="Account Name is Required."  maxlength="50"
+                                                 value="{!v.newActRec.Name}"
+                                                 required="true"/>
+                            </div>                    
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">
+                                <lightning:input label="Address 1" maxlength="50"
+                                                 value="{!v.address1}"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">
+                                <lightning:input label="Address 2" maxlength="50"
+                                                 value="{!v.address2}"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__row"> 
+                            <div class="slds-form-element slds-size--1-of-4">
+                                <lightning:input label="City" maxlength="40" value="{!v.newActRec.ShippingCity}"/>
+                            </div>                                                                                 
+                            <div class="slds-form-element slds-size--1-of-4" style="width: 120px;">
+                                <lightning:input label="State / Province" maxlength="2"  value="{!v.newActRec.ShippingState}"/>
+                            </div>
+                            <div class="slds-form-element slds-size--1-of-4" style="width: 130px;">
+                                <lightning:input label="Postal Code" maxlength="10" value="{!v.newActRec.ShippingPostalCode}"/>
+                            </div> 
+                            <div class="slds-form-element slds-size--1-of-4" style="padding-top: 20px;">
+                                <lightning:input label="Last 4 digits could not be found on USPS" type="checkbox"  checked="{!v.newActRec.Last_4_digits_could_not_be_found_on_USPS__c}"/>
+                            </div> 
+                        </div>    
+                        <div class="slds-form-element__row">         
+                            <aura:if isTrue="{!v.lookupRenderInd}">
+                                <div class="slds-form-element slds-size--1-of-3">
+                                    <!--<lightning:input label="Country" value="{!v.newActRec.BillingCountry}"/>-->
+                                    <c:PicklistSelect objectName="Account" isRequired="true" requiredMsg="Country is Required." uppercase="true" fieldName="Country__c" value="{!v.newActRec.ShippingCountry}"/>                         
+                                </div>
+                            </aura:if>
+                        </div>   
+                        <div class="slds-form-element__row">                    
+                            <div class="slds-form-element slds-size--1-of-3"> 
+                                 <span onkeypress="{!c.validatePhoneNo}" class="slds-size--11-of-12">
+                                	<lightning:input type="tel" label="Phone number"  value="{!v.newActRec.Phone}" maxlength="10"/>                           
+                                </span>
+                            </div>                      
+                        </div>                    
+                        <div class="slds-form-element__row">
+                            <aura:if isTrue="{!v.lookupRenderInd}">                    
+                                <div class="slds-form-element slds-size--1-of-3">                         
+                                    <c:customLookup objectAPIName="Warehouse__c" fieldsToShow="Name,Warehouse_Description__c" searchField="Name,Warehouse_Description__c" IconName="standard:plant" lookupFilter="Warehouse_Status__c = 'Active'" selectedRecord="{!v.selectedWarehouse}" label="Delivery Plant"/>
+                                </div>  
+                            </aura:if>
+                            <div class="slds-form-element slds-size--1-of-3">      
+                                <span onkeypress="{!c.validateNoofDeliveries}" class="slds-size--11-of-12">
+                                	<lightning:input type="text" maxlength="2" min="0" max="99" label="No. of deliveries customer can accept per day"  value="{!v.newActRec.No_of_deliveries_Accepted_per_day__c}"/>                           
+                                </span>
+                            </div>                              
+                        </div>                
+                        <div class="slds-form-element__row">
+                            <aura:if isTrue="{!v.lookupRenderInd}">    
+                                <div class="slds-form-element slds-size--1-of-3">                                              
+                                    <c:PicklistSelect objectName="Account" isRequired="true" requiredMsg="Customer Group is Required." fieldName="Customer_Group__c" defaultSelected="" value="{!v.newActRec.Structus_Price_Code__c}"/>
+                                </div>                      
+                            </aura:if>
+                            <aura:if isTrue="{!v.lookupRenderInd}">    
+                                <div class="slds-form-element slds-size--1-of-4">                         
+                                    <c:PicklistSelect objectName="Account"  fieldName="Freight_Type__c" label="Shipping Condition" value="{!v.newActRec.Freight_Type__c}"/>
+                                </div>
+                                
+                                <div class="slds-form-element slds-size--1-of-4">                         
+                                    <c:PicklistSelect objectName="Account" fieldName="Order_Type__c" value="{!v.newActRec.Order_Type__c}"/>                         
+                                </div>
+                            </aura:if>
+                            
+                            
+                        </div>
+                        <div class="slds-form-element__row">
+                            
+                            <div class="slds-form-element slds-size--1-of-4">                         
+                                <!-- <lightning:input label="Price Sheet" type="checkbox" checked="{!v.newActRec.Price_Sheet__c}"/> -->                         
+                                <lightning:checkboxGroup name="Checkbox Group"
+                                                         label="Price Sheet"
+                                                         options="{!v.priceoptions}"
+                                                         value="{!v.pricesheetValue}"
+                                                         />
+                            </div>
+                          <!--  <aura:if isTrue="{!v.valOption}">-->
+                             <aura:if isTrue="{!and(and(v.newActRec.ShippingCountry !=undefined,v.newActRec.ShippingCountry !=''), or(and(v.newActRec.LOB__c == '1102',v.newActRec.ShippingCountry!='CANADA'), and(v.newActRec.LOB__c == '1501',v.newActRec.ShippingCountry!='UNITED STATES')))}">
+                                <div class="slds-form-element slds-size--1-of-3">                         
+                                    <!--<lightning:input  label="Broker ID"  value="{!v.newActRec.Broker_ID__c}"/>-->                         
+                                    <c:PicklistSelect objectName="Account" fieldName="BrokerID__c" value="{!v.newActRec.BrokerID__c}"/>                          
+                                </div>  
+                            </aura:if>
+                        </div>                
+                        <div class="slds-form-element__row">  
+                            <div class="slds-form-element slds-size--1-of-2">                       
+                                <!--    <lightning:input label="Logistic and Ship-to Notes"  value="{!v.newActRec.Delivery_Instructions_1__c}"/>                           -->
+                                <ui:inputTextArea label="Logistics and Ship-to Notes"  value="{!v.newActRec.Delivery_Instructions_1__c}" rows="7"/>
+                            </div> 
+                            
+                        </div>
+                    </div>
+                </div>
+                 
+                <aura:if isTrue="{!v.showSave}"> 
+                    <div class="slds-form-element__row">  
+                        <div class="slds-form-element slds-align_absolute-center slds-size--1-of-1">  
+                            <lightning:button variant="brand" label="Save Request" onclick="{!c.submitAccount}" />                             
+                            <lightning:button variant="brand" label="Submit Request" onclick="{!c.SubmitforApproval}" />                           
+                        </div>
+                    </div>                     
+                </aura:if>
+                
+            </div>
+        </fieldset>        
+    </div>    
+</aura:component>

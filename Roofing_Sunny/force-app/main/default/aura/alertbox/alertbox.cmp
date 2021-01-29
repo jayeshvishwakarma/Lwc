@@ -1,0 +1,29 @@
+<aura:component >
+    <aura:attribute name="message" type="String" default=''/>
+    <aura:attribute name="heading" type="String" default=''/>
+    <aura:attribute name="class" type="String" default='slds-theme--default'/>
+    <aura:attribute name="buttonHeading" type="String" default=''/>
+
+    <aura:registerEvent name="onOkay" type="c:AlertboxOkayEvent"/>
+
+    <div>
+        <div aria-hidden="false" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" role="alertdialog" class="slds-modal slds-modal--prompt slds-fade-in-open">
+            <div class="slds-modal__container slds-modal--prompt" role="document" id="prompt-message-wrapper" tabindex="0">
+                <div class="{!'slds-modal__header ' + v.class + ' slds-theme--alert-texture'}">
+                    <h2 class="slds-text-heading--medium" id="prompt-heading-id">{!v.heading}</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div>
+                        <p>{!v.message}</p>
+                    </div>
+                </div>
+                <aura:if isTrue="{!(v.buttonHeading)}">
+                    <div class="slds-modal__footer slds-theme--default">
+                        <button class="slds-button slds-button--neutral" onclick="{!c.alertAction}">{!v.buttonHeading}</button>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </div>
+</aura:component>

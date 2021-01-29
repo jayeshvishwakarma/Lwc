@@ -1,0 +1,150 @@
+<apex:page extensions="BestellingCloneController" tabStyle="Bestelling_MM__c" standardController="Bestelling_MM__c">
+    <head> 
+        <style>
+            .delRowLink{
+                color : #015ba7 !important;
+                text-decoration : none;
+            }
+            .customIcon{
+                cursor : pointer;
+            }
+            
+            .myTable input{
+                width : 125px !important; 
+            }
+        </style>
+        <apex:includeScript value="{!$Resource.jQuery}"/>
+        <script>
+            var child; 
+            $(document).ready(function(){
+                $('.pricebook').keyup(function(){
+                    var pricebookVal = $(this).val();                    
+                    if(pricebookVal != null && pricebookVal.length > 0){
+                        $(this).closest('td').next().find('.product').removeAttr('disabled');
+                        $(this).closest('td').next().find('.customIcon').css('display','inline-block'); 
+                    }else{
+                        $(this).closest('td').next().find('.product').attr('disabled','disabled');
+                        $(this).closest('td').next().find('.customIcon').css('display','none');
+                    }
+                });
+                $('.pricebook').change(function(){
+                    var pricebookVal = $(this).val();                    
+                    if(pricebookVal != null && pricebookVal.length > 0){
+                        $(this).closest('td').next().find('.product').removeAttr('disabled');
+                        $(this).closest('td').next().find('.customIcon').css('display','inline-block'); 
+                    }else{
+                        $(this).closest('td').next().find('.product').attr('disabled','disabled');
+                        $(this).closest('td').next().find('.customIcon').css('display','none');
+                    }
+                });
+                $('.pricebook').change(function(){
+                    var pricebookVal = $(this).val();                    
+                    if(pricebookVal != null && pricebookVal.length > 0){
+                        $(this).closest('td').next().find('.product').removeAttr('disabled');
+                        $(this).closest('td').next().find('.customIcon').css('display','inline-block');
+                    }else{
+                        $(this).closest('td').next().find('.product').attr('disabled','disabled');
+                        $(this).closest('td').next().find('.customIcon').css('display','none');
+                    }
+                });
+                $('input.pricebook').each(function(){
+                    var pricebookVal = $(this).val();                    
+                    if(pricebookVal != null && pricebookVal.length > 0){ 
+                         $(this).closest('tr').find('.product').prop('disabled',false);
+                    }else{
+                         $(this).closest('tr').find('.product').prop('disabled',true);
+                    }
+                });
+            });
+            function openChild(childVal){
+                var priceId = $('.proName'+childVal).parent().parent().find(':first-child')[0].value;
+                child = childVal;
+                window.open('/apex/CustomProductLookup?id='+priceId ,'width=400px,height=50px','_blank');
+                
+            }
+            function passPro(prodid,proName){
+                $('.product'+child).val(proName);
+                var id = "pro"+child;
+                $("[id$="+id+"]").val(prodid);
+            }    
+        </script>
+    </head>
+    <apex:form id="frm" >
+        <apex:sectionHeader title="Bestelling Edit" subtitle="New Bestelling"/>
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlock title="Bestelling Edit" id="pgb">
+        <apex:actionFunction name="delRow" action="{!DeleteRow}" reRender="pgb" status="addDelStatus">
+            <apex:param value="" assignTo="{!delIndex}" name="param"/>
+        </apex:actionFunction> 
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Save" action="{!save}"/>
+            <apex:commandButton value="Cancel" action="/{!recordId}"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection columns="2" title="Information" id="pgs"> 
+            <apex:inputField value="{!Bestelling.Bedrijf__c}"/>
+            <apex:inputField value="{!Bestelling.MobileMiles__c}"/>
+            <apex:outputField value="{!Bestelling.recordtype.name}"/>
+            <apex:inputField value="{!Bestelling.Factuurdatum__c}"/>
+            <apex:inputField value="{!Bestelling.Status__c}"/>
+            <apex:inputField value="{!Bestelling.Factuur_verzonden__c}"/>
+            <apex:inputField value="{!Bestelling.Factuurnummer__c}"/>
+            <apex:outputLabel ></apex:outputLabel>
+            <apex:inputField value="{!Bestelling.Kenmerk__c}"/>
+            <apex:outputLabel ></apex:outputLabel>
+            <apex:inputField value="{!Bestelling.Betalingsvoorwaarden__c}"/>
+            <apex:outputLabel ></apex:outputLabel>
+            <apex:inputField value="{!Bestelling.Periode__c}"/>
+            <apex:outputLabel ></apex:outputLabel>
+            <apex:inputField value="{!Bestelling.Aangepaste_leverdatum__c}"/>
+            <apex:outputLabel ></apex:outputLabel>
+            <apex:inputField value="{!Bestelling.Handmatig_uitbetaald__c}"/>
+            <apex:outputLabel ></apex:outputLabel>
+            <apex:inputField value="{!Bestelling.Betaallink__c}"/>
+        </apex:pageBlockSection> 
+        <apex:pageBlockSection columns="2" title="Verzendgegevens" id="pgs1"> 
+            <apex:inputField value="{!Bestelling.Bedrijfsnaam__c}"/>
+            <apex:inputField value="{!Bestelling.E_mailadres__c}"/>
+            <apex:inputField value="{!Bestelling.Aanhef__c}"/>
+            <apex:inputField value="{!Bestelling.Extra_e_mailadres_1__c}"/>
+            <apex:inputField value="{!Bestelling.Voornaam__c}"/>
+            <apex:inputField value="{!Bestelling.Extra_e_mailadres_2__c}"/>
+            <apex:inputField value="{!Bestelling.Achternaam__c}"/>
+            <apex:inputField value="{!Bestelling.TrackTrace__c}"/>
+            <apex:inputField value="{!Bestelling.Verzendadres__c}"/>
+            <apex:inputField value="{!Bestelling.TrackTrace_dropshipment__c}"/>
+            <apex:inputField value="{!Bestelling.Postcode_plaats__c}"/>
+            <apex:inputField value="{!Bestelling.verwachte_leverdatum__c}"/>
+        </apex:pageBlockSection>  
+        <apex:pageBlockSection columns="2" title="Opmerkingen" id="pgs2"> 
+            <apex:inputField value="{!Bestelling.Opmerkingen__c}"/>
+        </apex:pageBlockSection>         
+        <apex:actionStatus startText="Deleting row..." id="addDelStatus"></apex:actionStatus> 
+        <apex:pageBlockSection columns="1" title="Bestellingproducten" id="pgs3"> 
+            <apex:variable value="{!0}" var="count"/>
+            <apex:pageBlockTable value="{!BestellingProductList}" var="prod" id="pbt" styleClass="myTable">
+                <apex:column headerValue="Action">
+                    <a class="delRowLink" href="javascript:void(0);" onclick="delRow({!count})"> Remove </a>
+                    <apex:variable value="{!count + 1}" var="count"/>
+                </apex:column>
+                <apex:column headerValue="Productnaam"><apex:inputField value="{!prod.Productnaam__c}" /></apex:column>
+                <apex:column headerValue="Price"><apex:inputField value="{!prod.Price__c}" styleClass="proName{!count} pricebook"/></apex:column>
+                <apex:column headerValue="Product" style="width:100%">
+                    <!--<apex:inputText value="{!prod.Product__c}" style="width:74%"/>-->
+                    <input type="text" disabled="disabled" class="product{!count} product" value="{!iF(prod.Product__c!=null,productIdNameMap[prod.Product__c],'')}"  style="width:74%"/>
+                    <apex:inputHidden id="pro" value="{!prod.Product__c}"/>
+                    <script>
+                        $("[id$=pro]").attr('id','pro{!count}');
+                    </script>
+                    <img src="/s.gif" class="lookupIcon customIcon" onClick="openChild('{!count}');return false;"/>
+                </apex:column>
+                <apex:column headerValue="Aanvulling productomschrijving"><apex:inputField value="{!prod.Aanvulling_productomschrijving__c}"/></apex:column>
+                <apex:column headerValue="Hoeveelheid"><apex:inputField value="{!prod.Hoeveelheid__c}"/></apex:column>
+                <apex:column headerValue="Verkoopprijs"><apex:inputField value="{!prod.Verkoopprijs__c}"/></apex:column>
+                <apex:column headerValue="Extra HW korting"><apex:inputField value="{!prod.Extra_HW_korting__c}"/></apex:column>
+                <apex:column headerValue="Totale prijs"><apex:outputField value="{!prod.Totale_prijs__c}"/></apex:column>
+                <apex:column headerValue="IMEI-nummer"><apex:inputField value="{!prod.IMEI_nummer__c}"/></apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,132 @@
+<template>
+
+    <!--Section Header-->
+    <c-section-header section-heading="Add Components" section-sub-heading={state.headerValue}
+        icon-name="standard:product_item" id="extwarranty"></c-section-header>
+
+    <lightning-card if:false={browserFormFactor}>
+        <div class="slds-p-horizontal_medium">
+            <template for:each={datalist1} for:item='item'>
+
+                <div class="slds-grid slds-gutters" key={item.label}>
+
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-border_bottom">
+                            <div if:true={item.showCheckBox}>
+                                <lightning-input type="checkbox" label={item.label} value={item.value}
+                                    checked={item.isChecked} onchange={handleAddOnCheck}></lightning-input>
+                            </div>
+                            <div class="slds-p-top_small" if:false={item.isExchangedWarrenty}></div>
+                        </div>
+                        <div if:false={item.isExchangedWarrenty} class="slds-p-top_medium"></div>
+                    </div>
+                </div>
+                <div class="slds-p-top_small" key={item.label} if:false={item.isMCP}></div>
+
+                <div class="slds-grid slds-gutters" if:true={item.isExchangedWarrenty} key={item.isExchangedWarrenty}>
+                    <div class="slds-col slds-size_1-of-1">
+
+                        <lightning-combobox name="ExtendedWarranty" label="Extended Warranty"
+                            placeholder="Select Option" value={selectedExtendedWarrantyValue}
+                            options={extendedWarrentyItems} onchange={handleExtendedWarranty}>
+                        </lightning-combobox>
+                       
+                        <div class="slds-p-top_medium"></div>
+                        <div class="slds-p-top_medium"></div>
+
+                    </div>
+                </div>
+
+
+                <div class="slds-grid slds-gutters" if:true={item.isMCP} key={item.label}>
+                    <div class="slds-col slds-size_1-of-1">
+
+                        <lightning-combobox name="Package" label="MCP Package" value={selectedPackage}
+                            placeholder="Select Package" onchange={handlePackageChange} options={packageOptions}>
+                        </lightning-combobox>
+
+
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-gutters" if:true={item.isMCP} key={item.label}>
+                    <div class="slds-col slds-size_1-of-1">
+
+                        <lightning-combobox name="Validity" label="MCP Validity" value={selectedValidity}
+                            placeholder="Select Validity" onchange={handleValidityChange} options={validityOptions}>
+                        </lightning-combobox>
+
+
+                    </div>
+                </div>
+
+            </template>
+
+
+
+        </div>
+    </lightning-card>
+
+
+    <table class="slds-table slds-table_cell-buffer  slds-no-row-hover" if:true={browserFormFactor}>
+        <thead>
+
+        </thead>
+        <tbody>
+            <template for:each={datalist1} for:item='item'>
+                <tr key={item.label} class="slds-p-bottom_x-small">
+                    <td>
+                        <div if:true={item.showCheckBox}>
+                            <lightning-input type="checkbox" label={item.label} variant="label-hidden"
+                                value={item.value} checked={item.isChecked} onchange={handleAddOnCheck}>
+                            </lightning-input>
+                        </div>
+                    </td>
+                    <td if:true={item.showLabel}>
+                        {item.label}
+                    </td>
+                    <td if:true={item.isExchangedWarrenty}>
+                        <div>
+                            <lightning-combobox name="ExtendedWarranty" label="Extended Warranty"
+                                placeholder="Select An Option" value={selectedExtendedWarrantyValue}
+                                options={extendedWarrentyItems} onchange={handleExtendedWarranty}>
+                            </lightning-combobox>
+                        </div>
+                    </td>
+
+                    <td if:true={item.isMCP}>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <span>
+                                    <lightning-combobox name="Package" label="MCP Package" value={selectedPackage}
+                                        placeholder="Select Package" onchange={handlePackageChange}
+                                        options={packageOptions}></lightning-combobox>
+                                </span>
+                            </div>
+                            <div class="slds-col">
+                                <span>
+                                    <lightning-combobox name="Validity" label="MCP Validity" value={selectedValidity}
+                                        placeholder="Select Validity" onchange={handleValidityChange}
+                                        options={validityOptions}>
+                                    </lightning-combobox>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            </template>
+        </tbody>
+    </table>
+
+
+    <div class="slds-p-top_medium"></div>
+    <div class="slds-align_absolute-center">
+        <lightning-button label="Cancel" variant="brand" icon-name="utility:close" title="Cancel" onclick={handleCancel}>
+        </lightning-button>
+        &nbsp;&nbsp;
+        <lightning-button label="Save" icon-name="utility:forward" title="Save" variant="brand" onclick={handleSave}
+            icon-position="right"></lightning-button>
+    </div>
+
+</template>

@@ -1,0 +1,15 @@
+<template>
+    <div class="slds-m-around__large">
+        <lightning-card title="Example" icon-name="standard:account">
+            <div class="slds-m-around__large">
+            <p><b>Record Id : {recordId}</b></p>
+            <p><b>Object Name : {objectApiName}</b></p>
+
+            <lightning-record-view-form record-id={recordId} object-api-name={objectApiName}>
+                        <lightning-output-field field-name="Name"></lightning-output-field>
+            </lightning-record-view-form>
+            
+            </div>
+        </lightning-card>
+    </div>
+</template>

@@ -1,0 +1,88 @@
+<template>
+<lightning-card>
+<div class="slds-align_absolute-center">
+Approval Request
+</div>
+<div slot="footer" class="slds-float_right">
+<lightning-button label="Save" title="Save" onclick={handleSave} variant="brand"></lightning-button>
+<lightning-button label="Cancel" title="Cancel" onclick={handleCancel} class="slds-p-left_xxx-small"></lightning-button>
+</div>
+<br/>
+<table class="slds-table slds-table_cell-buffer slds-table_bordered">
+<thead>
+    <tr class="slds-line-height_reset">
+    <th class="" scope="col">
+        <div class="slds-truncate" title="Approver">Approver</div>
+    </th>
+    <th class="" scope="col">
+        <div class="slds-truncate" title="Decision">Decision</div>
+    </th>
+    <th class="" scope="col">
+        <div class="slds-truncate" title="Workshop Reason">Workshop Reason</div>
+    </th>
+    <th class="" scope="col">
+        <div class="slds-truncate" title="Remarks">Remarks</div>
+    </th>
+    </tr>
+</thead>
+    <tbody>
+        <tr>
+    <td data-label="Account Name">
+        <div class="slds-truncate" title="Cloudhub">Suresh Babu</div>
+        </td>
+        <td data-label="Close Date">
+        <div class="slds-truncate" title="4/14/2015">Approve</div>
+        </td>
+        <td data-label="Prospecting">
+        <div class="slds-truncate" title="Prospecting"></div>
+        </td>
+        <td data-label="Confidence">
+        <div class="slds-truncate" title="20%"></div>
+        </td>
+        </tr>
+        <tr>
+        <td data-label="Account Name">
+            <div class="slds-truncate" title="Cloudhub">Ashok Kumar Ponniah</div>
+            </td>
+            <td data-label="Close Date">
+            <div class="slds-truncate" title="4/14/2015">Reject</div>
+            </td>
+            <td data-label="Prospecting">
+            <div class="slds-truncate" title="Prospecting">Poor Response</div>
+            </td>
+            <td data-label="Confidence">
+            <div class="slds-truncate" title="20%">Poor Response</div>
+            </td>
+            </tr>
+    </tbody>
+</table>
+<br/>
+<div class="demo-only demo-only--sizing slds-grid slds-wrap">
+<div class="slds-size_1-of-1">
+    <lightning-combobox
+                name="decision"
+                label="Decision"
+                value=""
+                options={decisionOption}
+                onchange={handleDecision}
+                required
+></lightning-combobox>
+</div>
+<template if:true={showReason}>
+<div class="slds-size_1-of-1 slds-p-left_xxx-small">
+    <lightning-combobox
+                    name="reason"
+                    label="Workshop Reason"
+                    value=""
+                    options={reasonOption}
+                    onchange={handleReason}
+                    required
+></lightning-combobox>
+</div>
+<div class="slds-size_2-of-2">
+    <lightning-input type="text" label="Remarks" value="" onchange={handleRemarks} required></lightning-input>
+</div>
+</template>
+</div>
+</lightning-card>
+</template>

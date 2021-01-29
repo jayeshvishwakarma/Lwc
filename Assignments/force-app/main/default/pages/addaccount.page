@@ -1,0 +1,23 @@
+<apex:page standardController="Account" extensions="AccountSaveExtension" lightningStylesheets="true" tabStyle="Account" >
+    <div class="slds-box slds-theme_shade slds-theme_alert-texture">
+    <apex:sectionHeader title="Account" subtitle="Add"/>
+    <apex:slds />
+    <apex:form >
+        <apex:pageBlock id="pgBlock1">
+            <apex:pageMessages />
+            <apex:pageBlockSection collapsible="true" columns="1">
+                <apex:inputField html-placeholder="Enter Account Name"  value="{!Account.Name}" />
+                <apex:inputField value="{!Account.Phone}" />
+                <apex:inputField value="{!Account.Industry}" />
+                <apex:inputField value="{!Account.Rating}" />
+                <apex:inputField value="{!Account.Type}" />
+                <apex:inputField value="{!Account.Website}" />
+            </apex:pageBlockSection>
+            <center>
+                <apex:commandButton style="float:centre" styleClass="slds-button slds-button_brand" value="Add Account" action="{!Save}"/>
+            
+            <apex:commandButton style="float:centre" styleClass="slds-button slds-button_brand" value="Back" action="{!Back}" immediate="true"/>
+        </center></apex:pageBlock>
+    </apex:form>
+    </div>
+</apex:page>

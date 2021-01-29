@@ -1,0 +1,6 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+	<aura:attribute name="iframeUrl" type="String" default="https://www.getfeedback.com/d/VYB8Lxlo/"/>
+    <aura:attribute name="styling" type="String" default="width:100%;height:310px;border:0;border-radius:.25rem;"/>
+    
+    <iframe src="{!v.iframeUrl}" style="{!v.styling}"></iframe>		
+</aura:component>

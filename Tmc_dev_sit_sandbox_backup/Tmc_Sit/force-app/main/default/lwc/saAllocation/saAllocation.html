@@ -1,0 +1,106 @@
+<template>
+
+    <div class={sectionCls}>
+        <h3 class="slds-section__title slds-theme_shade">
+            <button aria-controls="sa_allocation" aria-expanded="true" class="slds-button slds-section__title-action"
+                onclick={toogleSection}>
+                <lightning-icon class="slds-section__title-action-icon" icon-name={sectionIconName} size="x-small"
+                    alternative-text="Expand">
+                </lightning-icon>
+                <span class="slds-size_1-of-1 slds-grid slds-grid_align-spread slds-p-horizontal_x-small">
+                    <span class="slds-truncate" title="SA Availablity">
+                        Available SA Slots <span class="slds-text-body_regular">
+                            <i>({startDate} {selectedSlotOption.value})</i></span></span>
+                    <lightning-input type="checkbox" name="showUnavailableSlots" label="Show Unavailable Slots"
+                        value={showUnavailableSlots} checked={showUnavailableSlots} onchange={toogleUnavailableSlots}
+                        onclick={handleInputClick} if:false={collapseSection}>
+                    </lightning-input>
+                </span>
+            </button>
+        </h3>
+        <div aria-hidden="false" class="slds-section__content" id="sa_allocation">
+            <div class="slds-is-relative slds-p-vertical_medium" if:true={loading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+            <div class="slds-p-bottom_x-small" if:false={loading}>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"
+                    if:true={availableSlots.length}>
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="table-header" scope="col">
+                                <div class="slds-truncate" title="Name">Name</div>
+                            </th>
+                            <th class="table-header" scope="col">
+                                <div class="slds-truncate" title="Slots">Slots</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={availableSlots} for:item='item'>
+                            <tr class="slds-hint-parent" key={item.name}>
+                                <td data-label={item.name}>
+                                    <div class="slds-visual-picker" data-vp-key={item.name}>
+                                        <input type="checkbox" value={item.name} />
+                                        <label>
+                                            <span
+                                                class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center no-border">
+                                                {item.name}
+                                            </span>
+                                            <span class="slds-icon_container slds-visual-picker__text-check">
+                                                <lightning-icon size="x-small" variant="inverse"
+                                                    icon-name="utility:check" alternative-text="Selected">
+                                                </lightning-icon>
+                                            </span>
+                                        </label>
+                                        <div if:true={item.lastServiceAdvisor}>
+                                            <div class="slds-text-title_caps slds-p-vertical_xxx-small last-sa">
+                                            <i>Last SA</i> </div>
+                                        </div>
+                                     </div>
+                                </td>
+                                <td>
+                                    <div class="slds-grid slds-wrap slds-gutters_xx-small">
+                                        <div for:each={item.timeSlots} for:item="item2" key={item2.slot}
+                                            class="slds-col slds-grow-none slds-p-vertical_xx-small"
+                                            if:true={item2.show}>
+                                            <div class="slds-visual-picker" data-sa={item.name} data-slot={item2.slot}
+                                                onclick={handleSlotSelect}>
+                                                <input type="checkbox" value={item2.slot} if:true={item2.available} />
+                                                <input type="checkbox" value={item2.slot} if:false={item2.available}
+                                                    disabled />
+                                                <label>
+                                                    <span
+                                                        class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                                                        {item2.slot}
+                                                    </span>
+                                                    <span class="slds-icon_container slds-visual-picker__text-check">
+                                                        <lightning-icon size="x-small" variant="inverse"
+                                                            icon-name="utility:check" alternative-text="Selected">
+                                                        </lightning-icon>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div class="slds-text-color_error" if:false={availableSlots.length}>
+                    No slots available
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-p-top_xx-small slds-p-bottom_small" if:true={selectedSA}>
+        Selected SA: <i><b>{selectedSA.name}</b></i> <br />
+        Selected Slot: <i><b>{selectedSlot.slot}</b></i> <br />
+    </div>
+
+    <div class="slds-text-color_error slds-p-bottom_small" if:true={errorMessage}>
+        {errorMessage}
+    </div>
+
+</template>

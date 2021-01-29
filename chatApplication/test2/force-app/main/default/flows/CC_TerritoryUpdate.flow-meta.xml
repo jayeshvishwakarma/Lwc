@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <name>Create_Territory_String</name>
+        <label>Create Territory String</label>
+        <locationX>241</locationX>
+        <locationY>84</locationY>
+        <assignmentItems>
+            <assignToReference>AllTerritories</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>TerritoryUpdate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_Territory_records</targetReference>
+        </connector>
+    </assignments>
+    <description>update territories on contracts</description>
+    <formulas>
+        <name>TerritoryUpdate</name>
+        <dataType>String</dataType>
+        <expression>IF(
+ISBLANK({!Territory.CC_Zipcode__c}),
+&quot; &quot;,
+{!Territory.CC_Zipcode__c} &amp;&quot;, &quot;) &amp;
+IF(
+ISBLANK({!Territory.County__c}),
+&quot; &quot;,
+{!Territory.County__r.Name}  &amp; &quot;, &quot; ) &amp;
+IF(
+ISBLANK(TEXT({!Territory.CC_State__c})),
+&quot; &quot;,
+TEXT({!Territory.CC_State__c}) &amp;&quot;, &quot;) &amp; 
+IF(
+ISBLANK(TEXT({!Territory.CC_Country__c})),
+&quot; &quot;,
+TEXT({!Territory.CC_Country__c})) &amp;&quot;:: &quot;</expression>
+    </formulas>
+    <interviewLabel>cc_TerritoryUpdate {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>cc_TerritoryUpdate</label>
+    <loops>
+        <name>Iterate_Territory_records</name>
+        <label>Iterate Territory records</label>
+        <locationX>48</locationX>
+        <locationY>154</locationY>
+        <assignNextValueToReference>Territory</assignNextValueToReference>
+        <collectionReference>TerritoryList</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Create_Territory_String</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Territory_on_Contract</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Territory_Lookup</name>
+        <label>Territory Lookup</label>
+        <locationX>55</locationX>
+        <locationY>40</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Iterate_Territory_records</targetReference>
+        </connector>
+        <filters>
+            <field>CC_Agreement_Number__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ContractId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>CC_Territory_Exception__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CC_Territory_Exception__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>CC_Territory__c</object>
+        <outputReference>TerritoryList</outputReference>
+        <queriedFields>County__c</queriedFields>
+        <queriedFields>CC_State__c</queriedFields>
+        <queriedFields>CC_Country__c</queriedFields>
+        <queriedFields>CC_Zipcode__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Territory_on_Contract</name>
+        <label>Update Territory on Contract</label>
+        <locationX>228</locationX>
+        <locationY>202</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ContractId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>cc_Agreement_Territory__c</field>
+            <value>
+                <elementReference>AllTerritories</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Contract</object>
+    </recordUpdates>
+    <startElementReference>Territory_Lookup</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>AllTerritories</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ContractId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Territory</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CC_Territory__c</objectType>
+    </variables>
+    <variables>
+        <name>TerritoryList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CC_Territory__c</objectType>
+    </variables>
+</Flow>

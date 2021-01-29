@@ -1,0 +1,105 @@
+<template>
+    <lightning-card title="Beschikbaarheid">
+        <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+        </template>
+        <template if:true={showError}>
+            <div class="custom-req slds-p-horizontal_medium"><b>{errorMsg}</b></div>
+        </template>
+        <div class="custom-div">
+            <lightning-layout multiple-rows>
+                <lightning-layout-item size="12" padding="around-small">
+                    <div class="custom-box">
+                        <label>Postcode <span class="custom-req">*</span></label>
+                        <lightning-input type="text" variant="label-hidden" name="Postcode" class="req postcode"
+                            required>
+                        </lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="around-small">
+                    <label>Huisnummer<span class="custom-req">*</span></label>
+                    <lightning-input type="text" variant="label-hidden" name="Husinummer" class="req houseNr" required>
+                    </lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="around-small">
+                    <label>Toevoeging</label>
+                    <lightning-input type="text" variant="label-hidden" name="Toevoeging" class="hourseNrExtension">
+                    </lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="around-small">
+                    <label>Telefoonnummer<span class="custom-req">*</span></label>
+                    <lightning-input type="text" variant="label-hidden" name="Telefoonnummer" class="req telephone"
+                        required>
+                    </lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="12" padding="around-small">
+                <lightning-button variant="brand" label="Zakelijk Premium" name="ZakelijkPremium"
+                    title="Zakelijk Premium" onclick={validateForm} class="slds-align-middle">
+                </lightning-button>
+                &nbsp;
+                <lightning-button variant="brand" label="Zakelijk Entry" name="ZakelijkEntry" title="Zakelijk Entry"
+                    onclick={validateForm} class="slds-align-middle">
+                </lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:true={showTable}>
+            <template if:true={supplierData}>
+                <template for:each={supplierData} for:item="record">
+                    <table class="slds-table slds-table_bordered slds-table_fixed-layout slds-m-bottom_medium"
+                        key={record.supplierName}>
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="custom-th" scope="col">
+                                    <div class="slds-truncate supplier-heading">{record.supplierName}</div>
+                                </th>
+                                <th class="custom-th" scope="col" style="width: 23%;">
+                                    <div class="slds-truncate">BESCHIKBAARHEID</div>
+                                </th>
+                                <th class="custom-th" scope="col">
+                                    <div class="slds-truncate">OMSCHRIJVING</div>
+                                </th>
+                                <!-- <th style="text-align:right">
+                                    <div class="slds-truncate">PRIJS INCL ROUTER EN INSTALLATIE </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">MOOIE VERBINDING! </div>
+                                </th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={record.speedList} for:item="row">
+                                <tr class="slds-hint-parent" key={row.description}>
+                                    <th scope="row">
+                                        <div class="slds-truncate">{row.technology}</div>
+                                    </th>
+                                    <td>
+
+                                        <div class="slds-truncate" style="text-align: center;">
+                                            <span class={row.classes}></span>
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="slds-truncate"> {row.description}</div>
+                                    </td>
+                                    <!-- <td style="text-align:right">
+                                         <div class="slds-truncate">{!speed.Prijs_per_maand_incl_managed_router__c}</div> 
+                                    </td>
+                                    <td>
+                                         <div class="slds-truncate">{!speed.Selected_Technology__c}</div> 
+                                    </td> -->
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+            </template>
+            <template if:false={supplierData}>
+                <div class="slds-p-horizontal_medium"> No Records to show..</div>
+            </template>
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,33 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasSObjectName,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-scroller-content{
+        background:#fff;
+        }
+        .slds-modal__container { 
+        width: 75%;
+        max-width: 65rem; 
+        }
+    </aura:html>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="sObjectFields" type="List"/>
+    <aura:attribute name="deviceFormFactor" type="String"/>
+    <aura:attribute name="showAddLineItem" type="Boolean" default="True"/>
+    
+    <aura:if isTrue="{!v.showAddLineItem}"> 
+        <c:addLineItem recordId="{!v.recordId}" 
+                       SObjecttype="{!v.sObjectName}"
+                       sObjectFields="{!v.sObjectFields}" 
+                       onSubmitReq="{!c.onSubmit}"
+                       deviceFormFactor = "{!v.deviceFormFactor}"
+                       type = "quote"
+                       onCloseCmp="{!c.closePopup}"
+                       onquotecreatesuccess="{!c.handleQuoteCreateSuccess}"/>
+        
+        <aura:set attribute="else">
+            <lightning:button label="Cancel" title="Cancel" variant="brand" onclick="{!c.closePopup}"/>
+            <lightning:flow aura:id="flowData"/>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

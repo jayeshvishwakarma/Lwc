@@ -1,0 +1,129 @@
+<aura:component implements="force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" controller="OpportunityTriggerHelper">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="oppObject" type="Object"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="validateMessage" type="String" />
+    <aura:attribute name="showValidation" type="Boolean" default="false" />
+    
+    
+    <lightning:card iconName="standard:opportunity" title="Loyalty Enrollment" class="cardStyle">
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner variant="brand"></lightning:spinner>
+        </aura:if>
+        <hr/>
+        <div class="slds-p-horizpontal_medium">
+            
+            <aura:if isTrue="{!v.showValidation}">
+                <div class="slds-form-element__control" aura:id="errorMessage">
+                    <div class="demo-only" style="height:5rem; margin-top:4rem;">
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+                                <span class="slds-assistive-text">error</span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_medium">
+                                        <p></p>
+                                        <p> <b>{!'Error! '+v.validateMessage}</b> </p>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            
+            
+            <!-- DESKTOP/TABLET RENDERING -->
+            <aura:if isTrue="{!!$Browser.isPhone}">
+                <aura:if isTrue="{!!v.showValidation}">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <lightning:input label="First Name" required="true" value="{!v.oppObject.First_Name__c}"></lightning:input>
+                        </div>
+                        <div class="slds-col">
+                            <lightning:input label="Last Name" required="true" value="{!v.oppObject.Last_Name__c}"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input label="VIN Name" required="true" value="{!v.oppObject.VIN__c}" readonly="true"></lightning:input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input label="Mobile" required="true" value="{!v.oppObject.Mobile__c}"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input label="Email" required="true" type="Email" value="{!v.oppObject.Email__c}"></lightning:input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input label="Loyalty Program Type" value="{!v.oppObject.Loyalty_Program_Type__c}" readonly="true"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input label="Alternate Mobile" value="{!v.oppObject.Alternate_Mobile__c}"></lightning:input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input label="Dealership Channel" value="{!v.oppObject.Dealership_Channel__c}" readonly="true"></lightning:input>
+                        </div>
+                    </div>                   
+                </aura:if>
+            </aura:if>
+            
+            <!-- PHONE RENDERING -->
+            <aura:if isTrue="{!$Browser.isPhone}">
+                <aura:if isTrue="{!!v.showValidation}">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:input label="First Name" value="{!v.oppObject.First_Name__c}"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:input label="Last Name" value="{!v.oppObject.Last_Name__c}"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:input label="VIN No." value="{!v.oppObject.VIN__c}" readonly="true"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:input label="Mobile" value="{!v.oppObject.Mobile__c}"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:input label="Email" type="Email" value="{!v.oppObject.Email__c}"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:input label="Loyalty Program Type" value="{!v.oppObject.Loyalty_Program_Type__c}" readonly="true"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:input label="Alternate Mobile" value="{!v.oppObject.Alternate_Mobile__c}"></lightning:input>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:input label="Dealership Channel" value="{!v.oppObject.Dealership_Channel__c}" readonly="true"></lightning:input>
+                        </div>
+                    </div>
+                </aura:if>
+            </aura:if>
+            <hr/>
+            <div class="slds-align_absolute-center">
+                <lightning:button label="Cancel" onclick="{!c.closeQuickAction}"></lightning:button>
+                <aura:if isTrue="{!!v.showValidation}">
+                    <lightning:button label="Save" onclick="{!c.saveDetails}" variant="brand"></lightning:button>
+                </aura:if>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

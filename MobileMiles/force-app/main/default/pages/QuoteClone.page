@@ -1,0 +1,3 @@
+<apex:page standardController="QuoteLineItem" extensions="QuoteCloneController" action="{!doClone}">
+    <apex:pageMessages />
+</apex:page>

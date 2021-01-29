@@ -1,0 +1,23 @@
+.slds-visual-picker .slds-visual-picker__figure {
+    padding: 5px !important;
+}
+
+.no-border {
+    box-shadow: none;
+    border: none;
+}
+
+.slds-table td {
+    padding: .2rem .5rem;
+}
+
+.slds-text-pressed {
+    color: white;
+}
+
+.last-sa {
+    border: 1px solid var(--lwc-brandPrimary);
+    border-radius: 0.25rem;
+    font-weight: 700;
+    border: thin solid;
+}

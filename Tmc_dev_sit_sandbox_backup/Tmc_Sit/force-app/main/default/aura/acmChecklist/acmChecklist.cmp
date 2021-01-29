@@ -1,0 +1,5 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <c:preliminaryChecklist recordId="{!v.recordId}" checklistType="Checklist ACM" selectedType=""
+        onclose="{!c.closeQuickAction}">
+    </c:preliminaryChecklist>
+</aura:component>

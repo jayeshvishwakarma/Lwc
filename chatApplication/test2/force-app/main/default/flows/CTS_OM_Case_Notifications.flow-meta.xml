@@ -1,0 +1,3143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_11_A1</name>
+        <label>Case Resolved w/ Survey Russian</label>
+        <locationX>1100</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_13_A1</name>
+        <label>Case Resolved Spanish</label>
+        <locationX>1300</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_15_A1</name>
+        <label>Case Resolved w/ Survey Spanish</label>
+        <locationX>1500</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_17_A1</name>
+        <label>Case Resolved French</label>
+        <locationX>1700</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_19_A1</name>
+        <label>Case Resolved w/ Survey French</label>
+        <locationX>1900</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_21_A1</name>
+        <label>Case Resolved Email Portuguese</label>
+        <locationX>2100</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_23_A1</name>
+        <label>Case Resolved w/ Survey Email Portuguese</label>
+        <locationX>2300</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_25_A1</name>
+        <label>Case Resolved Email Italian</label>
+        <locationX>2500</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_27_A1</name>
+        <label>Case Resolved w/ Survey Email Italian</label>
+        <locationX>2700</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_29_A1</name>
+        <label>Case Resolved Email German</label>
+        <locationX>2900</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_31_A1</name>
+        <label>Case Resolved w/ Survey Email German</label>
+        <locationX>3100</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_33_A1</name>
+        <label>Case Resolved Email Chinese</label>
+        <locationX>3300</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_35_A1</name>
+        <label>Case Resolved w/ Survey Email Chinese</label>
+        <locationX>3500</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_37_A1</name>
+        <label>Case Resolved Email English</label>
+        <locationX>3700</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_39_A1</name>
+        <label>Case Resolved w/ Survey English</label>
+        <locationX>3900</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_5_A1</name>
+        <label>Case Resolved Email Polish</label>
+        <locationX>500</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert_w_Survey</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_7_A1</name>
+        <label>Case Resolved Email w/ Survey Polish</label>
+        <locationX>700</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert_w_Survey</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>CTS_OM_Case_Resolved_Alert</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_9_A1</name>
+        <label>Case Resolved Email Russian</label>
+        <locationX>900</locationX>
+        <locationY>200</locationY>
+        <actionName>Case.CTS_OM_Case_Resolved_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>ID</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>ID</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>ID</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.LastModifiedBy.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>0050a00000L2duUAAR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_pmetdec</targetReference>
+            </connector>
+            <label>Last Modified by Admin (System Updates)</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>5.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision10</name>
+        <label>myDecision10</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision12</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_11</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_11</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_11_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey Russian</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>6.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision12</name>
+        <label>myDecision12</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision14</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_13</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_13</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_13_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved Spanish</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>7.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision14</name>
+        <label>myDecision14</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision16</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_15</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_15</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_15_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey Spanish</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>8.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision16</name>
+        <label>myDecision16</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision18</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_17</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_17</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_17_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved French</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>9.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision18</name>
+        <label>myDecision18</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision20</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_19</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_19</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_19_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey French</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision2</name>
+        <label>myDecision2</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_3</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_3_pmetdec</targetReference>
+            </connector>
+            <label>Does Resolved Case have Unread Email Flag?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>10.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision20</name>
+        <label>myDecision20</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision22</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_21</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_21</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_21_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved Portuguese</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>11.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision22</name>
+        <label>myDecision22</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision24</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_23</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_23</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_23_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey Portuguese</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>12.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision24</name>
+        <label>myDecision24</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision26</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_25</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_25</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_25_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved Italian</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>13.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision26</name>
+        <label>myDecision26</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision28</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_27</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_27</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_27_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey Italian</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>14.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision28</name>
+        <label>myDecision28</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision30</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_29</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_29</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_29_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved German</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>15.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision30</name>
+        <label>myDecision30</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision32</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_31</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_31</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_31_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey German</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>16.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision32</name>
+        <label>myDecision32</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision34</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_33</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_33</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_33_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved Chinese</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>17.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision34</name>
+        <label>myDecision34</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision36</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_35</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_35</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_35_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey Chinese</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>18.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision36</name>
+        <label>myDecision36</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision38</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_37</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_37</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_37_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved English</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>19.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision38</name>
+        <label>myDecision38</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_39</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_39</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_39_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey English</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>2.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision4</name>
+        <label>myDecision4</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision6</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_5</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_5</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_5_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved Polish</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>3.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision6</name>
+        <label>myDecision6</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision8</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_7</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_7</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_7_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved w/ Survey Polish</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>4.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision8</name>
+        <label>myDecision8</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision10</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_9</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_9</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_9_pmetdec</targetReference>
+            </connector>
+            <label>Case Resolved Russian</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_11_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>1100</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_11_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_11_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_11_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_11_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_11_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_13_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>1300</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_13_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_13_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_13_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_13_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_13_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_15_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>1500</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_15_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_15_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_15_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_15_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_15_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_17_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>1700</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_17_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_17_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_17_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_17_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_17_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_19_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>1900</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_19_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_19_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_19_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_19_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_19_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_1_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>100</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_1_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_1_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>ID</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>ID</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>ID</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_old.LastModifiedBy.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>0050a00000L2duUAAR</stringValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_21_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>2100</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_21_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_21_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_21_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_21_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_21_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_23_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>2300</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_23_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_23_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_23_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_23_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_23_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_25_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>2500</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_25_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_25_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_25_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_25_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_25_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_27_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>2700</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_27_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_27_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_27_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_27_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_27_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_29_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>2900</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_29_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_29_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_29_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_29_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_29_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_31_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>3100</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_31_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_31_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_31_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_31_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_31_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_33_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>3300</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_33_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_33_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_33_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_33_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_33_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_35_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>3500</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_35_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_35_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_35_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_35_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_35_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_37_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>3700</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_37_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_37_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_37_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_37_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_37_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_39_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>3900</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_39_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_39_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_39_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_39_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_39_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_3_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>300</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_3_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_3_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_3_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_3_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_3_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myDecision4</targetReference>
+            </connector>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_5_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>500</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_5_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_5_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_5_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_5_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_5_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_7_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>700</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_7_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_7_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_7_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_7_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_7_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_9_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>900</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_9_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_9_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_9_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_9_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_9_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <description>Case Notification Emails Process</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Russian&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_11</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Russian&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Russian&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_11_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Russian&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Spanish&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_13</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+OR(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Spanish&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Spanish&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_13_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+OR(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Spanish&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Spanish&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_15</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Spanish&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Spanish&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_15_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Spanish&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;French&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_17</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+OR(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;French&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;French&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_17_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+OR(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;French&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;French&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_19</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;French&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;French&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_19_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;French&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Portuguese&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_21</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+OR(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Portuguese&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Portuguese&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_21_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+OR(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Portuguese&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Portuguese&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_23</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Portuguese&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Portuguese&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_23_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Portuguese&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Italian&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_25</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+OR(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Italian&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Italian&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_25_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+OR(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Italian&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Italian&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_27</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Italian&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Italian&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_27_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Italian&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;German&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_29</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+OR(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;German&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;German&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_29_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+OR(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;German&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND
+(
+   OR
+   (
+      [Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+      [Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+      [Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;
+   ),
+   AND
+   (
+      ISCHANGED([Case].Status),
+      OR
+      ( 
+         ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+         ISPICKVAL([Case].Status, &quot;Closed&quot;)
+      )
+   ),
+   AND
+   (
+      [Case].Unread_Email_box__c 
+   )
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_3</name>
+        <dataType>Boolean</dataType>
+        <expression>AND
+(
+   OR
+   (
+      {!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+      {!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+      {!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;
+   ),
+   AND
+   (
+      ISCHANGED({!myVariable_current.Status}),
+      OR
+      ( 
+         ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+         ISPICKVAL({!myVariable_current.Status}, &quot;Closed&quot;)
+      )
+   ),
+   AND
+   (
+      {!myVariable_current.Unread_Email_box__c} 
+   )
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;German&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_31</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;German&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;German&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_31_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;German&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+OR(CASE([Case].Contact.Language__c, &quot;Chinese (PRC)&quot;, 1, 0) = 1,
+CASE([Case].Contact.Language__c, &quot;Chinese (Taiwan)&quot;, 1, 0) = 1))</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_33</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+OR(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+OR(CASE({!myVariable_current.Contact.Language__c}, &quot;Chinese (PRC)&quot;, 1, 0) = 1,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Chinese (Taiwan)&quot;, 1, 0) = 1))</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+OR(CASE([Case].Contact.Language__c, &quot;Chinese (PRC)&quot;, 1, 0) = 1,
+CASE([Case].Contact.Language__c, &quot;Chinese (Taiwan)&quot;, 1, 0) = 1))</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_33_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+OR(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+OR(CASE({!myVariable_old.Contact.Language__c}, &quot;Chinese (PRC)&quot;, 1, 0) = 1,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Chinese (Taiwan)&quot;, 1, 0) = 1))</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+OR(CASE([Case].Contact.Language__c, &quot;Chinese (PRC)&quot;, 1, 0) = 1,
+CASE([Case].Contact.Language__c, &quot;Chinese (Taiwan)&quot;, 1, 0) = 1))</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_35</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+OR(CASE({!myVariable_current.Contact.Language__c}, &quot;Chinese (PRC)&quot;, 1, 0) = 1,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Chinese (Taiwan)&quot;, 1, 0) = 1))</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+OR(CASE([Case].Contact.Language__c, &quot;Chinese (PRC)&quot;, 1, 0) = 1,
+CASE([Case].Contact.Language__c, &quot;Chinese (Taiwan)&quot;, 1, 0) = 1))</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_35_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+OR(CASE({!myVariable_old.Contact.Language__c}, &quot;Chinese (PRC)&quot;, 1, 0) = 1,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Chinese (Taiwan)&quot;, 1, 0) = 1))</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_37</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+OR(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_37_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+OR(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_39</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_39_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND
+(
+   OR
+   (
+      [Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+      [Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+      [Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;
+   ),
+   AND
+   (
+      ISCHANGED([Case].Status),
+      OR
+      ( 
+         ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+         ISPICKVAL([Case].Status, &quot;Closed&quot;)
+      )
+   ),
+   AND
+   (
+      [Case].Unread_Email_box__c 
+   )
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_3_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND
+(
+   OR
+   (
+      {!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+      {!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+      {!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;
+   ),
+   AND
+   (
+      ISCHANGED({!myVariable_old.Status}),
+      OR
+      ( 
+         ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+         ISPICKVAL({!myVariable_old.Status}, &quot;Closed&quot;)
+      )
+   ),
+   AND
+   (
+      {!myVariable_old.Unread_Email_box__c} 
+   )
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+   OR(
+      [Case].RecordType.DeveloperName = 
+         &quot;CTS_OM_Account_Management&quot;, 
+      [Case].RecordType.DeveloperName = 
+         &quot;CTS_OM_Account_Management_Problem&quot;,
+      [Case].RecordType.DeveloperName = 
+         &quot;CTS_OM_Account_Management_Incident&quot;
+   ),
+   ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+   NOT(ISNULL([Case].ContactId)),
+   OR(
+      ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+      [Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE
+   ),
+   [Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+   CASE([Case].Contact.Language__c, &quot;Polish&quot;, 1, 0) = 1
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_5</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+   OR(
+      {!myVariable_current.RecordType.DeveloperName} = 
+         &quot;CTS_OM_Account_Management&quot;, 
+      {!myVariable_current.RecordType.DeveloperName} = 
+         &quot;CTS_OM_Account_Management_Problem&quot;,
+      {!myVariable_current.RecordType.DeveloperName} = 
+         &quot;CTS_OM_Account_Management_Incident&quot;
+   ),
+   ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+   NOT(ISNULL({!myVariable_current.ContactId})),
+   OR(
+      ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+      {!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE
+   ),
+   {!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+   CASE({!myVariable_current.Contact.Language__c}, &quot;Polish&quot;, 1, 0) = 1
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+   OR(
+      [Case].RecordType.DeveloperName = 
+         &quot;CTS_OM_Account_Management&quot;, 
+      [Case].RecordType.DeveloperName = 
+         &quot;CTS_OM_Account_Management_Problem&quot;,
+      [Case].RecordType.DeveloperName = 
+         &quot;CTS_OM_Account_Management_Incident&quot;
+   ),
+   ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+   NOT(ISNULL([Case].ContactId)),
+   OR(
+      ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+      [Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE
+   ),
+   [Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+   CASE([Case].Contact.Language__c, &quot;Polish&quot;, 1, 0) = 1
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_5_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+   OR(
+      {!myVariable_old.RecordType.DeveloperName} = 
+         &quot;CTS_OM_Account_Management&quot;, 
+      {!myVariable_old.RecordType.DeveloperName} = 
+         &quot;CTS_OM_Account_Management_Problem&quot;,
+      {!myVariable_old.RecordType.DeveloperName} = 
+         &quot;CTS_OM_Account_Management_Incident&quot;
+   ),
+   ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+   NOT(ISNULL({!myVariable_old.ContactId})),
+   OR(
+      ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+      {!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE
+   ),
+   {!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+   CASE({!myVariable_old.Contact.Language__c}, &quot;Polish&quot;, 1, 0) = 1
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Polish&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_7</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+AND(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Polish&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+AND(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;No&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = FALSE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Polish&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_7_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+AND(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;No&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = FALSE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Polish&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Russian&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_9</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_current.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_current.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_current.ContactId})),
+OR(ISPICKVAL({!myVariable_current.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_current.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_current.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_current.Contact.Language__c}, &quot;Russian&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(OR([Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management&quot;, 
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Problem&quot;,
+[Case].RecordType.DeveloperName = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL([Case].Status, &quot;Resolved&quot;),
+NOT(ISNULL([Case].ContactId)),
+OR(ISPICKVAL([Case].RS_CRS_Suppress_Survey__c, &quot;Yes&quot;),
+[Case].Contact.CTS_OM_Survey_Opt_Out__c = TRUE),
+[Case].CTS_OM_Send_Email_to_Contact__c = TRUE,
+CASE([Case].Contact.Language__c, &quot;Russian&quot;, 1, 0) = 1)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_9_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(OR({!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management&quot;, 
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Problem&quot;,
+{!myVariable_old.RecordType.DeveloperName} = &quot;CTS_OM_Account_Management_Incident&quot;),
+ISPICKVAL({!myVariable_old.Status}, &quot;Resolved&quot;),
+NOT(ISNULL({!myVariable_old.ContactId})),
+OR(ISPICKVAL({!myVariable_old.RS_CRS_Suppress_Survey__c}, &quot;Yes&quot;),
+{!myVariable_old.Contact.CTS_OM_Survey_Opt_Out__c} = TRUE),
+{!myVariable_old.CTS_OM_Send_Email_to_Contact__c} = TRUE,
+CASE({!myVariable_old.Contact.Language__c}, &quot;Russian&quot;, 1, 0) = 1)</expression>
+    </formulas>
+    <interviewLabel>CTS_OM_Case_Notifications-4_InterviewLabel</interviewLabel>
+    <label>CTS OM Case Notifications</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>Case</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>criteria</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>Do Nothing - Exit Branch</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>inputDataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Case Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>operatorDataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CaseNumber</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Legacy Reference No</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Reference</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CTS_TechDirect_Legacy_Reference_No__c</field>
+            <value>
+                <elementReference>myVariable_current.CTS_TechDirect_Legacy_Reference_No__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_3_A1</name>
+        <label>Clear Unread Email Flag</label>
+        <locationX>300</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myDecision4</targetReference>
+        </connector>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Unread Email</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Unread_Email_box__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <startElementReference>myDecision</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+</Flow>

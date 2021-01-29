@@ -1,0 +1,93 @@
+<apex:page controller="TaskManagerController" lightningStylesheets="true">
+    
+    <apex:slds />
+    <apex:sectionHeader title="Task" subtitle="Manager"/>
+    <apex:form id="formId" >
+        
+        
+        <script>        
+        function myFunc(){    
+            var coffee = document.getElementsByName('coffee');
+            
+            var str="";
+            for (i = 0; i < coffee.length; i++) {
+                if (coffee[i].checked) {
+                    str=coffee[i].value+" "+str;
+                }
+            }
+            alert('Str '+str)
+            lstOfCheckedIds(str);
+        }
+        function selectAllCheckboxes(obj){
+            var inputCheckBox = document.getElementsByName("coffee");                
+            for(var i=0; i<inputCheckBox.length; i++){          
+                inputCheckBox[i].checked=obj.checked;
+            }
+        }
+        </script>
+        
+        <apex:pageBlock id="page1">
+            
+            <apex:actionFunction name="lstOfCheckedIds" action="{!markCompleted}" reRender="pgBlockSection" >
+                <apex:param assignTo="{!strOfIds}" name="str" value=""/>
+            </apex:actionFunction>
+            <div align="center">
+                
+                 <apex:selectList size="1" value="{!SearchByOption}">  
+                <apex:selectOption itemValue="-1" itemLabel="--None--" itemDisabled="true" />
+                <apex:selectOption itemValue="0" itemLabel="All Task"/>
+                <apex:selectOption itemValue="1" itemLabel="Today"/>
+                <apex:selectOption itemValue="2" itemLabel="This Week"/>
+                <apex:selectOption itemValue="3" itemLabel="This Month"/>
+            </apex:selectList>
+            <apex:commandButton styleClass="slds-button slds-button_brand" value="Search" action="{!searchTaskRecords}"/>
+            
+            <apex:commandButton styleClass="button slds-button_destructive" onClick="myFunc()" value="Complete" reRender="pgBlockSection" />
+                
+            </div>
+            
+           
+            
+            <apex:variable var="Count" value="{!1}"/>
+            <apex:pageMessages />
+            
+            
+            <apex:pageBlockSection id="pgBlockSection" collapsible="true" columns="1" rendered="{!lstTasks.size>0}">
+                
+                <apex:pageBlockTable styleClass="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" id="pgblockTable1" value="{!lstTasks}" var="objTask" >
+                    
+                    <apex:column headerValue="Sno." >{!Count}<apex:variable var="Count" value="{!Count+1}"/>
+                    </apex:column>
+                    
+                    <apex:column >
+                        <apex:facet name="header"> 
+                            <input type="Checkbox" onclick="selectAllCheckboxes(this)" />Complete
+                        </apex:facet>
+                        <!--<apex:inputCheckbox id="Count" onchange="Check('{!$Component.Count}')" value="{!isSelected}" label="CheckBox" />-->
+                        <input type="checkbox" id="Count" name="coffee" value="{!objTask}" />
+                    </apex:column>
+                    
+                    
+                    <apex:column value="{!objTask.Subject}"/>
+                    <apex:column value="{!objTask.Status}"/>
+                    <apex:column value="{!objTask.Priority}"/>
+                    <apex:column value="{!objTask.ActivityDate}"/>
+                    
+                    <apex:column >
+                        <apex:outputLink value="https://c.ap15.visual.force.com/apex/taskDetail?recId={!objTask.id}">
+                            Detail/
+                        </apex:outputLink>
+                         <apex:outputLink value="https://c.ap15.visual.force.com/apex/taskedit?recId={!objTask.id}">
+                            Edit
+                        </apex:outputLink>
+                    </apex:column>
+                    
+                    
+                       
+                    
+                    
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

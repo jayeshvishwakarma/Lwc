@@ -1,0 +1,447 @@
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardController="Quote" extensions="QuotePDFController">
+     <html>
+        <head>
+            <style>
+ 
+                p,h1,h2,h3,body,td,th,li,header,footer,* {
+                    font-family: Arial,Helvetica,SansSerif,sans-serif;
+                }
+                p,h1,h2,h3,body,td,th,li,header,footer {
+                    font-size: 10pt;
+                }
+                h1,h2 {
+                    font-size: 12pt;
+                }
+                
+                td,th {
+                    vertical-align:top;
+                }
+
+                .quoteTable tbody td {
+                    border-bottom: 0.5pt solid gray;
+                    padding: 0 0.5em;
+                    text-align: right;
+                }
+                .quoteTable thead th {
+                    background-color: #CCD7E7;
+                    font-size: 8pt;
+                    padding: 0.5em 0.5em;
+                    text-align: left;
+                }
+                .quoteTable tfoot td {
+                    text-align: left;
+                    padding: 0.5em 0.5em;
+                    background-color: #CCD7E7;
+                    font-weight: bold;
+                }
+ 
+ 
+                @page { 
+                    size: A4;
+                    width: 210mm;
+                    height: 297mm;
+                    margin-top: 4cm;
+                    margin-bottom: 1cm;
+                    margin-left: 1.5cm;  
+                    margin-right: 1.5cm;  
+
+
+                    @top-left {
+                        content: element(page-top-left);
+                    }
+                    @top-right {
+                        content: element(page-top-right);
+                    }
+                    @bottom-left {
+                        content: element(page-bottom-left);
+                    }
+                    @bottom-right {
+                        content: element(page-bottom-right);
+                    }
+                }
+/*
+                @page :first { 
+                    margin-top: 0;
+                    @top-right, @top-left {
+                        content: '';
+                        height: 3cm;
+                    }
+                }
+                */
+
+                @media screen {
+                    header.onlyprint, footer.onlyprint {
+                        display: none;
+                    }
+                }
+
+                @media print {
+                    header.onlyprint, footer.onlyprint {
+                        display: block;
+                    }
+
+                    
+                    header.page-top-left {
+                        display: block;
+                        position: running(page-top-left);
+                    }
+                    header.page-top-right {
+                        display: block;
+                        position: running(page-top-right);
+                    }
+                    footer.page-bottom-left {
+                        display: block;
+                        position: running(page-bottom-left);
+                    }
+                    footer.page-bottom-right {
+                        display: block;
+                        position: running(page-bottom-right);
+                    }
+                }
+                
+                .currentPage:before { content: counter(page); }
+                .totalPages:before { content: counter(pages); }
+            </style>
+        </head>
+        <body>
+
+                        
+
+<header class="onlyprint page-top-left" style="height: 3cm;top:0;left:0;padding-top:1cm">
+    <img src="{!URLFOR($Resource.Letterhead_Score)}" style="height:2.5cm" />
+</header>
+<header class="onlyprint page-top-right" style="height: 3cm;top:0;right:0;padding-top:1cm;text-align:right;">
+    <img src="{!URLFOR($Resource.Letterhead_KPNEx)}" style="height:2.5cm;right:0;text-align:right;" />
+</header>
+
+<footer class="onlyprint page-bottom-left" style="xbackground-color:blue;left:0;bottom:0;padding-bottom:2cm;height:4cm;">
+Pagina <span class="currentPage"></span> van <span class="totalPages"></span>
+</footer>
+
+
+
+    <h1 style="text-align: center; padding-top:4cm;">
+        Voorstel KPN ÉÉN 2.0
+    </h1>    
+    
+    <p style="margin-top:3cm;">
+        Mobile Miles en KPN brengen deze offerte uit aan :
+    </p>
+
+<table width="100%" styleClass="quoteinfo">
+    <tr>
+        <td style="width: 5cm;">Bedrijf :</td>
+        <td>{!account.name}</td>
+    </tr>
+    <tr>
+        <td style="width: 5cm;">T.a.v. :</td>
+        <td>{!quote.Geslacht__c} {!quote.Achternaam__c}</td>
+    </tr>
+    <tr>
+        <td style="width: 5cm;">Adres :</td>
+        <td>
+        {!quote.BillingStreet}<br/>
+        {!quote.BillingPostalCode} {!quote.BillingCity}
+        </td>
+    </tr>
+</table>
+
+<div style="height: 4cm"/>
+    
+<table width="100%" styleClass="infobox">
+    <tr>
+        <td style="width: 5cm;">Datum :</td>
+        <td>
+            <apex:outputText value="{0, date, dd'-'MM'-'yyyy}">
+                <apex:param value="{!NOW()}" />
+            </apex:outputText>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 5cm;">Opportunity :</td>
+        <td>{!quote.opportunity.Opportunity_nummer__c}</td>
+    </tr>
+    <tr>
+        <td style="width: 5cm;">Geldig t/m :</td>
+        <td>
+            <apex:outputText value="{0, date, dd'-'MM'-'yyyy}">
+                <apex:param value="{!quote.ExpirationDate}" />
+            </apex:outputText>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 5cm;">Uw accountmanager</td>
+                <td >
+            {!verkoper.name}<br/>
+<!--            {!verkoper.Functie__c}<br/>-->
+            {!verkoper.title}<br/>
+            {!verkoper.email}<br/>
+            {!verkoper.Phone}
+        </td>
+    </tr>
+</table>
+
+
+<div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+    
+<c:Quote_Inleiding />
+
+
+<div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+    
+    <c:Quote_Voordelen />
+    
+    <h3>Heeft u nog vragen?</h3>
+    <p>
+        Neem dan gerust contact met mij op via :
+    </p>
+    <p>
+        {!verkoper.name}<br/>
+<!--        {!verkoper.Functie__c}<br/>-->
+        {!verkoper.title}<br/>
+        {!verkoper.email}<br/>
+        {!verkoper.phone}
+
+    </p>
+
+
+    <div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+    <h2>2. Voorstel</h2>
+
+    <apex:repeat value="{!groupedItems}" var="group">
+        <apex:dataTable value="{!group.items}" var="w" styleClass="quoteTable">
+            <apex:column style="width:9.5cm; text-align: left;">
+                <apex:facet name="header"><apex:outputText style="text-align:left;">{!group.name}</apex:outputText></apex:facet>
+                <apex:outputText style="text-align:left;" value="{!w.qli.product2.name}" rendered="{!ISNULL(w.qli.description)}"/>
+                <apex:outputText style="text-align:left;" value="{!w.qli.description}" rendered="{!NOT(ISNULL(w.qli.description))}"/>
+            </apex:column>
+            <apex:column style="width:1.25cm; text-align: right;">
+                <apex:facet name="header"><apex:outputText style="text-align:right;display:block;" value="Aantal"/></apex:facet>
+                <apex:outputText value="{0,number,#.##}">    
+                    <apex:param value="{!w.qli.quantity}"/>
+                </apex:outputText>
+            </apex:column>
+            <apex:column style="width:2.5cm; text-align: right;">
+                <apex:facet name="header"><apex:outputText style="text-align:right;display:block;" value="Prijs per maand"/></apex:facet>
+                <apex:outputText escape="false" value="&euro; {!w.pricePerMonth}" rendered="{! w.pricePerMonth != null && w.pricePerMonth != 0}"/>
+            </apex:column>
+            <apex:column style="width:2.5cm; text-align: right;">
+                <apex:facet name="header"><apex:outputText style="text-align:right;display:block;" value="Totaalprijs" /></apex:facet>
+                <apex:outputText escape="false" value="&euro; {0,number,0.00}"  rendered="{! w.qli.pricebookEntry.Maandelijkse_kosten__c && w.priceTotal != null && w.priceTotal != 0 && group.name != 'Hardware' }">
+                    <apex:param value="{!w.priceTotal}"/>
+                </apex:outputText>
+            </apex:column>
+            <apex:column style="width:3cm">
+                <apex:facet name="header">Eenmalige kosten</apex:facet>
+                <div>
+                    <!-- eenmalige connect kosten. maar bij service moet er wel de install kosten bij -->
+                    <apex:variable var="t" value="{!0}" />
+                    <apex:variable var="t" value="{! t + w.qli.Price_Connect__c * w.qli.Quantity }" rendered="{! w.qli.Price_Connect__c != null }" />
+                    <apex:variable var="t" value="{! t + w.qli.Prijs_eenmalig__c }" rendered="{! w.qli.Prijs_eenmalig__c != null }" />
+                    <apex:variable var="t" value="{! t + w.qli.Price_Installation__c * w.qli.Quantity }" rendered="{! w.qli.Price_Installation__c != null && group.name == 'Service & Diensten' }" />
+                    <apex:outputText escape="false" value="&euro; {0,number,0.00}" rendered="{! t != 0}">
+                        <apex:param value="{!t}"/>
+                    </apex:outputText>
+                </div>
+            </apex:column>
+
+        </apex:dataTable>
+    </apex:repeat>
+           
+ 
+
+    <h2>2.1 Totaal overzicht voorstel en TCO</h2> 
+
+    <apex:variable var="hardwareFromConnectToInstall" value="{!0}" />
+
+    <apex:dataTable value="{!groupedItems}" var="group" styleClass="quoteTable">
+        <apex:column style="width:8cm; text-align: left;">
+            <apex:facet name="header">Details:</apex:facet>
+            <apex:outputText style="align:left;" value="{!group.Name}"/>
+        </apex:column>
+        <apex:column style="width:3cm;text-align:right;">
+            <apex:facet name="header"><apex:outputText style="text-align:right;display:block;" value="Prijs per maand"/></apex:facet>
+            <apex:outputText escape="false" style="text-align:right;display:block;" value="&euro; {!group.totalMonthly}" rendered="{!group.totalMonthly != 0}"/>
+        </apex:column>
+        <apex:column style="width:4cm;text-align:right;">
+            <apex:facet name="header"><apex:outputText style="text-align:right;display:block;" value="Eenmalige kosten (KPN)"/></apex:facet>
+    
+    
+            <div>           
+                <apex:outputText escape="false" style="text-align:right;display:block;" value="&euro; {0,number,0.00}" rendered="{!group.totalSetup != 0 && group.name != 'Hardware'}">
+                    <apex:param value="{!group.totalSetup}" />
+                </apex:outputText>
+            
+                <!--  Bij hardware moeten de eenmalige installatie kosten van KPN bij de montage opgeteld worden.. -->
+            </div>
+        </apex:column>
+        <apex:column style="width:4cm;text-align:right;">
+            <apex:facet name="header"><apex:outputText style="text-align:right;display:block;" value="Eenmalige kosten (MM)"/></apex:facet>
+            
+            <div>
+                <apex:outputText style="text-align:right;display:block;" escape="false" value="&euro; {0,number,0.00}" rendered="{!group.totalInstallation != 0 && group.name != 'Hardware'}">
+                    <apex:param value="{!group.totalInstallation}"/>
+                </apex:outputText>
+
+
+                <!--  Bij hardware moeten de eenmalige installatie kosten van KPN bij de montage opgeteld worden.. -->
+                <apex:variable var="t" value="{!0}" />
+                <apex:variable var="t" value="{! t + group.totalInstallation }" rendered="{! group.totalInstallation != null && group.name == 'Hardware' }" />
+                <apex:variable var="t" value="{! t + group.totalSetup }" rendered="{! group.totalSetup != null && group.name == 'Hardware' }" />
+                <apex:outputText escape="false" style="text-align:right;display:block;" value="&euro; {0,number,0.00}" rendered="{!t != 0 && group.name == 'Hardware'}">
+                    <apex:param value="{!t}"/>
+                </apex:outputText>
+                
+                <!--  totals -->
+                <apex:variable var="hardwareFromConnectToInstall" value="{!hardwareFromConnectToInstall + group.totalSetup }" rendered="{! group.totalSetup != null && group.name == 'Hardware' }" />
+
+            </div>
+        </apex:column>
+        <!-- apex:column style="width:3cm">
+            <apex:facet name="header"></apex:facet>
+            <apex:facet name="footer"></apex:facet>
+            <apex:outputText value=""/>
+        </apex:column-->
+    </apex:dataTable>
+
+    <!--  kan niet in de footer-facet, want die wordt te vroeg gerenderd. -->
+    <table class="quoteTable" border="0" cellpadding="0" cellspacing="0">
+        <tfoot>
+            <tr>
+                <td style="width:8cm; text-align: left;">
+                    <span>Totaal</span>
+                </td>
+                <td style="width:3cm; text-align: right">
+                    <span>
+                        <apex:outputText style="text-align:right;display:block;" escape="false" value="&euro; {0,number,0.00}">
+                            <apex:param value="{!total.totalMonthly}"/>
+                        </apex:outputText>
+                    </span>
+                </td>
+                <td style="width:4cm; text-align: right">
+                    <span>
+                        <apex:outputText style="text-align:right;display:block;" escape="false" value="&euro; {0,number,0.00}">
+                            <apex:param value="{!total.totalSetup - hardwareFromConnectToInstall}"/>
+                        </apex:outputText>
+                    </span>
+                </td>
+                <td style="width:4cm; text-align: right">
+                    <span>
+                        <apex:outputText style="text-align:right;display:block;" escape="false" value="&euro; {0,number,0.00}">
+                            <apex:param value="{!total.totalInstallation + hardwareFromConnectToInstall}"/>
+                        </apex:outputText>
+                    </span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+<table width="100%" style="margin-top: 1em;">
+    <tr>
+        <td width="50%" style="font-size:8pt;">Totale kosten (TCO) over een volledige periode van {!quote.looptijd__c}</td>
+        <td style="font-size:8pt;">
+            
+            <apex:outputText value="&euro; {0, number, 0.00}" escape="false">
+                <apex:param value="{!totalCostOverDuration}"/>
+            </apex:outputText>
+        </td>
+    </tr>
+    <tr>
+        <td style="font-size:8pt;">Per maand komen de TCO kosten dan uit op een bedrag van</td>
+        <td style="font-size:8pt;">
+            <apex:outputText value="&euro; {0, number, 0.00}" escape="false">
+                <apex:param value="{!totalCostOverDurationPerMonth}"/>
+            </apex:outputText>
+        </td>
+    </tr>
+    <tr>
+        <td style="font-size:8pt;">De gesprekstarieven vindt u in de prijslijst die hier is bijgesloten.</td>
+        <td style="font-size:8pt;"></td>
+    </tr>
+
+  
+    <apex:variable var="aantalVerbindingen" value="{!0}" />
+    <apex:repeat value="{!groupedItems}" var="group">
+        <apex:repeat value="{!group.items}" var="w">
+            <apex:variable var="qli" value="{!w.qli}" />
+            <apex:variable var="aantalVerbindingen" value="{!aantalVerbindingen + 1}" rendered="{!qli.KBit_Down__c != null && qli.KBit_Down__c > 0}"/>
+        </apex:repeat>
+    </apex:repeat>
+    <tr style="display: {! IF(aantalVerbindingen == 0, 'none', '') }">
+        <td style="font-size:8pt;">&nbsp;</td>
+        <td style="font-size:8pt;">&nbsp;</td>
+    </tr>
+    <tr style="display: {! IF(aantalVerbindingen == 0, 'none', '') }">
+        <td style="font-size:8pt;"><b>Internetsnelheid</b></td>
+    </tr>
+    <tr style="display: {! IF(aantalVerbindingen == 0, 'none', '') }">
+        <td style="font-size:8pt;">
+            <apex:repeat value="{!groupedItems}" var="group">
+                <apex:repeat value="{!group.items}" var="w">
+                <apex:variable var="qli" value="{!w.qli}" />
+                    <apex:outputPanel rendered="{!qli.KBit_Down__c != null && qli.KBit_Down__c > 0}">
+                        <apex:outputText rendered="{!aantalVerbindingen > 1}">
+                            <b>{!qli.product2.name}:</b><br/> 
+                        </apex:outputText>
+                        Uploadsnelheid {!qli.KBit_Down__c} (kbit/sec) Downloadsnelheid {!qli.KBit_Up__c} (kbit/sec)
+                    </apex:outputPanel>
+                </apex:repeat>
+            </apex:repeat>
+        </td>
+    </tr>
+    <tr style="display: {! IF(aantalVerbindingen == 0, 'none', '') }">
+        <td style="font-size:8pt;" colspan="2">De werkelijke snelheden hangen af van verschillende factoren en kunnen dus afwijken van deze schattingen</td>
+    </tr>
+
+
+<tr>
+        <td style="font-size:8pt;"></td>
+        <td style="font-size:8pt;"></td>
+    </tr>
+    </table>
+<c:Quote_MobileMiles_Korting />
+
+<div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+
+<c:Quote_Stappenplan />
+
+<div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+    
+<c:Quote_Offertevoorwaarden />
+
+
+<div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+    
+<c:Quote_Leveringsvoorwaarden />
+
+
+
+<div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+    
+<c:Quote_KPNVoorwaarden />
+
+<c:Quote_FUP />
+
+
+<div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+    
+
+<c:Quote_Opdrachtprocedure />
+
+<c:Quote_SLA />
+
+
+
+<div style="page-break-after:always;"></div><div style="page-break-before:always;"></div>
+   
+<c:Quote_Betaling />   
+
+
+
+
+    
+
+        </body>
+    </html>
+</apex:page>

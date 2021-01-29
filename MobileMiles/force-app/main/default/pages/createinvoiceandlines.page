@@ -1,0 +1,6 @@
+<apex:page standardController="Bestelling_MM__c" extensions="CreateInvoiceAndLinesController" action="{!createInvoiceAndInvoiceLines}">
+    <apex:sectionHeader title="Sales Invoice" subtitle="Sales Invoice Line Items"/>
+    <apex:pageBlock >
+        <apex:pageMessages />
+    </apex:pageBlock>
+</apex:page>

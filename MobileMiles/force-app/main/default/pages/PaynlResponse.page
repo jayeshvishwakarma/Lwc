@@ -1,0 +1,17 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" standardStylesheets="false">
+  
+  <apex:slds />
+  <div class="slds-align_absolute-center slds-p-vertical_large slds-text-heading_large">
+      Thank You
+  </div> 
+  <div class="slds-align_absolute-center slds-p-vertical_large slds-box slds-theme--success">      
+        <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+            <use href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#success')}">
+            </use>
+        </svg>
+        <h2 class="slds-text-heading--small">
+            Bestelling succesvol verwerkt
+        </h2>
+        
+  </div>
+</apex:page>

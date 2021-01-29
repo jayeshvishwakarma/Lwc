@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <interviewLabel>CC FSL Update Product Required Quantity from Work Order Line Quantity {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CC FSL Update Product Required Quantity from Work Order Line Quantity</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>CC_FSL_Update_Product_Required_Quantity</name>
+        <label>CC FSL Update Product Required Quantity</label>
+        <locationX>147</locationX>
+        <locationY>136</locationY>
+        <filters>
+            <field>Work_Order_Line_Item__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varWorkOrderLineId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>QuantityRequired</field>
+            <value>
+                <elementReference>varWOLQuantity</elementReference>
+            </value>
+        </inputAssignments>
+        <object>ProductRequired</object>
+    </recordUpdates>
+    <startElementReference>CC_FSL_Update_Product_Required_Quantity</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>varWOLQuantity</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
+        <name>varWorkOrderLineId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

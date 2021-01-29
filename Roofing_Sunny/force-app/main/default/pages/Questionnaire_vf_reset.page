@@ -1,0 +1,21 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" standardStylesheets="false" standardController="Report_Status__c">
+     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <apex:stylesheet value="/resource/sldsU/assets/styles/salesforce-lightning-design-system.css"/>
+    </head>
+    <body>
+        <apex:includeLightning />
+        <div id="lightning"/>
+        <script>
+            $Lightning.use("c:QuestionnaireApp", function () {
+                $Lightning.createComponent("c:QuestionnaireCmp", {
+                    reportStatusId: "{!Report_Status__c.Id}",
+                    recordId : "{!Report_Status__c.Related_Record_Id__c }",
+                    maxQuestionsOnPage : "{!Report_Status__c.Questionnaire__r.Max_Question_Count__c}",                    
+                    status : "{!Report_Status__c.Status__c}",
+                    isReset : Boolean("true"),
+                }, "lightning", function (cmp) {});
+            });
+        </script>
+    </body>
+</apex:page>

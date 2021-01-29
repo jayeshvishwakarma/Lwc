@@ -1,0 +1,6 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,lightning:availableForFlowScreens" access="global" >
+	<!-- Pass the recordid in the api property of lwc and performing close event when signature saves -->
+	<aura:attribute name="signCaptured" type="boolean" default="false"/>
+	<aura:attribute name="closePopup" type="boolean" default="false"/>
+	<c:signaturCapture recordId ="{!v.recordId}" onclose="{!c.handleClose}"></c:signaturCapture>
+</aura:component>

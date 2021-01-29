@@ -1,0 +1,15 @@
+<template>
+    <lightning-card> 
+     {label}{countriesCatched}<br/>
+     {total}
+    </lightning-card>
+        <lightning-card>
+            <c-child 
+                    data-my-id="childComp" 
+                    country-names={countries}
+                    onfirst={handleUpload}
+                    >
+            </c-child>
+        </lightning-card>
+    
+    </template>

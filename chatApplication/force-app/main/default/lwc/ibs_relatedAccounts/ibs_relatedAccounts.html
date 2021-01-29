@@ -1,0 +1,38 @@
+<template>
+    <template if:true={result}>
+
+        <!-- <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-12 slds-p-top_x-small">
+                <span><lightning-icon icon-name="standard:account" alternative-text="Account" title="Account"></lightning-icon></span>
+            </div> -->
+
+        <div class="slds-grid slds-wrap slds-p-left_small slds-p-bottom_medium custom-cls">
+            <lightning-icon icon-name="standard:account" alternative-text="Account" title="Account"
+                class="slds-m-top_medium slds-m-right_small" style="background-color: #0a6d0d;">
+            </lightning-icon>
+            <lightning-combobox name="progress" label="" value={result.selectedAcc} placeholder="Select Account"
+                options={result.listOfOptions} onchange={handleChange} style="width: 300px;"></lightning-combobox>
+        </div>
+        <!-- <div class="slds-col slds-size_5-of-12 slds-p-top_x-small">
+                
+            </div>
+        </div> -->
+
+        <!-- <lightning-layout multiple-rows>
+    <lightning-layout-item size="6">
+        <lightning-combobox
+        name="progress"
+        label=""
+        value={result.selectedAcc}
+        placeholder="Select Account"
+        options={result.listOfOptions}
+        onchange={handleChange} ></lightning-combobox>
+        Bedrijfsgegevens
+    </lightning-layout-item>
+    <lightning-layout-item size="5" padding="around-small">
+    </lightning-layout-item>
+    
+</lightning-layout>  -->
+
+    </template>
+</template>

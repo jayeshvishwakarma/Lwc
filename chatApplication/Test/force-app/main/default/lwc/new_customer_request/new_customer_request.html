@@ -1,0 +1,131 @@
+<template>
+    <div class="processing">
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+    </div>
+    <template if:false={success}>
+        
+    <fieldset class="slds-form-element slds-form-element_compound">
+        <legend class="slds-form-element__legend slds-form-element__label">
+                Nieuwe account aanvragen <br/><br/>
+                <p style="font-weight: normal">
+                Vul onderstaand formulier in om een nieuwe account aan te vragen. <br/>
+                
+                Is er al een account actief op uw e-mailadres vraag dan een nieuw wachtwoord aan via <a href="/s/login/ForgotPassword">Wachtwoord vergeten</a></p><br/>
+        </legend>
+       
+        <div class="slds-form-element__control">
+                <template if:true={errMsg}>
+                        <div class="slds-form-element__row">
+                                <div class="slds-size_1-of-1">
+                                    <div class="slds-form-element" style="color:red;">
+                                            {errMsg}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                   
+                </template>
+            <div class="slds-form-element__row">
+                <div class="slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="input-01"><abbr class="slds-required" title="required">* </abbr>Klantnummer </label>
+                        <div class="slds-form-element__control">
+                            <input type="text" name="Klantnummer" id="Klantnummer" class="slds-input required" required="" onchange={genericOnChange} value={Klantnummer}/>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="slds-form-element__row">
+                <div class="slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="input-01">Aanhef </label>
+                        <div class="slds-form-element__control">
+                            <select name="Aanhef" onchange={genericOnChange}>
+                                    <option value="">--None--</option>
+                                <option value="Beste heer">Beste heer</option>
+                                <option value="Beste mevrouw">Beste mevrouw</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="slds-form-element__row">
+                <div class="slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="input-01">Voornaam</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="Voornaam" name="Voornaam" class="slds-input" onchange={genericOnChange}/>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="slds-form-element__row">
+                <div class="slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="input-01"><abbr class="slds-required" title="required">* </abbr>Achternaam</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="Achternaam" name="Achternaam" class="slds-input required" required="" onchange={genericOnChange}/>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="slds-form-element__row">
+                <div class="slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="input-01"><abbr class="slds-required" title="required">* </abbr>E-mail</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" name="Email" id="Email" class="slds-input required" required="" onchange={genericOnChange}/>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="slds-form-element__row">
+                <div class="slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="input-01">Telefoon</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="Telefoon" name="Telefoon" class="slds-input" onchange={genericOnChange}/>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="slds-form-element__row">
+                <div class="slds-size_1-of-1">
+                    <div class="slds-form-element">
+                        <button class="slds-button slds-button_brand" onclick={submitRecord}>Verstuur</button>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </fieldset>
+    
+ 
+    </template>
+
+    <template if:true={success}>
+
+            <div class="demo-only" style="height:4rem">
+                    <div class="slds-notify_container slds-is-relative">
+                    <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+                    <span class="slds-assistive-text">success</span>
+                   
+                    <div class="slds-notify__content">
+                    <h2 class="slds-text-heading_small ">Uw aanvraag is in behandeling</h2>
+                    </div>
+                    <div class="slds-notify__close">
+                    
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+    </template>
+</template>

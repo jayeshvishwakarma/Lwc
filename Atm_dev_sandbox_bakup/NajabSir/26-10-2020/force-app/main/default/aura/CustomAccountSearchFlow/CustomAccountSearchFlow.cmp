@@ -1,0 +1,9 @@
+<aura:component implements="lightning:availableForFlowScreens">
+
+    <aura:attribute name="deviceFormFactor" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <c:customAccountSearch deviceFormFactor="{!v.deviceFormFactor}" />
+
+</aura:component>

@@ -1,0 +1,3 @@
+<apex:page standardController="Account" action="{!callModifyContractTerminationAPI}" extensions="ModifyContractTerminationAll">
+    <apex:pageMessages escape="false"  />
+</apex:page>

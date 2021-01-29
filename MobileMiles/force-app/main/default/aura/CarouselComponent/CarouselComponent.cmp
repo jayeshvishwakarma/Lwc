@@ -1,0 +1,36 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:handler name="init" action="{!c.doInt}" value="{!this}" />  
+    <aura:attribute name="sliderMap" type="map" description="get Map to Carousel_slider component "/>
+    <aura:attribute name="sliderlist" type="Carousel_Slides__c[]" description="list of Carousel_Slides__c object "/>
+    <aura:attribute name="slideCount" type="string[]" description=" If slider images is less then 3 then set values"/>
+    <aura:attribute name="slideIsactive" type="string" description=" get string to Carousel_slider component"/>
+    <aura:attribute name="slideMinThree" type="boolean" default="false" description="check slider images is less then 3 then set value true"/>
+    <!-- Carousel items -->
+    <aura:iteration items="{!v.sliderlist}"  var="slides" indexVar="index">
+        <div class="{!'carousel-item  col-md-4 '  + v.slideIsactive}">
+            <div class="panel panel-default mr-1  border rounded ">
+                <div class="panel-thumbnail" >
+                    <a class="col-4" href="{!slides.Website_URL__c}" target="_BLANK" style="padding:0px"><img alt="" class="w-100 p-3 h-100 img-company" src="{!slides.Image_Url__c}"/></a>
+                    <div class="col-8 row pt-1">
+                        <br/>
+                        <p class="col-12 desc">{!slides.Description__c} <br/>
+                        <p class="title"><b>{!slides.Title1__c}</b>{!slides.Title2__c}</p>
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:iteration>
+    <!--<aura:if isTrue="{!v.slideMinThree}"> 
+                <aura:iteration items="{!v.slideCount}"  var="slides" indexVar="index">
+                    <div class="col-sm ">
+                        <img alt="" class="col-6 w-25 h-100" src=""/>
+                        <div class="col-6 row">
+                            <h5 class="col-12"></h5><br/>
+                            <p class="col-12"></p>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </aura:if>-->
+</aura:component>

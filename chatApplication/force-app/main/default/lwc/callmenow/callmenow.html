@@ -1,0 +1,50 @@
+<template>
+    <lightning-card title="Bel me nu" icon-name="utility:call">
+        <div class="processing">
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </div>
+        <lightning-layout multiple-rows>
+            
+            <lightning-layout-item padding="around-medium">
+
+                    <template if:true={isError}>                        
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_error success-msg" role="status">
+                                <span class="slds-assistive-text">Error</span>
+                                <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small ">Call did not connect
+                                </h2>
+                                </div>
+                                <div class="slds-notify__close"></div>
+                            </div>
+                        </div>                        
+                    </template>
+                    <template if:true={isSuccess}>                        
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_success success-msg" role="status">
+                                <span class="slds-assistive-text">success</span>
+                                <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small ">Connected Successfully                                </h2>
+                                </div>
+                                <div class="slds-notify__close"></div>
+                                </div>
+                        </div>                                                 
+                    </template>
+                    
+
+                <lightning-input
+                            data-txt-id="telNo"
+                            name="telNo"
+                            label="Telefoonnummer"                            
+                            type="tel"                             
+                            class="phone"
+                            >
+                </lightning-input>
+                <p>Voer uw telefoonnummer in en krijg direct één van onze adviseurs aan de telefoon.</p>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-medium" class="slds-align_absolute-center">
+                 <lightning-button variant="brand" label="Ok" onclick={handleOk} title="Ok" class="slds-m-left_x-small"></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

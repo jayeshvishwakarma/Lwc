@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>LJQ_Pending_Task_Notification</fullName>
+        <description>LJQ Pending Task Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>systemroofing@saint-gobain.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>unfiled$public/LJQ_Task_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>NPS_Action_Needed_Past_Due</fullName>
+        <description>NPS Action Needed Past Due</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>jennifer.a.bower@saint-gobain.com.rpg</recipient>
+            <type>user</type>
+        </recipients>
+        <senderAddress>systemroofing@saint-gobain.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>unfiled$public/NPS_Action_Need_Task_Past_Due</template>
+    </alerts>
+    <rules>
+        <fullName>LJQ Task Notifier</fullName>
+        <active>true</active>
+        <booleanFilter>(1 AND 2 AND 3) AND (4 OR 5 OR 6)</booleanFilter>
+        <criteriaItems>
+            <field>Task.Status</field>
+            <operation>equals</operation>
+            <value>Not Started</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Task.Type</field>
+            <operation>notEqual</operation>
+            <value>Phone Call/Conference Call</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Task.Subject</field>
+            <operation>notEqual</operation>
+            <value>Survey Received</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Task.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CX Task</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Task.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insight Sales Task</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Task.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>General Task</value>
+        </criteriaItems>
+        <description>A workflow to trigger notification email for pending LJQ Tasks.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>LJQ_Pending_Task_Notification</name>
+                <type>Alert</type>
+            </actions>
+            <offsetFromField>Task.ActivityDate</offsetFromField>
+            <timeLength>-1</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+</Workflow>

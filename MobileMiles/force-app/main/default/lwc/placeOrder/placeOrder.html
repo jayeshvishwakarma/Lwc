@@ -1,0 +1,191 @@
+<template>
+
+    <lightning-spinner if:true={isSpinner} variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
+
+
+
+    <div class="container">
+        <div class="slds-align_absolute-center slds-p-vertical_medium">
+            <lightning-button variant="brand-outline" onclick={handleBestellingClick} label="Bestelling verwerken">
+            </lightning-button>
+        </div>
+
+        <div class="header slds-p-vertical_medium">
+            <div class="slds-text-heading_medium slds-p-around_small">Bestelling</div>
+        </div>
+
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="12" padding="around-large" small-device-size="12" medium-device-size="12"
+                large-device-size="6">
+                <lightning-combobox name="AccountNames" label="Selecteer bedrijf" value={selectedAccount}
+                    options={accountOptions} onchange={handleAccountOptionChange}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="12"
+                large-device-size="12">
+                <div if:true={responseWrapper} class="slds-box">
+                    <label class="slds-text-heading_large">Verzendadres</label>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                            medium-device-size="6" large-device-size="4">
+                            <lightning-input type="text" name="Straat__c" value={responseWrapper.objAccount.Straat__c}
+                                onchange={handleInputChange} label="Straat">
+                            </lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                            medium-device-size="6" large-device-size="4">
+                            <lightning-input type="text" name="Huisnummer__c"
+                                value={responseWrapper.objAccount.Huisnummer__c} onchange={handleInputChange}
+                                label="Huisnummer"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                            medium-device-size="6" large-device-size="4">
+                            <lightning-input type="text" name="Huisnummer_toevoeging__c"
+                                value={responseWrapper.objAccount.Huisnummer_toevoeging__c} onchange={handleInputChange}
+                                label="Huisnummer toevoeging"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                            medium-device-size="6" large-device-size="4">
+                            <lightning-input type="text" name="ShippingPostalCode"
+                                value={responseWrapper.objAccount.ShippingPostalCode} onchange={handleInputChange}
+                                label="Shipping Zip/Postal Code"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+                            medium-device-size="6" large-device-size="4">
+                            <lightning-input type="text" name="ShippingCity"
+                                value={responseWrapper.objAccount.ShippingCity} onchange={handleInputChange}
+                                label="Shipping City"></lightning-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="6"
+                large-device-size="6">
+                <div if:true={responseWrapper} class="slds-box">
+                    <div class="slds-text-heading_large slds-m-bottom_x-small">Contactpersoon</div>
+                    <ul>
+                        <li><label class="slds-form-element__label">Full Name</label></li>
+                        <li class="value-tag">{responseWrapper.objContact.Name}</li>
+                        <li><label class="slds-form-element__label">Email</label></li>
+                        <li class="value-tag">{responseWrapper.objContact.Email}</li>
+                    </ul>
+                </div>
+                <br />
+                <div if:true={responseWrapper} class="slds-box">
+                    <div class="slds-text-heading_large slds-m-bottom_x-small">Factuuradres</div>
+                    <ul>
+                        <li><label class="slds-form-element__label">Billing Street</label></li>
+                        <li class="value-tag">{responseWrapper.objAccount.BillingStreet}</li>
+                        <li><label class="slds-form-element__label">Billing City</label></li>
+                        <li class="value-tag">{responseWrapper.objAccount.BillingCity}</li>
+                        <li><label class="slds-form-element__label">Billing Zip/Postal Code</label></li>
+                        <li class="value-tag">{responseWrapper.objAccount.BillingPostalCode}</li>
+                    </ul>
+                </div>
+
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="6"
+                large-device-size="6">
+                <div if:true={responseWrapper} class="slds-box">
+                    <div class="slds-text-heading_large slds-m-bottom_x-small">Betaling</div>
+                    <ul>
+                        <li><label class="slds-form-element__label">Totaalbedrag excl. BTW</label></li>
+                        <li class="value-tag">&euro; {totalAmounts.amount}</li>
+                        <li><label class="slds-form-element__label">BTW bedrag</label></li>
+                        <li class="value-tag">&euro; {totalAmounts.vat}</li>
+                        <li><label class="slds-form-element__label">Nog te voldoen incl. BTW</label></li>
+                        <li class="value-tag">&euro; {totalAmounts.paidAmount}</li>
+                        <lightning-record-edit-form if:true={selectedAccount} record-id={selectedAccount}
+                            object-api-name="Account">
+                            <div class="slds-hide">
+                                <lightning-input-field field-name="Betalingscondities__c">
+                                </lightning-input-field>
+                            </div>
+                            <lightning-input-field onchange={handlePaymentMethodChnage} field-name="Betaalwijze_bestelling__c">
+                            </lightning-input-field>
+                        </lightning-record-edit-form>
+                        <li>
+                            <lightning-input type="text" onchange={handleInkoopnummerChange} value={inkoopnummer}
+                                label="Inkoopnummer"></lightning-input>
+                        </li>
+                    </ul>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="12"
+                large-device-size="12">
+                <div class="slds-box">
+                    <div class="slds-text-heading_large slds-m-bottom_x-small">Productoverzicht</div>
+                    <div style="width:100%" class="scrollit">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered" width="100%">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="width: 5%">
+                                    <div class="slds-truncate"></div>
+                                </th>
+                                <th scope="col" style="width: 45%">
+                                    <div class="slds-truncate" title="PRODUCTNAAM">PRODUCTNAAM</div>
+                                </th>
+                                <th scope="col" style="width: 11%">
+                                    <div class="slds-truncate" title="PRIJS PER STUK">PRIJS PER STUK </div>
+                                </th>
+                                <th scope="col" style="width: 13%">
+                                    <div class="slds-truncate" title="HOEVEELHEID">HOEVEELHEID </div>
+                                </th>
+                                <th scope="col" style="width: 13%">
+                                    <div class="slds-truncate" title="TOESTELVERZEKERING">TOESTELVERZEKERING</div>
+                                </th>
+                                <th scope="col" style="width: 13%">
+                                    <div class="slds-truncate" title="TOTAAL PER MAAND">TOTAAL PER MAAND</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template if:true={selectedProducts}>
+                                <template for:each={selectedProducts} for:item="objProduct" for:index="index">
+                                    <tr class="slds-hint-parent" key={objProduct.Id}>
+                                        <td data-label="PRODUCTNAAM">
+                                            <lightning-icon icon-name="action:close" size="xx-small"
+                                                alternative-text="remove" data-id={objProduct.Id} data-index={index}
+                                                onclick={handleRemoveProduct}></lightning-icon>
+                                        </td>
+                                        <td data-label="PRODUCTNAAM">
+                                            <div title={objProduct.Product2.Name}> {objProduct.Product2.Name} </div>
+                                        </td>
+                                        <td data-label="PRIJS PER STUK">
+                                            <div class="slds-truncate" title="unitprice">&euro; {objProduct.UnitPrice}</div>
+                                        </td>
+                                        <td data-label="HOEVEELHEID">
+                                            <div class="slds-truncate">
+                                                <lightning-input type="number" min="1" label="Quantity"
+                                                    variant="label-hidden" value={objProduct.hoeveelheid}
+                                                    data-index={index} data-id={objProduct.Id}
+                                                    onchange={handleQuantityChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </td>
+                                        <td data-label="TOESTELVERZEKERING" style="white-space :break-spaces">
+                                            <div title="TOESTELVERZEKERING">
+                                                <lightning-combobox name="Toestelverzekering" label="Toestelverzekering"
+                                                    variant="label-hidden" value={objProduct.applianceInsuranc}
+                                                    options={applianceInsurancOptions} data-index={index}
+                                                    onchange={handleChangeApplianceInsuranc}></lightning-combobox>
+                                            </div>
+                                        </td>
+                                        <td data-label="TOTAAL PER MAAND">
+                                            <div if:true={objProduct.totalPerMonth} class="slds-truncate"
+                                                title="TOTAAL PER MAAND">&euro; {objProduct.totalPerMonth}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </template>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+    <div class="slds-align_absolute-center slds-p-vertical_medium">
+            <lightning-button variant="brand-outline" onclick={handleBestellingClick} label="Bestelling verwerken">
+            </lightning-button>
+        </div>
+</template>

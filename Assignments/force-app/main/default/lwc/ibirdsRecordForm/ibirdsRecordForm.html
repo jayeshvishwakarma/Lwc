@@ -1,0 +1,15 @@
+<template>
+    <!-- record-id={recordId}   for updation or Creation of account or contact jo bhi ho 
+    or agr apko sirf creation krna ho to record id htata do  -->
+    <lightning-record-form 
+        object-api-name={objectApiName}
+        layout-type="Full"
+        mode="edit"
+        columns="2"
+        onsubmit={handleSubmit}
+        onsave={handleSave}
+        onerror={handleError}
+    >
+    </lightning-record-form>
+    
+</template>

@@ -1,0 +1,9 @@
+<apex:page sidebar="false" showHeader="false">
+   <br/>
+   <br/>
+   <br/>
+   <br/>
+   <br/>
+   <br/>
+  <center><h1 style="font-size:20px;color:green;">Energy1 Home</h1></center>
+</apex:page>

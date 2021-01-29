@@ -1,0 +1,24 @@
+<apex:page standardController="Porteringen_mobiel__c"  sidebar="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Print a Label</title> 
+    <script src="{!$Resource.dymoFramework}" type="text/javascript" charset="UTF-8"> </script>
+    <script src="{!$Resource.printLabel}" type="text/javascript" charset="UTF-8"> </script>
+</head>
+
+<body>
+ 
+        {!Porteringen_mobiel__c.X06_097_nummer__c}  {!Porteringen_mobiel__c.Label_label__c} {!Porteringen_mobiel__c.Datum_actief_label__c} <apex:outputText value="{0, date, dd'-'MM'-'yyyy}">  <apex:param value="{!Porteringen_mobiel__c.Datum_actief__c}" />
+       
+                
+            </apex:outputText>
+              
+        
+       
+</body> 
+ 
+</html> 
+
+ 
+</apex:page>

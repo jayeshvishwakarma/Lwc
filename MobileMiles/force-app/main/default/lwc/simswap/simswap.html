@@ -1,0 +1,181 @@
+<template>
+        <div class="processing">
+           <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </div>
+        <article class="slds-card">
+           <div class="slds-card__header slds-grid">
+              <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                 <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:phone_portrait" size="small"></lightning-icon>
+                 </div>
+                 <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                       <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                       <span>Nieuwe SIM-kaart activeren</span>
+                       </a>
+                    </h2>
+                 </div>
+              </header>
+           </div>
+           <div class="slds-card__body slds-card__body_inner">
+              <template if:false={isSuccess}>
+                 <div class="slds-form-element slds-m-bottom_small">
+                    <template if:true={errMsg}>
+                       <label class="slds-form-element__label errMsg" for="form-element-01">{errMsg}</label>
+                    </template>
+                 </div>
+                 <!--Start by ranu on 16th may 2020 for child accounts-->
+                 <div class="slds-form-element slds-m-bottom_small">
+                     <label class="slds-form-element__label" for="form-element-01">Selecteer Account</label>
+                     <div class="slds-form-element__control">
+                        <select onchange={accountChange} class="selectType">
+                           <template if:true={allAccounts}>
+                              <template for:each={allAccounts} for:item="acc">
+                                 <option key={acc.Id} value={acc.Id}>{acc.Name}</option>
+                              </template>
+                           </template>
+                        </select>
+                     </div>
+                  </div>
+                 <!--End of child accounts work-->
+                 <div class="slds-form-element slds-m-bottom_small">
+                    <label class="slds-form-element__label" for="form-element-01">Type aanvraag</label>
+                    <div class="slds-form-element__control">
+                       <select onchange={typeChange} class="selectType">
+                          <option value="">--None--</option>
+                          <option value="ActivateSim">Nieuwe SIM-kaart activeren voor actieve aansluiting</option>
+                          <option value="NewMobileSubscription">Nieuw mobiel abonnement aanvragen</option>
+                       </select>
+                    </div>
+                 </div>
+                 <template if:true={ActivateSim}>
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="form-element-01">Mobiel nummer</label>
+                       <div class="slds-form-element__control">
+                          <select onchange={pmChange} class="porter-mobile">
+                             <option value="">--None--</option>
+                             <template if:true={pmrecords}>
+                                <template for:each={pmrecords} for:item="pm">
+                                   <option key={pm.Id} value={pm.Id}>{pm.X06_097_nummer__c}</option>
+                                </template>
+                             </template>
+                          </select>
+                       </div>
+                    </div>
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="form-element-01">Type profiel</label>
+                       <div class="slds-form-element__control">
+                        <template if:true={pm}>
+                           {pm.Product_KPN_EEN_VAMO__c}
+                        </template>  
+                       </div>
+                    </div>
+                 </template>
+                 <template if:true={NewMobileSubscription}>
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="form-element-01">Nieuw nummer</label>
+                       <div class="slds-form-element__control">
+                          <select onchange={typeChange} class="nummer-behoud">
+                             <option value="">--None--</option>
+                             <option value="NewNumber">Nieuw nummer</option>
+                             <option value="Portering">Portering</option>
+                          </select>
+                       </div>
+                    </div>
+                 </template>
+                 <template if:true={Portering}>
+                    <!--<lightning-input  name="input1" class="portering-name" label="06/097-" value={inputPorteringName} onchange={inpPorteringNameChange}></lightning-input>
+                       -->
+                    <label class="slds-form-element__label" for="06/097-">06/097-</label>
+                    <div class="slds-form-element__control">
+                       <input type="text" name="Portering" class="portering-name" value={inputPorteringName} 
+                          onchange={setInputValueOnChange} />
+                    </div>
+                 </template>
+                 <template if:true={Portering}>
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="form-element-01">Huidige provider</label>
+                       <div class="slds-form-element__control">
+                          <select onchange={providerChange} class="huidige-provider" >
+                             <option value="">--None--</option>
+                             <template if:true={providers.data}>
+                                <template for:each={providers.data} for:item="provider">
+                                   <option key={provider} value={provider}>{provider}</option>
+                                </template>
+                             </template>
+                          </select>
+                       </div>
+                    </div>
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="Klantnummer"> Klantnummer bij huidige provider </label>
+                       <div class="slds-form-element__control">
+                          <input type="text" name="Klantnummer" class="klant-nummer" value={inputKlantnummer} onchange={setInputValueOnChange} />
+                       </div>
+                    </div>
+                 </template>
+                 <template if:true={simKaartNumber}>
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="form-element-01">SIM-kaartnummer</label>
+                       <div class="slds-form-element__control">
+                          <input type="text" name="simKaartNum" class="simKaartNum" value={inputSimKaartNumber} onchange={setInputValueOnChange} onkeypress={isNumberKey} />
+                       </div>
+                    </div>
+                 </template>
+                 <template if:true={NewMobileSubscription}>
+                    <!--New added by Soyab Start-->
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="Label">Label</label>
+                       <div class="slds-form-element__control">
+                          <input type="text" name="Label" class="label" value={label} onchange={setInputValueOnChange}/>
+                       </div>
+                    </div>
+                    <!--New added by Soyab end-->
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <label class="slds-form-element__label" for="form-element-01">KPN ÉÉN Mobiel product</label>
+                       <div class="slds-form-element__control">
+                          <select onchange={productChange} class="mobile-product">
+                             <option value="">--None--</option>
+                             <template for:each={products} for:item="pm">
+                                <option key={pm.Product_KPN_EEN__c} value={pm.Product_KPN_EEN__c}>{pm.Product_KPN_EEN__r.Name}</option>
+                             </template>
+                          </select>
+                       </div>
+                    </div>
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <lightning-input type="checkbox" label="VAMO/Anywhere" onchange={handleVamoChange}></lightning-input>
+                    </div>
+                    <div class="slds-form-element slds-m-bottom_small">
+                       <div class="slds-form-element__control">
+                          <template if:true={selectProduct}>
+                             <lightning-record-view-form
+                                record-id={selectProduct.Id}
+                                object-api-name="Porteringen_mobiel__c">
+                                <lightning-output-field field-name="Netto_prijs_per_maand__c">
+                                </lightning-output-field>
+                             </lightning-record-view-form>
+                          </template>
+                       </div>
+                    </div>
+                 </template>
+                 <br/>
+                 <button class="slds-button slds-button_brand" onclick={handleSubmit}>Verstuur</button>
+              </template>
+              <template if:true={isSuccess}>
+                 <div class="demo-only" style="height:4rem;  ">
+                    <div class="slds-notify_container slds-is-relative">
+                       <div class="errMsg">
+                          {errMsg}
+                       </div>
+                       <div class="slds-notify slds-notify_toast slds-theme_success success-msg" role="status">
+                          <span class="slds-assistive-text">success</span>
+                          <div class="slds-notify__content">
+                             <h2 class="slds-text-heading_small ">uw aanvraag is in behandeling</h2>
+                          </div>
+                          <div class="slds-notify__close"></div>
+                       </div>
+                    </div>
+                 </div>
+              </template>
+           </div>
+        </article>
+</template>

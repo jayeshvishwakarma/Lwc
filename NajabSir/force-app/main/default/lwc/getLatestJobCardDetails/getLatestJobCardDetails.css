@@ -1,0 +1,24 @@
+:host>div {
+    background-color: white;
+}
+
+.slds-page-header {
+    box-shadow: 0 0px 0px 0;
+}
+
+:host.disabled>div {
+    pointer-events: none;
+}
+
+.exampleHolder{
+    width: 37rem;
+    height: 80px;
+}
+
+.customRequired{
+    font-weight: 400; } .customRequired:before{    
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; } .none{
+    display:none; }

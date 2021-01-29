@@ -1,0 +1,43 @@
+<apex:component >
+    <h2>
+        5. Leveringsvoorwaarden
+    </h2>    
+
+    <h3>Levertijd</h3>
+    <p>
+        De levertijd van de aangeboden apparatuur wordt in overleg met u vastgesteld. 
+        Standaard levertijd bedraagt minimaal 6 weken na ontvangst van uw opdracht.
+    </p> 
+
+    <h3>Voorwaarden</h3>
+    <p>
+        Op deze offerte en de diensten van KPN zijn de Algemene Leveringsvoorwaarden KPN van toepassing. 
+        De overeenkomst, inclusief de bijlagen en nadere overeenkomsten, zijn steeds de daarbij 
+        vermelde en van toepassing verklaarde algemene (aanvullende) dienstspecifieke voorwaarden van toepassing;
+    </p>
+    <ul>
+<li>Algemene leveringsvoorwaarden van KPN.</li>
+<li>Algemene Voorwaarden Mobiele Telecomdiensten</li>
+<li>Algemene Voorwaarden Elektronische Communicatiediensten</li>
+<li>Aanvullende Voorwaarden Zakelijke Elektronische Communicatiediensten </li>
+<li>Aanvullende Voorwaarden Zakelijk Mobiel</li>
+<li>Dienstbeschrijving KPN ÉÉN</li>
+<li>Specifieke KPN ÉÉN Voorwaarden</li>
+<li>Leveringsvoorwaarden Mobile Miles</li>
+    </ul>
+    <p>
+        De voorwaarden zijn, indien u deze niet heeft ontvangen, gratis aan te vragen 
+        via de Business Servicedesk via het gratis nummer 0800-0408 of op kpn.com/allevoorwaarden.
+    </p>
+    
+    <h3>Protocol van Oplevering</h3>
+    <p>
+        De technische indienststelling vindt plaats aan de hand van een 
+        test en een korte begeleiding door KPN, 
+        waarna beide partijen het Protocol van Oplevering ondertekenen.
+    </p>
+    <h3>Vergoeding</h3>
+    <p>
+        KPN is gerechtigd de tarieven te wijzigen conform het bepaalde in de toepasselijke algemene voorwaarden.
+    </p>
+</apex:component>

@@ -1,0 +1,27 @@
+<template>
+    <div class="slds-m-around_large">
+        <lightning-card title="Contact-Records" icon-name="standard:contact">
+            <lightning-combobox
+                    name="contactCity"
+                    label="Select City"
+                    value={selectedCity}
+                    options={cityOptions}    
+            >
+            </lightning-combobox>
+            <hr>
+            <lightning-datatable
+                key-field="id"
+                columns={fieldNames}
+                data={lstContactRecords}
+
+            >
+            </lightning-datatable>
+            <lightning-button
+            label="Refresh"
+            onclick={handleRefresh}
+            slot="footer"
+            >
+            </lightning-button>
+            </lightning-card>
+    </div>
+</template>

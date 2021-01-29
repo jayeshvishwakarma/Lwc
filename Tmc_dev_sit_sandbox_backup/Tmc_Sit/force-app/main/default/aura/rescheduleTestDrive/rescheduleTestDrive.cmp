@@ -1,0 +1,3 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+	<c:editTestDrive recordId="{!v.recordId}" updateType="True"></c:editTestDrive>
+</aura:component>

@@ -1,0 +1,69 @@
+<apex:page standardController="Quote" tabStyle="quote" extensions="EditAllPorteringenMobielController">
+    <!-- Heading -->
+  
+    
+    <apex:form id="frm">
+        <apex:pagemessages />
+        
+        <apex:pageBlock rendered="{!mobielList.size == 0}">
+            No record found for {!quote.name} 
+        </apex:pageBlock>
+        <!-- Block / Section -->
+        <apex:pageBlock rendered="{!mobielList.size > 0}">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockTable value="{!mobielList}" var="obj">
+            
+                <apex:column headerValue="EPOA aanvragen">
+                    <apex:inputField value="{!obj.Aanvraag_Vrijgeven_voor_Migratie__c}"/>
+                </apex:column>
+                               
+                
+                
+             <apex:column headerValue="06/097-">
+                    <apex:inputField value="{!obj.name}"/>
+                                </apex:column>
+                                <apex:column headerValue="IRMA OrderId">
+                    <apex:inputField value="{!obj.IRMA_Id__c}"/>
+                                </apex:column>
+                                <apex:column headerValue="KPN ÉÉN SIM-kaart">
+                    <apex:inputField value="{!obj.Nieuw_SIM_kaart_nummer__c}"/>
+                </apex:column>
+                <apex:column headerValue="PUK-code">
+                    <apex:inputField value="{!obj.PUK_code__c}"/>
+                </apex:column>
+            
+                <apex:column headerValue="Datum actief">
+                    <apex:inputField value="{!obj.Datum_actief__c}"/>
+                </apex:column>
+                
+                <apex:column headerValue="Profieltype">
+                    <apex:inputField value="{!obj.Profiel__c}"/>
+                </apex:column>
+               
+                              
+                                
+                      
+                        <apex:column headerValue="Huidige provider">
+                    <apex:inputField value="{!obj.Naam_huidige_provider__c}"/>
+                </apex:column>        
+                    <apex:column headerValue="Type">
+                    <apex:inputField value="{!obj.Type__c}"/>
+                </apex:column>
+                                <apex:column headerValue="Klantnummer">
+                    <apex:inputField value="{!obj.Klant_nummer__c}"/>
+                </apex:column>                             
+                <apex:column headerValue="Einddatum contract">
+                    <apex:inputField value="{!obj.Datum_eind_contract__c}"/>
+                </apex:column>
+            
+                    <apex:column headerValue="GREXX status">
+                    <apex:inputField value="{!obj.GREXX_status_update__c}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,109 @@
+<template>
+    <template if:true={isSpinnerShow}>
+        <lightning-spinner variant="brand" size="medium" alternative-text="loading"></lightning-spinner>
+    </template>
+
+    <div class="slds-text-color_error" if:true={errorMessage}>
+        <div class="slds-m-top_medium"></div>
+        {errorMessage}
+    </div>
+
+
+    <template if:true={isFormReadyToShow}>
+        <lightning-record-edit-form object-api-name={sObjectName} onsubmit={handleSubmitRec}
+            record-type-id={recordTypeId} record-id={recordId}>
+            <div id="case-information-section" class="slds-section slds-is-open">
+                <h3 class="slds-section__title slds-theme_shade backgroundColor">
+                    <span class="slds-truncate slds-p-horizontal_small" title="Case Information">Case
+                        Information </span>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content">
+                    <lightning-layout multiple-rows>
+                         <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                            large-device-size="6" padding="horizontal-small">
+                            <lightning-combobox class="slds-p-horizontal--xx-small" name="primaryCategory"
+                                label="Primary Category" value={caseObject.Primary_Category_ID__c}
+                                placeholder="Please select" required disabled={isPrimaryCategoryDisabled}
+                                options={primaryCategoryOptions} onchange={handlePrimaryCategoryChange}>
+                            </lightning-combobox>
+                            <!--disabled={valuesObj.isPrimaryCategoryDisabled}-->
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                            large-device-size="6" padding="horizontal-small">
+                            <lightning-combobox class="slds-p-horizontal--xx-small" name="secondaryCategory"
+                                label="Secondary Category" value={caseObject.Secondary_Category_ID__c}
+                                placeholder="Please select" disabled={isSecondaryCategoryDisabled}
+                                options={secondaryCategoryOptions} onchange={handleSecondaryCategoryChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                            large-device-size="6" padding="horizontal-small">
+                            <lightning-combobox class="slds-p-horizontal--xx-small" name="tertiaryCategory"
+                                label="Tertiary Category" value={caseObject.Tertiary_Category_ID__c}
+                                placeholder="Please select" disabled={isTertiaryCategoryDisabled}
+                                options={tertiaryCategoryOptions} onchange={handleTertiaryCategoryChange}>
+                            </lightning-combobox>
+
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6"
+                            large-device-size="6" padding="horizontal-small">
+                            <template if:false={ownerData}>
+                                <c-search-component name="caseOwner" label="Case Owner" onchange={handleOwnerSearch}
+                                    place-holder-name="Search Case Owner" class="customRequired"
+                                    onclick={handleOwnerSearch} required>
+                                </c-search-component>
+                            </template>
+                            <template if:false={ownerData}>
+                                <div if:true={caseOwnerSearchResult}>
+                                    <div for:each={caseOwnerSearchResult} for:item="record" key={record.Id}>
+                                        <c-record-list key={record.Id} record={record} onselect={handleOwnerSelection}
+                                            iconname="standard:employee" case-owner-data=true>
+                                        </c-record-list>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:true={ownerData}>
+                                <label class="slds-form-element__label customRequired">Case
+                                    Owner</label>
+                                <input class="slds-input slds-combobox__input
+                                                                                       slds-combobox__input-value"
+                                    id="combobox-id-5" aria-controls="listbox-id-5" autocomplete="off" role="textbox"
+                                    type="text" placeholder="Select an Option" value={caseOwnerName} />
+                                <button
+                                    class="sicon_container slds-button slds-button_icon 
+                                                                                                        slds-input__icon slds-input__icon_right"
+                                    title="Remove selected option" style="padding-left: 88%; margin-top: -18%;"
+                                    onclick={handleRemove}>
+                                    <lightning-icon icon-name="utility:close" size="small" style="margin-top: inherit;">
+                                    </lightning-icon>
+                                    <span class="slds-assistive-text">Remove
+                                        selected
+                                        option</span>
+                                </button>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+        </lightning-record-edit-form>
+        
+        <!--Button Section-->
+        <div class="inlineFooter slds-border--top" style="position: sticky; background-color: rgb(255, 255, 255);">
+            <div class="slds-m-top_small"></div>
+            <div class="button-container slds-text-align_center forceRecordEditActions">
+                <div class="actionsContainer">
+                    <div class="button-container-inner">
+                        <lightning-button class="slds-m-horizontal--xxx-small" label="Cancel"
+                            onclick={closeQuickAction}>
+                        </lightning-button>
+                        <lightning-button class="slds-m-horizontal--xxx-small" variant="brand" label="Update"
+                            onclick={saveCase}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End of Button Section -->
+    </template>
+</template>

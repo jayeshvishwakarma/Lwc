@@ -1,0 +1,21 @@
+<template>
+
+        <div class="slds-container_large slds-p-vertical_small">
+
+                <div class="slds-is-relative slds-p-vertical_small" if:true={loading}>
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
+
+                <div class="slds-text-color_error" if:true={errorMessage}>
+                        {errorMessage}
+                </div>
+
+                <div if:true={loaded}>
+                        <lightning-datatable data={data} columns={columns} key-field="Id"
+                         hide-checkbox-column show-row-number-column>
+                        </lightning-datatable>
+                </div>
+
+        </div>
+
+</template>

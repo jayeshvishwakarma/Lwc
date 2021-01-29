@@ -1,0 +1,349 @@
+<apex:page showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardController="EZSign__Signature__c" extensions="overeenkomstController">
+     <html>
+        <head>
+            <style>
+ 
+                p,h1,h2,h3,body,td,th,li,header,footer,* {
+                    font-family: Arial,Helvetica,SansSerif,sans-serif;
+                }
+                p,h1,h2,h3,body,td,th,li,header,footer {
+                    font-size: 9pt;
+                }
+                h1,h2 {
+                    font-size: 12pt;
+                }
+                
+                td,th {
+                    vertical-align:top;
+                }                                
+
+                .quoteTable td {
+                    border-bottom: 1pt solid black;
+                    text-align: center;
+                }
+                .quoteTable thead  th{
+                    background-color: #CCD7E7;
+                    font-size: 8pt;
+                    padding: 0.5em;
+                }
+                
+                .quoteTable tfoot td {
+                    text-align: left;
+                    background-color: #CCD7E7;
+                    padding: 0.5em 0;
+                    margin: 0;
+                    font-weight: bold;
+                }
+                .padded-table td {
+                    padding: 0.5em;
+                    border-bottom: 0.5pt solid gray;
+                }
+                                                 
+                .checkbox {
+                    width: 1em;
+                    height: 1em;
+                    border: 1pt solid black;
+                    display: inline-block;
+                }
+                
+                .groupTable th{
+                    padding-right : 0px !important;
+                }
+                body{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;}
+                table td{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff;padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+                table th{font-weight: normal; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}        
+                table th.bold {font-weight: bold; font-size: 11px; color: #000000; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+                table th.blauw2 {font-weight: bold; font-size: 11px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#003366; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+                table th.groen1 {font-weight: bold; font-size: 11px; color: #339933; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#ffffff; padding-left:0px; padding-right:20px;border-spacing:0px;border-width:0px;}
+                table th.groen {font-weight: bold; font-size: 11px; color: #ffffff; font-family: Verdana,Arial,Helvetica,sans-serif;background-color:#339933; padding-left:5px; padding-right:20;border-spacing:0px;border-width:0px;}
+                .groupTable{
+                    text-align: center;
+                }    
+
+                .sigPadButton {
+                    background-color: green !important;
+                    color: white !important;
+                }
+                
+                .sigPadButton:hover {
+                    background-color: #88c651 !important;
+                }
+                
+                #sigContainer {
+                    width: 400px !important;
+                }
+                
+                .typeIt {
+                    display: none !important;
+                }
+
+            </style>
+            <title>Quote</title>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementById("typedName").value = "{!Quote.Voornaam__c} {!Quote.Achternaam__c}";
+                });
+            </script>    
+            
+        </head>
+        <body>
+
+                        
+<div  style="width:910px;margin:0 auto;padding:20px 30px;overflow:hidden;background:url(https://www.cloudeen.nl/servlet/servlet.ImageServer?id=015570000054YTd&oid=00D20000000I5DP&lastMod=1520686170000) repeat-y; ">
+    <div style="margin-bottom: 34px;">
+        <apex:image id="header" value="/servlet/servlet.ImageServer?id=01557000004honE&oid=00D20000000I5DP&lastMod=1476692056000" width="197" height="84"/>
+        <div style="text-align:center;"><h1 style="font-size: 24pt;display:inline;">Protocol van Oplevering</h1></div>
+   </div> 
+<!--<header class="onlyprint page-top-left" style="height: 3cm;top:0;left:0;padding-top:1cm">
+
+    <h1 style="font-size: 24pt;display:inline;">Protocol van Oplevering</h1>
+</header>
+<header class="onlyprint page-top-right" style="height: 3cm;top:0;right:0;padding-top:1cm;text-align:right;">
+</header>
+
+<footer class="onlyprint page-bottom-left" style="xbackground-color:blue;left:0;bottom:0;padding-bottom:2cm;height:4cm;">
+Pagina <span class="currentPage"></span> van <span class="totalPages"></span>
+</footer>
+
+<footer class="onlyprint page-bottom-right" style="xbackground-color:red;text-align:right;right:0;bottom:0;padding-bottom:2cm;height:4cm;">
+Paraaf klant
+</footer> -->
+
+<table>
+    <tr>
+        <td width="20%"><b>Ons kenmerk</b></td>
+        <td width="40%">{!quote.offertenummer__c}</td>
+        <td width="40%"></td>
+    </tr>
+    <tr><td nowrap="nowrap"></td></tr>
+    <tr>
+        <td><b>Opdrachtgever</b></td>
+        <td>
+                   {!account.name}
+        </td>
+      </tr>
+        <tr>
+      <td><b>Gevestigd te</b></td>
+        <td>
+            {!quote.Plaats__c}
+        </td>
+      </tr>
+    <tr>
+      
+      <td><b>Vertegenwoordigd door</b></td>
+        <td>
+            {!quote.Signature_Name__c}
+        </td>
+      </tr>             
+</table>
+<p><b>Omschrijving  </b></p>
+<p>Onlangs is een KPN ÉÉN overeenkomst gesloten betreffende de aanleg of uitbreiding van de KPN ÉÉN telefooncentrale. 
+De Werkzaamheden zijn uitgevoerd op de {!quote.Aansluitadres__c} {!quote.Aansluitadres_huisnummer__c} en ter acceptatie aan de opdrachtgever aangeboden.</p>
+<p>Door ondertekening verklaart de opdrachtgever de bedrijfsvaardige oplevering te aanvaarden. </p>
+<p>Na ondertekening vangt de overeengekomen garantietermijn voor de op grond van de overeenkomst geleverde goederen en diensten aan en is de opdrachtgever derhalve de overeengekomen servicevergoedingen verschuldigd.</p>
+<p>Opdrachtgever verklaart door ondertekening van dit Protocol van Oplevering voorts kennis genomen te hebben van de beveiligingsaanbevelingen tegen ongewenst telefoniegebruik.</p>
+<hr/>
+<h3>Meerwerk en/of wijzigingen op de initiële overeenkomst</h3>
+    <apex:variable var="totalEenmalig" value="{!0}" />
+    <apex:variable var="totalMaandelijks" value="{!0}" />
+
+    <apex:repeat value="{!groupedItems}" var="group">
+        <apex:dataTable value="{!group.items}" var="qli" styleClass="quoteTable groupTable" width="100%" >
+            <apex:column style="width:10.5cm; text-align: left;">
+                <apex:facet name="header">{!group.name}</apex:facet>
+                <div>
+                    <apex:outputText style="text-align:left;" value="{!qli.product2.name}" /><br/>
+                   <i> <apex:outputText style="text-align:left;" value="{!qli.Beschrijving_tbv_overeenkomst__c}" /></i>
+                </div>
+            </apex:column>
+            <apex:column style="width:2cm;text-align:right !important;padding-right:10px !important;" >
+                <apex:facet name="header"><div style="width:100%;text-align:right !important;">Aantal</div></apex:facet>
+                <apex:outputText value="{0,number,#.##}">    
+                    <apex:param value="{!qli.quantity}"/>
+                </apex:outputText>
+            </apex:column>
+            
+            <apex:column style="width:3.4cm;text-align:right !important;padding-right:0px !important;">
+                <apex:facet name="header"><div style="width:100%;text-align:right !important;padding-right:0px !important;">Maandelijkse kosten</div></apex:facet>
+                
+              <!--  <apex:outputText styleClass="euroFormat" escape="false" value="{0,number,###,###,###,##0.00}" rendered="{! qli.totalprice != null}">
+                    <apex:param value="{!qli.totalprice}" />
+                </apex:outputText> -->
+                <apex:outputText styleClass="euroFormat" escape="false" value="{!IF(qli.Per_maand__c == null ,'0.00', qli.Per_maand__c)}"  />
+                <apex:variable var="totalMaandelijks" value="{! qli.totalprice + totalMaandelijks }" rendered="{! qli.totalprice != null}"/>
+            </apex:column>
+            <apex:column style="width:3.5cm;text-align:right;">
+                <apex:facet name="header"><div style="width:100%;text-align:right;">Eenmalige kosten &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></apex:facet>
+                
+                <apex:outputText styleClass="euroFormat" value="{!qli.Eenmalige_kosten_caas_offerte__c}" escape="false"  />
+            </apex:column>
+            
+        </apex:dataTable>
+    </apex:repeat>
+
+
+    <table class="quoteTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tfoot>
+            <tr>
+                <td style="width:10.0cm; text-align: left;">
+                    <span style="padding-left: 0.5em;">Totaal</span>
+                </td>
+              
+               
+                <td style="width:6.0cm;text-align:right; ">
+                       
+                       <!-- <apex:outputText styleClass="euroFormat" value="{!totalMaandelijks }" escape="false" rendered="{! totalMaandelijks != 0}"/> -->
+                        <apex:outputText styleClass="euroFormat" value="{!quote.Totaal_maandelijkse_kosten_new__c}" escape="false" />
+
+                </td>
+                <td style="width:3.5cm; text-align: right;">
+                      <!--  <apex:outputText styleClass="euroFormat" value="{! totalEenmalig}" escape="false" rendered="{! totalEenmalig != 0}"/> -->
+                        <apex:outputText styleClass="euroFormat" value="{!quote.Totaal_eenmalige_kosten__c}" escape="false" />   
+                        <!--
+                        <apex:outputText styleClass="euroFormat"  value="{0,number,###,###,###,##0.00}" escape="false" rendered="{! totalEenmalig != 0}">
+                            <apex:param value="{! totalEenmalig}"/>
+                        </apex:outputText> --></td>
+             <td style="width:0.4cm; text-align: right;">&nbsp;</td>   
+               
+            </tr>
+        </tfoot>
+    </table>
+
+
+<p style="margin-top:4em;"></p>
+
+<table class="padded-table">
+    <tr>
+        <td width="30%">Ondertekening</td>
+        <td width="70%">Naam contractant ( als een ander dan de contractant tekent moet deze persoon zijn vertegenwoordigheidsbevoegdheid aantonen)</td>
+    </tr>
+</table>
+
+
+
+
+<table width="100%">
+    <tr>
+        <td width="50%"><h3>Naam contractant</h3></td>
+        <td width="50%"><h3>Naam vertegenwoordiger KPN B.V.</h3></td>
+    </tr>
+
+    <tr>
+        <td>
+            {!account.name}<br/>
+            {!quote.Signature_Name__c}
+        </td>
+        <td>
+            {!quote.ownernaam__c}<br/>
+            {!quote.ownerfunctie__c}<br/>
+            {!quote.owneremail__c}<br/>
+            {!quote.ownerphone__c}
+            <br/><br/>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Datum<br/>
+            <apex:outputText value="{0, date, dd'-'MM'-'yyyy}">
+                <apex:param value="{!quote.Handtekening_datum__c}" />
+            </apex:outputText><br/>
+        </td>
+        <td>
+            Datum<br/>
+            <apex:outputText value="{0, date, dd'-'MM'-'yyyy}">
+                <apex:param value="{!quote.Handtekening_datum__c}" />
+            </apex:outputText>
+            <br/><br/>
+        </td>
+    </tr>   
+
+    <tr>
+        <td>
+             <EZSign:getSignature defaultAction="drawIt" requireDraw="true" requireName="true" returnToRecord="false" /><br /><br />
+        </td>
+        <td>
+            <img src="{!quote.Eigenaarsignature__c}" height="90" width="400"/>            
+        </td>
+    </tr>
+    <tr>
+        <td style="border-bottom: 1pt dotted black;">Handtekening</td>
+        <td style="border-bottom: 1pt dotted black;">Handtekening</td>
+    </tr>
+   
+</table>
+     
+        <p>
+        KPN B.V., KvK Den Haag registratienummer 2712470
+        NL 009292056B01
+        </p>
+        
+ 
+       
+</div>
+ 
+        </body>
+    </html>
+    <script type="text/javascript">
+        var allButtons = document.getElementsByTagName('button');
+        var allLabels = document.getElementsByTagName('label');
+        var allPars = document.getElementsByTagName('p');
+        var allLinks = document.getElementsByTagName('a');
+        for (var i=0; i<allButtons.length; i++){
+            if (allButtons[i].innerHTML == 'Submit'){
+                allButtons[i].innerHTML = 'Verzenden';
+            }
+        }
+        for (var j=0; j<allLabels.length; j++){
+            if (allLabels[j].innerHTML == 'Type your name'){
+                allLabels[j].innerHTML = 'Typ uw naam';
+            }
+        }
+        for (var k=0; k<allPars.length; k++){
+            if (allPars[k].innerHTML == 'Review your signature'){
+                allPars[k].innerHTML = 'Controleer uw handtekening';
+            }
+            else if (allPars[k].innerHTML == 'Draw your signature'){
+                allPars[k].innerHTML = 'Zet uw handtekening';
+            }
+        }
+        for (var l=0; l<allLinks.length; l++){
+            if (allLinks[l].innerHTML == 'Type It'){
+                allLinks[l].innerHTML = 'Typen';
+            }
+            else if (allLinks[l].innerHTML == 'Draw It'){
+                allLinks[l].innerHTML = 'Tekenen';
+            }
+            else if (allLinks[l].innerHTML == 'Clear'){
+                allLinks[l].innerHTML = 'Wissen';
+            }
+        }
+
+        function convertintoEuro(){
+            for(var i = 0 ; i< document.getElementsByClassName('euroFormat').length ; i++){
+                document.getElementsByClassName('euroFormat')[i].innerHTML = '&euro; ' + convert(document.getElementsByClassName('euroFormat')[i].innerHTML);
+            }
+        }
+        function convert(number){                
+            var numberStr = parseFloat(number).toFixed(2).toString();
+            var numFormatDec = numberStr.slice(-2); /*decimal 00*/
+            
+            numberStr = numberStr.substring(0, numberStr.length-3); /*cut last 3 strings*/
+            
+            var numFormat = new Array;
+            
+            while (numberStr.length > 3) {
+                numFormat.unshift(numberStr.slice(-3));
+                numberStr = numberStr.substring(0, numberStr.length-3);
+            }
+            numFormat.unshift(numberStr);
+            if(numFormat.length > 1 && numFormat[0] == '-'){// added by sagar sadhnani to show correct format for negative number when number is less than 4 digits : 14 April 2017
+                return numFormat.join('') + ',' + numFormatDec;
+            }
+            
+            return numFormat.join('.') + ',' + numFormatDec; /*format 000.000.000,00 */
+        }
+     convertintoEuro();
+    </script>        
+</apex:page>

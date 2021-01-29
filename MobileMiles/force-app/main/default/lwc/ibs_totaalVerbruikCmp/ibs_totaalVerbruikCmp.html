@@ -1,0 +1,53 @@
+<template>
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" variant="brand" size="large"></lightning-spinner>
+    </template>
+    <div class="slds-grid slds-wrap slds-m-top_medium custom-billing-div">
+        <div class="slds-col slds-size_1-of-1 custom-billing-div-header">
+            <lightning-icon icon-name={iconName} style="background-color: #0a6d0d;" class="slds-m-bottom_x-small">
+            </lightning-icon>
+            <span class="slds-p-left_x-small slds-p-bottom_x-small title-cls">{relatedListTitle}</span>
+        </div>
+        <div class="slds-col slds-size_1-of-1 custom-billing-detail">
+            <span>
+                <template if:true={records}>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="around-small"  size="8" small-device-size="6" medium-device-size="4"
+                            large-device-size="4" >
+                            <label class="title-cls slds-p-left_medium">Totale verbruikskosten : </label>
+                        </lightning-layout-item>
+                        <lightning-layout-item  padding="around-small"  size="2" small-device-size="6" medium-device-size="8"
+                            large-device-size="6">
+                            <lightning-formatted-number value={TotaleVerbruikskosten} format-style="currency"
+                                currency-code="EUR" minimum-fraction-digits="2" maximum-fraction-digits="2" class="title-cls">
+                            </lightning-formatted-number>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-text-title_caps slds-line-height_reset header-row">
+                                <th>GROEPSBUNDEL</th>
+                                <th>GROEPSBUNDEL TOTAAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={records} for:item="item">
+                                <tr key={item.id}>
+                                    <td>{item.Groepsbundel__c}</td>
+                                    <td>
+                                        <lightning-progress-bar value={item.Groepsbundel_verbruikt__c} size="large"
+                                            variant="circular"></lightning-progress-bar>
+
+                                    </td>
+                                    <td>
+                                        <label>{item.Groepsbundel_totaal__c}</label>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+            </span>
+        </div>
+    </div>
+</template>

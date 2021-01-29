@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Refresh_record</name>
+        <label>Refresh record</label>
+        <locationX>73</locationX>
+        <locationY>217</locationY>
+        <actionName>c:navigateToRecord</actionName>
+        <actionType>component</actionType>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>recordId</assignToReference>
+            <name>recordId</name>
+        </outputParameters>
+    </actionCalls>
+    <interviewLabel>Buffalo RFQ Send Form {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Buffalo RFQ Send Form</label>
+    <processType>Flow</processType>
+    <recordUpdates>
+        <name>Update_RFQ_Send_Form</name>
+        <label>Update RFQ Send Form</label>
+        <locationX>72</locationX>
+        <locationY>112</locationY>
+        <connector>
+            <targetReference>Refresh_record</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Send_Form__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Buffalo_RFQ__c</object>
+    </recordUpdates>
+    <startElementReference>Update_RFQ_Send_Form</startElementReference>
+    <status>Draft</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

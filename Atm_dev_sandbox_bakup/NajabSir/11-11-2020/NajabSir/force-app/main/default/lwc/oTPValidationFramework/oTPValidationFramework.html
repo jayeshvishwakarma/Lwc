@@ -1,0 +1,29 @@
+<template>
+    <lightning-card  title="">
+        <div class="slds-p-horizontal_medium">
+            <!-- SPINNER COMPONENT -->
+            <div if:true={showspinner}>
+                <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+            </div>
+           
+           <!-- <div class="slds-align_absolute-center" style="height:2rem">
+                <b style="font-size:18px;">Generate Confirmation Code</b>
+            </div> -->
+         <!--   <div class="slds-border_bottom"></div>
+            <div class="slds-p-top_large"></div> 
+            <div class="slds-p-top_large"></div>
+            <div class="slds-p-top_large"></div> -->
+            <div class="slds-align_absolute-center"> 
+                <hr></hr>
+                <lightning-button  variant="success" label="Generate Confirmation Code" onclick={generateOtp}></lightning-button>
+                &nbsp;&nbsp;
+                <div if:true={closeModal}>
+                    <lightning-button  label="Cancel" onclick={closequickAction}></lightning-button>
+                </div>
+            </div>
+         <!--   <div class="slds-p-top_large"></div>
+            <div class="slds-p-top_large"></div> 
+            <div class="slds-border_bottom"></div> -->
+        </div> 
+    </lightning-card>
+</template>

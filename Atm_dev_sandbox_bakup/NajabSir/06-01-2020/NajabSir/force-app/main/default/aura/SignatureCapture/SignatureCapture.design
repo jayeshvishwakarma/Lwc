@@ -1,0 +1,5 @@
+<design:component >
+   <design:attribute name="recordId" label="RecordId" />
+   <design:attribute name="signCaptured" label="Sign Captured" />
+   <design:attribute name="closePopup" label="Close Popup" />
+</design:component>

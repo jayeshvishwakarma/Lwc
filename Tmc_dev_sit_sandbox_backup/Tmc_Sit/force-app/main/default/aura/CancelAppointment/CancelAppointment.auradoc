@@ -1,0 +1,7 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		This cmp will invoke the Lightning Component cancelAppointmentLWC. cancelAppointmentLWC is used to cancel 
+        the scheduled appointment.
+	</aura:example>
+</aura:documentation>

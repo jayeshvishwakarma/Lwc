@@ -1,0 +1,101 @@
+<aura:component controller="CustomerOnboardingController">
+    <aura:attribute name="accountId" type="String"/>   
+    <aura:attribute name="caseId" type="String"/>   
+    <aura:attribute name="reason" type="String"/>
+    <aura:attribute name="reasonText" type="String"/>
+    <aura:attribute name="activationInd" type="Boolean" default="false"/>
+    <aura:attribute name="partnerInd" type="Boolean" default="false"/>
+    <aura:attribute name="partnerInd1" type="Boolean" default="false"/>
+    <aura:attribute name="soldToAccount" type="Account"/>
+    <aura:attribute name="request" type="Case"/>
+    <aura:attribute name="reasons" type="String[]" access="private" description="The picklist options to choose from reason. Populated during component initialization."/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:method name="reloadActDetails" action="{!c.doInit}">   
+        <aura:attribute name="paramCaseId" type="String"/>  
+    </aura:method>
+    <aura:if isTrue="{!not(empty(v.accountId))}">  
+        <lightning:recordViewForm recordId="{!v.accountId}" objectApiName="Account">
+            <div style="background-color:white; padding-left: 20px;padding-bottom: 10px;">
+                <fieldset class="slds-form--compound">
+                    <legend class="slds-text-heading--small slds-p-vertical--medium">Account Information</legend>                    
+                    <div class="form-element__group">                        
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">      
+                                <span class="slds-form-element__label">Status</span>
+                                <lightning:outputField variant="label-hidden" fieldName="Status_Code_BPCS__c" />                                           
+                            </div>   
+                            <aura:if isTrue="{!!v.partnerInd}">
+                                <div class="slds-form-element slds-size--1-of-3">                                   
+                                    <!-- <c:PicklistSelect objectName="Case" label="Reason" fieldName="Reason" value="{!v.reason}"/>                         -->                              
+                                    
+                                    <lightning:select name="Reason" label="Reason" value="{!v.reason}" required="true">
+                                        <aura:iteration var="opt" items="{!v.reasons}">                                            
+                                            <option value="{!opt}">{!opt}</option>
+                                        </aura:iteration>                                      
+                                    </lightning:select>
+                                </div>   
+                            </aura:if>
+                        </div>                        
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">       
+                                <span class="slds-form-element__label">Sales Org</span>
+                                <lightning:outputField variant="label-hidden" fieldName="Sales_Org__c" />
+                            </div>  
+                            <aura:if isTrue="{!!v.partnerInd}">
+                                <div class="slds-form-element slds-size--1-of-3">       
+                                    <ui:inputTextArea label="Reason Text (Optional)"  value="{!v.reasonText}" rows="3"/>
+                                </div>  
+                            </aura:if>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-4">     
+                                <span class="slds-form-element__label">Account #</span>
+                                <lightning:outputField variant="label-hidden" fieldName="BPCS_Account_ID__c" />                        
+                            </div>
+                            <aura:if isTrue="{!v.partnerInd1}">
+                                <div class="slds-form-element slds-size--1-of-4">                         
+                                    <c:customLookup objectAPIName="Account" isRequired="true" fieldsToShow="BPCS_Account_ID__c,Name" searchField="BPCS_Account_ID__c,Name,ShippingCity, ShippingState, ShippingCountry,ShippingPostalCode" lookupFilter="Status_Code_BPCS__c = 'Active' AND Hierarchy_Level_BPCS__c = '4-Sold To'" doGlobalSearch="true" IconName="standard:Account" selectedRecord="{!v.soldToAccount}" label="Sold-to Account Number for Partnering"/>                                     
+                                </div>  
+                                <div class="slds-form-element slds-size--1-of-4">                       
+                                    <lightning:input label="Sold-to Account Name"  disabled="true" value="{!v.soldToAccount.Name}"/>                       
+                                </div>   
+                            </aura:if>
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">
+                                <span class="slds-form-element__label">Account Name</span>
+                                <lightning:outputField variant="label-hidden" fieldName="Name" />                        
+                            </div>                    
+                        </div>
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element slds-size--1-of-3">
+                                <span class="slds-form-element__label">Address</span>
+                                <lightning:outputField variant="label-hidden" fieldName="ShippingStreet" /> 
+                            </div>
+                        </div>                        
+                        <div class="slds-form-element__row"> 
+                            <div class="slds-form-element slds-size--1-of-4">          
+                                <span class="slds-form-element__label">City</span>
+                                <lightning:outputField variant="label-hidden" fieldName="ShippingCity" /> 
+                            </div>                                                                                 
+                            <div class="slds-form-element slds-size--1-of-4" style="width: 150px;">                        
+                                <span class="slds-form-element__label">State</span>
+                                <lightning:outputField variant="label-hidden" fieldName="ShippingState" /> 
+                            </div>
+                            <div class="slds-form-element slds-size--1-of-4" style="width: 170px;">                        
+                                <span class="slds-form-element__label">Postal Code</span>
+                                <lightning:outputField variant="label-hidden" fieldName="ShippingPostalCode" /> 
+                            </div>                     
+                        </div>    
+                        <div class="slds-form-element__row">                                           
+                            <div class="slds-form-element slds-size--1-of-3">
+                                <span class="slds-form-element__label">Country</span>
+                                <lightning:outputField variant="label-hidden" fieldName="ShippingCountry" />                         
+                            </div>
+                        </div>                                   
+                    </div>
+                </fieldset>        
+            </div>    
+        </lightning:recordViewForm>
+    </aura:if>
+</aura:component>

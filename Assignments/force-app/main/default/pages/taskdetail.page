@@ -1,0 +1,17 @@
+<apex:page controller="TaskDetailsController" lightningStylesheets="true">
+ <apex:form >
+     <apex:sectionHeader title="Task" subtitle="Details"  />
+   <apex:pageBlock >
+       <apex:pageBlockSection collapsible="true" columns="1" >
+       <apex:outputField value="{!objTask.OwnerId}" />
+       <apex:outputField value="{!objTask.WhoId}" />
+       <apex:outputField value="{!objTask.ActivityDate}" />
+       <apex:outputField value="{!objTask.Subject}" />
+       <apex:outputField value="{!objTask.Status}" />
+       <apex:outputField value="{!objTask.Priority}"/>
+       <apex:outputField value="{!objTask.CreatedDate}"/>
+        <apex:commandButton action="{!BackToTaskManager}" value="Back"/>
+           </apex:pageBlockSection>
+   </apex:pageBlock>
+     </apex:form>
+</apex:page>

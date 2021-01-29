@@ -1,0 +1,135 @@
+<template>
+
+    <div if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+
+  <!--  <c-lookup-container class="slds-container_x-large slds-container_center">  -->
+        <div class="slds-container_x-large slds-container_center" >
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-1"> 
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <label class="slds-form-element__label">City</label>
+                            <c-lookup-input-field data-name="For_Code__c" data-id="For_Code__c" object-name="For_Code__c"
+                            is-custom-search
+                            firstvalue = {forCodeSelection}
+                            is-disabled={isDisabled}
+                            custom-placeholder = 'Search City...'
+                            oncustomsearch={handleForCodeCustomSearch}
+                            onchange={handleSelectForCode}>
+                            </c-lookup-input-field>
+                        </div>
+                    </div> 
+                </div> 
+            </div>
+
+            <div if:true={isForCodeSelected}>
+                
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_1-of-1">
+
+                        <label class="slds-form-element__label">Available Pincode</label>
+
+                        <c-multi-select-picklist-form data-id="multiselectpick"
+                            name="Available Pincode"
+                            options-list={dealershipOptions}
+                            onselect={handleMultiSelect} max-limit={optionLimit}>
+                        </c-multi-select-picklist-form>
+
+                    </div>
+                
+                
+                    <div class="slds-size_1-of-1">
+                        <div if:true={isPinCodeSelected}>
+
+                            <table aria-multiselectable="true"
+                                    class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols slds-table_col-bordered slds-var-m-top_small"
+                                    role="grid">
+                                    <thead>
+                                            <tr class="slds-line-height_reset">
+                                                    <th aria-label="Action" aria-sort="none"
+                                                            class="slds-is-resizable slds-is-sortable widthcls" scope="col" style="width: 10%;">
+                                                            <a class="slds-th__action slds-text-link_reset"
+                                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                                    <div
+                                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate slds-align_absolute-center">
+                                                                            <span title="Action">Action</span>
+                                                                    </div>
+                                                            </a>
+                                                    </th>
+                                                    <th aria-label="Name" aria-sort="none"
+                                                            class="slds-is-resizable slds-is-sortable" scope="col" style="width: 65%;">
+                                                            <a class="slds-th__action slds-text-link_reset"
+                                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                                    <div
+                                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                                            <span title="Name">Name</span>
+                                                                    </div>
+                                                            </a>
+                                                    </th>
+                                            <!--     <th aria-label="Dealership Type" aria-sort="none"
+                                                            class="slds-is-resizable slds-is-sortable" scope="col" style="width: 22%;">
+                                                            <a class="slds-th__action slds-text-link_reset"
+                                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                                    <div
+                                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                                            <span title="Dealership Type">Dealership Type</span>
+                                                                    </div>
+                                                            </a>
+                                                    </th> 
+                                                -->
+                                                    <th aria-label="Dealership Channel" aria-sort="none"
+                                                            class="slds-is-resizable slds-is-sortable" scope="col" style="width: 25%;">
+                                                            <a class="slds-th__action slds-text-link_reset"
+                                                                    href="javascript:void(0);" role="button" tabindex="0">
+                                                                    <div
+                                                                            class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                                            <span title="Dealership Channel">Dealership Channel</span>
+                                                                    </div>
+                                                            </a>
+                                                    </th>
+
+                                            </tr>
+                                    </thead>
+                                    <tbody for:each={dealerShipList} for:item='item' key={item.Id}>
+                                            <tr aria-selected="false" class="slds-hint-parent rowStyle">
+                                                    <td role="gridcell" style="width: 10%;">
+                                                            <div class="slds-truncate slds-align_absolute-center" title="Action">
+                                                                    <lightning-button-icon icon-name="utility:check"  variant={item.variant}
+                                                                        data-id={item.Id} onclick={handleSelect}
+                                                                        alternative-text="check" title="check">
+                                                                    </lightning-button-icon>
+
+                                                            </div>
+                                                    </td>
+                                                    <td role="gridcell" style="width: 65%;">
+                                                            <div class="slds-truncate" title={item.Name}>
+                                                                    <lightning-input id="proName" class="bottomMargin" type="text"
+                                                                            readonly value={item.Name}>
+                                                                    </lightning-input>
+                                                            </div>
+                                                    </td>
+                                                <!--    <td role="gridcell" style="width: 22%;">
+                                                            <div class="slds-truncate" title="Dealership Type">
+                                                                    {item.DealerType}
+                                                            </div>
+                                                    </td>
+                                                -->
+                                                    <td role="gridcell" style="width: 25%;">
+                                                            <div class="slds-truncate slds-align_absolute-center" title="Dealership Channel">
+                                                                {item.Channel}
+                                                            </div>
+                                                    </td>
+                                            </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div> 
+            </div>
+            </div>
+
+        </div>
+  <!--   </c-lookup-container>   -->
+</template>

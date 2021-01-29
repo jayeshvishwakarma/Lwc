@@ -1,0 +1,261 @@
+<template>
+
+    <!-- =======     FOR SPINNER USE ONLY     ======= -->
+    <div if:true={isLoading} class="spinner-body">
+        <lightning-spinner alternative-text="Loading" size="medium" class="loderSpinner"></lightning-spinner>
+    </div>
+
+    <lightning-card>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_9-of-12">
+                <div class="slds-media__body slds-var-m-bottom_large slds-var-m-top_x-small slds-var-m-left_x-large">
+                    <div class="slds-page-header__name">
+                        <div class="slds-page-header__name-title">
+                            <h1>
+                                <span class="slds-page-header__title slds-truncate" title={header}>{header}</span>
+                            </h1>
+                        </div>
+                    </div>
+                    <p class="slds-page-header__name-meta">{subHeader}</p>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <lightning-combobox name='selectLanguage' label="Select Language" value={selectedLanguage}
+                    options={allAvailableLanguage} onchange={handleLanguageChange} style="width: 92%;">
+                </lightning-combobox>
+            </div>
+
+        </div>
+
+
+        <div class="slds-form">
+            <div class="slds-form-element slds-form-element_stacked">
+
+                <div if:false={showAllQuesOnLoad}
+                    class="slds-float_right slds-var-m-right_medium slds-var-m-bottom_small">
+                    <lightning-icon icon-name="utility:expand_all" size="medium" if:false={showAll}
+                        onclick={handleExpendCollapseAll}></lightning-icon>
+                    <lightning-icon icon-name="utility:collapse_all" size="medium" if:true={showAll}
+                        onclick={handleExpendCollapseAll}></lightning-icon>
+                </div>
+
+                <div class="slds-box slds-var-m-around_small">
+                    <div if:false={showAllQuesOnLoad}>
+
+                        <template for:each={mapData} for:item="quesMap" for:index="index">
+
+                            <div if:true={quesMap.showAccordian} key={quesMap.name}>
+
+                                <div class="slds-section">
+                                    <h3 class="slds-section__title">
+                                        <button class="slds-button slds-section__title-action" data-key={index}
+                                            onclick={handleAccordianChange}>
+                                            <span class="slds-icon_container slds-icon-utility-chevrondown"
+                                                title="chevrondown">
+                                                <lightning-icon icon-name="utility:chevrondown"
+                                                    alternative-text="Approved" size="x-small"
+                                                    if:true={quesMap.showData}></lightning-icon>
+                                                <lightning-icon icon-name="utility:chevronright"
+                                                    alternative-text="Approved" size="x-small"
+                                                    if:false={quesMap.showData}></lightning-icon>
+                                                <span class="slds-assistive-text"></span>
+                                            </span>
+                                            <span style="font-size: 15px;"> &nbsp; {quesMap.name}</span>
+                                        </button>
+                                    </h3>
+                                </div>
+
+                                <div if:true={isAccordianLoading}>
+                                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                                </div>
+
+                            </div>
+
+                            <div if:true={quesMap.showData} key={quesMap.name} class="slds-box">
+                                <template for:each={quesMap.value} for:item="quesList" for:index="index"
+                                    key={quesMap.name}>
+
+                                    <div key={quesList.ques.Id}>
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-size_1-of-1 slds-var-m-top_small">
+                                                <lightning-formatted-rich-text
+                                                    value={quesList.ques.Pre_Question_Script__c}>
+                                                </lightning-formatted-rich-text>
+                                            </div>
+                                            <div class="slds-size_1-of-1 slds-var-m-top_small">
+                                                <!-- <span class="slds-var-m-right_small slds-text-heading_small"
+                                                    if:true={quesList.ques.isQues}>{quesList.srNum}.</span> -->
+                                                <lightning-formatted-rich-text value={quesList.ques.Question_Name__c}>
+                                                </lightning-formatted-rich-text>
+                                            </div>
+                                            <div class="slds-size_1-of-1">
+                                                <div if:true={quesList.isText}>
+                                                    <lightning-textarea disabled={readOnlyMode} variant="label-hidden"
+                                                        name={quesList.ques.Id} onblur={onBlurTextArea} data-key={index}
+                                                        placeholder={quesList.ques.Default_Help_Text}
+                                                        value={quesList.selectedValue} required>
+                                                    </lightning-textarea>
+                                                </div>
+
+                                                <div if:true={quesList.isRadio}>
+                                                    <lightning-radio-group name={quesList.ques.Id}
+                                                        variant="label-hidden" disabled={readOnlyMode}
+                                                        options={quesList.answerOptions} value={quesList.selectedValue}
+                                                        data-key={index} onchange={handleChange} type="radio" required>
+                                                    </lightning-radio-group>
+                                                </div>
+
+                                                <div if:true={quesList.isPicklist}>
+                                                    <lightning-combobox name={quesList.ques.Id} variant="label-hidden"
+                                                        disabled={readOnlyMode} value={quesList.selectedValue}
+                                                        data-key={index} options={quesList.answerOptions}
+                                                        onchange={handleChange} required>
+                                                    </lightning-combobox>
+                                                </div>
+                                                <div if:true={quesList.isDate}>
+                                                    <lightning-input type="date" name={quesList.ques.Id}
+                                                        variant="label-hidden" disabled={readOnlyMode}
+                                                        value={quesList.selectedValue} data-key={index}
+                                                        onchange={handleChange} required>
+                                                    </lightning-input>
+                                                </div>
+                                                <div if:true={quesList.isMultiPicklist}>
+                                                    <!-- <lightning-dual-listbox name={quesList.ques.Id}
+                                                        variant="label-hidden" source-label="Available" data-key={index}
+                                                        selected-label="Selected" options={quesList.answerOptions}
+                                                        value={quesList.selectedValue} onchange={handleChange}
+                                                        disable-reordering disabled={readOnlyMode}>
+                                                    </lightning-dual-listbox> -->
+                                                    <c-multi-select-picklist-form name={quesList.ques.Id}
+                                                        index-key={index} options-list={quesList.answerOptions}
+                                                        selected-values={quesList.selectedValue} disabled={readOnlyMode}
+                                                        onselect={handleChange}
+                                                        max-limit={quesList.multiselectMaxLimit}>
+                                                    </c-multi-select-picklist-form>
+
+
+                                                </div>
+                                                <div class="slds-size_1-of-1">
+                                                    <lightning-formatted-rich-text
+                                                        value={quesList.ques.Post_Question_Script__c}>
+                                                    </lightning-formatted-rich-text>
+                                                </div>
+                                                <!--  <c-survey-taker-answer-form survey-question={quesList.ques}></c-survey-taker-answer-form>  -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </template>
+                            </div>
+                        </template>
+
+                    </div>
+
+                    <div if:true={showAllQuesOnLoad}>
+                        <template for:each={questionList} for:item="quesList" for:index="index">
+                            <div key={quesList.ques.Id}>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-size_1-of-1 slds-var-m-top_small slds-panel__header"
+                                        if:true={quesList.ques.isSection}>
+                                        <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate slds-align_absolute-center"
+                                            title={quesList.ques.Section__c}>
+                                            {quesList.ques.Section__c}
+                                        </h2>
+                                    </div>
+                                    <div class="slds-size_1-of-1 slds-var-m-top_small">
+                                        <lightning-formatted-rich-text value={quesList.ques.Pre_Question_Script__c}>
+                                        </lightning-formatted-rich-text>
+                                    </div>
+                                    <div class="slds-size_1-of-1 slds-var-m-top_small">
+                                        <span class="slds-var-m-right_small slds-text-heading_small"
+                                            if:true={quesList.ques.isQues}>{quesList.srNum}.</span>
+                                        <lightning-formatted-rich-text value={quesList.ques.Question_Name__c}>
+                                        </lightning-formatted-rich-text>
+                                    </div>
+                                    <div class="slds-size_1-of-1">
+                                        <div if:true={quesList.isText}>
+                                            <lightning-textarea disabled={readOnlyMode} variant="label-hidden"
+                                                name={quesList.ques.Id} onblur={onBlurTextArea} data-key={index}
+                                                placeholder={quesList.ques.Default_Help_Text}
+                                                value={quesList.selectedValue} required>
+                                            </lightning-textarea>
+                                        </div>
+
+                                        <div if:true={quesList.isRadio}>
+                                            <lightning-radio-group name={quesList.ques.Id} variant="label-hidden"
+                                                disabled={readOnlyMode} options={quesList.answerOptions}
+                                                value={quesList.selectedValue} data-key={index} onchange={handleChange}
+                                                type="radio" required>
+                                            </lightning-radio-group>
+                                        </div>
+
+                                        <div if:true={quesList.isPicklist}>
+                                            <lightning-combobox name={quesList.ques.Id} variant="label-hidden"
+                                                disabled={readOnlyMode} value={quesList.selectedValue} data-key={index}
+                                                options={quesList.answerOptions} onchange={handleChange} required>
+                                            </lightning-combobox>
+                                        </div>
+                                        <div if:true={quesList.isDate}>
+                                            <lightning-input type="date" name={quesList.ques.Id} variant="label-hidden"
+                                                disabled={readOnlyMode} value={quesList.selectedValue} data-key={index}
+                                                onchange={handleChange} required>
+                                            </lightning-input>
+                                        </div>
+                                        <div if:true={quesList.isMultiPicklist}>
+                                            <c-multi-select-picklist-form data-id="multiselectpick"
+                                                name={quesList.ques.Id} index-key={index}
+                                                options-list={quesList.answerOptions}
+                                                selected-values={quesList.selectedValue} disabled={readOnlyMode}
+                                                onsavechange={handleChange} max-limit={quesList.multiselectMaxLimit}
+                                                show-button="true">
+                                            </c-multi-select-picklist-form>
+
+                                        </div>
+                                        <div if:true={quesList.isAddress} tabindex="0" onmouseout={validateAddress}
+                                            data-id={index}>
+                                            <!-- tabindex="0" onmouseout={validateAddress}
+                                            data-id={index} -->
+                                            <!--  <div> -->
+                                            <c-manage-enquiry-addresses data-id="content" record-id={quesList.ques.Id}
+                                                field-set-name="Address" record={quesList.selectedValue}
+                                                object-name="Survey_Question_CTI__c" device-form-factor="DESKTOP">
+                                            </c-manage-enquiry-addresses>
+                                            <!-- </div> -->
+                                            <lightning-button variant="base" label="Validate &amp; Change"
+                                                title="Validate" name={quesList.ques.Id} data-id={index}
+                                                onclick={validateAddress} class="slds-m-left_x-small validate-address">
+                                            </lightning-button>
+
+                                        </div>
+                                        <div class="slds-size_1-of-1">
+                                            <lightning-formatted-rich-text
+                                                value={quesList.ques.Post_Question_Script__c}>
+                                            </lightning-formatted-rich-text>
+                                        </div>
+                                        <!--  <c-survey-taker-answer-form survey-question={quesList.ques}></c-survey-taker-answer-form>  -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </template>
+                        <lightning-formatted-rich-text if:true={isFormFinished} value={CompleteMsg}>
+                        </lightning-formatted-rich-text>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-var-m-around_x-small slds-align_absolute-center">
+
+            <lightning-button slot="footer" variant="brand" label="Save" title="Save" onclick={saveSurvey}
+                disabled={readOnlyMode} class="slds-var-p-right_small"></lightning-button>
+            <lightning-button slot="footer" variant="neutral" label="Submit" title="Submit" onclick={submitSurvey}
+                disabled={readOnlyMode}></lightning-button>
+        </div>
+    </lightning-card>
+
+
+
+</template>

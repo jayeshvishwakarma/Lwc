@@ -1,0 +1,9 @@
+<apex:page controller="CookieController">
+    <apex:form >
+    	<apex:outputLabel for="inpdata">
+         	Enter Data:&nbsp;
+        </apex:outputLabel>
+        <apex:inputText value="{!toPassData}"/><br/>
+        <apex:commandButton action="{!setData}" value="Go!"/>
+    </apex:form>
+</apex:page>

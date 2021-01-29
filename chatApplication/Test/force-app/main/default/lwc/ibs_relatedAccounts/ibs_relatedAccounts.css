@@ -1,0 +1,10 @@
+.custom-cls{ 
+    background-color: #f7f9fb;
+    font-family: "Salesforce Sans", Arial, sans-serif !important;
+    font-size: .750rem;     
+    font-family: "Salesforce Sans",Arial,sans-serif;
+    color: #48425c;
+    margin-top:10px;
+    margin-bottom:10px;
+    border-bottom: 1px solid #d4d4d4;
+}

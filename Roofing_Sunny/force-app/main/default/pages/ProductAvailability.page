@@ -1,0 +1,327 @@
+<apex:page controller="ProductAvailability" showHeader="false" standardStylesheets="true" sidebar="false"  docType="html-5.0" id="page" action="{!onPageLoad}">
+     <head> 
+        <title>Product Availability</title>  
+      <script type="text/javascript" src="{!URLFOR($Resource.SF1_Resources, 'js/jquery.min.js')}"></script>
+        
+      <script>
+            function passTerritoryId(){ 
+                var territoryId = $('#territoryId').val();
+                if(territoryId != null && territoryId != ''){
+                    document.getElementById('page:frm:theHiddenTerritoryId').value = territoryId;
+                    
+                    $('.territory').removeClass("sf1RequiredInput");
+                    $('.selectError').css("visibility","hidden");
+                    
+                    openNewUrl('/apex/ProductAvailability?territoryId=' + territoryId);
+                }
+                else{
+                    $('#territoryId').addClass("sf1RequiredInput");
+                    $('.selectError').css("visibility","visible");
+                    return false;
+                }
+            }
+            
+            function passTerritoryType(){ 
+                var territoryType = $('#territoryType').val();
+                if(territoryType != null && territoryType != ''){
+                    document.getElementById('page:frm:theHiddenTerritoryType').value = territoryType;
+                    
+                    $('.territoryType').removeClass("sf1RequiredInput");
+                    $('.selectError').css("visibility","hidden");
+                    
+                    openNewUrl('/apex/ProductAvailability?territoryType=' + territoryType);
+                }
+                else{
+                    $('#territoryType').addClass("sf1RequiredInput");
+                    $('.selectError').css("visibility","visible");
+                    return false;
+                }
+            }
+            
+            function searchCall(){
+                document.getElementById('page:frm:theHiddenPlantId').value = $('#plantesId').val();
+                document.getElementById('page:frm:theHiddenMarketClassId').value = $('#marketClassId').val();
+                document.getElementById('page:frm:theHiddenProductTypeId').value = $('#pTypesId').val();
+                document.getElementById('page:frm:theHiddenItemDescriptionId').value = $('#itemDescriptionId').val();
+                
+                searchCallAF();
+            }
+            
+            function passSearchAttributesId(){ 
+                document.getElementById('page:frm:theHiddenPlantId').value = $('#plantesId').val();
+                document.getElementById('page:frm:theHiddenMarketClassId').value = $('#marketClassId').val();
+                document.getElementById('page:frm:theHiddenProductTypeId').value = $('#pTypesId').val();
+                document.getElementById('page:frm:theHiddenItemDescriptionId').value = $('#itemDescriptionId').val();
+                
+                renderSelectProductPanel();
+                renderSelectItemDescPanel();
+                
+                return true;
+            }
+            
+            function passSearchAttributesId1(){ 
+                document.getElementById('page:frm:theHiddenMarketClassId').value = $('#marketClassId').val();
+                document.getElementById('page:frm:theHiddenProductTypeId').value = '';
+                document.getElementById('page:frm:theHiddenItemDescriptionId').value = '';
+                
+                renderSelectProductPanel();
+                renderSelectItemDescPanel();
+                
+                return true;
+            }
+            
+            function passSearchAttributesId2(){
+                document.getElementById('page:frm:theHiddenProductTypeId').value = $('#pTypesId').val();
+                document.getElementById('page:frm:theHiddenItemDescriptionId').value = $('#itemDescriptionId').val();
+                
+                renderSelectItemDescPanel();
+                
+                return true;
+            }
+            
+            function goToHomePage(){
+                openNewUrl('/apex/HomePage');
+            }
+            
+            //====================Navigation using URL===============================================
+            function openNewUrl(newURL){
+                //alert(newURL);
+                if( (typeof sforce != 'undefined') && (sforce != null) ) { // For Salesforce1 ONLY
+                    sforce.one.navigateToURL(newURL);
+                }else{  // For Normal Salesforce - Testing in normal SFDC
+                    window.open(newURL, '_self');
+                }
+            }
+            
+            //=======================================================================================
+        </script>
+        
+        <c:SF1_ProductAvailability />
+    </head>
+    <body>
+        
+          <apex:form id="frm">
+            <apex:inputHidden value="{!territoryType}" id="theHiddenTerritoryType"/>
+            <apex:inputHidden value="{!territoryId}" id="theHiddenTerritoryId"/>
+            <apex:inputHidden value="{!plantId}" id="theHiddenPlantId"/>
+            <apex:inputHidden value="{!marketClassId}" id="theHiddenMarketClassId"/>
+            <apex:inputHidden value="{!productTypeId}" id="theHiddenProductTypeId"/>
+            <apex:inputHidden value="{!itemDescriptionId}" id="theHiddenItemDescriptionId"/>
+            
+            <apex:actionFunction name="showSearchResultViewAF" action="{!showSearchResultView}" status="status" reRender="frm"/>
+            <apex:actionFunction name="renderSelectProductPanel" action="{!refreshSelectOptions}" status="status" reRender="selectProductPanel"/>
+            <apex:actionFunction name="renderSelectItemDescPanel" action="{!refreshSelectOptions}" status="status" reRender="selectItemDescPanel"/>
+            <apex:actionFunction name="searchCallAF" action="{!searchProducts}" status="status" reRender="reportPanel,pgmess"/>
+            <apex:actionFunction name="resetAF" action="{!reset}" status="status" reRender="frm"/>
+            
+            <apex:actionstatus id="status">
+                <apex:facet name="start">
+                    <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;height: 100%;opacity:0.65;width:100%;">
+                        <div class="waitingHolder" style="top:220px;">
+                            <img class="waitingImage" src="{!$Resource.Salesfroce1Loading}" title="Loading..." />
+                        </div>
+                    </div>
+                </apex:facet> 
+            </apex:actionstatus>
+            
+            <apex:outputText value="{!displayMsg}" style="color:red;" />
+            
+            <apex:outputPanel rendered="{!!isSearchResultView}" id="entryPanel">
+                <div align="center">
+                    <div class="h1Div" >
+                        <a href="#" onClick="javascript:goToHomePage();" class="neverHide" style="float:left; margin:-7px;">
+                            <img src="{!$Resource.Salesforce1HomeIcon}"/>
+                        </a>
+                        <h1>Product Availability</h1>
+                        <img src="{!$Resource.SF1HeaderLogoSmall}" style="float:right;"/>
+                    </div>
+                    <br/><br/>
+                
+                    <apex:outputPanel style="height:100%;" rendered="{!userInfo.Role__c == 'TM'}">
+                        <table style="width:400px; padding-top:4%;">
+                            <tr>
+                                <td>
+                                    <apex:outputLabel styleClass="sf1label">Select a Territory</apex:outputLabel>
+                                </td>
+                            </tr>
+                            <tr>       
+                                <td>
+                                    <select size="1" class="sf1select territory" id="territoryId" name="territory">
+                                        <apex:repeat value="{!territoriesOption}" var="territory"> 
+                                            <option value="{!territory.value}" >{!territory.label}</option>
+                                        </apex:repeat>
+                                    </select>
+                                    <input type="Button" Class="sf1buttonSFBlue" id="btnSave" style="margin-left: 15px;" value=" Go! " onclick="return passTerritoryId();" />
+                                </td>
+                            </tr>
+                            <tr class="selectError" style="visibility: hidden;">
+                                <td class="sf1Error">Please Select Territory.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:outputPanel>
+                    
+                    <apex:outputPanel style="height:100%;" rendered="{!userInfo.Role__c != 'TM'}">
+                        <table style="width:400px; padding-top:4%;">
+                            <tr>
+                                <td>
+                                    <apex:outputLabel styleClass="sf1label">Select a Territory Type</apex:outputLabel>
+                                </td>
+                            </tr>
+                            <tr>       
+                                <td>
+                                    <select size="1" class="sf1select territoryType" id="territoryType" name="territoryType">
+                                        <apex:repeat value="{!territoryTypeOption}" var="type"> 
+                                            <option value="{!type.value}" >{!type.label}</option>
+                                        </apex:repeat>
+                                    </select>
+                                    <input type="Button" Class="sf1buttonSFBlue" id="btnSave" style="margin-left: 15px;" value=" Go! " onclick="return passTerritoryType();" />
+                                </td>
+                            </tr>
+                            <tr class="selectError" style="visibility: hidden;">
+                                <td class="sf1Error">Please Select Territory Type.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:outputPanel>
+                    <br/>
+                </div>
+           
+            </apex:outputPanel>
+            
+            
+            
+            <apex:outputPanel rendered="{!isSearchResultView}" id="pb1">
+                <div align="center">
+            <div class="h1Div" >
+                <a href="#" onClick="javascript:goToHomePage();" class="neverHide" style="float:left; margin:-7px;">
+                    <img src="{!$Resource.Salesforce1HomeIcon}"/>
+                </a>
+                <h1>Product Availability</h1>
+            </div>
+            <br/>
+                       
+                    <table class="sf1InputTableThreeCol">
+                            <tr>
+                                <td>
+                                    <span class="sf1label">Plant</span> <br/>
+                                    <select size="1" class="sf1select territory" id="plantesId" name="plantes" onchange="passSearchAttributesId();">
+                                        <apex:repeat value="{!PlantesOption}" var="plant"> 
+                                            <option value="{!plant.value}" >{!plant.label}</option>
+                                        </apex:repeat>
+                                    </select>
+                                </td>
+                                <td>
+                                    <span class="sf1label">Market class</span> <br/>
+                                    <select size="1" class="sf1select territory" id="marketClassId" name="territory" onchange="passSearchAttributesId1();">
+                                        <apex:repeat value="{!MarketClassesOption}" var="marketClass"> 
+                                            <option value="{!marketClass.value}" >{!marketClass.label}</option>
+                                        </apex:repeat>
+                                    </select>
+                                </td>
+                                <td>
+                                    <apex:image value="{!$Label.CTR_Logo}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="sf1label">Product type</span> <br/>
+                                    <apex:outputPanel id="selectProductPanel">
+                                        <select size="1" class="sf1select territory" id="pTypesId" name="pTypes"  onchange="passSearchAttributesId2();">
+                                            <apex:repeat value="{!ProductTypesOption}" var="pTypes"> 
+                                                <option value="{!pTypes.value}" >{!pTypes.label}</option>
+                                            </apex:repeat>
+                                        </select>
+                                    </apex:outputPanel>
+                                </td>
+                                <td>
+                                    <span class="sf1label">Items</span> <br/>
+                                    <apex:outputPanel id="selectItemDescPanel">
+                                        <select size="1" class="sf1select territory" id="itemDescriptionId" name="itemDescription">
+                                            <apex:repeat value="{!ItemDescriptionOption}" var="description"> 
+                                                <option value="{!description.value}" >{!description.label}</option>
+                                            </apex:repeat>
+                                        </select>
+                                    </apex:outputPanel>
+                                </td>
+                                <td>
+                                    <input type="Button" class = "sf1buttonSFBlue" value="Search" onclick="searchCall();"/>
+                                    <input type="Button" class = "sf1buttonSFBlue" value="Reset" onclick="resetAF();"/>
+                                </td>
+                            </tr>
+                        </table>
+                    
+                    <br/>
+                    <apex:pageMessages id="pgmess"/>
+                    
+                    <apex:outputPanel id="reportPanel">
+                       <table id="report" style="width:98%" cellpadding="4">
+                            <tbody>
+                                <tr>
+                                   <td>
+                                        <b>Plant</b>
+                                   </td>
+                                   <td>
+                                        <b>Material</b>
+                                   </td>
+                                   <td>
+                                        <b>UOM</b>
+                                   </td>
+                                   <td>
+                                        <b>Date</b>
+                                   </td>
+                                   <td align="right">
+                                        <b>AvailQty</b>
+                                   </td>
+                                </tr>
+                                <apex:variable var="rowClass" value="odd"/>
+                               <!-- 1-30-2017 Dru: Updated to use WS class for callouts -->
+                               <!--
+                               <apex:repeat value="{!lstProductAvailabilityResponse}" var="productList">
+                                    <tr class="{!rowClass}" style="cursor:pointer;"> 
+                                       <td> <apex:outputLabel value="{!productList.Plant}"/> </td>
+                                        <td> <apex:outputLabel value="{!productList.Material}"/> </td> 
+                                        <td> <apex:outputLabel value="{!productList.UOM}"/> </td> 
+                                        <td> <apex:outputLabel value="{!productList.Date_x}"/> </td> 
+                                        <td align="right"><apex:outputText value="{0, number, ###}">
+                                            <apex:param value="{!productList.AvailQty}" />
+                                        </apex:outputText></td> 
+                                    </tr>
+                                    <apex:variable var="rowClass" value="{!IF(rowClass == 'odd','','odd')}"/> 
+                                </apex:repeat>
+                                -->
+                                <apex:repeat value="{!lstSuccesses}" var="success">
+                                    <tr class="{!rowClass}" style="cursor:pointer;"> 
+                                       <td> <apex:outputLabel value="{!success.strPlant}"/> </td>
+                                        <td> <apex:outputLabel value="{!success.strMaterial}"/> </td> 
+                                        <td> <apex:outputLabel value="{!success.strUOM}"/> </td> 
+                                        <td> <apex:outputLabel value="{!success.dtBi}"/> </td> 
+                                        <td align="right"><apex:outputText value="{0, number, ###.######}">
+                                            <apex:param value="{!success.availQuantity}" />
+                                        </apex:outputText></td> 
+                                    </tr>
+                                    <apex:variable var="rowClass" value="{!IF(rowClass == 'odd','','odd')}"/> 
+                                </apex:repeat>
+                          </tbody>
+                        </table>
+                        
+                        <!-- 1-30-2017 Dru: Updated to use WS class for callouts -->
+                        <!-- <apex:outputPanel rendered="{!IF(AND(NOT(ISNULL(lstProductAvailabilityResponse)),lstProductAvailabilityResponse.size > 0), false, true)}"> -->
+                        <apex:outputPanel rendered="{!lstSuccesses == null || lstSuccesses.size == 0}"> 
+                                <br/><br/>
+                                ***** No Inventory Currently Available *****
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+            </div>
+        </apex:outputPanel>
+        </apex:form>
+    </body>
+</apex:page>

@@ -1,0 +1,29 @@
+<template>
+    <h5 class="custom-carouselTitle">{carouselTitle}</h5>
+    <lightning-layout class="slds-grid_vertical-align-center">
+        <lightning-layout-item size="1" class="slds-align_absolute-center">
+            <lightning-icon icon-name="utility:chevronleft" alternative-text="Previous" title="Previous" onclick={onPrev}
+                style="cursor: pointer;"></lightning-icon>
+        </lightning-layout-item>
+        <lightning-layout-item size="10">
+            <lightning-layout multiple-rows>
+                <template for:each={pageData} for:item="record">
+                    <lightning-layout-item key={record} size="12" small-device-size="12" medium-device-size={tabSlideCount}
+                        large-device-size={dskSlideCount} padding="around-small">
+                        <!--<div class="custom-box slds-box slds-p-around_medium slds-text-align_center">{record}</div>-->
+                        <div class="content">
+                            <c-rss-feed-item title={record.title} description={record.description}
+                                publish-date={record.publishdate} link={record.link} author={record.author}
+                                image={record.image} tags={record.tags}></c-rss-feed-item>
+                        </div>
+                    </lightning-layout-item>
+
+                </template>
+            </lightning-layout>
+        </lightning-layout-item>
+        <lightning-layout-item size="1" class="slds-align_absolute-center">
+            <lightning-icon icon-name="utility:chevronright" alternative-text="Next" title="Next" onclick={onNext}
+                style="cursor: pointer;"></lightning-icon>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

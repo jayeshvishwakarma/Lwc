@@ -1,0 +1,3 @@
+<aura:component >
+	<div class="slds-text-heading--large slds-text-align--center">Request Created Successfully!!</div>
+</aura:component>

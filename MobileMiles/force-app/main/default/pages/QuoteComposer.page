@@ -1,0 +1,513 @@
+<apex:page standardController="Quote" extensions="QuoteComposerController" title="{!quote.name}" tabStyle="Quote" action="{!init}">
+<apex:sectionHeader title="Offerte samenstellen" subtitle="{!quote.name}"/>
+
+
+<div class="bPageTitle" style="padding-top: 0;">
+<div class="ptBreadcrumb">&nbsp;«&nbsp;<a href="/{!quote.id}">Back to {!quote.name}</a></div>
+</div>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
+<apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" />  
+<apex:includeScript value="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.17.8/js/jquery.tablesorter.min.js" />
+<apex:stylesheet value="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.17.8/css/theme.blue.css" />
+
+<script>
+$(function() {
+    $('input[type="text"]').keyup(function(e) {
+        if (e.keyCode == 40) {
+            $(this).closest('tr').next('tr').find('input').focus();
+        } else if (e.keyCode == 38) {
+            $(this).closest('tr').prev('tr').find('input').focus();
+        }
+    });
+});
+</script>
+
+<apex:form id="theForm2">
+    <apex:pageBlock mode="maindetail">
+        <apex:pageMessages />
+        <c:WizardBreadcrumb c="{!wizard}" id="WizardBreadcrumb" onStepClicked="{!wizardStepClicked}"/>
+    </apex:pageBlock>
+</apex:form>
+
+
+<apex:form id="theForm">
+    <apex:pageMessages />
+    <apex:pageBlock title="Verbinding" mode="maindetail" rendered="{!wizard.current.step == 1}" id="verbindingBlock">
+
+        <apex:pageBlockSection columns="2" id="verbindingSectionItemCheck" dir="" rendered="{! quoteItems.size == 0 }">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="Er is al een verbinding aanwezig"/>
+                <apex:outputPanel >
+                    <apex:inputField value="{!quote.Heeft_Verbinding__c}">
+                        <apex:actionSupport event="onclick" reRender="verbindingBlock"/>
+                    </apex:inputField>
+                </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+            <apex:outputText value=" " />
+        </apex:pageBlockSection>
+
+        <apex:pageBlockSection columns="2" id="verbindingSectionItem" rendered="{! !quote.Heeft_Verbinding__c }">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="Internet"/>
+                <apex:selectList value="{!voiceInternet}" id="voiceInternet" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                	<apex:selectOption itemValue="Voice Only" itemLabel="Voice Only"/>
+                	<apex:selectOption itemValue="Voice + Internet" itemLabel="Voice + Internet"/>
+                	<apex:selectOption itemValue="Glasvezel" itemLabel="Glasvezel"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+            
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value=""/>
+	            <apex:outputText value="Selecteer eerst een verbinding {! verbindingId }" rendered="{! ISNULL(verbinding) }"/>
+            </apex:pageBlockSectionItem>
+		</apex:pageBlockSection>
+		
+        <apex:pageBlockSection columns="2" rendered="{!voiceInternet == 'Voice Only'}">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="Spraakkanalen"/>
+                <apex:selectList value="{!kanalen}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                    <apex:selectOptions value="{!kanalenSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value=""/>
+	            <apex:outputText value="{!verbinding.IRMA_Productcode__c}" rendered="{! NOT(ISNULL(verbinding)) }"/>
+            </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="Verbinding"/>
+                <apex:selectList value="{!verbindingPicklist}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                    <apex:selectOptions value="{!verbindingPicklistSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value=""/>
+				<apex:outputText value=" "/>
+            </apex:pageBlockSectionItem>
+
+           	<apex:pageBlockSectionItem >
+                <apex:outputLabel value="Router"/>
+                <apex:selectList value="{!router}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                	<apex:selectOptions value="{!routerSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value=""/>
+				<apex:outputText value=" "/>
+            </apex:pageBlockSectionItem>
+
+		</apex:pageBlockSection>
+		
+        <apex:pageBlockSection columns="2" rendered="{!voiceInternet == 'Glasvezel'}">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="Gebiedskeuze"/>
+                <apex:selectList value="{!gebiedsKeuze}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                    <apex:selectOptions value="{!gebiedsKeuzeSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+            <apex:outputText value=" "/>
+
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="Spraakkanalen"/>
+                <apex:selectList value="{!kanalen}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                    <apex:selectOptions value="{!kanalenSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value=""/>
+	            <apex:outputText value="{!verbinding.IRMA_Productcode__c}" rendered="{! NOT(ISNULL(verbinding)) }"/>
+            </apex:pageBlockSectionItem>
+		</apex:pageBlockSection>
+		
+        <apex:pageBlockSection columns="2" rendered="{!voiceInternet == 'Voice + Internet'}">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="SLA"/>
+                <apex:selectList value="{!sla}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                	<apex:selectOptions value="{!slaSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value=""/>
+ 	            <apex:outputText value="{!verbinding.IRMA_Productcode__c}" rendered="{! NOT(ISNULL(verbinding)) }"/>
+            </apex:pageBlockSectionItem>
+
+
+			<!--  dit is eigenlijk de snelheid...  Na deze dropdown -->
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="Verbinding"/>
+                <apex:selectList value="{!verbindingPicklist}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                    <apex:selectOptions value="{!verbindingPicklistSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+			<apex:outputText value=" "/>
+		
+           <apex:pageBlockSectionItem >
+                <apex:outputLabel value="EVC"/>
+                <apex:selectList value="{!evc}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                	<apex:selectOptions value="{!evcSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+			<apex:outputText value=" "/>
+
+
+           	<apex:pageBlockSectionItem >
+                <apex:outputLabel value="Router"/>
+                <apex:selectList value="{!router}" size="1">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                	<apex:selectOptions value="{!routerSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+			<apex:outputText value=" "/>
+        </apex:pageBlockSection>
+			
+		<!--  de uiteindelijke verbinding. -->
+        <apex:pageBlockSection columns="2">
+            <apex:pageBlockSectionItem rendered="{! (voiceInternet != 'Voice + Internet' && voiceInternet != 'Voice Only') || verbindingenSelectOptions.size > 1 }">
+                <apex:outputLabel value="{! IF( (voiceInternet == 'Voice + Internet' || voiceInternet == 'Voice Only'), 'Bundel', 'Verbinding') }"/>
+                <apex:selectList value="{!verbindingId}" id="verbindingId" size="1" style="width:100%;max-width:90%;">
+                	<apex:selectOption itemValue="" itemLabel="-- Kies --"/>
+                    <apex:selectOptions value="{!verbindingenSelectOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!rerenderSelects}" rerender="theForm"/>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+            <apex:outputText value="" rendered="{! NOT(voiceInternet != 'Voice + Internet' || verbindingenSelectOptions.size > 1) }" />
+            
+            <apex:outputField value="{!verbinding.Keuzenaam__c}" rendered="{! NOT(ISNULL(verbinding)) }"/>
+            <apex:outputText value="" rendered="{! ISNULL(verbinding) }"/>
+            
+            <apex:outputText value=""/>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="" />
+                <apex:commandButton value="Kies" action="{!selectVerbinding}" disabled="{! ISNULL(verbinding) }" rendered="{! NOT(ISNULL(verbinding)) }"/>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+        
+        <apex:pageBlockSection columns="1">
+            <apex:pageBlockTable value="{!quoteItems}" var="quoteItem">
+                <apex:column headerValue="Aantal" width="7%">
+                    <apex:inputText value="{!quoteItem.quantity}" rendered="{!ISNULL(quoteItem.Gekoppeld_aan__c)}"/>
+                </apex:column>
+                <apex:column headerValue="Naam" width="45%">
+                    <apex:outputLink value="/{!quoteItem.product2.id}" target="_blank">{!quoteItem.product2.Name}</apex:outputLink>
+                    <apex:outputPanel rendered="{!quoteItem.product2.Voice_Internet__c == 'Voice + Internet'}">
+                    	<p>
+		                    <span style="margin-right: 1em">Snelheid Up/Down:</span> 
+		                    <apex:inputField value="{!quoteItem.KBit_Up__c}" style="width: 6em" />
+		                    <span style="margin: 0 1em">/</span>
+		                    <apex:inputField value="{!quoteItem.KBit_Down__c}" style="width: 6em" />
+	                    </p>
+                    </apex:outputPanel>
+                </apex:column>
+                <apex:column headerValue="Type" width="8%">
+                    <apex:outputText value="{!quoteItem.product2.Product_Type__c}" />
+                </apex:column>
+                <apex:column headerValue="Prijs per maand" width="10%">
+                    <apex:inputField value="{!quoteItem.UnitPrice}" />
+                </apex:column>
+                <apex:column headerValue="Eenmalige aansluitkosten" width="15%">
+                    <apex:inputField value="{!quoteItem.Price_Connect__c}" />
+                </apex:column>
+                <apex:column headerValue="Eenmalige installatiekosten" width="15%">
+                    <apex:inputField value="{!quoteItem.Price_Installation__c}" />
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Bewaar" action="{!saveQuoteAndProducts}"/>
+        </apex:pageBlockButtons>
+
+    </apex:pageBlock>
+
+    <apex:pageBlock title="{!wizard.current.name}" mode="maindetail" rendered="{!wizard.current.step == 2}">
+        <apex:pageBlockSection columns="1">
+            <apex:repeat value="{!producten}" var="productGroup">
+                <h3 rendered="{!NOT(ISNULL(productGroup.name))}">{!productGroup.name}</h3>
+                <apex:pageBlockTable id="producten" value="{!productGroup.products}" var="product">
+                    <apex:column headerValue="Aantal" width="7%">
+                        <apex:inputText value="{!product.amount}"/>
+                    </apex:column>
+                    <apex:column headerValue="Naam" width="68%">
+                        <apex:outputLink value="/{!product.product.id}" target="_blank">{!product.product.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Prijs per maand" width="10%">
+                        <apex:outputField value="{!product.priceBookEntry.UnitPrice}" rendered="{!product.priceBookEntry.Maandelijkse_kosten__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Eenmalige aansluitkosten" width="15%">
+                        <apex:outputText value="{!product.Price_Connect}" />
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:repeat>
+        </apex:pageBlockSection>
+
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Bewaar" action="{!updateProducts}"/>
+        </apex:pageBlockButtons>
+        
+        <hr />
+
+        <apex:pageBlockSection columns="1" title="Offerte">
+            <apex:pageBlockTable value="{!quoteItems}" var="quoteItem">
+                <apex:column headerValue="Aantal" width="7%">
+                    <apex:inputText value="{!quoteItem.quantity}" rendered="{!ISNULL(quoteItem.Gekoppeld_aan__c)}"/>
+                </apex:column>
+                <apex:column headerValue="Naam" width="68%">
+                    <apex:outputLink value="/{!quoteItem.product2.id}" target="_blank">{!quoteItem.product2.Name}</apex:outputLink>
+                </apex:column>
+                <apex:column headerValue="Prijs per maand" width="10%">
+                    <apex:inputField value="{!quoteItem.UnitPrice}" />
+                </apex:column>
+                <apex:column headerValue="Eenmalige aansluitkosten" width="15%">
+                    <apex:inputField value="{!quoteItem.Price_Connect__c}" />
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+
+    <apex:pageBlock title="{!wizard.current.name}" mode="maindetail" rendered="{!wizard.current.step == 3}">
+        <apex:pageBlockSection columns="1">
+            <apex:repeat value="{!producten}" var="productGroup">
+                <h3 rendered="{!NOT(ISNULL(productGroup.name))}">{!productGroup.name}</h3>
+                <apex:pageBlockTable id="producten" value="{!productGroup.products}" var="product">
+                    <apex:column headerValue="Aantal" width="7%">
+                        <apex:inputText value="{!product.amount}"/>
+                    </apex:column>
+                    <apex:column headerValue="Naam" width="53%">
+                        <apex:outputLink value="/{!product.product.id}" target="_blank">{!product.product.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Type" width="15%">
+                        <apex:outputText value="{!product.product.Product_Type__c}" />
+                    </apex:column>
+                    <apex:column headerValue="Prijs per maand" width="10%">
+                        <apex:outputField value="{!product.priceBookEntry.UnitPrice}" rendered="{!product.priceBookEntry.Maandelijkse_kosten__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Eenmalige aansluitkosten" width="15%">
+                        <apex:outputText value="{!product.Price_Connect}" />
+                    </apex:column>
+                    <!-- apex:column headerValue="Eenmalige installatiekosten" width="15%">
+                        <apex:outputText value="{!product.Price_Installation}" />
+                    </apex:column> -->
+                </apex:pageBlockTable>
+            </apex:repeat>
+        </apex:pageBlockSection>
+
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Bewaar" action="{!updateProducts}"/>
+        </apex:pageBlockButtons>
+        
+        <hr />
+
+        <apex:pageBlockSection columns="1" title="Offerte">
+            <apex:pageBlockTable value="{!quoteItems}" var="quoteItem">
+                <apex:column headerValue="Aantal" width="7%">
+                    <apex:inputText value="{!quoteItem.quantity}" rendered="{!ISNULL(quoteItem.Gekoppeld_aan__c)}"/>
+                </apex:column>
+                <apex:column headerValue="Naam" width="53%">
+                    <apex:outputLink value="/{!quoteItem.product2.id}" target="_blank">{!quoteItem.product2.Name}</apex:outputLink>
+                </apex:column>
+                <apex:column headerValue="Type" width="15%">
+                    <apex:outputText value="{!quoteItem.product2.Product_Type__c}" />
+                </apex:column>
+                <apex:column headerValue="Prijs per maand" width="10%">
+                    <apex:inputField value="{!quoteItem.UnitPrice}" />
+                </apex:column>
+                <apex:column headerValue="Eenmalige aansluitkosten" width="15%">
+                    <apex:inputField value="{!quoteItem.Price_Connect__c}" />
+                </apex:column>
+                <!--  apex:column headerValue="Eenmalige installatiekosten" width="15%">
+                    <apex:inputField value="{!quoteItem.Price_Installation__c}" />
+                </apex:column>-->
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    <apex:pageBlock title="{!wizard.current.name}" mode="maindetail" rendered="{!wizard.current.step == 4}">
+        <apex:pageBlockSection columns="1">
+            <apex:repeat value="{!producten}" var="productGroup">
+                <h3 rendered="{!NOT(ISNULL(productGroup.name))}">{!productGroup.name}</h3>
+                <apex:pageBlockTable id="producten" value="{!productGroup.products}" var="product">
+                    <apex:column headerValue="Aantal" width="7%">
+                        <apex:inputText value="{!product.amount}"/>
+                    </apex:column>
+                    <apex:column headerValue="Naam" width="40%">
+                        <apex:outputLink value="/{!product.product.id}" target="_blank">{!product.product.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column headerValue="Type" width="13%">
+                        <apex:outputText value="{!product.product.Product_Type__c}" />
+                    </apex:column>
+                    <apex:column headerValue="Prijs per maand" width="10%">
+                        <apex:outputField value="{!product.priceBookEntry.UnitPrice}" rendered="{!product.priceBookEntry.Maandelijkse_kosten__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Eenmalige aansluitkosten" width="15%">
+                        <apex:outputText value="{!product.Price_Connect}" />
+                    </apex:column>
+                    <apex:column headerValue="Eenmalige installatiekosten" width="15%">
+                        <apex:outputText value="{!product.Price_Installation}" />
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:repeat>
+        </apex:pageBlockSection>
+
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Bewaar" action="{!updateProducts}"/>
+        </apex:pageBlockButtons>
+        
+        <hr />
+
+        <apex:pageBlockSection columns="1" title="Offerte">
+            <apex:pageBlockTable value="{!quoteItems}" var="quoteItem">
+                <apex:column headerValue="Aantal" width="7%">
+                    <apex:inputText value="{!quoteItem.quantity}" rendered="{!ISNULL(quoteItem.Gekoppeld_aan__c)}"/>
+                </apex:column>
+                <apex:column headerValue="Naam" width="25%">
+                    <apex:outputLink value="/{!quoteItem.product2.id}" target="_blank">{!quoteItem.product2.Name}</apex:outputLink>
+                </apex:column>
+                <apex:column headerValue="Type" width="13%">
+                    <apex:outputText value="{!quoteItem.product2.Product_Type__c}" />
+                </apex:column>
+                <apex:column headerValue="Prijs per maand" width="10%">
+                    <apex:inputField value="{!quoteItem.UnitPrice}" />
+                </apex:column>
+                <apex:column headerValue="Eenmalige aansluitkosten" width="30%">
+                    <apex:inputField value="{!quoteItem.Price_Connect__c}" />
+                </apex:column>
+                <apex:column headerValue="Eenmalige installatiekosten" width="15%">
+                    <apex:inputField value="{!quoteItem.Price_Installation__c}" />
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+    <apex:pageBlock title="Hardware" mode="maindetail" rendered="{!wizard.current.step == 5}">
+        <apex:pageBlockSection columns="1">
+            <apex:repeat value="{!producten}" var="productGroup">
+                <h3 rendered="{!NOT(ISNULL(productGroup.name))}">{!productGroup.name}</h3>
+                <apex:pageBlockTable id="producten" value="{!productGroup.products}" var="product">
+                    <apex:column headerValue="Aantal" width="7%">
+                        <apex:inputText value="{!product.amount}"/>
+                    </apex:column>
+                    <apex:column headerValue="Naam" width="25%">
+                        <apex:outputLink value="/{!product.product.id}" target="_blank" rendered="{!!product.product.Aanpasbaar__c}">{!product.product.Name}</apex:outputLink>
+                        <apex:inputText value="{!product.productName}" rendered="{!product.product.Aanpasbaar__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Type" width="13%">
+                        <apex:outputText value="{!product.product.Product_Type__c}" />
+                    </apex:column>
+                    <apex:column headerValue="Opmerkingen" width="30%">
+                        <apex:outputText value="{!product.product.Remarks__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Prijs Per Stuk" width="15%">
+                        <apex:outputText value="{!product.UnitPrice}"  rendered="{!!product.product.Aanpasbaar__c}"/>
+                        <apex:inputText value="{!product.UnitPrice}" rendered="{!product.product.Aanpasbaar__c}"/>
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:repeat>
+        </apex:pageBlockSection>
+
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Bewaar" action="{!updateProducts}"/>
+        </apex:pageBlockButtons>
+        
+        <hr/>
+
+        <apex:pageBlockSection columns="1" title="Offerte">
+            <apex:pageBlockTable value="{!quoteItems}" var="quoteItem">
+                <apex:column headerValue="Aantal" width="7%"> 
+                    <apex:inputText value="{!quoteItem.quantity}"/>
+                </apex:column>
+                <apex:column headerValue="Naam" width="55%">
+                    <apex:outputLink value="/{!quoteItem.product2.id}" target="_blank" rendered="{!!quoteItem.product2.Aanpasbaar__c}">{!quoteItem.product2.Name}</apex:outputLink>
+                    <apex:inputField value="{!quoteItem.Description}" rendered="{!quoteItem.product2.Aanpasbaar__c}"/>
+                </apex:column>
+                <apex:column headerValue="Type" width="8%">
+                    <apex:outputText value="{!quoteItem.product2.Product_Type__c}" />
+                </apex:column>
+                <apex:column headerValue="Opmerkingen" width="15%">
+                    <apex:outputText value="{!quoteItem.product2.Remarks__c}"/>
+                </apex:column>
+                <apex:column headerValue="Prijs per Stuk" width="15%">
+                    <apex:inputField value="{!quoteItem.UnitPrice}" />
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>   
+
+    <apex:pageBlock title="Service & dienstenx" mode="maindetail" rendered="{!wizard.current.step == 6}">
+        <apex:pageBlockSection columns="1">
+            <apex:repeat value="{!producten}" var="productGroup">
+                <h3 rendered="{!NOT(ISNULL(productGroup.name))}">{!productGroup.name}</h3>
+                <apex:pageBlockTable id="producten" value="{!productGroup.products}" var="product">
+                    <apex:column headerValue="Aantal" width="15%">
+                        <apex:inputText value="{!product.amount}"/>
+                    </apex:column>
+                    <apex:column headerValue="Naam" width="55%">
+                        <apex:outputLink value="/{!product.product.id}" target="_blank" rendered="{!!product.product.Aanpasbaar__c}">{!product.product.Name}</apex:outputLink>
+                        <apex:inputText value="{!product.productName}" rendered="{!product.product.Aanpasbaar__c}" style="width: 100%"/>
+                    </apex:column>
+                    <apex:column headerValue="Prijs Maandelijks" width="15%">
+                        <apex:outputText value="{!product.UnitPrice}"  rendered="{!!product.product.Aanpasbaar__c}"/>
+                        <apex:inputText value="{!product.UnitPrice}" rendered="{!product.product.Aanpasbaar__c}"/>
+                    </apex:column>
+                    <apex:column headerValue="Prijs Eenmalig" width="15%">
+                        <apex:outputText value="{!product.Price_Installation}"  rendered="{!!product.product.Aanpasbaar__c}"/>
+                        <apex:inputText value="{!product.Price_Installation}" rendered="{!product.product.Aanpasbaar__c}"/>
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:repeat>
+        </apex:pageBlockSection>
+
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Bewaar" action="{!updateProducts}"/>
+        </apex:pageBlockButtons>
+
+        <hr />
+
+        <apex:pageBlockSection columns="1" title="Offerte">
+            <apex:pageBlockTable value="{!quoteItems}" var="quoteItem">
+                <apex:column headerValue="Aantal" width="15%"> 
+                    <apex:inputText value="{!quoteItem.quantity}"/>
+                </apex:column>
+                <apex:column headerValue="Naam" width="25%">
+                    <apex:outputLink value="/{!quoteItem.product2.id}" target="_blank" rendered="{!!quoteItem.product2.Aanpasbaar__c}">{!quoteItem.product2.Name}</apex:outputLink>
+                    <apex:inputField value="{!quoteItem.Description}" rendered="{!quoteItem.product2.Aanpasbaar__c}" style="width:100%" />
+                </apex:column>
+                <apex:column headerValue="Opmerkingen" width="30%">
+                    <apex:outputText value="{!quoteItem.product2.Remarks__c}" style="width:100%" />
+                </apex:column>
+                <apex:column headerValue="Prijs Maandelijks" width="15%">
+                    <apex:inputField value="{!quoteItem.UnitPrice}" />
+                </apex:column>
+                <apex:column headerValue="Prijs Eenmalig" width="15%">
+                    <apex:inputField value="{!quoteItem.Price_Installation__c}" />
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+
+    </apex:pageBlock>   
+</apex:form>
+</apex:page>

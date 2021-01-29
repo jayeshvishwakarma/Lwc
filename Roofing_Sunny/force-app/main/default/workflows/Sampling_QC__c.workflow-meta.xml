@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Change_Status</fullName>
+        <field>Sampling_status__c</field>
+        <literalValue>Sample Discarded</literalValue>
+        <name>twod Change Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Sample_Discarded_Date</fullName>
+        <field>Sample_discarded_date__c</field>
+        <formula>Today()</formula>
+        <name>twod Set Sample Discarded Date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Set Sample Discarded Date</fullName>
+        <active>false</active>
+        <criteriaItems>
+            <field>Sampling_QC__c.Sample_stored_date__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Change_Status</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <actions>
+                <name>Set_Sample_Discarded_Date</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>1</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+</Workflow>

@@ -1,0 +1,257 @@
+<apex:page id="pg" lightningStylesheets="true" controller="ShoppingController">     
+    <style>
+        
+        .column {
+        float: left;
+        width: 33.3%;
+        padding: 0px;
+        height: 70px;
+        }
+        .column2 {
+        float: left;
+        width: 33.33%;
+        padding: 0px;
+        height: 70%;
+        }
+        
+        .column3
+        {
+        float: left;
+        width: 25%;
+        padding: 0px;
+        height: 70px;
+        
+        }
+        .column4
+        {
+        float: left;
+        width: 40%;
+        padding: 0px;
+        height: 50%;
+        
+        }
+        
+        
+    </style>
+    <apex:slds />
+    <apex:form id="form">
+        <apex:pageBlock id="mainpgBlock" rendered="{!isMainpgBlock}">
+            
+            <apex:pageBlock id="pgBlock1" rendered="{!isPgBlock1}">
+                <div class="column" style="background-color:yellow" >
+                    <h1 style="font-weight:bold;font-size:46px;margin-left:40%">E-MarT</h1>
+                </div>
+                
+                <div class="column" align='center' style="padding:20px;background-color:yellow" >
+                    <apex:inputText size="30" value="{!searchProduct}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <apex:commandButton value="Search" action="{!findProduct}" reRender="form" />
+                </div>
+                
+                <div class="column" align='center' style="background-color:yellow"><br/>
+                    <apex:commandButton value="Login" action="{!login}"/>
+                </div>
+                
+            </apex:pageBlock>
+            
+            <apex:pageBlock id="pgBlock2" rendered="{!isPgBlock2}">
+                <div class="column3" style="background-color:yellow" >
+                    <h1 style="font-weight:bold;font-size:46px;margin-left:20%">E-MarT</h1>
+                </div>
+                
+                <div class="column3" align='center' style="padding:20px;background-color:yellow" >
+                    <apex:inputText size="20"  value="{!searchProduct}" />&nbsp;&nbsp;
+                    <apex:commandButton value="Search" action="{!findProduct}" reRender="form">
+                        <apex:param name="a1" value="{!EmailIdFromLoginPage}" assignTo="{!EmailIdFromShoppingPage}"/>
+                        <apex:param name="a2" value="{!nameFromLoginPage}" assignTo="{!nameOfContact}"/> 
+                    </apex:commandButton>
+                </div>
+                
+                <div class="column3" align='right' style="background-color:yellow;font-weight:bold;font-size:17px;"><br/>
+                    <apex:commandLink value="{!nameFromLoginPage}" action="{!editProfile}"/>
+                </div>
+                
+                <div class="column3" align="center" style="font-weight:bold;background-color:yellow"><br/>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                    <i class="fa fa-shopping-cart" style="color:black;font-size:30px"></i>
+                    <apex:commandLink value="Cart" action="{!openCart}" reRender="mainpgBlock" >
+                        <apex:param name="a1" value="{!EmailIdFromLoginPage}" assignTo="{!EmailIdFromShoppingPage}"/>
+                    </apex:commandLink>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <apex:commandlink value="Logout" action="{!logout}" />
+                    
+                </div>
+                
+                
+            </apex:pageBlock>
+            <apex:pageMessages ></apex:pageMessages>
+            
+            <apex:pageBlock >
+                <apex:image value="{!URLFOR($Resource.img2)}" width="100%" height="100%" />  
+            </apex:pageBlock>
+            
+            <apex:pageBlock >
+                
+                <div style="background-color:honeydew;" >
+                    <h1 align="center" style="font-weight:bold;font-size:33px;">Electronics and Home Appliances</h1>
+                    <apex:commandLink style="font-weight:bold;font-size:25px;margin-left:90%" value="ViewAll >" reRender="mainpgBlock" action="{!ViewAll}">
+                        <apex:param name="a1" value="{!EmailIdFromLoginPage}" assignTo="{!EmailIdFromShoppingPage}"/>
+                        <apex:param name="a2" value="{!nameFromLoginPage}" assignTo="{!nameOfContact}"/> 
+                        <apex:param name="a3" value="3" assignTo="{!ViewAllInteger}"/>
+                    </apex:commandLink>
+                    
+                    <h1 align="center" style="font-weight:bold;font-size:23px;">For Your Needs</h1>
+                    
+                    <div align="center" style="background-color:honeydew;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/312/312/k2jbyq80pkrrdj/mobile-refurbished/k/y/d/iphone-11-256-u-mwm82hn-a-apple-0-original-imafkg25mhaztxns.jpeg?q=70" width="29.3%" height="70%"/><br/><br/>         
+                    </div>
+                    
+                    <div align="center" style="background-color:honeydew;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/416/416/jsnjbm80/computer/j/8/c/apple-na-thin-and-light-laptop-original-imafe6f78hur4jbh.jpeg?q=70" width="70%" height="70%"/><br/><br/>         
+                    </div>
+                    
+                    <div align="center" style="background-color:honeydew;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/312/312/jn4x47k0/smartwatch/n/q/h/mu662hn-a-apple-original-imaf9vcgc2wkz6tp.jpeg?q=70" width="23%" height="70%"/><br/><br/>         
+                    </div>
+                    
+                </div>
+                
+            </apex:pageBlock>
+            
+            <apex:pageBlock id="pgBlock3">
+                <apex:image value="{!URLFOR($Resource.img)}" width="100%" height="100%" />  
+            </apex:pageBlock>
+            
+            <apex:pageBlock >
+                
+                <div style="background-color:azure;" >
+                    <h1 align="center" style="font-weight:bold;font-size:33px;">Groceries</h1>
+                    
+                    <apex:commandLink style="font-weight:bold;font-size:25px;margin-left:90%" value="ViewAll >" reRender="mainpgBlock" action="{!ViewAll}">
+                        <apex:param name="a1" value="{!EmailIdFromLoginPage}" assignTo="{!EmailIdFromShoppingPage}"/>
+                        <apex:param name="a2" value="{!nameFromLoginPage}" assignTo="{!nameOfContact}"/>
+                        <apex:param name="a3" value="1" assignTo="{!ViewAllInteger}"/>
+                    </apex:commandLink>
+                    
+                    <h1 align="center" style="font-weight:bold;font-size:23px;">For Your Health</h1>
+                    
+                    <div align="center" style="background-color:azure;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/612/612/jz8qf0w0/protein-supplement/m/9/z/super-gainer-xxl-nut5225-03-muscleblaze-original-imafjaxb9zxmxgyu.jpeg?q=70" width="30%" height="30%" /><br/><br/>
+                    </div>
+                    
+                    <div align="center" style="background-color:azure;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/612/612/j4x207k0/milk-drink-mix/k/e/z/500-health-nutrition-drink-classic-malt-sachet-horlicks-original-imaevq3aybdje4cb.jpeg?q=70" width="37.5%" height="30%" /><br/><br/>
+                    </div>
+                    
+                    <div align="center" style="background-color:azure;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/612/612/jrkyfm80/tea/n/m/g/500-gold-regular-tea-leaves-tata-original-imafdczafvpynumt.jpeg?q=70" width="24.5%" height="30%" /><br/><br/>
+                    </div>
+                    
+                </div>
+                
+            </apex:pageBlock>
+            
+            <apex:pageBlock >
+                
+                <div style="background-color:snow;" >
+                    <h1 align="center" style="font-weight:bold;font-size:33px;">Grooming and Hygiene</h1>
+                    
+                    <apex:commandLink style="font-weight:bold;font-size:25px;margin-left:90%" value="ViewAll >" reRender="mainpgBlock" action="{!ViewAll}">
+                        <apex:param name="a1" value="{!EmailIdFromLoginPage}" assignTo="{!EmailIdFromShoppingPage}"/>
+                        <apex:param name="a2" value="{!nameFromLoginPage}" assignTo="{!nameOfContact}"/>
+                        <apex:param name="a3" value="2" assignTo="{!ViewAllInteger}"/>
+                    </apex:commandLink>
+                    
+                    <h1 align="center" style="font-weight:bold;font-size:23px;">Everything Your Family Needs</h1>
+                    
+                    <div align="center" style="background-color:snow;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/200/200/jhavdzk0/hair-oil/g/k/g/1-pure-coconut-parachute-original-imaf5cjhuvj87zdy.jpeg?q=70" width="30%" height="30%" /><br/><br/>
+                    </div>
+                    
+                    <div align="center" style="background-color:snow;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/200/200/jf2uqa80/body-wash/h/2/t/250-lemon-and-oil-care-shower-gel-nivea-original-imaf3mncpwjjtkxn.jpeg?q=70" width="30%" height="30%" /><br/><br/>
+                    </div>
+                    
+                    <div align="center" style="background-color:snow;" class="column2" ><br/>
+                        <apex:image url="https://rukminim1.flixcart.com/image/200/200/k3yrte80/aftershave-lotion/g/x/s/100-ultra-smooth-after-shave-balm-axe-original-imafmz54yzxucwgj.jpeg?q=70" width="22.5%" height="30%" /><br/><br/>
+                    </div>
+                    
+                </div>
+                
+            </apex:pageBlock>
+            
+        </apex:pageBlock>
+        
+        <apex:pageBlock id="pgBlckEdit" rendered="{!isPgBlockEdit}" >
+            <div style="width:50%;margin-left:24%;">
+                <br/><br/><br/><br/><br/><br/>
+                
+                <apex:pageBlock >
+                    <div align="center" style='background-color:yellow;font-weight:bold;font-size:30px;'>
+                        Edit Account
+                    </div>
+                    <div align="center" style='background-color:yellow;'>
+                        <apex:commandButton style="Font-weight:bold;font-size:15px" styleClass="slds-button" value="My Transactions" action="{!myTransaction}" />
+                    </div>
+                </apex:pageBlock>
+                
+                <apex:pageBlock id="pgBlockAccount"  rendered="{!ispgBlockAccount}">
+                    <div>
+                        <div class="column4" >
+                            <b>Firstname:</b><br/><br/><br/>
+                            <b>Lastname:</b><br/><br/><br/>
+                            <b>Phone:</b><br/><br/><br/>
+                            <b>Email:</b><br/><br/><br/><br/>
+                            <b>Password :</b><br/><br/><br/>
+                            <b>Address :&nbsp;&nbsp;</b><br/><br/><br/><br/>
+                            <b>Country :</b><br/><br/>
+                        </div>
+                        
+                        <div class="column4" >
+                            <apex:inputField value="{!objCOntact.firstName}" /><br/><br/>
+                            <apex:inputField value="{!objCOntact.LastNAme}" /><br/>
+                            <apex:inputField value="{!objCOntact.Phone}" /><br/><br/><br/>
+                            <apex:inputField value="{!objCOntact.Email}" /><br/><br/><br/>	
+                            <apex:inputField value="{!objCOntact.Password__c}" /><br/><br/>
+                            <apex:inputField value="{!objContact.Address__c}" /><br/>
+                            <apex:inputField value="{!objContact.Country__c}" /><br/><br/>
+                        </div>
+                    </div>
+                    
+                    <div class="column4" align="center">
+                        <br/>  
+                        <apex:commandButton style="font-weight:bold;background-color:azure;" value="Update & Save" action="{!updateContact}" reRender="form" /><br/><br/>
+                        <apex:commandButton style="font-weight:bold;background-color:azure;" value="Back" action="{!back}" reRender="form" />
+                    </div>
+                    
+                </apex:pageBlock>
+                <div style="Width:180%;margin-left:-38%">
+                <apex:pageBlock id="pgBlockTransaction" rendered="{!ispgBlockTransaction}">
+                    <apex:pageBlockTable value="{!LstOrderDetails}" var="objOrderDetail" border="2" rendered="true" >
+                        <apex:column value="{!objOrderDetail.TransactionId__r.id}" headerValue="Transaction ID">
+                        </apex:column>
+                        <apex:column value="{!objOrderDetail.id}" headerValue="Order Id"></apex:column>
+                        <apex:column value="{!objOrderDetail.ProductId__r.Product_Name__c}" headerValue="Bought Product"></apex:column>
+                        <apex:column value="{!objOrderDetail.Total_Amount__c}"/>
+                        <apex:column value="{!objOrderDetail.Quantity__c}"/>
+                        <apex:column value="{!objOrderDetail.TransactionId__r.CreatedDate}"/>
+                    </apex:pageBlockTable>
+                    
+                    <div align="center">
+                        <br/>  
+                        <apex:commandButton style="font-weight:bold;background-color:azure;" value="Back" action="{!back}" reRender="form" />
+                    </div>
+                </apex:pageBlock>
+                </div>
+                
+            </div>
+        </apex:pageBlock>
+        
+    </apex:form>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+    <script>
+    $(document).ready(function(){
+        document.getElementById('pg:form:pgBlckEdit:j_id56:j_id64').disabled=true;
+    });
+    </script>
+</apex:page>

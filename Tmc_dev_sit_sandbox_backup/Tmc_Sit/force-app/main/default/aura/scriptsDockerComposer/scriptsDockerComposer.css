@@ -1,0 +1,48 @@
+.THIS .docker-button {
+    position: fixed;
+    top: 50%;
+    right: -22px;
+    text-align: right;
+    z-index: 1000;
+}
+
+.THIS .docker-button .slds-button {
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    font-size: medium;
+}
+
+.THIS .slds-docked_container {
+    z-index: 1000;
+    top: 80vh;
+    bottom: inherit;
+    padding: 0;
+    padding-right: 25px;
+    padding-top: 55px;
+}
+
+.THIS .slds-docked-composer {
+    /* height: auto;
+    max-height: 80vh; */
+    width: auto;
+    max-width: 400PX;
+    border: 1px solid #dddbda;
+    overflow: overlay;
+    
+}
+
+.THIS .slds-docked-composer__header {
+    width: 100%;
+    
+    max-width: 400px;
+    z-index: 9998;
+}
+
+.THIS .slds-docked-composer__body .slds-align_absolute-center{
+    /* overflow: auto; */
+    margin-top: 30px;
+    /* height: auto; */
+}

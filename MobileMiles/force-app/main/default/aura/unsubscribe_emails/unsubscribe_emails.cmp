@@ -1,0 +1,13 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" controller="UnsubscribeEmailsController">
+	<aura:handler name="init" action="{!c.doInt}" value="{!this}" /> 
+    <aura:attribute name="fieldName" type="string" description="api name of the field to set True"/>
+    <aura:attribute name="objectName" type="string" description="name for the object to update"/>
+    <aura:renderIf isTrue="{!v.success}">
+    <ui:message title="Emails" severity="confirm" closable="true">
+			You are successfully unsubscribed.
+	</ui:message>
+    </aura:renderIf>
+    <ui:message title="Emails" severity="confirm" closable="true">
+			You are successfully unsubscribed.
+	</ui:message>
+</aura:component>

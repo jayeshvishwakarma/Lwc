@@ -1,0 +1,63 @@
+<apex:page id="pageid" controller="ZipToFIPSTerritoryController" rendered="true" showHeader="true" sidebar="true" standardStylesheets="true">
+   <apex:form id="formid">
+   <apex:pageMessages />
+   <apex:pageBlock id="pbId" title="Zip to Territory Inquiry">      
+      <apex:pageBlockSection id="pbsid" columns="2">          
+           <apex:InputText label="Zip/Postal Code" value="{!zipCode}" maxlength="7" required="true" size="10" style="width:100px" styleClass="form-control"/>         
+           <!--<apex:pageBlockSectionItem >
+           <apex:outputLabel value="Zip/Postal Code" />
+           <apex:outputPanel >
+               <div class="requiredInput">
+                    <div class="requiredBlock"></div>
+                    <apex:inputText value="{!zipCode}" maxlength="5"  size="10" required="true" style="margin-right:20px;"/>
+                </div>
+            </apex:outputPanel>
+            </apex:pageBlockSectionItem>-->               
+        <apex:pageBlockSectionItem id="pgsitemId">
+                                            
+            <apex:commandButton id="city" value="Show Territory" action="{!showCity}" />
+            <apex:commandButton id="resetid" value="Reset" action="{!reset}" onclick="this.formid.reset();return false;" />
+        </apex:pageBlockSectionItem>
+                       
+      </apex:pageBlockSection>
+                       
+   </apex:pageBlock>
+   <apex:pageBlock id="cityId1" title="Zip to FIPS Details" rendered="{!display}" >              
+            <apex:pageblocktable id="cityId2" value="{!zipToFipsList}" var="ziptofips" columns="3" >                                                                                      
+                <apex:column >
+                    <apex:facet name="header">City</apex:facet>
+                    <apex:commandLink value="{!ziptofips.City__c}" action="{!showTerritory}" rerender="terryId1,terryId2" immediate="true" >
+                        <apex:param name="showTerryid" value="{!ziptofips.FIPS_Code__c}" assignTo="{!showTerryid}" />
+                        
+                        <!--<apex:param name="terrydisplay" value="true" assignTo="{!terrydisplay}" />-->
+                    </apex:commandLink>                              
+                </apex:column>
+                <apex:Column headerValue="FIPS" value="{!ziptofips.FIPS_Code__c}" /> 
+                <apex:column headerValue="FIPS CODE NAME" VALUE="{!ziptofips.FIPS_Code_Name__c }"/>                                             
+            </apex:pageblocktable>                        
+    </apex:pageBlock>
+    <apex:pageBlock id="terryId1" title="Territory Details" rendered="{!terrydisplay}">
+    <!--  terrydisplay -->
+    <!--        <apex:pageblocktable id="terryId2" value="{!HierarchyMatrixList}" var="territory" columns="8" >
+            {!HierarchyMatrixList}
+            {!wraplist}
+            <apex:param name="showHierarchyid" value="{!territory.Territory__c}" assignTo="{!showHierarchyid}"/>
+                <apex:Column headerValue="Division" value="{!territory.Division__r.Name }" />
+                <apex:Column headerValue="Territory" value="{!territory.Territory__r.Name}" />                                        
+                <apex:Column headerValue="TM Name" value="{!territory.TM__r.Name}" /> 
+               <apex:Column headerValue="Phone #" value="{!territory.TM__r.MobilePhone}" />
+                <apex:Column headerValue="Email " value="{!territory.TM__r.Email}" /> 
+               <apex:column >
+                   <apex:facet name="header">TM Name</apex:facet>
+                   <apex:commandlink value="{!territory.TM__r.Name}" action="/{!territory.TM__c}"/>
+               </apex:column>
+                <apex:Column headerValue="Region" value="{!territory.Territory__r.Region__c}" />  
+                <apex:Column headerValue="Territory Code" value="{!territory.Territory__r.Territory_Code__c}" />  
+                <apex:Column headerValue="Type" value="{!territory.Territory__r.Type__c}" />  
+                <apex:Column headerValue="Sales Org" value="{!territory.Territory__r.Sales_Org__c }" />  
+                                                                    
+            </apex:pageblocktable>   -->
+    </apex:pageBlock>
+            
+    </apex:form>   
+</apex:page>

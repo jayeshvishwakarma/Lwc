@@ -1,0 +1,55 @@
+<apex:page controller="SurveyQuestionsController" lightningStylesheets="true" tabStyle="Survey" >
+    <apex:slds />
+    <apex:sectionHeader subtitle="General" title="Survey" />
+    <apex:form >
+        
+        <div class="slds-box slds-theme_shade slds-theme_alert-texture">
+        <apex:pageBlock id="pgBlock">
+            <apex:pageMessages />
+            
+            <apex:pageBlockSection title="{!nameFromLoginPage}" collapsible="false" rendered="{!isQuestionSection}">               
+                <apex:InputField label="" value="{!objSurveyQuestion.Name}" /><br/> 
+                
+                <apex:selectRadio value="{!Choice}">
+                    <apex:selectOptions value="{!Choices}"/><br/>
+                    
+                </apex:selectRadio>
+                
+                <apex:pageBlockSection >
+                    <apex:outputPanel ></apex:outputPanel>
+                    <apex:commandButton styleClass="slds-button slds-button_brand" value="Submit & Next" action="{!submit}" reRender="pgBlock"/>
+                    
+                </apex:pageBlockSection>
+                
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection collapsible="true" columns="1" rendered="{!isResponseSection}" >
+                <apex:pageBlockTable styleClass="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" value="{!lstResponses}" var="objResponse" rendered="{!lstResponses.size>0}" >
+                    <apex:column value="{!objResponse.Survey_Question__c}"/>
+                    <apex:column value="{!objResponse.Choice__c}"/> 
+                </apex:pageBlockTable>
+                
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel ></apex:outputPanel>
+                        <apex:commandButton styleClass="slds-button slds-button_destructive" value="Logout" action="{!logoutAccount}" reRender="pgBlock"/>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection> 
+                
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="chart1" rendered="{!isPieChart}" >
+                <apex:pageBlockSectionItem >
+                    <apex:outputPanel ></apex:outputPanel>
+                    <apex:chart height="300" width="400" data="{!PieData}">
+                        <apex:pieSeries tips="true" dataField="data"/>
+                        <apex:legend position="right"/>
+                    </apex:chart>
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection> 
+        </apex:pageBlock> 
+        </div>
+        
+    </apex:form>
+</apex:page>

@@ -1,0 +1,3 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global" >
+	<c:editDealerInboundCase recordId="{!v.recordId}" oncloseCmp="{!c.handleFinish}"/>
+</aura:component>

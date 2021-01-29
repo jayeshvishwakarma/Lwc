@@ -1,0 +1,3 @@
+<apex:page standardController="Porteringen_mobiel__c" action="{!callMobileSettingAPI}" extensions="MobileSettings">
+    <apex:pageMessages escape="false"  />
+</apex:page>

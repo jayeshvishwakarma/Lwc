@@ -1,0 +1,176 @@
+<template>
+    <div class="slds-p-top_large"></div>
+    <div class="slds-p-top_large"></div>
+    <div if:true={cmpVisible}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select
+                        Workshop</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- Modal/Popup Box LWC body starts here -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                        <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
+                            <div class="slds-col">
+                                <template if:false={forCodeData}>
+                                    <c-search-component name="forCode" label="For Code" onchange={handleForCodeList}
+                                        place-holder-name="Search For Code" class="customRequired">
+                                    </c-search-component>
+                                </template>
+                                <template if:false={forCodeData}>
+                                    <div if:true={forCodeFilteredList}>
+                                        <div for:each={forCodeFilteredList} for:item="record" key={record.Id}>
+                                            <c-record-list key={record.Id} record={record}
+                                                onselect={handleForCodeSelection} iconname="standard:employee">
+                                            </c-record-list>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template if:true={forCodeData}>
+                                    <label class="slds-form-element__label customRequired">For
+                                        Code</label>
+                                    <input class="slds-input slds-combobox__input
+                                                          slds-combobox__input-value" id="combobox-id-5"
+                                        aria-controls="listbox-id-5" autocomplete="off" role="textbox" type="text"
+                                        placeholder="Select an Option" value={forCodeName} />
+                                    <button class="sicon_container slds-button slds-button_icon 
+                                            slds-input__icon slds-input__icon_right " title="Remove selected option"
+                                        style="padding-left: 95%; margin-top: -9%;" onclick={handleRemove}>
+                                        <lightning-icon icon-name="utility:close" size="small"
+                                            style="margin-top: inherit;">
+                                        </lightning-icon>
+                                        <span class="slds-assistive-text">Remove
+                                            selected
+                                            option</span>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </div>
+
+                    <!--///////////////////////////////////////////////////////////////-->
+                    <div if:true={isForCodeSelected}>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-size_1-of-1">
+                                <label class="slds-form-element__label">Available Pincode</label>
+
+                                <c-multi-select-picklist-form data-id="multiselectpick" name="Available Pincode"
+                                    options-list={pincodeSetOption} onselect={handleMultiSelect}
+                                    max-limit={optionLimit}>
+                                </c-multi-select-picklist-form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slds-size_1-of-1" style="height:500px;">
+                        <div if:true={showTable}>
+
+                            <table aria-multiselectable="true"
+                                class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols slds-table_col-bordered slds-var-m-top_small"
+                                role="grid">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th aria-label="Action" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable widthcls" scope="col"
+                                            style="width: 10%;">
+                                            <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);"
+                                                role="button" tabindex="0">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate slds-align_absolute-center">
+                                                    <span title="Action">Action</span>
+                                                </div>
+                                            </a>
+                                        </th>
+                                        <th aria-label="Name" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col" style="width: 58%;">
+                                            <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);"
+                                                role="button" tabindex="0">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                    <span title="Name">Name</span>
+                                                </div>
+                                            </a>
+                                        </th>
+                                        <th aria-label="Dealership Type" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col" style="width: 22%;">
+                                            <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);"
+                                                role="button" tabindex="0">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                    <span title="Dealership Type">Dealership Type</span>
+                                                </div>
+                                            </a>
+                                        </th>
+
+                                        <th aria-label="Dealership Channel" aria-sort="none"
+                                            class="slds-is-resizable slds-is-sortable" scope="col" style="width: 25%;">
+                                            <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);"
+                                                role="button" tabindex="0">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                    <span title="Dealership Channel">Dealership Channel</span>
+                                                </div>
+                                            </a>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody for:each={dealerShipList} for:item='item' key={item.Id}>
+                                    <tr aria-selected="false" class="slds-hint-parent rowStyle">
+                                        <td role="gridcell" style="width: 10%;">
+                                            <div class="slds-truncate slds-align_absolute-center" title="Action">
+                                                <lightning-button-icon icon-name="utility:check" variant={item.variant}
+                                                    data-id={item.Id} onclick={handleSelect} alternative-text="check"
+                                                    title="check">
+                                                </lightning-button-icon>
+
+                                            </div>
+                                        </td>
+                                        <td role="gridcell" style="width: 58%;">
+                                            <div class="slds-truncate" title={item.Name}>
+                                                <lightning-input id="proName" class="bottomMargin" type="text" readonly
+                                                    value={item.Name}>
+                                                </lightning-input>
+                                            </div>
+                                        </td>
+                                        <td role="gridcell" style="width: 22%;">
+                                            <div class="slds-truncate" title="Dealership Type">
+                                                {item.Channel__c}
+                                            </div>
+                                        </td>
+                                        <td role="gridcell" style="width: 25%;">
+                                            <div class="slds-truncate slds-align_absolute-center"
+                                                title="Dealership Channel">
+                                                {item.Dealer_Type__c}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--///////////////////////////////////////////////////////////////-->
+
+                    <!--<div style="height:500px;">
+                        <lightning-datatable key-field="Id" data={dealerShipList} columns={columns} if:true={showTable}
+                            hide-checkbox-column onrowaction={handleRowAction} show-row-number-column
+                            min-column-width="120" class="slds-max-medium-table_stacked">
+                        </lightning-datatable>
+                    </div>-->
+                    <button class="slds-button slds-button_neutral slds-align_absolute-center"
+                        onclick={cancel}>Cancel</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

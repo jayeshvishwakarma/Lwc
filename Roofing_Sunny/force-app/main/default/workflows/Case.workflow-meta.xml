@@ -1,0 +1,1296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Alert_Dispatch_Rush_Order</fullName>
+        <ccEmails>derek.bissett@saint-gobain.com</ccEmails>
+        <description>Alert Dispatch Rush Order</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Dispatch_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Rush_Order_Templates/Rush_Order_Notify_LP</template>
+    </alerts>
+    <alerts>
+        <fullName>Alert_Dispatch_User_and_Derek_Bissett</fullName>
+        <description>Alert Dispatch User and System Administrator</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Dispatch_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <recipient>derek.bissett@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Customer_Support_Templates/RMA_In_Progress</template>
+    </alerts>
+    <alerts>
+        <fullName>Case_Comment_Notification_on_Customer_Master_Inquiry_Request</fullName>
+        <description>Case Comment Notification on Customer Master Inquiry Request</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Case_Comment_Notification_on_Customer_Master_Inquiry</template>
+    </alerts>
+    <alerts>
+        <fullName>Case_Reopened_Alert1</fullName>
+        <ccEmails>derek.bissett@saint-gobain.com</ccEmails>
+        <description>Case Reopened Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Customer_Support_Templates/Case_Reopened</template>
+    </alerts>
+    <alerts>
+        <fullName>Customer_On_boarding_Request_Assignment_email_to_Customer_Service_team</fullName>
+        <description>Customer On-boarding Request Assignment email to Customer Service team</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Customer_Master_Request_Assignment_Notification_To_Customer_Service_Team</template>
+    </alerts>
+    <alerts>
+        <fullName>Customer_On_boarding_Request_Assignment_email_to_TM</fullName>
+        <description>Customer On-boarding Request Assignment email to TM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Sales_Rep__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Customer_Master_Request_Assignment_Notification_To_TM</template>
+    </alerts>
+    <alerts>
+        <fullName>Customer_On_boarding_Request_Assignment_email_to_Tax_Dept_Team</fullName>
+        <ccEmails>RPG_Pricing@saint-gobain.com;</ccEmails>
+        <description>Customer On-boarding Request Assignment email to Tax Dept Team</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Customer_Master_Request_Assignment_Notification_To_Customer_Service_Team</template>
+    </alerts>
+    <alerts>
+        <fullName>Customer_On_boarding_Request_Completion_Email</fullName>
+        <ccEmails>RPG_Pricing@saint-gobain.com</ccEmails>
+        <ccEmails>CTRPGTRANS@saint-gobain.com</ccEmails>
+        <ccEmails>CustomerMasterTeam@saint-gobain.com</ccEmails>
+        <description>Customer On-boarding Request Completion Email</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <field>CSR_ins__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Sales_Rep__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Customer_On_boarding_Request_Completion_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>Customer_On_boarding_Request_Rejection_Email</fullName>
+        <ccEmails>CustomerMasterTeam@saint-gobain.com</ccEmails>
+        <description>Customer On-boarding Request Rejection Email</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <field>CSR_ins__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Customer_On_boarding_Request_Rejection_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>Customer_On_boarding_Request_Rejection_Email_TM</fullName>
+        <description>Customer On-boarding Request Rejection Email TM</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <field>CSR_ins__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Customer_On_boarding_Request_Rejection_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>Customer_On_boarding_Sloar_Request_Closed_Email</fullName>
+        <ccEmails>RPG_Pricing@saint-gobain.com</ccEmails>
+        <description>Customer On-boarding Sloar Request Closed Email</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Customer_On_boarding_Request_Completion_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>Email_to_Dispatch_and_System_Administrator</fullName>
+        <description>Unresolved RMA - In Progress</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Dispatch_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Customer_Support_Templates/RMA_In_Progress</template>
+    </alerts>
+    <alerts>
+        <fullName>LP_Approved_Rush_Order</fullName>
+        <ccEmails>derek.bissett@saint-gobain.com</ccEmails>
+        <description>LP Approved Rush Order</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Rush_Order_Templates/Load_Planner_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>New_case_in_the_portal_queue</fullName>
+        <description>New case in the portal queue</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>portaluserrpg@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/PortalCaseQueueNotification</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Case_Owner</fullName>
+        <description>Notify Case Owner</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/CSR_Action_Necessary</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Dispatch</fullName>
+        <description>Notify Dispatch - Reconsignment</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Dispatch_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/Notify_Dispatch_Reconsignment</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Dispatch_Carrier_Damage</fullName>
+        <description>Notify Dispatch - Carrier Damage</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Dispatch_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/Notify_Dispatch_Carrier_Damage</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Dispatch_RMA</fullName>
+        <description>Notify Dispatch - RMA</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Dispatch_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/Notify_Dispatch_RMA</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Logistics_Manager</fullName>
+        <ccEmails>dispatch@saint-gobain.com</ccEmails>
+        <description>Notify Logistics Manager</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Warehouse_User__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/Warehouse_Action_Necessary</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Pricing_Coordinator</fullName>
+        <description>Notify Pricing Coordinator</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Pricing_Coordinator__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/PricingCoordinator_Action_Necessary</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_RM</fullName>
+        <description>Notify RM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>RSM__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/Sales_Action_Necessary</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_TM</fullName>
+        <description>Notify TM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>TM__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/Sales_Action_Necessary</template>
+    </alerts>
+    <alerts>
+        <fullName>Pricing_Escalation_Notify_Ben_Martin</fullName>
+        <description>Pricing Escalation - Notify Ben Martin</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Pricing_Coordinator__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderAddress>systemroofing@saint-gobain.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Customer_Support_Templates/Pricing_Escalation_to_Laurie_Peabody</template>
+    </alerts>
+    <alerts>
+        <fullName>Pricing_Refutes_Notify_Case_Owner</fullName>
+        <description>Pricing Refutes - Notify Case Owner</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Customer_Support_Templates/Pricing_Refutes_Routed_to_CS</template>
+    </alerts>
+    <alerts>
+        <fullName>Pricing_Refutes_Notify_Case_Owner_ESCALATED</fullName>
+        <description>Pricing Refutes - Notify Case Owner - ESCALATED</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>System_Emails/Case_Escalation_Template</template>
+    </alerts>
+    <alerts>
+        <fullName>RMA_Notify_Case_Owner</fullName>
+        <description>RMA - Notify Case Owner</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/CSR_Unapproved_RMA</template>
+    </alerts>
+    <alerts>
+        <fullName>RMA_Notify_RM</fullName>
+        <description>RMA - Notify RM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>RSM__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Customer_Support_Templates/Sales_RMA_Action_Necessary</template>
+    </alerts>
+    <alerts>
+        <fullName>RMA_Notify_TM</fullName>
+        <description>RMA - Notify TM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>TM__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Customer_Support_Templates/Sales_RMA_Action_Necessary</template>
+    </alerts>
+    <alerts>
+        <fullName>Rush_Order_Approved_Reminder</fullName>
+        <ccEmails>derek.bissett@saint-gobain.com</ccEmails>
+        <description>Rush Order Approved Reminder</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Rush_Order_Templates/Load_Planner_Approved_Reminder</template>
+    </alerts>
+    <alerts>
+        <fullName>Rush_Order_Rejected</fullName>
+        <ccEmails>derek.bissett@saint-gobain.com</ccEmails>
+        <description>Rush Order Rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Rush_Order_Templates/Load_Planner_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Sales_Escalation_Notify_Case_Owner</fullName>
+        <description>Sales Escalation Notify Case Owner</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>systemroofing@saint-gobain.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Customer_Support_Templates/Sales_Escalation</template>
+    </alerts>
+    <alerts>
+        <fullName>Service_Case_Warehouse_Approved_Routed_to_Pricing</fullName>
+        <description>Service Case	Warehouse Approved - Routed to Pricing</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Pricing_Coordinator__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/PricingCoordinator_Action_Necessary</template>
+    </alerts>
+    <alerts>
+        <fullName>Unsettled_RMA</fullName>
+        <description>Unresolved RMA</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Dispatch_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/RMA_In_Progress</template>
+    </alerts>
+    <alerts>
+        <fullName>WBS_Email_Alert</fullName>
+        <description>WBS Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>eileen.m.poulos@saint-gobain.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderAddress>systemroofing@saint-gobain.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Customer_Support_Templates/WBS_Email_Alert</template>
+    </alerts>
+    <alerts>
+        <fullName>Warehouse_Escalation_Notify_Anna_Hale</fullName>
+        <description>Warehouse Escalation</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Warehouse_User__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Customer_Support_Templates/Warehouse_Escalation</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Case_Origin_Field_Update</fullName>
+        <field>Origin</field>
+        <literalValue>Portal</literalValue>
+        <name>Case Origin Field Update</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Case_Origin_Update</fullName>
+        <field>Origin</field>
+        <literalValue>Portal</literalValue>
+        <name>Case Origin Update</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_Case_Record_Type_to_RMA</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>RMA_Case</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Change Case Record Type to RMA</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_Case_Record_Type_to_Reconsignment</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Reconsignment_Case</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Change Case Record Type to Reconsignment</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_to_Closed_Status</fullName>
+        <field>Status</field>
+        <literalValue>Closed</literalValue>
+        <name>Change to Closed Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Change_to_Spam_Queue</fullName>
+        <field>OwnerId</field>
+        <lookupValue>CX_Spam_Queue</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Change to Spam Queue</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Customer_Master_Owner_shipto_Tax_Dept</fullName>
+        <field>OwnerId</field>
+        <lookupValue>Tax_Department_Queue</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Customer Master  Owner shipto Tax Dept</name>
+        <notifyAssignee>true</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Customer_Master_Request_Status_to_Approv</fullName>
+        <field>Status</field>
+        <literalValue>Closed</literalValue>
+        <name>Customer Master Request Status to Approv</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Customer_Master_Request_Status_to_Reject</fullName>
+        <field>Status</field>
+        <literalValue>Rejected</literalValue>
+        <name>Customer Master Request Status to Reject</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Customer_Master_Request_Status_to_TD</fullName>
+        <field>Status</field>
+        <literalValue>Waiting on Tax Cert</literalValue>
+        <name>Customer Master Request Status to TD</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Customer_Master_Team_Queue_as_Owner</fullName>
+        <field>OwnerId</field>
+        <lookupValue>Customer_Master_Queue</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Customer Master Team Queue as Owner</name>
+        <notifyAssignee>true</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>PortalCaseIdFieldUpdate</fullName>
+        <field>PortalCaseId__c</field>
+        <formula>&apos;R&apos;+CaseNumber</formula>
+        <name>PortalCaseIdFieldUpdate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Escalated_CS</fullName>
+        <field>Status</field>
+        <literalValue>Escalated - CS</literalValue>
+        <name>Status Escalated - CS</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Escalated_Pricing</fullName>
+        <field>Status</field>
+        <literalValue>Escalated - Pricing</literalValue>
+        <name>Status Escalated - Pricing</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Escalated_Sales</fullName>
+        <field>Status</field>
+        <literalValue>Escalated - Sales</literalValue>
+        <name>Status Escalated - Sales</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Escalated_Warehouse</fullName>
+        <field>Status</field>
+        <literalValue>Escalated - Warehouse</literalValue>
+        <name>Status Escalated - Warehouse</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Customer_Master_Request_Status</fullName>
+        <field>Status</field>
+        <literalValue>Submitted to Customer Master Queue</literalValue>
+        <name>Update Customer Master Request Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_to_Closed</fullName>
+        <description>Update case status to Closed</description>
+        <field>Status</field>
+        <literalValue>Closed</literalValue>
+        <name>Update Status to Closed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_to_In_Progress</fullName>
+        <description>Updates case status to In Progress</description>
+        <field>Status</field>
+        <literalValue>In Progress</literalValue>
+        <name>Update Status to In Progress</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>CX Spam Case Timed Delete</fullName>
+        <actions>
+            <name>Change_to_Closed_Status</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Change_to_Spam_Queue</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Case.Subject</field>
+            <operation>contains</operation>
+            <value>SPAM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CertainTeed Web Chat</value>
+        </criteriaItems>
+        <description>CX email-to-case spam deletion.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Carrier Damage - Routed to Warehouse</fullName>
+        <actions>
+            <name>Notify_Dispatch_Carrier_Damage</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Waiting on Warehouse Approval</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Case Roofing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Type</field>
+            <operation>equals</operation>
+            <value>Carrier Error</value>
+        </criteriaItems>
+        <description>Carrier Damage - Routed to Warehouse</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Case Comment Notification on Customer Master Inquiry</fullName>
+        <actions>
+            <name>Case_Comment_Notification_on_Customer_Master_Inquiry_Request</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Case Comment Notification on Customer Master Inquiry</description>
+        <formula>AND(RecordType.DeveloperName == &apos;Customer_Master_Request&apos; ,      ISPICKVAL( Type , &apos;Customer Master Inquiry Request&apos;),      ISCHANGED( Case_Comments__c )     )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Case Reopened</fullName>
+        <actions>
+            <name>Case_Reopened_Alert1</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3 OR 4 OR 5 OR 6 OR 7)</booleanFilter>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Re-Opened</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Customer Master Request</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CertainTeed Web Chat</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>General Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>RMA Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Reconsignment Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Case Roofing</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Change Case Record Type to RMA</fullName>
+        <actions>
+            <name>Change_Case_Record_Type_to_RMA</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND( BEGINS($RecordType.Name,&quot;Service Case Roofing&quot;), ISPICKVAL( Resolution__c  ,&quot;RMA&quot;) )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Change Case Record Type to Reconsignment</fullName>
+        <actions>
+            <name>Change_Case_Record_Type_to_Reconsignment</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND( BEGINS($RecordType.Name,&quot;Service Case Roofing&quot;), ISPICKVAL( Resolution__c  ,&quot;Reconsignment&quot;) )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>No Approval Needed - Routed to Pricing</fullName>
+        <actions>
+            <name>Notify_Pricing_Coordinator</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>No Approval Needed – Routed to Pricing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>RMA Case,Reconsignment Case,Service Case Roofing</value>
+        </criteriaItems>
+        <description>No Approval Needed - Routed to Pricing</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Pricing_Escalation_Notify_Ben_Martin</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Pricing</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>5</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>PortalCaseIdWithCaseNumber</fullName>
+        <actions>
+            <name>PortalCaseIdFieldUpdate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
+        <criteriaItems>
+            <field>Case.PortalCaseId__c</field>
+            <operation>equals</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>New,In Progress,Closed,On Hold,Re-Opened,No Approval Needed – Routed to Pricing,Pricing Refutes - Routed to CS,Reconsignment - Routed to Warehouse,Reconsignment - Routed to Pricing,RMA - Routed to Warehouse,RMA Received - Routed to Pricing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>RMA - Waiting on Sales Approval,Sales Approved – Routed to Pricing,Waiting on Customer,Waiting on Sales Approval,Waiting on Warehouse Approval,Warehouse Approved – Routed to CS,Warehouse Approved – Routed to Pricing,Warehouse Refutes – Routed to CS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Escalated,Escalated - CS,Escalated - Pricing,Escalated - Sales,Escalated - Warehouse</value>
+        </criteriaItems>
+        <description>Creating new case in SFDC for SFDC-&gt; PO-&gt; Hybris integration, PortalCaseId set to CaseNumber</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Pricing Refutes - Routed to CS</fullName>
+        <actions>
+            <name>Pricing_Refutes_Notify_Case_Owner</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Pricing_Refutes_Routed_to_CS</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Pricing Refutes - Routed to CS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>RMA Case,Reconsignment Case,Service Case Roofing</value>
+        </criteriaItems>
+        <description>Pricing Refutes - Routed to CS used when Pricing requires additional information from the Case Owner in  Customer Service</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Pricing_Refutes_Notify_Case_Owner_ESCALATED</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_CS</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>1</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>RMA - Escalated</fullName>
+        <actions>
+            <name>Sales_Escalation_Notify_Case_Owner</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Escalated</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>RMA Case</value>
+        </criteriaItems>
+        <description>RMA - Escalated</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>RMA - In Progress</fullName>
+        <active>true</active>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>In Progress</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>RMA Case</value>
+        </criteriaItems>
+        <description>RMA - In Progress</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Unsettled_RMA</name>
+                <type>Alert</type>
+            </actions>
+            <timeLength>5</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>RMA - Routed to Warehouse</fullName>
+        <actions>
+            <name>Notify_Dispatch_RMA</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Notify_Logistics_Manager</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>2 AND 1</booleanFilter>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>RMA - Routed to Warehouse</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>RMA Case,Service Case Roofing</value>
+        </criteriaItems>
+        <description>RMA - Routed to Warehouse</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Notify_Dispatch_RMA</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Warehouse_Escalation_Notify_Anna_Hale</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Warehouse</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>2</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>RMA - Waiting on Sales Approval</fullName>
+        <actions>
+            <name>RMA_Notify_RM</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>RMA_Notify_TM</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>RMA - Waiting on Sales Approval</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.Resolution__c</field>
+            <operation>equals</operation>
+            <value>RMA</value>
+        </criteriaItems>
+        <description>RMA - Waiting on Sales Approval</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>RMA_Notify_Case_Owner</name>
+                <type>Alert</type>
+            </actions>
+            <timeLength>1</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Sales_Escalation_Notify_Case_Owner</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Sales</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>2</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>RMA Received - Routed to Pricing</fullName>
+        <actions>
+            <name>Notify_Pricing_Coordinator</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>RMA Received - Routed to Pricing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>RMA Case</value>
+        </criteriaItems>
+        <description>RMA Received - Routed to Pricing</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Pricing_Escalation_Notify_Ben_Martin</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Pricing</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>5</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Reconsignment - Routed to Pricing</fullName>
+        <actions>
+            <name>Notify_Pricing_Coordinator</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Reconsignment - Routed to Pricing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Reconsignment Case,Service Case Roofing</value>
+        </criteriaItems>
+        <description>Reconsignment - Routed to Pricing</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Pricing_Escalation_Notify_Ben_Martin</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Pricing</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>5</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Reconsignment - Routed to Warehouse</fullName>
+        <actions>
+            <name>Notify_Dispatch</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Notify_Logistics_Manager</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Reconsignment - Routed to Warehouse</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Reconsignment Case,Service Case Roofing</value>
+        </criteriaItems>
+        <description>Reconsignment - Routed to Warehouse</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Warehouse_Escalation_Notify_Anna_Hale</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Warehouse</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>5</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Sales Approved - Routed to Pricing</fullName>
+        <actions>
+            <name>Notify_Pricing_Coordinator</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Sales Approved – Routed to Pricing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Case Roofing,RMA Case,Reconsignment Case</value>
+        </criteriaItems>
+        <description>Sales Approved - Routed to Pricing</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Pricing_Escalation_Notify_Ben_Martin</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Pricing</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>5</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Waiting on Sales Approval</fullName>
+        <actions>
+            <name>Notify_TM</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Waiting on Sales Approval</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Case Roofing</value>
+        </criteriaItems>
+        <description>Waiting on Sales Approval</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Notify_Case_Owner</name>
+                <type>Alert</type>
+            </actions>
+            <timeLength>3</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Sales_Escalation_Notify_Case_Owner</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Sales</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>6</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Waiting on Warehouse Approval</fullName>
+        <actions>
+            <name>Notify_Logistics_Manager</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Waiting on Warehouse Approval</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Case Roofing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>RMA Case</value>
+        </criteriaItems>
+        <description>Waiting on Warehouse Approval</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Warehouse_Escalation_Notify_Anna_Hale</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Warehouse</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>3</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Warehouse Approved - Routed to CS</fullName>
+        <actions>
+            <name>Notify_Case_Owner</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Warehouse Approved – Routed to CS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Case Roofing,RMA Case,Reconsignment Case</value>
+        </criteriaItems>
+        <description>Warehouse Approved - Routed to CS</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Notify_Case_Owner</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_CS</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>5</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Warehouse Approved - Routed to Pricing</fullName>
+        <actions>
+            <name>Notify_Pricing_Coordinator</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Warehouse Approved – Routed to Pricing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Case Roofing,RMA Case,Reconsignment Case</value>
+        </criteriaItems>
+        <description>Warehouse Approved - Routed to Pricing</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Pricing_Escalation_Notify_Ben_Martin</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_Pricing</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>5</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Warehouse Refutes - Routed to CS</fullName>
+        <actions>
+            <name>Notify_Case_Owner</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Warehouse_Refutes_Routed_to_CS</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Case.Status</field>
+            <operation>equals</operation>
+            <value>Warehouse Refutes – Routed to CS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Case.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Case Roofing,RMA Case,Reconsignment Case</value>
+        </criteriaItems>
+        <description>Warehouse Refutes - Routed to CS</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Notify_Case_Owner</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>Status_Escalated_CS</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>3</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <tasks>
+        <fullName>Pricing_Refutes_Routed_to_CS</fullName>
+        <assignedToType>owner</assignedToType>
+        <description>Pricing has routed this Case back to you for review and/or additional information.  When you have supplied the Pricing Coordinator with the requested information, the Case must be routed back to Pricing for final processing.</description>
+        <dueDateOffset>1</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>High</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>Pricing Refutes - Routed to CS</subject>
+    </tasks>
+    <tasks>
+        <fullName>Warehouse_Refutes_Routed_to_CS</fullName>
+        <assignedToType>owner</assignedToType>
+        <dueDateOffset>1</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>Warehouse Refutes - Routed to CS</subject>
+    </tasks>
+</Workflow>

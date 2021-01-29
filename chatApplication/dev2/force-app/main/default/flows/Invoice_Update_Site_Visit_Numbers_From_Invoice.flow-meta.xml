@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Update the &apos;Service Notification&apos; and &apos;Service Order&apos; number fields from related Invoice when an Invoice is saved.</description>
+    <interviewLabel>Invoice - Update Site Visit Numbers From Invoice {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Invoice - Update Site Visit Numbers From Invoice</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Lookup_Invoice_Link_Record</name>
+        <label>Lookup Invoice Link Record</label>
+        <locationX>258</locationX>
+        <locationY>146</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Site_Visit</targetReference>
+        </connector>
+        <filters>
+            <field>Invoice__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>InvoiceID</elementReference>
+            </value>
+        </filters>
+        <object>Invoice_Link__c</object>
+        <outputReference>InvoiceLink</outputReference>
+        <queriedFields>Site_Visit__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Site_Visit</name>
+        <label>Update Site Visit</label>
+        <locationX>409</locationX>
+        <locationY>148</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>InvoiceLink.Site_Visit__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Service_Notification__c</field>
+            <value>
+                <elementReference>ServiceNotificationNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Service_Order__c</field>
+            <value>
+                <elementReference>ServiceOrderNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Site_Visit__c</object>
+    </recordUpdates>
+    <startElementReference>Lookup_Invoice_Link_Record</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>InvoiceID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>InvoiceLink</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Invoice_Link__c</objectType>
+    </variables>
+    <variables>
+        <name>ServiceNotificationNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ServiceOrderNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,267 @@
+<template>
+    <div class="slds-page-header communitySectionColor headerInfo" if:true={accountObject}>
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-task" title="Update Disposition">
+                            <lightning-icon icon-name="standard:call_history" alternative-text="Approved">
+                            </lightning-icon>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate"
+                                        title="Update Disposition">Update Disposition
+                                    </span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </div>
+    <template if:true={showCallDetails}>
+        <article class="slds-card">
+            <div class="slds-form" role="list">
+                <div class="slds-section slds-is-open">
+                    <div aria-hidden="false" class="slds-section__content slds-p-right_xx-small slds-p-left_xx-small">
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing ">
+                                    <lightning-textarea type="text" label="Do not Call Numbers:" value={dncNumbers}
+                                        max-length=255 disabled></lightning-textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- This Part will get Rendered when the Component is loaded on Account object
+            <div if:true={accountObject}>-->
+                <div if:true={accountObject} class="slds-form" role="list">
+                    <div class="slds-section slds-is-open">
+                        <div aria-hidden="false"
+                            class="slds-section__content slds-p-right_xx-small slds-p-left_xx-small">
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="Customer_Mobile__c" label="Verified Phone Number"
+                                            placeholder="Select An Option" value={inputData.Customer_Mobile__c} options={callingNumber}
+                                            onchange={handleValueChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div if:false={minimizeMaximizeCmp}>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                            <lightning-combobox name="Rating__c" label="Rating"
+                                                placeholder="Select An Option" value={inputData.Rating__c} options={ratingOptions}
+                                                onchange={handleValueChange} if:true={recordTypeName}>
+                                            </lightning-combobox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                            <lightning-checkbox-group if:true={smrAppointmentRecordType} name="Rate_Customer__c"
+                                                label=""
+                                                options={customerRatingOptions}
+                                                value={customerRatingValue}
+                                                onchange={handleValueChange}>
+                                            </lightning-checkbox-group>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                            <lightning-combobox name="Disposition__c" label="Response"
+                                                placeholder="Select An Option" value={inputData.Disposition__c}
+                                                options={dispositionOptions} onchange={handleValueChange} required
+                                                class="inputCmp">
+                                            </lightning-combobox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                            <lightning-textarea type="text" name="Call_Notes__c" label="Customer Voice"
+                                                autocomplete="off" onchange={handleValueChange} class="inputText"
+                                                max-length="255" value={inputData.Call_Notes__c}></lightning-textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                            <lightning-input type="datetime" name="Call_back_Date_Time__c"
+                                                autocomplete="off" label="Follow up Date" min={currentDate}
+                                                onchange={handleValueChange} value={inputData.Call_back_Date_Time__c} disabled={showFollowUpDateCallBackNumber}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                            <lightning-input type="tel" name="Call_back_Phone_Number__c"
+                                                autocomplete="off" label="Call Back Number" onchange={handleValueChange}
+                                                value={inputData.Call_back_Phone_Number__c} max-length=12 min-length=10 onpaste={handlePaste}
+                                                onkeypress={restrictAlphabets} disabled={showFollowUpDateCallBackNumber}
+                                                message-when-too-short="Call Back Number can only be 10 or 11 or 12 digits"	>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                            <lightning-combobox name="Feedback_Outcome__c" label="Dissatisfied Reason"
+                                                placeholder="Select An Option" value={inputData.Feedback_Outcome__c}
+                                                options={feedbackOptions} onchange={handleValueChange}
+                                                if:true={recordTypeName} disabled={showDissatisfiedReason}>
+                                            </lightning-combobox>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--</div>-->
+
+            <!-- This Part will get Rendered when the Component is loaded on Case object-->
+            <div if:false={accountObject}>
+                <div class="slds-form" role="list">
+                    <div class="slds-section slds-is-open">
+                        <div aria-hidden="false"
+                            class="slds-section__content slds-p-right_xx-small slds-p-left_xx-small">
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing ">
+                                        <lightning-combobox name="Customer_Mobile__c" label="Verified Phone Number"
+                                            placeholder="Select An Option" value={inputData.Customer_Mobile__c} options={callingNumber}
+                                            onchange={handleValueChange} read-only={successUpdateDispositions}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="Disposition__c" label="Response"
+                                            placeholder="Select An Option" value={inputData.Disposition__c}
+                                            options={dispositionOptions} onchange={handleValueChange} required
+                                            class="inputCmp" read-only={successUpdateDispositions}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-textarea type="text" name="Call_Notes__c" label="Customer Voice"
+                                            autocomplete="off" onchange={handleValueChange} class="inputText"
+                                            max-length="255" read-only={successUpdateDispositions}
+                                            value={inputData.Call_Notes__c}></lightning-textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-input type="datetime" name="Call_back_Date_Time__c"
+                                            autocomplete="off" min={currentDate} label="Follow up Date"
+                                            onchange={handleValueChange} read-only={successUpdateDispositions}
+                                            value={inputData.Call_back_Date_Time__c}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-input type="text" name="Call_back_Phone_Number__c" autocomplete="off"
+                                            label="Call Back Number" onchange={handleValueChange} value={inputData.Call_back_Phone_Number__c}
+                                            read-only={successUpdateDispositions} max-length=12 min-length=10 onpaste={handlePaste}
+                                            onkeypress={restrictAlphabets} message-when-too-short="Call Back Number can only be 10 or 11 or 12 digits">
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="Rating__c" label="Rating"
+                                            placeholder="Select An Option" value={value} options={ratingOptions}
+                                            onchange={handleValueChange} if:true={recordTypeName}>
+                                        </lightning-combobox>-->
+                            <!--<lightning-combobox name="Feedback_Outcome__c" label="Dissatisfied Reason"
+                                            placeholder="Select An Option" value={dissatisfiedValue}
+                                            options={feedbackOptions} onchange={handleValueChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                        <lightning-combobox name="Rating__c" label="Rating"
+                                            placeholder="Select An Option" value={value} options={ratingOptions}
+                                            onchange={handleValueChange}>
+                                        </lightning-combobox>
+                                        <lightning-input type="text" name="Rating__c" label="Rating" autocomplete="off" onchange={handleValueChange}>
+                                    </lightning-input>
+                                    </div>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="slds-card__footer">
+                <button class="slds-button slds-button_neutral" onclick={expandCollapse}
+                    if:true={accountObject}>{collapseExpand}</button>
+                <button class="slds-button slds-button_neutral" onclick={handleUpdate}
+                    if:false={insuranceSuccess}>{buttonName}</button>
+            </footer>
+        </article>
+    </template>
+
+    <template if:false={showCallDetails}>
+        <article class="slds-card">
+            <article class="slds-tile slds-media slds-card__tile slds-hint-parent">
+                <div class="slds-media__body" if:true={cmpNotAvailable}>
+                    <div class="slds-card__body slds-card__body_inner slds-text-color_error">
+                        &nbsp;{cmpNotAvailable}
+                    </div>
+                </div>
+                <div class="slds-media__body" if:true={successInfo}>
+                    <div class="slds-card__body slds-card__body_inner slds-text-color_success">
+                        &nbsp;{successMessage}
+                    </div>
+                </div>
+                <div class="slds-media__body" if:true={errorMessage}>
+                    <div class="slds-text-color_error">
+                        {errorMessage}
+                    </div>
+                </div>
+            </article>
+        </article>
+    </template>
+
+    <div if:true={insuranceCaseUser}>
+        <div if:true={insuranceSuccess}>
+            <c-indt-lost-case-analysis record-id={recordId} lost-case-reason={inputData.Disposition__c}
+            task-string={inputData}>
+            </c-indt-lost-case-analysis>
+        </div>
+    </div>
+</template>

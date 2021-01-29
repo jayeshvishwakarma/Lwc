@@ -1,0 +1,42 @@
+<apex:page standardController="Quote" tabStyle="quote" extensions="EditAllPorteringenMobielController">
+    <!-- Heading -->
+    <apex:sectionHeader title="IRMA orderdetails registreren voor" subtitle="{!Quote.name}"/>
+    
+    <apex:form id="frm">
+        <apex:pagemessages />
+        
+        <apex:pageBlock rendered="{!mobielList.size == 0}">
+            No record found for {!quote.name} 
+        </apex:pageBlock>
+        <!-- Block / Section -->
+        <apex:pageBlock rendered="{!mobielList.size > 0}">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockTable value="{!mobielList}" var="obj">
+                
+                <apex:column headerValue="06/097-">
+                    <apex:inputField value="{!obj.name}"/>
+                </apex:column>
+                 <apex:column headerValue="Selecteer voor status update">
+                    <apex:inputField value="{!obj.Selecteer__c}"/>
+                </apex:column>
+                
+                <apex:column headerValue="Profieltype">
+                    <apex:inputField value="{!obj.Profieltype__c}"/>
+                </apex:column>
+                <apex:column headerValue="Datum actief">
+                    <apex:inputField value="{!obj.Datum_actief__c}"/>
+                </apex:column>
+                   
+                
+                <apex:column headerValue="Nieuw SIM kaart nummer">
+                    <apex:inputField value="{!obj.Nieuw_SIM_kaart_nummer__c}"/>
+                </apex:column>
+                
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

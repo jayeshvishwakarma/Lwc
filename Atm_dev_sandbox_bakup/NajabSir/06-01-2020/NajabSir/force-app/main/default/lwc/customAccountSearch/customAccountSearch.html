@@ -1,0 +1,194 @@
+<template>
+
+    <c-lookup-container class="slds-container_x-large slds-container_center">
+
+        <div class="slds-p-around_small">
+
+            <div class="slds-section slds-is-open slds-m-top_none">
+
+                <h3 class="slds-section__title">
+                    <span class="slds-button slds-section__title-action">Search Customer</span>
+                </h3>
+
+                <div class="slds-section__content">
+
+                    <lightning-layout horizontal-align="center" vertical-align="center" multiple-rows>
+
+                        <lightning-layout-item flexibility="grow" size="12" small-device-size="12"
+                            medium-device-size="5" large-device-size="5" class="slds-box account-filters">
+
+                            <div class="slds-text-title_caps slds-p-bottom_small">Customer Details</div>
+
+                            <div class="slds-text-color_destructive slds-p-bottom_small" if:true={accountErrorMessage}>
+                                {accountErrorMessage}
+                            </div>
+
+                            <lightning-layout multiple-rows>
+
+                                <lightning-layout-item size="12" flexibility="grow" class="slds-p-horizontal_xx-small">
+                                    <lightning-input data-name="name" label="Name" min-length="2"
+                                        onchange={handleAccountFilterChange}>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item flexibility="grow" class="slds-p-horizontal_xx-small">
+                                    <lightning-input data-name="phone" label="Phone" pattern="^[0-9]*$"
+                                        message-when-pattern-mismatch="Invalid phone format" min-length="2"
+                                        max-length="10" onchange={handleAccountFilterChange}>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item flexibility="grow" class="slds-p-horizontal_xx-small">
+                                    <lightning-input data-name="email" type="email" label="Email"
+                                        message-when-type-mismatch="Invalid email format"
+                                        onchange={handleAccountFilterChange}>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item flexibility="grow" class="slds-p-horizontal_xx-small">
+                                    <lightning-input data-name="aadhaar" label="Aadhaar" min-length="2" max-length="12"
+                                        onchange={handleAccountFilterChange}>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item flexibility="grow" class="slds-p-horizontal_xx-small">
+                                    <lightning-input data-name="pan" label="PAN" min-length="2" max-length="12"
+                                        onchange={handleAccountFilterChange}>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+
+                            <div class="slds-grid slds-grid_align-center slds-p-top_small">
+                                <lightning-button variant="brand" name="search" label="Search" disabled={isLoading}
+                                    onclick={handleAccountSearch}>
+                                </lightning-button>
+                            </div>
+
+                        </lightning-layout-item>
+
+                        <lightning-layout-item>
+
+                            <div
+                                class="slds-grid slds-grid_vertical-align-center slds-text-title_caps slds-p-around_small">
+                                <strong>OR</strong>
+                            </div>
+
+                        </lightning-layout-item>
+
+                        <lightning-layout-item flexibility="grow" size="12" small-device-size="12"
+                            medium-device-size="5" large-device-size="5" class="slds-box asset-filters">
+
+                            <div class="slds-text-title_caps slds-p-bottom_small">Asset Details</div>
+
+                            <div class="slds-text-color_destructive slds-p-bottom_small" if:true={assetErrorMessage}>
+                                {assetErrorMessage}
+                            </div>
+
+                            <lightning-layout multiple-rows>
+
+                                <lightning-layout-item size="6" flexibility="grow" class="slds-p-horizontal_xx-small">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label">Search Asset By</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <select class="slds-select" onchange={handleAssetTypeChange}>
+                                                    <option for:each={assetFields} for:item="field" key={field.name}
+                                                        value={field.name}>{field.label}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="6" flexibility="grow" class="slds-p-horizontal_xx-small">
+                                    <lightning-input data-name={assetField.name} label={assetField.label}
+                                        min-length={assetField.min} max-length={assetField.max}
+                                        onchange={handleAssetFilterChange} required>
+                                    </lightning-input>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="12" flexibility="grow" class="slds-p-around_xx-small">
+                                    <label class="slds-form-element__label">Model</label>
+                                    <c-lookup-input-field data-name="model" object-name="Product2"
+                                        record-type="Variants" is-mobile onchange={handleAssetFilterChange}>
+                                    </c-lookup-input-field>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+
+                            <div class="slds-grid slds-grid_align-center slds-p-top_small">
+                                <lightning-button variant="brand" name="search" label="Search" disabled={isLoading}
+                                    onclick={handleAssetSearch}>
+                                </lightning-button>
+                            </div>
+
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+
+                </div>
+
+            </div>
+
+            <div class="slds-section slds-is-open slds-p-top_small">
+
+                <h3 class="slds-section__title">
+                    <span class="slds-button slds-section__title-action">Search Results ({data.length})</span>
+                </h3>
+
+                <div class="slds-section__content">
+
+                    <lightning-datatable data={data} columns={columns} key-field="id"
+                        class="slds-max-medium-table_stacked" onrowaction={handleRowAction} hide-checkbox-column
+                        show-row-number-column>
+                    </lightning-datatable>
+
+                    <div class="spinner" if:true={isLoading}>
+                        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                    </div>
+
+                    <div class="slds-p-around_small" if:false={isLoading}>
+                        <span if:false={data.length}> No records </span>
+                    </div>
+
+                    <div class="slds-text-color_destructive slds-p-around_small" if:true={searchErrorMessage}>
+                        {searchErrorMessage}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div if:true={selectedCustomer}>
+
+                <section role="dialog" class="slds-modal slds-fade-in-open" aria-modal="true"
+                    aria-describedby="modal-content">
+
+                    <div class="slds-modal__container">
+
+                        <header class="slds-modal__header slds-modal__header_empty">
+                            <lightning-button-icon icon-name="utility:close" alternative-text="Settings" size="large"
+                                variant="bare-inverse" class="slds-modal__close" onclick={handleCloseModal}>
+                            </lightning-button-icon>
+                        </header>
+
+                        <div class="slds-modal__content slds-p-around_x-large" id="modal-content">
+                            <c-custom-account-share record-id={selectedCustomer.id} mobile={selectedCustomer.mobile}>
+                            </c-custom-account-share>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <div class="slds-backdrop slds-backdrop_open"></div>
+
+            </div>
+
+        </div>
+
+    </c-lookup-container>
+
+</template>

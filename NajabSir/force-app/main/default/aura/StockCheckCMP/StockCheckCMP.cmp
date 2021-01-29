@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <aura:attribute name="deviceFormFactor" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:html tag="style">
+        .cuf-scroller-content{
+        background:#fff;
+        }
+    </aura:html>
+        <c:stockCheck deviceFormFactor="{!v.deviceFormFactor}"/>
+    
+</aura:component>

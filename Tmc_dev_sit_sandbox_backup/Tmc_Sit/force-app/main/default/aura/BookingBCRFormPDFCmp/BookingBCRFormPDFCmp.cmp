@@ -1,0 +1,139 @@
+<aura:component controller="BookingBCRFormPDFController" implements="force:hasRecordId,force:lightningQuickActionWithoutHeader,lightning:isUrlAddressable" access="global" >
+    
+    <aura:if isTrue="{!and(v.showDetail,!v.showRequestBCRBtn)}">
+        <aura:html tag="style">
+            .cuf-scroller-content{
+            	background:#fff;
+            }
+            .slds-modal__container { 
+                width: 75%;
+                max-width: 65rem; 
+            }
+        </aura:html>
+    </aura:if>
+    
+    <aura:attribute name="showDetail" type="Boolean"  description="Show Details"/> 
+    <aura:attribute name="showRequestBCRBtn" type="Boolean"  description="Show Button"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="saveAndSend" type="String"/>
+    <aura:attribute name="counter" type="Integer" default="1"/>
+    
+    <aura:attribute name="errorMessage" type="String" default=""/>
+    
+    <aura:attribute name="url" type="String"/>
+    
+    <aura:attribute name="fields" type="String[]" default="['StageName','Send_BCR_Time__c','Revised_BCR_Sent__c','Booking_Number__c','BCR_Sent__c','BCR_Receipt_Time__c', 'Dealership_Channel__c']" />
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="false" description="Show spinner if set to true"/>
+    <aura:attribute name="fetchRecordComplete" type="Boolean" default="false" description="This is being set to false if the ftech is not complete. Else set it to true to stop the reloading of the page."/>
+    <aura:attribute name="BCRRequestSent" type="Boolean" default="false" description="Field to track if BCR request has been sent."/>
+	
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.simpleRecord}"
+                      targetError="{!v.recordError}"
+                      fields="{!v.fields}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      layoutType="FULL"
+                      />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:card title="PDF Preview">
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner variant="brand"/>
+        </aura:if>
+        
+        <aura:if isTrue="{!!v.showDetail}">
+            <div class="slds-form-element__control slds-hide" aura:id="errorMessage">
+                <div class="demo-only" style="height:5rem; margin-top:10rem;">
+                    <div class="slds-notify_container slds-is-relative">
+                        <div class="slds-notify slds-notify_toast slds-theme_error errorWidth" role="status">
+                            <span class="slds-assistive-text">error</span>
+                            <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                                <lightning:icon iconName="utility:error" size="medium"/>
+                            </span>
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_medium">
+                                    <p></p>
+                                    <p> <b>{!'Error!! '+v.errorMessage}</b> </p>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        
+        
+        
+        <aura:if isTrue="{!v.showDetail}">
+            <aura:if isTrue="{!v.showRequestBCRBtn}">
+               <!-- <div aura:id="reqBCRbtn" class="slds-align_absolute-center" style="height:6rem;margin-top:10rem;">
+                    <lightning:button variant="brand" disabled="false" label="Request BCR" onclick="{!c.updateSendBCRTime}"/>
+                </div> -->
+                <div aura:id="ajaxmessage" class="slds-align_absolute-center slds-hide" style="height:2rem;margin-top:10rem;">
+                    Please wait while BCR is generated. Do not close the window. 
+                </div>
+                <div aura:id="ajaxLoader" class="slds-align_absolute-center slds-hide" style="height:2rem;">
+                    <img src="{!$Resource.AjaxLoader}"/>
+                </div>
+            </aura:if>
+            
+            <aura:if isTrue="{!!v.showRequestBCRBtn}"> 
+                <iframe src="{!v.url}" width="100%" height="500px" scrolling="auto"/>
+                <!--<aura:if isTrue="{!equals($Browser.formFactor,'DESKTOP')}">
+                   <iframe src="{!'/apex/BookingBCRFormPDF?id='+v.recordId}" width="100%" height="500px" scrolling="auto"/>
+                      <aura:set attribute="else">
+                       <iframe src="{!'/apex/BookingBCRFormPDFMobile?id='+v.recordId}" width="100%" height="500px" scrolling="auto"/>
+                   </aura:set>
+              </aura:if>--> 
+            </aura:if>
+        </aura:if>
+        
+        
+        
+        
+        <!-- Show PDF Content -->
+        
+      
+        <!-- Cacnel and Save button -->
+        <aura:if isTrue="{!v.showRequestBCRBtn}">
+            <hr style="margin-top: 10rem;"/>
+            <div class="slds-align_absolute-center">
+                <lightning:button label="Cancel" iconName="utility:close" onclick="{!c.closeModal}"/>
+                <lightning:button label="Resend BCR Request" iconName="utility:refresh" onclick="{!c.resendFlag}"/>                
+            </div>
+        </aura:if>
+        
+        <div class="slds-align_absolute-center">
+            <aura:if isTrue="{!and(v.showDetail,!v.showRequestBCRBtn)}">
+                <aura:if isTrue="{!equals($Browser.formFactor,'DESKTOP')}">
+                    <hr style="margin:1.5rem 0;"/>
+                    <lightning:button label="Cancel" iconName="utility:close" onclick="{!c.closeModal}"/>
+                    <lightning:button label="Save" variant="brand" iconName="utility:save" onclick="{!c.savePdf}"/>
+                    <lightning:button label="Save &amp; Send" variant ="brand" iconName="utility:save" onclick="{!c.savePdf}"/>
+                    <aura:set attribute="else">
+                        <hr style="margin:1.5rem 0;"/>
+                        <div class="slds-grid slds-gutters btnWidth">
+                            <div class="slds-col slds-size_1-of-1 btnWidth">
+                                <div class="slds-p-top_small"/>
+                                <lightning:button label="Cancel" class="btnWidth" aura:id="cancelMobile"  iconName="utility:close" onclick="{!c.closeModal}"/>
+                                <br/>
+                                <div class="slds-p-top_small"/>
+                                <lightning:button label="Save" class="btnWidth" aura:id="saveMobile" variant="brand" iconName="utility:save" onclick="{!c.savePdf}"/>
+                                <br/>
+                                <div class="slds-p-top_small"/>
+                                <lightning:button label="Save &amp; Send" class="btnWidth" aura:id="savenSendMobile" variant ="brand" iconName="utility:save" onclick="{!c.savePdf}"/>
+                            </div>
+                        </div>
+                        
+                       
+					</aura:set>
+                </aura:if>
+                
+            </aura:if> 
+        </div>
+    </lightning:card>    
+</aura:component>

@@ -1,0 +1,51 @@
+<template>
+    <div class={containerCls}>
+        <span class="slds-assistive-text">{task.Subject}</span>
+        <div class="slds-media">
+            <div class="slds-media__figure">
+                <lightning-button-icon icon-name="utility:switch" variant="bare" alternative-text={task.Subject}
+                    icon-class="slds-timeline__details-action-icon" onclick={toogleSection}></lightning-button-icon>
+                <lightning-icon icon-name={iconName} size="small" class="slds-timeline__icon"
+                    alternative-text={task.Subject}>
+                </lightning-icon>
+            </div>
+            <div class="slds-media__body">
+                <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                        <h3 class="slds-truncate" title={task.Subject} onclick={handleView}>
+                            <a href="javascript:void(0);">{task.Subject}</a>
+                        </h3>
+                    </div>
+                    <div class="slds-timeline__actions slds-timeline__actions_inline">
+                        <lightning-relative-date-time value={createdDate} class="slds-p-right_x-small">
+                        </lightning-relative-date-time>
+                        <lightning-button-menu alternative-text="Actions" menu-alignment="left" icon-size="small">
+                            <lightning-menu-item value="Edit" label="Edit" onclick={handleEdit}></lightning-menu-item>
+                        </lightning-button-menu>
+                    </div>
+                </div>
+                <p>
+                    <a href="javascript:void(0);">{task.Owner.Name}</a> {connectMessage}
+                </p>
+                <article
+                    class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_small"
+                    aria-hidden="false">
+                    <ul class="slds-list_horizontal slds-wrap">
+                        <li class="slds-grid slds-grid_vertical slds-size_1-of-1">
+                            <span class="slds-text-title">Status</span>
+                            <span class="slds-text-body_medium slds-truncate" title={task.Status}>
+                                {task.Status}
+                            </span>
+                        </li><br/>
+                        <li class="slds-grid slds-grid_vertical slds-size_1-of-1">
+                            <span class="slds-text-title">Description</span>
+                            <span class="slds-text-body_medium slds-truncate" title={task.Description}>
+                                {task.Description}
+                            </span>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </div>
+</template>

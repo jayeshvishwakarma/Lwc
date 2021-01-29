@@ -1,0 +1,203 @@
+<template>
+    <!-- =======     FOR SPINNER USE ONLY     ======= -->
+    
+    <template if:true={authUser}>
+
+        <lightning-card title={approvalTitle} icon-name="custom:custom63">
+
+            <div if:false={detailsVisible}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+
+            <lightning-record-view-form record-id={opportunityId} object-api-name="Opportunity" density="compact" onload={handleLoad}>
+                <div if:true={detailsVisible}>
+                    <div class="slds-box">
+                        <p>
+                            <lightning-formatted-text value="Customer Details"></lightning-formatted-text>
+                        </p>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-form-element slds-form-element_horizontal">
+                                <div class="slds-form-element__label">Name</div>
+                                <div class="slds-form-element__control">
+                                    <div class=" slds-form-element__static">{enquiryName}</div>
+                                </div>
+                            </div>
+                            <template for:each={opportunityReadOnlyMDT.data} for:item='item'>
+                                <div key={item.id} class="slds-col slds-size_1-of-1">
+                                    <lightning-output-field field-name={item.Field_API_Name__c}>
+                                    </lightning-output-field>
+                                </div>
+                            </template>
+
+                        </div>
+
+                    </div>
+                </div>
+            </lightning-record-view-form>
+            <lightning-record-view-form record-id={enquiryOwnerId} object-api-name="User" density="compact">
+                    <div class="slds-box">
+                        <p>
+                            <lightning-formatted-text value="Assignee Details"></lightning-formatted-text>
+                        </p>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-output-field field-name="Name">
+                                </lightning-output-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-output-field field-name="Designation__c">
+                                </lightning-output-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+								<div if:false={showOwnerField}>
+									<lightning-output-field field-name="MobilePhone">
+									</lightning-output-field>
+								</div>
+                                <div if:true={showOwnerField}>
+									<span if:true={showOwnerField} style="margin-left: 1%;"> Mobile </span> <span if:true={showOwnerField} style="margin-left: 23%;">	{enquiryOwnerPhone}  </span>
+								</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+            </lightning-record-view-form>
+
+            <lightning-record-edit-form record-id={recordId} object-api-name="RFC__c" density="compact">
+                    <div class="slds-box">
+
+                        <div class="slds-grid slds-wrap">
+                            <template if:false={isACMApproval}>
+
+                                <template for:each={rfcApprovalTypeMDT.data} for:item='item'>
+                                    <div key={item.id} class="slds-col slds-size_1-of-1">
+                                        <template if:true={readOnlyMode}>
+                                            <lightning-output-field field-name={item.Field_API_Name__c}>
+                                            </lightning-output-field>
+                                        </template>
+                                        <template if:true={editOnlyMode}>
+                                            <template if:true={item.Is_Field_Read_Only__c}>
+                                                <lightning-output-field field-name={item.Field_API_Name__c}
+                                                    data-field={item.Field_API_Name__c}>
+                                                </lightning-output-field>
+                                            </template>
+                                            <template if:false={item.Is_Field_Read_Only__c}>
+                                                <template if:true={item.Is_Lookup__c}>
+                                                    <div class="slds-form-element slds-form-element_horizontal">
+                                                        <div class="slds-form-element__label">
+                                                            <abbr class="slds-required" title="required">* </abbr>Financier
+                                                            Name</div>
+                                                        <div class="slds-form-element__control">
+                                                            <div class=" slds-form-element__static">
+                                                                <c-lookup-input-field key={item.Field_API_Name__c}
+                                                                    data-field-name={item.Field_API_Name__c}
+                                                                    custom-key={item.Field_API_Name__c}
+                                                                    object-name="Financier__c"
+                                                                    required={item.Is_Mandatory__c}
+                                                                    onchange={handleValueChange} is-custom-search
+                                                                    oncustomsearch={handleCustomSearch}>
+                                                                </c-lookup-input-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template if:false={item.Is_Lookup__c}>
+                                                    <lightning-input-field field-name={item.Field_API_Name__c}
+                                                        required={item.Is_Mandatory__c} data-field={item.Field_API_Name__c}>
+                                                    </lightning-input-field>
+                                                </template>
+                                            </template>
+
+                                        </template>
+                                    </div>
+                                </template>
+
+                                <div if:true={isSMApproval}>
+                                    <lightning-formatted-url label="Stock Check" value="/dealers/s/stock-check"
+                                        tooltip="Stock Check" target="_self"></lightning-formatted-url>
+                                </div>
+                            </template>
+                            <template if:true={isACMApproval}>
+                                <lightning-output-field field-name="FM_Approval_Status__c">
+                                </lightning-output-field>
+                                <lightning-output-field field-name="True_Value_Approval_Status__c">
+                                </lightning-output-field>
+                                <template if:true={readOnlyMode}>
+                                    <lightning-output-field field-name="Total_Amount__c">
+                                    </lightning-output-field>
+                                    <lightning-output-field field-name="Amount_Received__c">
+                                    </lightning-output-field>
+                                </template>
+                                <template if:true={editOnlyMode}>
+                                    <div class="slds-form-element slds-form-element_horizontal">
+                                        <div class="slds-form-element__label">Total Amount</div>
+                                        <div class="slds-form-element__control">
+                                            <div class=" slds-form-element__static">
+                                                <lightning-input type="number" variant="label-hidden" value={totalAmount}
+                                                    onchange={handleTotalAMTChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-form-element_horizontal">
+                                        <div class="slds-form-element__label">Amount Received</div>
+                                        <div class="slds-form-element__control">
+                                            <div class=" slds-form-element__static">
+                                                <lightning-input type="number" variant="label-hidden" value={amountRecieved}
+                                                    onchange={handleAMTRecievedChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <lightning-output-field field-name="Buying_Price__c">
+                                </lightning-output-field>
+
+                                <lightning-output-field field-name="Offered_Price__c">
+                                </lightning-output-field>
+                                <lightning-output-field field-name="Loan_Amount__c">
+                                </lightning-output-field>
+                                <template if:true={readOnlyMode}>
+                                    <lightning-output-field field-name="Pending_Amount__c">
+                                    </lightning-output-field>
+                                    <lightning-output-field field-name="Accounts_Manager_Comments__c">
+                                    </lightning-output-field>
+                                </template>
+                                <template if:true={editOnlyMode}>
+                                    <div class="slds-form-element slds-form-element_horizontal">
+                                        <div class="slds-form-element__label">Pending Amount</div>
+                                        <lightning-helptext content="Pending Amount = Total Amount – Amount
+                                                    Received – Buying Price – Loan Amount">
+                                        </lightning-helptext>
+                                        <div class="slds-form-element__control">
+                                            <div class=" slds-form-element__static">
+                                                <lightning-input type="number" variant="label-hidden" value={pendingAmount}
+                                                    read-only>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <lightning-input-field field-name="Accounts_Manager_Comments__c"
+                                        data-field="Accounts_Manager_Comments__c">
+                                    </lightning-input-field>
+                                </template>
+
+                            </template>
+                        </div>
+
+                        <template if:true={editOnlyMode}>
+                            <lightning-button-group class="slds-align_absolute-center">
+                                <lightning-button class="form-Button" label="Approve" variant="success"
+                                    onclick={handleApproveClick}>
+                                </lightning-button>
+                                <lightning-button label="Reject" variant="destructive" onclick={handleRejectClick}>
+                                </lightning-button>
+                            </lightning-button-group>
+                        </template>
+
+                    </div>
+            </lightning-record-edit-form>
+
+        </lightning-card>
+    </template>
+</template>

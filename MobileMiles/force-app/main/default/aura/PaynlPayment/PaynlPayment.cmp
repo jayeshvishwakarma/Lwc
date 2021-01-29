@@ -1,0 +1,30 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PaymentPaynlController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="Success" type="Boolean" default="false" />
+	
+    <aura:renderIf isTrue="{!v.Success == true}">
+        <div class="slds-align_absolute-center slds-p-vertical_large slds-text-heading_large">
+          Thank You
+        </div> 
+        <div class="slds-align_absolute-center slds-p-vertical_large slds-box slds-theme--success">      
+            <lightning:icon iconName="utility:success" variant="success"/>
+            <h2 class="slds-text-heading--small">
+                Order Successfully Placed
+            </h2>
+            
+        </div>
+        <aura:set attribute="else">
+        	<div class="slds-align_absolute-center slds-p-vertical_large slds-text-heading_large">
+              Sorry 
+            </div> 
+            <div class="slds-align_absolute-center slds-p-vertical_large slds-box slds-theme--error">      
+                <lightning:icon iconName="utility:error" variant="warning"/>
+                <h2 class="slds-text-heading--small">
+                    Payment Not Successful
+                </h2>
+                
+            </div>    
+        </aura:set>
+    </aura:renderIf> 
+    
+</aura:component>

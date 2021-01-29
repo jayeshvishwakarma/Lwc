@@ -1,0 +1,60 @@
+<aura:component controller="ReportListController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="reportsList" type="ReportListController.wrapper"/> 
+    <aura:attribute name="showlookUp" type="boolean" default="false"/> 
+    <aura:attribute name="showReports" type="boolean" default="true"/> 
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}" />
+    <aura:attribute name="modelPicklist" type="list" />
+    <aura:attribute name="pickListApiValue" type="string"/>
+    <aura:attribute name="urlLink" type="url"/>
+    <aura:attribute name="selectedLookUpRecord" type="sObject" default="{}"/>
+    <aura:attribute name="selectedLookUpRecordForProduct" type="sObject" default="{}"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <aura:if isTrue="{!v.showReports}">
+        <div class="slds-p-top_x-small slds-p-left_medium slds-p-right_medium">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_3-of-3">
+                    <h4 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-left_medium slds-text-heading_small slds-align_absolute-center" title="Name"><b>Report Name</b></span>
+                    </h4>
+                </div>
+              </div>
+            <div class="slds-grid slds-wrap">
+                <aura:iteration items="{!v.reportsList.reportList}" var="item">
+                    <div class="slds-col slds-size_3-of-3 slds-p-left_x-small">
+                        <a class="slds-p-top_x-small" data-recName="{!item.Name}" data-recUrl="{!item.Report_URL__c}" onclick="{!c.handleUrl}">{!item.Name}</a>
+                    </div>
+                    <hr style="margin:0.3rem 0; width:100%;"/> 
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showlookUp}">
+        <div class="slds-p-top_x-small slds-p-left_medium slds-p-right_medium">
+            <div class="slds-box slds-theme_default">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_3-of-3" >
+                        <c:customLookup label="Select City" customPlaceholder="Search City.." objectAPIName="For_Code__c" IconName="standard:account" selectedRecord="{!v.selectedLookUpRecord}" />
+                    </div>
+                    <div class="slds-col slds-size_3-of-3 slds-p-top_x-small">
+                        <lightning:select label="Select Model" name ="pick" onchange="{!c.handlePicklistChange}">
+                            <option value ="">Choose One...</option>
+                            <aura:iteration items="{!v.modelPicklist}" aura:id="modelPick" var="pick" indexVar = "key">
+                                <option value ="{!pick.key}">{!pick.value}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                        
+                    </div>
+                    <div class="slds-col slds-size_3-of-3 slds-p-top_x-small">
+                        <c:customLookup label="Select Variant" aura:id="childComp" customPlaceholder="Search Variant.." objectAPIName="Product2" IconName="standard:product" selectedRecord="{!v.selectedLookUpRecordForProduct}" ForVariantlookUp ="forVariant" ModelCode="{!v.pickListApiValue}"/>
+                    </div>
+                </div>
+                <hr style="margin:1.3rem 0; width:100%;" /> 
+                <div class="slds-col slds-align_absolute-center" >
+                    <lightning:button label="Previous" variant="neutral" onclick="{!c.handlePrev}"/>
+                    <lightning:button variant="brand" label="Open Report" onclick="{!c.handleFilter}"/>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

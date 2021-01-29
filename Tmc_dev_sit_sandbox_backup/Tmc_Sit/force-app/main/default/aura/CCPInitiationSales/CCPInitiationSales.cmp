@@ -1,0 +1,9 @@
+<!--
+ - Created by Deepak on 04/08/20.
+ -->
+
+<aura:component description="CCPInitiationSales" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+
+    <c:ccpInitiationSalesLwc recordId="{!v.recordId}" onopenFile="{!c.openFile}" />
+
+</aura:component>

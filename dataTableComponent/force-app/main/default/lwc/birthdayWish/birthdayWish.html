@@ -1,0 +1,30 @@
+<template>
+    <div class="slds-m-around__large">
+        <lightning-card title="Birthday Wish" icon-name="custom:custom5">
+            <div class="slds-m-medium">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_3-of-12">
+
+                        <template if:true={isShow}>
+                            <span><img src={imageUrl} style="border-radius:80px;"/></span>
+                        </template>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12">
+                        <p><b>First Name : {firstName}</b></p>
+                        <p><b>Last Name : {lastName}</b></p>
+                        <p><b>Age : {age}</b></p>
+                        <p><b>City : {city}</b></p>
+                        <p><b>Phone : {phone}</b></p>
+                        <p><b>Email : {emailId}</b></p>
+                        <p><b>Message : {birthdayMessage}</b></p>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </lightning-card>
+    </div>
+</template>

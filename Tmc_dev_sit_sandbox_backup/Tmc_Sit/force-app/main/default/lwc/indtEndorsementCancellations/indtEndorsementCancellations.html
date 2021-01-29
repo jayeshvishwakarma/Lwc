@@ -1,0 +1,189 @@
+<template>
+
+    <div class="slds-is-relative slds-p-vertical_large" if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </div>
+
+    <div class="slds-text-color_error slds-p-vertical_small" if:true={errorMessage}>
+        {errorMessage}
+    </div>
+
+    <div if:true={loaded}>
+        <div class="slds-form" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Legal Transfer</label>
+                        <div class="slds-form-element__control">
+                            {responseData.legalTransfer}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Legal Hier</label>
+                        <div class="slds-form-element__control">
+                            {responseData.legalHier}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Endorsement Summary</label>
+                        {responseData.endorsementSummary}
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <!--<div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Endorsement Link</label>
+                        <div class="slds-form-element__control">
+                            {responseData.endorsementLink}
+                        </div>
+                    </div>
+                </div>-->
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Is Cancelled</label>
+                        <div class="slds-form-element__control">
+                            {responseData.isCancelled}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Cancel Type</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static ">
+                                {responseData.cancelType}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Cancel Date Time</label>
+                        <div class="slds-form-element__control">
+                            {responseData.cancelDateTime}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Cancel Request Time</label>
+                        <div class="slds-form-element__control">
+                            {responseData.cancelRequestTime}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <label class="slds-form-element__label">Cancel Reason</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static ">
+                                {responseData.cancelReason}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem"></div>
+            </div>
+            <div class="slds-form__row" if:true={responseData.endorsements.length}>
+                <div class="slds-form__item" role="listitem">
+                    <div
+                        class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                        <label class="slds-form-element__label">Endorsements</label>
+                        <div class="slds-form-element__control">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-no-row-hover slds-max-medium-table_stacked slds-table_header-hidden">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Status">Status</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Endorsement Id">EndorsementId</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Category">Category</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Name">Name</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Amount">Amount</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Endorsement Datetime">Endorsement Datetime
+                                            </div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Endorsement Link">Endorsement Link
+                                            </div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Endorsement Link">Legal Transfer
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="slds-hint-parent" for:each={responseData.endorsements}
+                                        for:item="endorsement" key={endorsement}>
+                                        <th data-label="Status">
+                                            <div class="slds-truncate" title={endorsement.status}>{endorsement.status}
+                                            </div>
+                                        </th>
+                                        <th data-label="Endorsement Id">
+                                            <div class="slds-truncate" title={endorsement.endorsementId}>
+                                                {endorsement.endorsementId}</div>
+                                        </th>
+                                        <th data-label="Category">
+                                            <div class="slds-truncate" title={endorsement.category}>
+                                                {endorsement.category}
+                                            </div>
+                                        </th>
+                                        <th data-label="Name">
+                                            <div class="slds-truncate" title={endorsement.name}>{endorsement.name}
+                                            </div>
+                                        </th>
+                                        <th data-label="Amount">
+                                            <div class="slds-truncate" title={endorsement.amount}>
+                                                {endorsement.amount}
+                                            </div>
+                                        </th>
+                                        <th data-label="Endorsement Datetime">
+                                            <div class="slds-truncate" title={endorsement.endorsementDatetime}>
+                                                {endorsement.endorsementDatetime}</div>
+                                        </th>
+                                        <th data-label="Endorsement Link">
+                                            <div class="slds-truncate" title={endorsement.link}>
+                                                {endorsement.link}</div>
+                                        </th>
+                                        <th data-label="Legal Transfer">
+                                            <div class="slds-truncate" title={endorsement.legalTransfer}>
+                                                {endorsement.legalTransfer}</div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>

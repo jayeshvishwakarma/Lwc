@@ -1,0 +1,16 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="title" type="String" default="Process Instance Step"/>
+
+    <lightning:card iconName="action:approval" title="ProcessInstance">
+        <!--<aura:set attribute="title">
+            <lightning:icon iconName="action:approval" size="small"/>
+            {! v.title }
+        </aura:set>-->
+        <aura:set attribute="footer">
+            <lightning:badge label="Tag1"/>
+            <lightning:badge label="Tag2"/>
+            <lightning:badge label="Tag3"/>
+        </aura:set>
+        Card Body (custom component)
+    </lightning:card>
+</aura:component>

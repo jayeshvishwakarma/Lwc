@@ -1,0 +1,7 @@
+<apex:page standardController="Quote" extensions="UpgradePorteringOrderController" action="{!UpgradePorteringOrder}">
+    <apex:pageBlock >
+     Alle Portering Mobiel records zijn succesvol gekoppeld aan de Voorgaande order. 
+    <center><apex:outputLink value="/{!quoteObj.id}" styleClass="btn" style="text-decoration:none;padding:5px; width:100px;">Back</apex:outputLink></center>
+    </apex:pageBlock>
+ 
+</apex:page>

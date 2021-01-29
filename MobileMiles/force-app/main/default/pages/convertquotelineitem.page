@@ -1,0 +1,4 @@
+<apex:page controller="ConvertQuoteLineItemCtrl" action="{!createCustomObjectRecord}">
+    <apex:pageMessages />
+    processing...
+</apex:page>

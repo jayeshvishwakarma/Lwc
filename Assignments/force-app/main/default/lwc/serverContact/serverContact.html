@@ -1,0 +1,47 @@
+<template>
+    <div class="slds-m-around_large">
+        <lightning-card title="Contact-Records" icon-name="standard:contact">
+            <lightning-combobox
+                    name="contactCity"
+                    label="Select City"
+                    value={selectedCity}
+                    options={cityOptions}
+                    onchange={handleChange}    
+            >
+            </lightning-combobox>
+            <hr>
+            <lightning-datatable
+                key-field="id"
+                columns={lstFieldNames.data}
+                data={records}
+
+            ></lightning-datatable>
+            <!--<div class="slds-m-around_large">
+            <template if:true={lstContactRecords.data}>
+                        <template for:each={lstContactRecords.data} for:item="objContact">
+                            <div class="slds-grid slds-gutters" key={objContact.id}>
+                                <div class="slds-col slds-size_3-of-12">
+                                    <p>{objContact.FirstName}</p>
+                                </div>
+                                <div class="slds-col slds-size_3-of-12">
+                                    <p>{objContact.MailingCity}</p>
+                                </div>
+                                <div class="slds-col slds-size_3-of-12">
+                                    <p>{objContact.Email}</p>
+                                </div>
+                                <div class="slds-col slds-size_3-of-12">
+                                    <p>{objContact.Phone}</p>
+                                </div>
+                            </div>
+                        </template> 
+                    </template>
+                    </div>-->
+                    <!--Line number 4 pr jo template yehi wala jesa laga h wesa bhi kr skte h or esa bhi 
+                    kuiki ek time pr ek hi hoga mtln ya to data ajyga ya error aaygi 
+                    error dekhne ke liye apn ne esa kiya h-->
+                  <!--<template if:true={lstContactRecords.error}>
+                        <p>Error Reported</p>
+                    </template>-->
+        </lightning-card>
+    </div>
+</template>

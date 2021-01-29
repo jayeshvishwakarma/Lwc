@@ -1,0 +1,7 @@
+<design:component >
+	<design:attribute name="imageurl" label="Desktop Image URL" description="Please add image url" />
+    <design:attribute name="imageurlmobile" label="Mobile Image URL" description="Please add image url for mobile" />
+    <design:attribute name="headertype" label="Header Type" description="Please add header type" />
+    <design:attribute name="showtimer" label="Show Timer" description="Please enable/disable timer" />
+
+</design:component>

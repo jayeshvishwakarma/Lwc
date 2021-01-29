@@ -1,0 +1,38 @@
+<apex:page controller="GlasvezelRequestFormController" >
+    <apex:slds />
+ <div class="slds-grid">
+     <div class="slds-col">
+         <span>Downloadsnelheid<br/>
+             <b>100 Mbit/s</b><br/>
+             Uploadsnelheid<br/>
+             <b>100 Mbit/s</b><br/>
+             <apex:image width="160px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-snel.png')}"/><br/>
+             <input  type="radio" name="Cource" value="SNEL" onclick="setCourceValue(this.value);"/>
+         </span>
+     </div>
+     <div class="slds-col">
+         <span>
+             <br/>Downloadsnelheid<br/>
+             <b>200 Mbit/s</b><br/>                                        
+             Uploadsnelheid<br/>
+             <b>200 Mbit/s</b><br/>
+             <apex:image width="160px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-sneller.png')}"/><br/>
+             <input type="radio" name="Cource" value="SNELLER" onclick="setCourceValue(this.value);"/> <br/>
+             <br/>
+         </span>
+     </div>
+     <div class="slds-col">
+         <span>
+             <br/>Downloadsnelheid<br/>
+             <b>500 Mbit/s</b><br/>                                        
+             Uploadsnelheid<br/>
+             <b>500 Mbit/s</b><br/>
+             <apex:image width="160px" url="{!URLFOR($Resource.glasvezel_resources,'glasvezel_resources/images/amount-razendsnel.png')}"/><br/>
+             <input type="radio" name="Cource" value="RAZENDSNEL" onclick="setCourceValue(this.value);"/> <br/>
+             <br/>
+             
+         </span>
+     </div>
+    </div>
+
+</apex:page>

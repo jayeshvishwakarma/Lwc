@@ -1,0 +1,18 @@
+<template>
+    <div class="slds-m-around_large">
+        <lightning-card icon-name="standard:user" title="Father : Carryminati">
+        
+        <c-child1
+        data-my-id=childComp1
+        >
+        </c-child1>
+
+         <div class="slds-m-around_large" style="border-style: outset;">
+         <c-child2 onfirst={handleUpload}>
+         </c-child2>
+         </div>
+
+        </lightning-card>
+    </div>
+    
+</template>

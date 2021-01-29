@@ -1,0 +1,271 @@
+<template>
+
+    
+    
+    <div if:true={hideComponent} class="slds-align_absolute-center error-message">
+        You cannot access Emi Calculator.
+    </div>
+
+    <div class={isHostessCheck}>
+
+        <div if:false={hideComponent}>
+
+            <div class={headerCheck}>
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-survey" title="Calculator">
+                                    <lightning-icon icon-name="standard:survey" alternative-text="Click to Call"
+                                        size="medium"></lightning-icon>
+                                    <span class="slds-assistive-text">EMI Calculator</span>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate"
+                                                title="Rohde Corp - 80,000 Widgets">EMI Calculator</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                                <p class="slds-page-header__name-meta">Fill in the details below</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form " role="list">
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <label class="slds-form-element__label">Loan Amount Applied (₹)</label>
+                            <div class="slds-form-element__control">
+                                <span onkeypress={isNumber}>
+                                    <lightning-input type="number" message-when-too-short="Invalid Loan Amount"
+                                        message-when-too-long="Invalid Loan Amount" formatter="currency" step="1"
+                                        data-id="loanamnt" name="loanamont" onchange={handleamount} value={loanamountt}
+                                        min="10000" max="10000000" variant="label-hidden"></lightning-input>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <label class="slds-form-element__label">Interest Rate (%)</label>
+                            <div class="slds-form-element__control">
+                                <span onkeypress={isNumber}>
+                                    <lightning-input data-id="interestRate" max-length="4" onchange={handleinterest}
+                                        name="interestRate" value={InterestRate} variant="label-hidden">
+                                    </lightning-input>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+             <!--   <div class="slds-form__row"> -->
+
+
+                        <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    
+                                        <div class="slds-form-element ">
+                                            <label class="slds-form-element__label">Loan Tenure</label>
+                                            <div class="slds-form-element__control">
+                                                <span onkeypress={isNumber}>
+                                                    <lightning-input max-length="3" data-id="loanTenure" onchange={handletenure}
+                                                        name="loanTenure" value={LoanTenure} variant="label-hidden"></lightning-input>
+                                                </span>
+                                            </div>
+                                        </div>
+                                   
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Duration Type</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-radio-group name="radioGroup" data-id="loantenureterm" options={tenureoptions} value={tenure}
+                                                    onchange={changeTenure} type="button" variant="label-hidden">
+                                                </lightning-radio-group>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+
+
+                    
+                    
+             <!--   </div> -->
+
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <label class="slds-form-element__label">Advance EMI</label>
+                            <div class="slds-form-element__control">
+                                <lightning-input type="checkbox" data-id="advanceEMI" name="advanceEMI"
+                                    variant="label-hidden" onchange={handlecheck}></lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-size_1-of-1 slds-align_absolute-center">
+                    <lightning-button label="Calculate" variant="brand" onclick={calculateemi}></lightning-button>
+                </div>
+
+            </div>
+
+            <!--<div class="slds-size_1-of-1 slds-border_bottom horizontal-line">&nbsp;</div> -->
+
+            <div class="slds-form" role="list">
+
+                <div class="slds-form__row slds-p-vertical_xx-small">
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">Loan EMI</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <lightning-formatted-number label="Loan EMI" value={LoanEMii}
+                                        format-style="currency" currency-code="INR" currency-display-as="symbol">
+                                    </lightning-formatted-number>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form__row slds-p-vertical_xx-small">
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">Total Interest Payable</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <lightning-formatted-number value={TotalInterestPayable} format-style="currency"
+                                        currency-code="INR" currency-display-as="symbol">
+                                    </lightning-formatted-number>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+              <!--  <div if:true={showFinancier}>  -->
+                    <div class="slds-form__row slds-p-vertical_xx-small">
+                        <div class="slds-form__item" role="listitem">
+                            <div class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                <span class="slds-form-element__label">Total Amount Payable (Principal + Interest)</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        <lightning-formatted-number data-id="totalAmountPayable" value={TotalAmountPayable}
+                                            format-style="currency" currency-code="INR" currency-display-as="symbol">
+                                        </lightning-formatted-number>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                <div if:true={showFinancier}>
+                    <!-- =======    Downpayment FOR RELATED ENQUIRY DEALER MAP CODE     ======= -->
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            
+                            <div class="slds-form-element ">
+                                <label class="slds-form-element__label">Downpayment (₹)</label>
+                                <div class="slds-form-element__control">
+                                    <span onkeypress={isNumber}>
+                                        <lightning-input max-length="16" data-id="downpayment" onchange={handleDownPayment}
+                                            name="downpayment" value={downpaymentAmt} variant="label-hidden"></lightning-input>
+                                    </span>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+
+                    <!-- =======     FOR SEARCH FINANCIER FOR RELATED ENQUIRY DEALER MAP CODE     ======= -->
+                    <template if:false={selectedFinancier}>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <c-search-component label="Financier" place-holder-name="Enter Financier Name" onchange={handleOnchange}> </c-search-component>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    
+                    <template if:false={selectedFinancier}>
+                        <template if:true={records}>
+                            <template for:each={records} for:item="record">
+                                <c-record-list key={record.Id} record={record} onselect={handleSelect} iconname={iconname}
+                                    fieldname={searchfield}>
+                                </c-record-list>
+                            </template>
+                        </template>
+                    </template>
+
+                    <!-- =======     FOR DISPALY SELECTED FINANCIER     ======= -->
+                    <template if:true={selectedFinancier}>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <label class="slds-form-element__label">Financier</label>
+                                        <div class="slds-combobox__form-element slds-input-has-icon 
+                                                            slds-input-has-icon_left-right" role="none">
+                                            <span class="slds-icon_container
+                                                                slds-icon-standard-product 
+                                                                slds-combobox__input-entity-icon" title="Product">
+                                                <lightning-icon icon-name={iconname}></lightning-icon>
+                                            </span>
+                                            <input class="slds-input slds-combobox__input
+                                                            slds-combobox__input-value" id="combobox-id-5" aria-controls="listbox-id-5"
+                                                autocomplete="off" role="textbox" type="text" placeholder="Select an Option" readonly=""
+                                                value={selectedFinancier.Name} disabled required />
+
+                                            <button class="sicon_container slds-button slds-button_icon 
+                                                                    slds-input__icon slds-input__icon_right"
+                                                title="Remove selected option" style="margin-right: 0.6%;" onclick={handleRemove}>
+                                                <lightning-icon icon-name="utility:close" size="small" style="margin-top: inherit;">
+                                                </lightning-icon>
+                                                <span class="slds-assistive-text">Remove selected option</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    
+                </div> 
+
+            </div>
+
+        </div>
+
+        <div if:true={showFinancier}>
+            <div style="text-align: right; padding-right: 2%; padding-bottom: 1%;">
+                <lightning-button label="Previous" variant="neutral"
+                    title="Previous" onclick={handlePrevious} class="slds-m-left_x-small">
+                </lightning-button>
+                <lightning-button  label="Next"
+                    variant="brand" title="Next" onclick={handleNext}
+                    class="slds-m-left_x-small"></lightning-button>
+                
+            </div>
+        </div>
+
+    </div>
+
+</template>

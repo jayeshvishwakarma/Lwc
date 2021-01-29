@@ -1,0 +1,14 @@
+.btnColor{
+    color:#fff;
+}
+
+.btnClass{
+    background-color:#fff;
+    border-color:#dddbda;
+    border: 1px solid #dddbda;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+    color: #0070d2;
+    cursor: pointer;
+}

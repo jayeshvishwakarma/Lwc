@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Payment</label>
+    <protected>false</protected>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Criteria__c</field>
+        <value xsi:type="xsd:string">Claim__r.twod__Claim_Status__c IN (&apos;Closed&apos;) and Sales_Org__c = null and Claim__r.Sales_Org__c != null AND Claim__r.CreatedDate &lt; 2004-01-01T00:00:01z</value>
+    </values>
+    <values>
+        <field>Field_Set__c</field>
+        <value xsi:type="xsd:string">Id,Payment_Type__c,Sales_Org__c,Currency__c,Exchange_Rate__c,Total_Amount_Converted__c,Total_Amount__c,Released_To_SAP__c,Claim__r.Currency__c, Claim__r.Sales_org__c, Claim__r.Country_BL__c, (Select Id,Product_Filter__c,Sales_Org__c,Amount__c, Amount_Converted__c from Payment_Lines__r)</value>
+    </values>
+    <values>
+        <field>Object__c</field>
+        <value xsi:type="xsd:string">Payment__c</value>
+    </values>
+    <values>
+        <field>Roofing_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

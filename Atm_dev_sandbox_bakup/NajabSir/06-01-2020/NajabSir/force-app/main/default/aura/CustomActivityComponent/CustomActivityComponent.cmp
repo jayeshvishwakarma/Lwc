@@ -1,0 +1,30 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="CustomActivityController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--<aura:attribute name="customActivityId" type="String" />
+    <aura:attribute name="isEditable" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:handler name="onSaveSuccess" event="force:recordSaveSuccess" action="{!c.handleSaveSuccess}"/>
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand" size="medium"/> 
+    </aura:if>
+    <lightning:card>
+        <aura:if isTrue="{!!v.isEditable}">
+            <force:recordView aura:id="view" recordId="{!v.customActivityId}"/>
+            <aura:set attribute="else">
+                <force:recordEdit aura:id="edit" recordId="{!v.customActivityId}"/>
+            </aura:set>
+        </aura:if>
+        <aura:set attribute="footer">
+        	<div class="slds-align_absolute-center">
+                <aura:if isTrue="{!!v.isEditable}">
+                	<lightning:button label="Edit" variant="brand" onclick="{!c.doEdit}"/>
+                    <aura:set attribute="else">
+                        <lightning:button label="Cancel" variant="brand" onclick="{!c.doCancel}"/>
+                    	<lightning:button label="Save" variant="brand" onclick="{!c.save}"/>
+                    </aura:set>
+                </aura:if>
+           </div>
+        </aura:set>
+    </lightning:card>-->
+</aura:component>

@@ -1,0 +1,3 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:availableForFlowScreens" >
+    <c:oTPValidationFramework recordId="{!v.recordId}" onclosequickacion="{!c.closeQuickAction}"/>
+</aura:component>

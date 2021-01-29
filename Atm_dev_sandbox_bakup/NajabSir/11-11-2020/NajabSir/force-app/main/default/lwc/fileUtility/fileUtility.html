@@ -1,0 +1,620 @@
+<template>
+
+    <lightning-card>
+        <div class="slds-p-horizontal_small">
+
+            
+
+
+
+
+<!--
+
+        <div class="slds-section" data-id="detail-section">
+
+            <h3 class="slds-section__title">
+                <button aria-controls="section" aria-expanded="true" class="slds-button slds-section__title-action"
+                    onclick={handleToggleSection}>
+                    <lightning-icon size="xx-small" icon-name={activeIcon} alternative-text="Expand"></lightning-icon>
+                    <span class="slds-truncate slds-p-left_x-small" title="Closure Documents"> 
+                        Closure Documents 
+                    </span>
+                </button>
+            </h3>
+
+            <div aria-hidden="false" class="slds-section__content" id="section">
+                
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element slds-form-element_readonly">
+                           
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input placeholder="OTP" label="Satisfaction Note"></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <div class="slds-p-top_small"></div>
+                                            <div class="slds-p-top_small"></div>
+                                            <span class="btnColor"><lightning-button class="btnColor" label="Verify" variant="success"></lightning-button></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element slds-form-element_readonly">
+                             
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning-input type="file" label="Manufacturer Undertaking Form" accept="image/png, image/jpg, .zip"></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-p-top_medium"></div>
+                                            
+                                            <div class="slds-p-top_small"></div>
+                                            <lightning-button-icon icon-name="utility:add"></lightning-button-icon>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning-input type="file" accept="image/png, image/jpg, .zip"></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-p-top_medium"></div>
+                                            
+                                            <div class="slds-p-top_small"></div>
+                                            <lightning-button-icon icon-name="utility:add"></lightning-button-icon>
+                                        </div>
+                                    </div>
+                                     
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+
+
+
+
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element slds-form-element_readonly">
+                            
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning-input type="file" label="Registration Undertaking Form" accept="image/png, image/jpg, .zip"></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-p-top_medium"></div>
+                                            
+                                            <div class="slds-p-top_small"></div>
+                                            <lightning-button-icon icon-name="utility:add"></lightning-button-icon>
+                                        </div>
+                                    </div>
+
+ 
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element slds-form-element_readonly">
+                            
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning-input type="file" label="Order Booking Form" accept="image/png, image/jpg, .zip"></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-p-top_medium"></div>
+                                            
+                                            <div class="slds-p-top_small"></div>
+                                            <lightning-button-icon icon-name="utility:add"></lightning-button-icon>
+                                        </div>
+                                    </div>
+
+ 
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+
+
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element slds-form-element_readonly">
+                            
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning-input type="file" label="Sales Quality Information Report" accept="image/png, image/jpg, .zip"></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-p-top_medium"></div>
+                                            
+                                            <div class="slds-p-top_small"></div>
+                                            <lightning-button-icon icon-name="utility:add"></lightning-button-icon>
+                                        </div>
+                                    </div>
+
+ 
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+
+
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element slds-form-element_readonly">
+                           
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning-input type="file" label="Root Cause Analysis" accept="image/png, image/jpg, .zip"></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-p-top_medium"></div>
+                                            
+                                            <div class="slds-p-top_small"></div>
+                                            <lightning-button-icon icon-name="utility:add"></lightning-button-icon>
+                                        </div>
+                                    </div>
+
+ 
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+
+
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element slds-form-element_readonly">
+                            
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning-input type="file" label="Gatepass/Delivery Challan" accept="image/png, image/jpg, .zip"></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-p-top_medium"></div>
+                                            
+                                            <div class="slds-p-top_small"></div>
+                                            <lightning-button-icon icon-name="utility:add"></lightning-button-icon>
+                                        </div>
+                                    </div>
+
+ 
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+
+
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1"> 
+                        <div class="slds-form-element slds-form-element_readonly">
+                            <label class="slds-form-element__label">Legal Doc</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            File 1 <br/>
+                                            File 2 <br/>
+                                            File 3
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <a>View</a>&nbsp;|&nbsp;<a>Edit</a><br/>
+                                            <a>View</a>&nbsp;|&nbsp;<a>Edit</a><br/>
+                                            <a>View</a>&nbsp;|&nbsp;<a>Edit</a>
+                                        </div>
+                                    </div>
+
+ 
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Document">Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Account Name">Action</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Satisfaction Note</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <input class="slds-input" placeholder="OTP"></input>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2">
+                                            <span><lightning-button class="btnColor" label="Verify" variant="success"></lightning-button></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Manufacturer Undertaking Form</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        
+                                        <div class="slds-truncate slds-align_absolute-center" title="Cloudhub">
+                                            <lightning-badge onclick={checkBtn} label="Upload" class="btnClass"></lightning-badge> &nbsp;
+                                            <lightning-button-icon icon-name="utility:add"  title="Add"></lightning-button-icon>
+                                        </div>
+                                        <div class="slds-p-top_small"></div>
+                                        <div class="slds-truncate slds-align_absolute-center" title="Cloudhub">
+                                            <lightning-badge onclick={checkBtn} label="Upload" class="btnClass"></lightning-badge> &nbsp;
+                                            <lightning-button-icon icon-name="utility:add"  title="Add"></lightning-button-icon>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Registration Undertaking Form</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Cloudhub">
+                                            <lightning-badge onclick={checkBtn} label="Upload" class="btnClass"></lightning-badge>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Sales Quality Information Report</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Cloudhub">
+                                            <lightning-badge onclick={checkBtn} label="Upload" class="btnClass"></lightning-badge>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Order Booking Form</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Cloudhub">
+                                            <lightning-badge onclick={checkBtn} label="Upload" class="btnClass"></lightning-badge>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Root Cause Analysis</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Cloudhub">
+                                            <lightning-badge onclick={checkBtn} label="Upload" class="btnClass"></lightning-badge>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Gatepass/Delivery Challan</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Cloudhub">
+                                            <lightning-badge onclick={checkBtn} label="Upload" class="btnClass"></lightning-badge>
+                                        </div>
+                                    </td>
+                                </tr> 
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Legal Doc</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Cloudhub">
+                                            <lightning-badge onclick={checkBtn} label="Upload" class="btnClass"></lightning-badge>
+                                        </div>
+                                    </td>
+                                </tr> 
+                            </tbody>
+                </table>
+                 
+            </div>
+        </div>
+    -->
+
+        <div class="slds-section" data-id="detail-section2">
+
+            <h3 class="slds-section__title">
+                <button aria-controls="section" aria-expanded="true" class="slds-button slds-section__title-action"
+                    onclick={handleToggleSection2}>
+                    <lightning-icon size="xx-small" icon-name={activeIcon2} alternative-text="Expand"></lightning-icon>
+                    <span class="slds-truncate slds-p-left_x-small" title="Closure Documents"> 
+                        Escalation Matrix
+                    </span>
+                </button>
+            </h3>
+
+            <div aria-hidden="false" class="slds-section__content" id="section2">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Document">Level</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Account Name">Designation</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Document">Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Account Name">Phone</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Account Name">Email</div>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L1</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">DSE/RM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Test RM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">989898989</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">testrm@gmail.com</div>
+                                    </td>
+                                </tr>
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L2a</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">CCM/QM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Test RM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">989898989</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">testrm@gmail.com</div>
+                                    </td>
+                                </tr>
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L2b</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">GM/SM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Test RM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">989898989</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">testrm@gmail.com</div>
+                                    </td>
+                                </tr>
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L3</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">TSM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Test RM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">989898989</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">testrm@gmail.com</div>
+                                    </td>
+                                </tr>
+
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L4</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">RM - Sales</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Test RM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">989898989</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">testrm@gmail.com</div>
+                                    </td>
+                                </tr>
+
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L5</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">CBH</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">Test RM</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">989898989</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">testrm@gmail.com</div>
+                                    </td>
+                                </tr>
+
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L6</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> HO Coordinator </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                </tr>
+
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L7</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">********</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">********</div>
+                                    </td>
+                                </tr>
+
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L8</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">********</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">********</div>
+                                    </td>
+                                </tr>
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L9</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">********</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">********</div>
+                                    </td>
+                                </tr>
+
+                                <tr class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">L10</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub"> - </div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">********</div>
+                                    </td>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Cloudhub">********</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </lightning-card>
+</template>

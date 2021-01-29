@@ -1,0 +1,3 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" >
+	<c:changeOwnerCaseLWC recordId="{!v.recordId}"></c:changeOwnerCaseLWC> 
+</aura:component>

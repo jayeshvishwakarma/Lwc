@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision3</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_pmetdec</targetReference>
+            </connector>
+            <label>Is Program US Community?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision3</name>
+        <label>myDecision3</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_4</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_4</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_4_A1</targetReference>
+            </connector>
+            <label>Is Program Not US Community</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_1_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>100</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_1_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_1_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <description>Opportunity Program US Community</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>$Label.CC_Strategi_Sales_Rep </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_2_myRule_1_A1_1248161017</name>
+        <dataType>String</dataType>
+        <expression>{!$Label.CC_Strategi_Sales_Rep}</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>null</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_5_myRule_4_A1_1841021972</name>
+        <dataType>String</dataType>
+        <expression>null</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+	[Opportunity].RecordType.DeveloperName =&apos;Club_Car&apos;,
+	OR(
+		ISCHANGED([Opportunity].CC_Program_Membership__c),
+		DATEVALUE([Opportunity].CreatedDate) = TODAY()
+	),
+	
+	(NOT(ISBLANK([Opportunity].CC_Program_Membership__c)) &amp;&amp;
+		OR(
+			CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program),
+			CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program_2),
+			CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program_3)
+		)
+	)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+	{!myVariable_current.RecordType.DeveloperName} =&apos;Club_Car&apos;,
+	OR(
+		ISCHANGED({!myVariable_current.CC_Program_Membership__c}),
+		DATEVALUE({!myVariable_current.CreatedDate}) = TODAY()
+	),
+	
+	(NOT(ISBLANK({!myVariable_current.CC_Program_Membership__c})) &amp;&amp;
+		OR(
+			CONTAINS({!myVariable_current.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program}),
+			CONTAINS({!myVariable_current.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program_2}),
+			CONTAINS({!myVariable_current.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program_3})
+		)
+	)
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+	[Opportunity].RecordType.DeveloperName =&apos;Club_Car&apos;,
+	OR(
+		ISCHANGED([Opportunity].CC_Program_Membership__c),
+		DATEVALUE([Opportunity].CreatedDate) = TODAY()
+	),
+	
+	(NOT(ISBLANK([Opportunity].CC_Program_Membership__c)) &amp;&amp;
+		OR(
+			CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program),
+			CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program_2),
+			CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program_3)
+		)
+	)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+	{!myVariable_old.RecordType.DeveloperName} =&apos;Club_Car&apos;,
+	OR(
+		ISCHANGED({!myVariable_old.CC_Program_Membership__c}),
+		DATEVALUE({!myVariable_old.CreatedDate}) = TODAY()
+	),
+	
+	(NOT(ISBLANK({!myVariable_old.CC_Program_Membership__c})) &amp;&amp;
+		OR(
+			CONTAINS({!myVariable_old.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program}),
+			CONTAINS({!myVariable_old.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program_2}),
+			CONTAINS({!myVariable_old.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program_3})
+		)
+	)
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>OR(
+	[Opportunity].RecordType.DeveloperName =&apos;CC_Golf_Sales&apos;,
+	AND(
+		[Opportunity].RecordType.DeveloperName =&apos;Club_Car&apos;,
+		ISCHANGED([Opportunity].CC_Program_Membership__c),
+		OR(
+			ISBLANK([Opportunity].CC_Program_Membership__c),
+			AND(
+				NOT(ISBLANK([Opportunity].CC_Program_Membership__c)),
+				AND(
+					NOT(CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program)),
+					NOT(CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program_2)),
+					NOT(CONTAINS([Opportunity].CC_Program_Membership__c.Name, $Label.CC_Opportunity_Program_3))
+				)
+			)
+		)
+	)
+)</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_4</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(
+	{!myVariable_current.RecordType.DeveloperName} =&apos;CC_Golf_Sales&apos;,
+	AND(
+		{!myVariable_current.RecordType.DeveloperName} =&apos;Club_Car&apos;,
+		ISCHANGED({!myVariable_current.CC_Program_Membership__c}),
+		OR(
+			ISBLANK({!myVariable_current.CC_Program_Membership__c}),
+			AND(
+				NOT(ISBLANK({!myVariable_current.CC_Program_Membership__c})),
+				AND(
+					NOT(CONTAINS({!myVariable_current.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program})),
+					NOT(CONTAINS({!myVariable_current.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program_2})),
+					NOT(CONTAINS({!myVariable_current.CC_Program_Membership__r.Name}, {!$Label.CC_Opportunity_Program_3}))
+				)
+			)
+		)
+	)
+)</expression>
+    </formulas>
+    <interviewLabel>CC_Opportunity_Program_US_communi-51_InterviewLabel</interviewLabel>
+    <label>CC_Opportunity_Program_US_community</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>Opportunity</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Opportunity]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>Update Strategic Sales Rep</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Strategic Account Rep</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue>CC_Sales_Rep__c</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CC_Strategic_Account_Rep__c</field>
+            <value>
+                <elementReference>formula_2_myRule_1_A1_1248161017</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Opportunity]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_4_A1</name>
+        <label>Remove Strategic Sales Rep</label>
+        <locationX>400</locationX>
+        <locationY>200</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Strategic Account Rep</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue>CC_Sales_Rep__c</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>CC_Strategic_Account_Rep__c</field>
+            <value>
+                <elementReference>formula_5_myRule_4_A1_1841021972</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordUpdates>
+    <startElementReference>myDecision</startElementReference>
+    <status>Obsolete</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+</Flow>

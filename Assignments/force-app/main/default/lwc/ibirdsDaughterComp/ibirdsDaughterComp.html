@@ -1,0 +1,26 @@
+<template>
+    <div class="slds-m-around__large">
+        <lightning-card title={daughterDetail} icon-name="custom:custom3">
+
+            <template if:true={messageRecieved}>
+                <h><b>{messageRecieved}</b></h>
+            </template>
+            <lightning-input
+                title="Enter Message"
+                data-my-id="txtMessage"
+            >
+            </lightning-input><br/>
+            <div style="margin-left:50%">
+            <lightning-button
+                title="Send"
+                label="Send"
+                name="Send"
+                onclick={handleSend}
+            >
+
+            </lightning-button>
+        </div>
+        </lightning-card>
+    </div>
+    
+</template>

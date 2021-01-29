@@ -1,0 +1,72 @@
+<!--
+  @File Name          : createLoanStatus.cmp
+  @Description        : Checking Loan Statyus with FMP
+  @Author             : Satish Kumar
+  @Group              : 
+  @creation Date      :19-05-2020
+  @Modification Log   : 
+-->
+<aura:component controller="Msil_FpmIntegration"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader"
+                access="global">
+    <aura:attribute name="oppId" type="String" default="{!v.recordId}" access="global" />
+    <aura:attribute name="opp" type="Opportunity" />
+    <aura:attribute name="wrapRecord" type="object" />
+    <aura:attribute name="isEnquiryBlank" type="Boolean" default="True" access="global" />
+    <aura:attribute name="loading" type="Boolean" default="True" access="global" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInitAction}" />
+    <aura:attribute name="currentUrl" type="String" default="" />
+    
+    
+    <aura:if isTrue="{!v.isEnquiryBlank}">
+        <c:loanStatusItem recordId="{!v.oppId}" enquiryNumber="{!v.wrapRecord.enqNo}"
+                          dealerCode="{!v.wrapRecord.dealerCode}" dealerForCode="{!v.wrapRecord.dealerForCode}"
+                          loanStatus="{!v.wrapRecord.loanStatus}" load="{!v.loading}" isEnquiryBlank="{!v.isEnquiryBlank}" 
+                          actionTime="{!v.wrapRecord.actionTime}"/>
+        
+        
+        <aura:set attribute="else">  
+            <lightning:layout verticalAlign="center" multipleRows="true" horizontalAlign="center">
+                <aura:if isTrue="{!v.loading}">
+                    
+                    <lightning:layoutItem  size="3"  padding="around-medium" class="slds-p-top_medium">
+                        <br/><br/><br/><br/><br/> 
+                        <div aura:id="uploadCard" class="slds-card__header" style="position:relative">
+                        <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" variant="brand" /> 
+                                  
+                       
+                     </div>
+                    </lightning:layoutItem>
+                    
+                    <aura:set attribute="else">  
+                        <lightning:layoutItem  size="3">
+                           <img src="{!$Resource.PageIsDown}" />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="auto" size="10">
+                            <div class="custom-box" style="color:red;font-size:100%">
+                                <b>{!v.wrapRecord.loanStatus}</b>
+                            </div>
+                        </lightning:layoutItem>          
+                    </aura:set>
+                </aura:if>
+            </lightning:layout>
+            
+        </aura:set>
+        
+    </aura:if>
+  
+    <aura:if isTrue="{!v.loading}">
+        <aura:set attribute="else">
+            <lightning:layout multipleRows="true" horizontalAlign="center">
+                <lightning:layoutItem padding="around-small">
+                    <div class="slds-align_absolute-center">
+                        <lightning:button label="Ok" title="Ok" variant="brand" iconPosition="right"
+                                          onclick="{!c.redirectCurrent}" />
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+    </aura:if>
+    
+
+</aura:component>

@@ -1,0 +1,308 @@
+<template>
+	<div class={mainCss}>
+		<template if:true={isSpinnerShow}>
+			<lightning-spinner variant="brand" size="medium" alternative-text="loading"></lightning-spinner>
+		</template>
+		<div class="slds-template__container">
+			<div class="inlinePanel oneRecordActionWrapper">
+				<div class="actionBody">
+					<div class="slds-clearfix groupDependentFieldEnabled full-width ">
+						<div></div>
+						<!-- Header-->
+						<div>
+							<h4 class=" slds-p-top--large slds-p-horizontal--medium slds-p-bottom--medium slds-text-heading--medium">
+                                                        {newCaseLabel}
+                                                </h4>
+						</div>
+						<template if:true={isFormReadyToShow}>
+							<lightning-record-edit-form record-id={caseId} object-api-name={sObjectName} onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>
+								<lightning-messages></lightning-messages>
+								<!--Start of Fields Section -->
+								<!-- Customer Information Section -->
+								<div id="customer-information-section" class="slds-section slds-is-open">
+									<h3 class="slds-section__title slds-theme_shade">
+                                                        <span class="slds-truncate slds-p-horizontal_small" title="Customer Information" >Customer Information </span>
+                                                        </h3>
+									<div aria-hidden="false" class="slds-section__content">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item class="slds-hide" size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="" field-name="Survey_Taker__c"  value={valuesObj.surveyTakerId}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="" field-name="First_Name__c" required value={valuesObj.customerFirstName}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="" field-name="Middle_Name__c" value={valuesObj.customerMiddleName}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="" field-name="Last_Name__c" required value={valuesObj.customerLastName}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="" field-name="Mobile_Number__c" required value={valuesObj.customerMobile}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="" field-name="Email__c"  value={valuesObj.customerEmail}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<div class="slds-form-element slds-form-element_stacked" if:true={isExistingCaseNumberShow}>
+													<lightning-input min-length={caseNumberLength} max-length={caseNumberLength} label="Existing Case #" name="" 
+													value={existingCaseNumber} onchange={loadExistingCase}></lightning-input>
+												</div>
+											</lightning-layout-item>
+											
+										</lightning-layout>
+									</div>
+								</div>
+								<!-- Case Information Section -->
+								<div id="case-information-section" class="slds-section slds-is-open">
+									<h3 class="slds-section__title slds-theme_shade">
+                                                        <span class="slds-truncate slds-p-horizontal_small" title="Case Information" >Case Information </span>
+                                                        </h3>
+									<div aria-hidden="false" class="slds-section__content">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field onchange={handleFieldChange} name="Channel__c" field-name="Channel__c" required value={valuesObj.channelValue}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field onchange={handleFieldChange} name="Case_Type__c" field-name="Case_Type__c" required value={valuesObj.caseTypeValue}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field onchange={handleFieldChange} class="slds-hide" name="Business_Area__c" field-name="Business_Area__c"  value={valuesObj.businessAreaValue}></lightning-input-field>
+												<lightning-combobox class="slds-p-horizontal--xx-small slds-form-element" name="Business_Area__c" label="Business Area" value={valuesObj.businessAreaValue}
+													placeholder="--None--" options={businessAreaOptions} onchange={handleFieldChange} disabled={businessAreaValueDisabled}
+												></lightning-combobox>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field onchange={handleFieldChange} name="Case_Stage__c" field-name="Case_Stage__c" required={isCaseStageRequired} disabled={caseStageDisabled}></lightning-input-field>
+											</lightning-layout-item>
+											<!-- Start of Categories Fields -->
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-combobox class="slds-p-horizontal--xx-small" name={caseFieldNames.primaryCategory} label="Primary Category" value={category.primaryCategoryValue} placeholder="--None--" required={isPrimaryRequired} disabled={category.isPrimaryCategoryDisabled} options={category.primaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-combobox class="slds-p-horizontal--xx-small" name={caseFieldNames.secondaryCategory} label="Secondary Category" value={category.secondaryCategoryValue} placeholder="--None--" required={isSecondaryRequired} disabled={category.isSecondaryCategoryDisabled} options={category.secondaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-combobox class="slds-p-horizontal--xx-small" name={caseFieldNames.tertiaryCategory} label="Tertiary Category" value={category.tertiaryCategoryValue} placeholder="--None--" required={isTertiaryRequired} disabled={category.isTertiaryCategoryDisabled} options={category.tertiaryCategoryOptions} onchange={handleFieldChange}></lightning-combobox>
+											</lightning-layout-item>
+											<!-- End of Categories Fields -->
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Origin" field-name="Origin" onchange={sourceChange} required></lightning-input-field>
+												<!-- Auto Populated hidden Fields based on Origin -->
+												<lightning-input-field class="slds-hide" name="NCH_Flag__c" field-name="NCH_Flag__c" value={valuesObj.NCHFlagValue}></lightning-input-field>
+												<lightning-input-field class="slds-hide" name="Social_Media_Flag__c" field-name="Social_Media_Flag__c" value={valuesObj.SocialMediaFlagValue}></lightning-input-field>
+												<lightning-input-field class="slds-hide" name="Top_Management_Flag__c" field-name="Top_Management_Flag__c" value={valuesObj.topManagementFlagValue}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Mode__c" field-name="Mode__c"></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="FCR_Conducted__c" field-name="FCR_Conducted__c" required onchange={handleFieldChange}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Customer_Satisfied_With_FCR__c" field-name="Customer_Satisfied_With_FCR__c"></lightning-input-field>
+											</lightning-layout-item>
+											<!-- <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="KB_Article__c" field-name="KB_Article__c" required={isKnowledgeRequired}></lightning-input-field>
+											</lightning-layout-item> -->
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="NCH_Docket_Number__c" field-name="NCH_Docket_Number__c"></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Preferred_Mode_Of_Communication__c" field-name="Preferred_Mode_Of_Communication__c"></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field required disabled={isTopManagementExecutiveDisabled} name="Top_Management_Executive__c" field-name="Top_Management_Executive__c" value={valuesObj.topManagementExecutiveValue}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+												<lightning-input-field name="Subject" field-name="Subject" ></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+												<lightning-input-field name="Description" field-name="Description" required value={valuesObj.description} disabled={isDescriptionDisabled}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+												<lightning-input-field name="Additional_Information__c" field-name="Additional_Information__c" required></lightning-input-field>
+											</lightning-layout-item>
+										</lightning-layout>
+									</div>
+								</div>
+								<!-- TCU Information Section -->
+								<div if:true={suzukiConnectAssetData} id="tcu-information-section" class="slds-section slds-is-open">
+									<h3 class="slds-section__title slds-theme_shade">
+                                                        <span class="slds-truncate slds-p-horizontal_small" title="TCU Information" >TCU Information </span>
+                                                        </h3>
+									<div aria-hidden="false" class="slds-section__content">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_No__c" field-name="TCU_No__c" value="" read-only	></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Customer_Name__c" field-name="TCU_Customer_Name__c" value={suzukiConnectAssetData.custName} read-only	></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="IMEI_No__c" field-name="IMEI_No__c" value={suzukiConnectAssetData.tcuImeiNumber} read-only	></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Sim_No__c" field-name="Sim_No__c" value={suzukiConnectAssetData.tcuSimNumber} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Expiry_Date__c" field-name="TCU_Expiry_Date__c" value={suzukiConnectAssetData.serviceEndDate} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Sale_Date__c" field-name="TCU_Sale_Date__c" value={suzukiConnectAssetData.tcuSaleDate} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Odometer_Reading__c" field-name="Odometer_Reading__c" value={suzukiConnectAssetData.odometerReading} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Customer_Email__c" field-name="TCU_Customer_Email__c" value={suzukiConnectAssetData.email} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Dealer_Name__c" field-name="TCU_Dealer_Name__c" value={suzukiConnectAssetData.dealerName} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Service_Activation_Date__c" field-name="Service_Activation_Date__c" value={suzukiConnectAssetData.servActiveDate} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Service_Status__c" field-name="TCU_Service_Status__c" value={suzukiConnectAssetData.tcuServiceStatus} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+												<lightning-textarea name="TCU_Dealer_Address__c" label="TCU Dealer Address" field-name="TCU_Dealer_Address__c" value={suzukiConnectAssetData.dealerAddress} read-only></lightning-textarea>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Dealer_Code__c" field-name="TCU_Dealer_Code__c" value={suzukiConnectAssetData.mulDealerCode} read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+												<lightning-textarea name="Customer_Address__c" label="TCU Customer Address" field-name="Customer_Address__c" value={suzukiConnectAssetData.custAddress} read-only></lightning-textarea>											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Customer_Country__c" field-name="TCU_Customer_Country__c" value={valuesObj.tcuCustomerCountry} required read-only></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-combobox
+												name="TCU_Customer_State__c"
+												label="State"
+												value={valuesObj.tcuCustomerState}
+												placeholder="Select State"
+												options={stateList.values}
+												onchange={handleFieldChange}
+												required></lightning-combobox>
+												<!--<lightning-input-field name="TCU_Customer_State__c" field-name="TCU_Customer_State__c" value={valuesObj.tcuCustomerState} required></lightning-input-field>-->
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="TCU_Customer_City__c" field-name="TCU_Customer_City__c" value={valuesObj.tcuCustomerCity} required></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Pin_Code__c" field-name="Pin_Code__c" value={suzukiConnectAssetData.pincode} required></lightning-input-field>
+											</lightning-layout-item>
+										</lightning-layout>
+									</div>
+								</div>
+								<!-- Transaction Information Section -->
+								<div id="transaction-information-section" class="slds-section slds-is-open">
+									<h3 class="slds-section__title slds-theme_shade">
+                                                        <span class="slds-truncate slds-p-horizontal_small" title="Transaction Information" >Transaction Information </span>
+                                                        </h3>
+									<div aria-hidden="false" class="slds-section__content">
+										<lightning-layout multiple-rows>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Enquiry__c" field-name="Enquiry__c" value={valuesObj.enquiryId}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Booking_No__c" field-name="Booking_No__c" value={valuesObj.enquiryBookingNumber}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Invoice_No__c" field-name="Invoice_No__c" value={valuesObj.enquiryInvoiceNumber}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Model__c" field-name="Model__c" value={valuesObj.enquiryModel} onchange={handleFieldChange} ></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field class="slds-hide" name="Variant__c" field-name="Variant__c" value={valuesObj.enquiryVariantId}></lightning-input-field>
+												<div class="slds-p-horizontal--xx-small slds-form-element">
+													<c-lookup-input-field data-name="varient" object-name="Product2" label="Variant" value={valuesObj.enquiryVariantId}
+													record-type="Variants"  is-custom-search onchange={handleAssetFilterChange} oncustomsearch={handleCustomSearch}>
+													</c-lookup-input-field>
+												</div>								
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field class="slds-hide" name="Color__c" field-name="Color__c" value={valuesObj.enquiryColorId}></lightning-input-field>
+												<div class="slds-p-horizontal--xx-small slds-form-element">
+													<c-lookup-input-field data-name="Color" object-name="Color_Variant_Master__c" label="Color" value={valuesObj.enquiryColorId}
+													record-type="Variants"  is-custom-search onchange={handleColorFilterChange} oncustomsearch={handleColorCustomSearch}>
+													</c-lookup-input-field>
+												</div>		
+
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Vehicle_Registration_Number__c" field-name="Vehicle_Registration_Number__c" value={valuesObj.enquiryVehicleRegistrationNumber}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="VIN_No__c" field-name="VIN_No__c" value={valuesObj.enquiryVINNumber} read-only={vinReadonly}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+												<div class="slds-m-around--x-large"></div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field onchange={handleFieldChange} name="Outlet_Type__c" field-name="Outlet_Type__c" value={valuesObj.outletTypeValue}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field onchange={handleFieldChange} name="For_Code__c" field-name="For_Code__c" value={valuesObj.cityValue}></lightning-input-field>
+											</lightning-layout-item>
+											<!-- Start of Custom Lookup for Dealer Name dependent on City / For Code -->
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<template if:true={isDealerFieldShow}>
+													<c-create-case-look-up field-label="Dealer Name" query-string={dealerQuery} onchange={handleLookupChange} selected-record-id={selectedDealerId} selected-record-name={selectedDealerName} is-mobile-device={isMobileDevice} s-object-name="Account" placeholder="Search For Dealers..."></c-create-case-look-up>
+												</template>
+											</lightning-layout-item>
+											<!-- End of Custom Lookup for Dealer Name dependent on City / For Code -->
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Dealer_Code__c" field-name="Dealer_Code__c" readonly value={valuesObj.dealerCode}></lightning-input-field>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<div class="slds-form-element slds-form-element_stacked">
+													<label class="slds-form-element__label slds-no-flex">Dealer Address</label>
+													<lightning-formatted-address street={valuesObj.dealerBillingStreet} city={valuesObj.dealerBillingCity} country={valuesObj.dealerBillingCountry} province={valuesObj.dealerBillingState} postal-code={valuesObj.dealerBillingPostalCode}></lightning-formatted-address>
+												</div>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input class="slds-p-horizontal--xx-small" readonly value={valuesObj.dealerZone} label="Zone"></lightning-input>
+											</lightning-layout-item>
+											<lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="horizontal-small">
+												<lightning-input-field name="Region_Code__c" field-name="Region_Code__c" value={valuesObj.regionCodeValue} disabled></lightning-input-field>
+											</lightning-layout-item>
+											<!-- Hidden Fields -->
+											<lightning-input-field class="slds-hide" name="Dealer_Name__c" field-name="Dealer_Name__c" value={selectedDealerId}></lightning-input-field>
+											<lightning-input-field class="slds-hide" name="Dealer_Type__c" field-name="Dealer_Type__c" value={valuesObj.dealerType}></lightning-input-field>
+											<lightning-input-field class="slds-hide" name="Dealer_Code__c" field-name="Dealer_Code__c" value={valuesObj.dealerCode}></lightning-input-field>
+											<lightning-input-field class="slds-hide" field-name="Dealer_Address__c" value={valuesObj.dealerAddress}></lightning-input-field>
+											<lightning-input-field class="slds-hide" field-name="FTIR_Number__c" value={valuesObj.ftirNumber}></lightning-input-field>
+										</lightning-layout>
+									</div>
+								</div>
+								<!--End of Fields Section-->
+								<lightning-button class="submit-btn slds-hide" type="submit" label="submit"></lightning-button>
+							</lightning-record-edit-form>
+						</template>
+					</div>
+				</div>
+				<!--Button Section-->
+				<div class="inlineFooter slds-border--top" style="position: sticky; background-color: rgb(255, 255, 255);">
+					<div class="button-container slds-text-align_center forceRecordEditActions">
+						<div class="actionsContainer">
+							<div if:false={suzukiConnectType} class="button-container-inner">
+									<template if:false={caseId}>
+										<lightning-button class="slds-m-horizontal--xxx-small" label={cancelButtonLabel} onclick={closeModal}></lightning-button>
+									</template>
+								<lightning-button class="slds-m-horizontal--xxx-small" variant="brand" label="Save" onclick={saveCase}></lightning-button>
+							</div>
+							<div if:true={suzukiConnectType} class="button-container-inner">
+							<lightning-button class="slds-m-horizontal--xxx-small" variant="brand" label="Save" onclick={saveCase}></lightning-button>
+						</div>
+						</div>
+					</div>
+				</div>
+				<!--End of Button Section -->
+			</div>
+		</div>
+	</div>
+</template>

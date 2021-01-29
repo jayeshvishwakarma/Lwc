@@ -1,0 +1,12 @@
+<aura:component access="global" >
+	
+    <aura:attribute name="content" type="TileContentController.CustomTileContent" access="public" />
+     
+    <div class="tileitem" style="{!'background-image: linear-gradient(to top, rgba(0, 0, 0, 0) 75%, rgba(20, 20, 20, 0.54) 75%), url('+v.content.tileContent.Thumbnail__c+')'}" onclick="{!c.handleOpenPDF}">
+<div class="title">
+{!v.content.tileContent.Name}
+</div>
+
+</div>
+    
+</aura:component>

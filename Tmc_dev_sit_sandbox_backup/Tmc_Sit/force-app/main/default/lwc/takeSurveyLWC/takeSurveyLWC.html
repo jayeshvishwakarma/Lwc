@@ -1,0 +1,32 @@
+<template>
+    <lightning-card title="Survey Questions" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <ul class="slds-m-around_medium">
+            <template for:each={uiQuests} for:item="qst">
+                <div class="slds-box" key={qst.id}>                
+                <li key={qst.id} >
+                    <template if:true={qst.renderAsRadio}>
+                        <lightning-radio-group  data-item={qst.id} name={qst.id} required={qst.required}
+                            label= {qst.question}
+                            options={qst.options}
+                            value={qst.value}
+                            type="radio"  onchange={handleChangeValue}></lightning-radio-group>
+                    </template>
+                    <template if:true={qst.renderAsCheckbox}>
+                        <lightning-checkbox-group data-item={qst.id} name={qst.id} required={qst.required}
+                              label={qst.question}
+                              options={qst.options}
+                              value={qst.value}
+                              onchange={handleChangeValue}></lightning-checkbox-group>
+                    </template>
+                    <template if:true={qst.renderAsText}>
+                        <lightning-input type="text" data-item={qst.id} label={qst.question} onchange={handleChangeValue} value={qst.value}  required={qst.required}></lightning-input>
+                    </template>                    
+                </li>
+            </div>                
+            </template>
+            </ul>
+            <lightning-button variant="brand" label="Submit" onclick={handleClick}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

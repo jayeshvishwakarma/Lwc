@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Objects chart based on records" icon-name="standard:account">
+        <lightning-dual-listbox 
+            name="objects"
+            label="Select Object"
+            source-label="Available"
+            selected-label="Selected"
+            options={lstObjectNames}
+            onchange={onSelectNames}>
+        </lightning-dual-listbox><br/>
+        <lightning-button variant="brand" label="Show Chart" title="Show Chart" onclick={showChart}>
+        </lightning-button>
+    </lightning-card>
+</template>

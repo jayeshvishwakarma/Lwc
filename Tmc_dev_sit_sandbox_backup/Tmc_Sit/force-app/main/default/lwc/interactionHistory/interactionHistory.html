@@ -1,0 +1,156 @@
+<template>
+
+    <c-lookup-container>
+
+        <div class="slds-p-around_small">
+
+          <!--  <div class="slds-page-header">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-task" title="Interaction History">
+                                    <lightning-icon icon-name="standard:record" alternative-text="Interaction History">
+                                    </lightning-icon>
+                                    <span class="slds-assistive-text">Interaction History</span>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate">Interaction
+                                                History</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  -->
+
+            <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+
+           
+           <template if:true={loaded}>
+
+            <div class="slds-form" role="list">
+                <div class="slds-section slds-is-open">
+                    <!--<h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Information">
+                            Information</span>
+                    </h3> -->
+                    <div aria-hidden="false" class="slds-section__content">
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-combobox name="LOB" label="LOB" placeholder="Select An Option"
+                                    value={value} options={loboptions} onchange={handleValueChange}> 
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-combobox name="contactMethod" label="Contact method" value={value}
+                                        placeholder="Select An Option" options={typeOptions} onchange={handleValueChange}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-combobox name="campaignType" label="Campaign type"
+                                        placeholder="Select An Option" onchange={handleValueChange} value={value} options={serviceInsuranceValues}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                    <lightning-combobox name="callDisposition" label="Disposition" placeholder="Select An Option" 
+                                    options={dispositionOptions} onchange={handleValueChange} value={value}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="slds-form__row">
+                            <template if:true={userType}>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-combobox__form-element slds-input-has-icon 
+                                slds-input-has-icon_left-right">
+                                    <template if:false={selectedRecord}>
+                                        <c-search-component label="Dealer Parent Group" onchange={handleOnchange}
+                                            place-holder-name="Search Parent Group">
+                                        </c-search-component>
+                                    </template>
+                                    <template if:false={selectedRecord}>
+                                        <template if:true={records}>
+                                            <template for:each={records} for:item="record">
+                                                <c-record-list key={record} iconname="standard:account" record={record} onselect={handleSelect} dealer-partent-group=true is-accessories=undefined>
+                                                </c-record-list>
+                                            </template>
+                                        </template>
+                                    </template>
+                                    <template if:true={selectedRecord}>
+                                        <label class="slds-form-element__label">Dealer Parent Group</label>
+                                        <input class="slds-input slds-combobox__input-value slds-input-has-icon slds-input-has-icon_left-right" id="combobox-id-5" aria-controls="listbox-id-5"
+                                            autocomplete="off" role="textbox" type="text" placeholder="Select an Option"
+                                            readonly="" value={selectedRecord.Parent_Group__c} disabled />
+                                        <button class="sicon_container slds-button slds-button_icon 
+                                        slds-input__icon slds-input__icon_right" title="Remove selected option"
+                                            style="margin-right:-1.0%;margin-top:0.9%;" onclick={handleRemove}>
+                                            <lightning-icon icon-name="utility:close" size="xx-small"
+                                                style="margin-top: inherit;"></lightning-icon>
+                                            <span class="slds-assistive-text">Remove selected option</span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loadingTable}>
+                            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                        </div>
+
+                        <footer class="slds-p-vertical_large slds-align_absolute-center">
+                            <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick={handleSearch}>Search</button>
+                        </footer>
+            
+                        <template if:true={displayTable}>
+                            <div style="height:auto;">
+                                <lightning-datatable
+                                        key-field="id"
+                                        data={dataArray}
+                                        columns={columns}
+                                        hide-checkbox-column
+                                        min-column-width="120" class="slds-max-medium-table_stacked">
+                                </lightning-datatable>
+                            </div>  
+                        </template>
+
+                        <template if:true={errorMessage}>
+                            <div class="slds-text-color_destructive slds-p-vertical_large">{errorMessage}</div>
+                        </template>
+                       
+                    </div>
+                </div>
+            </div>
+
+            </template>
+
+        </div>
+
+    </c-lookup-container>
+
+</template>

@@ -1,0 +1,57 @@
+<template>
+    <div class="slds-page-header">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-task" title="Cancel Appointment">
+                            <lightning-icon icon-name="custom:custom31" alternative-text="Cancel Appointment">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Cancel Appointment</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate">Cancel Appointment</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </div>
+
+    <template if:true={errorMessage}>
+        <div class="slds-text-color_destructive slds-p-vertical_large">{errorMessage}</div>
+    </template>
+
+    <div class="slds-form" role="list" if:false={loading}>
+        <div class="slds-section slds-is-open">
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <lightning-combobox name="Appointment_Cancellation_Reason__c" label="Appointment Cancellation Reason" 
+                             placeholder="Select An Option" options={cancelOptions.data.values}
+                             if:true={cancelOptions.data} onchange={handleFieldUpdate} required class="inputCmp" 
+                             value={appointmentStatus}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="slds-p-vertical_medium slds-align_absolute-center" if:false={loading}>
+        <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+        <button class="slds-button slds-button_brand" onclick={cancelAppRec}>Save</button>
+    </footer>
+</template>

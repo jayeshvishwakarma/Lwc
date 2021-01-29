@@ -1,0 +1,8 @@
+<design:component>
+    <design:attribute name="mode" label="Mode" description="Mode of the Component" dataSource="ReadOnly"/>
+
+    <design:supportedFormFactors>
+        <design:supportedFormFactor type="Large"/>
+        <design:supportedFormFactor type="Small"/>
+    </design:supportedFormFactors>
+</design:component>

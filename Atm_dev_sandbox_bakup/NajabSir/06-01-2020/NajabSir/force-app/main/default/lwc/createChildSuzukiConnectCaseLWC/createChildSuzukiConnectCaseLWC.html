@@ -1,0 +1,47 @@
+<template>
+    <div class="spinner" if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" variant="brand" size="small"></lightning-spinner>
+    </div>
+    <div class="slds-text-color_error" if:true={message}>
+        {message}
+    </div>
+    <lightning-record-edit-form object-api-name={sObjectName} if:true={callConnected} record-id={recordId}>
+        <!--record-id={recordId} -->
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6"
+            padding="horizontal-small">
+            <lightning-input-field onchange={handleFieldChange} name="Outlet_Type__c" field-name="Outlet_Type__c"
+                value={valuesObj.outletTypeValue}></lightning-input-field>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6"
+            padding="horizontal-small">
+            <lightning-input-field onchange={handleFieldChange} name="For_Code__c" field-name="For_Code__c"
+                value={valuesObj.cityValue}></lightning-input-field>
+        </lightning-layout-item>
+        <!-- Start of Custom Lookup for Dealer Name dependent on City / For Code -->
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6"
+            padding="horizontal-small">
+            <c-create-case-look-up field-label="Dealer Name" query-string={dealerQuery} onchange={handleLookupChange}
+                selected-record-id={selectedDealerId} selected-record-name={selectedDealerName}
+                is-mobile-device={isMobileDevice} s-object-name="Account" placeholder="Search For Dealers...">
+            </c-create-case-look-up>
+        </lightning-layout-item>
+
+    </lightning-record-edit-form>
+    <!--Button Section-->
+    <div class="inlineFooter slds-border--top" style="position: sticky; background-color: rgb(255, 255, 255);"
+        if:true={callConnected}>
+        <div class="button-container slds-text-align_center forceRecordEditActions">
+            <div class="actionsContainer">
+                <div class="button-container-inner">
+                    <template if:false={caseId}>
+                        <lightning-button class="slds-m-horizontal--xxx-small" label='Cancel' onclick={cancel}>
+                        </lightning-button>
+                    </template>
+                    <lightning-button class="slds-m-horizontal--xxx-small" variant="brand" label="Save"
+                        onclick={saveCase}></lightning-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End of Button Section -->
+</template>

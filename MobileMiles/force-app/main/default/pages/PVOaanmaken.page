@@ -1,0 +1,2 @@
+<apex:page standardController="Opportunity" extensions="PVOaanmaken" action="{!updatePVOAanmaken}">
+</apex:page>

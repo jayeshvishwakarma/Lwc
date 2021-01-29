@@ -1,0 +1,40 @@
+.title {
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+.custom-header-padding {
+  padding-left: 0.75rem;
+}
+.description {
+  font-size: 0.7rem;
+  min-height: 160px;
+  position: relative;
+  margin-bottom: 0;
+}
+.footer-category {
+  font-size: 0.6rem;
+  margin-top: 0.5rem !important;
+  border-top: 1px solid #d8d8d8;
+  min-height: 45px;
+}
+.slds-badge {
+  font-size: 0.6rem;
+  font-weight: normal;
+}
+.custom-date {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding-left: 0.75rem;
+}
+.custom-card {
+  min-height: 200px;
+}
+.tags {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

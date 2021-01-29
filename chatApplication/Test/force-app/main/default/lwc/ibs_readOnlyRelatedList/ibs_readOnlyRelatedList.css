@@ -1,0 +1,32 @@
+.custom-billing-div {
+  border: 1px solid #cccac9;
+  background-color: #efefef;
+  padding: 10px;
+  border-radius: 6px;
+  font-family: "Salesforce Sans", Arial, sans-serif !important;
+}
+.custom-billing-div-header {
+  border-bottom: 1px solid #cccac9;
+  color: #004582;
+}
+.custom-billing-detail {
+  /* padding: 10px; */
+  background-color: #fff;
+  overflow: auto;
+}
+.grey-theme {
+  background-color: #efefef;
+}
+
+.title-cls {
+  font-size: 0.875rem; 
+}
+.custom-pointer {
+  cursor: pointer;
+}
+.slds-is-sortable{
+  cursor: pointer;
+}
+.hide{
+  display: none;
+}

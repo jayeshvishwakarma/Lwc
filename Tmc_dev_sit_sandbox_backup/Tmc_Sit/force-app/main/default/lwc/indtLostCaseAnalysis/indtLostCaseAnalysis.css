@@ -1,0 +1,19 @@
+.slds-form-element__control {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.slds-form-element__label {
+/* font-weight: 700; */
+    color: #514f4d;
+    font-size: 13px;
+}
+
+.slds-checkbox_button-group {
+    pointer-events: none;
+}
+
+
+.slds-form-element_readonly{
+    border-bottom: none;
+}

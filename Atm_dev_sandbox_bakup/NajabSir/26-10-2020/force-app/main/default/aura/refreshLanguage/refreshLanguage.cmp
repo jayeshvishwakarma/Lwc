@@ -1,0 +1,55 @@
+<aura:component implements="lightning:utilityItem,force:lightningQuickAction,force:hasRecordId" access="global">
+    
+    <aura:attribute name="showVOC" type="Boolean" default="false"/>
+    <aura:attribute name="noShowVOC" type="Boolean" default="true"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.onRecordIdChange}"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <!--    <div class="slds-scoped-notification slds-media slds-media_center slds-theme_info" role="status">
+        <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-info" title="info">
+                <span class="slds-assistive-text">info</span>
+            </span>
+        </div>
+        <div class="slds-media__body">
+            <p>Pause the survey then update language
+            </p>
+        </div>
+    </div>
+    <lightning:recordEditForm recordId="{!$SObjectType.CurrentUser.Id}" objectApiName="User" onsuccess="{!c.handleLanguageSuccess}">
+        <lightning:messages />
+        <lightning:inputField fieldName="LanguageLocaleKey" />&nbsp;
+        <lightning:button class="slds-m-top_small" variant="neutral" type="submit" name="update" label="Update">Update&nbsp;
+         <lightning:helptext content="Pause the survey then update language"
+                                        iconName="utility:info"/>
+        </lightning:button></lightning:recordEditForm>
+     <br></br>
+    <div class="slds-scoped-notification slds-media slds-media_center slds-theme_info" role="status">
+        <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-info" title="info">
+                <span class="slds-assistive-text">info</span>
+            </span>
+        </div>
+        <div class="slds-media__body">
+            <p>Update VOC here
+            </p>
+        </div>
+    </div>-->
+    <aura:if isTrue="{!v.showVOC}">
+        <lightning:recordEditForm recordId="{!v.recordId}" objectApiName="Survey_Taker_CTI__c" onsuccess="{!c.handleSuccess}">
+            <lightning:messages />
+            <lightning:inputField fieldName="VOC__c" />&nbsp;
+            <lightning:button class="slds-m-top_small" variant="neutral" type="submit" name="update" label="Update">
+            </lightning:button>
+        </lightning:recordEditForm>
+    </aura:if>
+    <aura:if isTrue="{!v.noShowVOC}">
+        
+        <div class="slds-is-relative slds-align_absolute-center">
+            <label class="slds-text-heading_medium  slds-text-color_destructive"
+                   style="margin-top: 30%;">
+                No Active Surveys found
+            </label>
+        </div>
+        
+    </aura:if>
+</aura:component>

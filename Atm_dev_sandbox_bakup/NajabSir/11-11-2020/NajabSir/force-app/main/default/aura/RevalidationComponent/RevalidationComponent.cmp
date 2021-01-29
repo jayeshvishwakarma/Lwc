@@ -1,0 +1,28 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasSObjectName,force:hasRecordId" access="global" >
+	<aura:html tag="style">
+    	.cuf-scroller-content{
+        	background:#fff;
+        }
+        .slds-modal__container { 
+            width: 65%;
+           max-width: 55rem; 
+        }
+        .slds-m-bottom_small{
+            margin-top : -18px;
+      }
+    </aura:html>
+    
+   
+    <aura:attribute name="caseObjrecordId" type="String"/>
+    <aura:attribute name="showimage" type="boolean"/>
+    <aura:attribute name="url" type="string"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="deviceFormFactor" type="String"/>
+    <c:dealerResolution recordId="{!v.recordId}" 
+                          deviceFormFactor="{!v.deviceFormFactor}"
+                          onclose="{!c.handelClose}"
+                          ProcessName='Revalidation'/>
+    
+    
+</aura:component>

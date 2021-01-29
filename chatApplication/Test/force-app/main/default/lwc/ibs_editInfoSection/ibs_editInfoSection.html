@@ -1,0 +1,90 @@
+<template>
+    <template if:true={recordId}>
+        <div class={themeCls}>
+            <div class={divHeaderCls}>
+                <template if:true={iconName}>
+                    <lightning-icon icon-name={iconName} style="background-color: #0a6d0d;"
+                        class="slds-m-bottom_x-small slds-m-right_x-small">
+                    </lightning-icon>
+                </template>
+                <template if:true={showHeader}>
+                    <span class="slds-p-bottom_x-small" style="font-size: .875rem;color:#54698d">{headerTitle}</span>
+                </template>
+                <template if:false={showHeader}>
+                    <span class="slds-p-bottom_x-small"
+                        style="font-size: .875rem;color:#54698d"><b>{headerTitle}</b></span>
+                </template>
+                <span class="slds-float_right slds-p-right_x-small">
+                    <lightning-icon icon-name="utility:edit" class="custom-pointer" size="x-small"
+                        onclick={displayModal}>
+                    </lightning-icon>
+                </span>
+            </div>
+            <div class="slds-col custom">
+                <!-- <lightning-record-form record-id={recordId} object-api-name={objectName} fields={fields}
+                        columns={columns} density="comfy" mode="readonly" class="custom">
+                    </lightning-record-form> -->
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectName} density="comfy"
+                    layout="Compact">
+                    <lightning-messages></lightning-messages>
+                    <div class={themeDiv}>
+                        <template for:each={fields} for:item="items">
+                            <div key={items} class={columns}>
+                                <lightning-output-field field-name={items} class="custom-label"></lightning-output-field>
+                            </div>
+                        </template>
+                    </div>
+                </lightning-record-edit-form>
+            </div>
+        </div>
+        <template if:false={showHeader}>
+            <hr class="hr-margin">
+        </template>
+
+        <template if:true={showModal}>
+            <div class="modal modal-tab1">
+                <template if:true={showSpinner}>
+                    <lightning-spinner variant="brand"></lightning-spinner>
+                </template>
+                <div class="modal-content modal-tab1-content">
+                    <div class="modal-header modal-tab1-header">
+                        <center>
+                            <h1>{headerTitle}</h1>
+                        </center>
+                    </div>
+                    <div class="modal-body modal-tab1-body">
+                        <div class="slds-form-element__group">
+                            <lightning-record-edit-form record-id={recordId} object-api-name={objectName}
+                                density="comfy" layout="Compact" onsuccess={handleSuccess} onsubmit={handleSubmit}
+                                onerror={handleError}>
+                                <lightning-messages></lightning-messages>
+                                <div class="slds-grid slds-wrap">
+                                    <template for:each={fields} for:item="items">
+                                        <div key={items} class="slds-col slds-size_6-of-12">
+                                            <lightning-input-field field-name={items}></lightning-input-field>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- <apex:commandButton value="Opslaan" onclick="closeModals(this);return false;" styleClass="slds-button slds-button_neutral" /> &nbsp;     -->
+                                    <!--<apex:commandButton value="Annuleren" onclick="closePrimaireModal(this);return false;" styleClass="slds-button slds-button_neutral"/>-->
+
+                                    <center>
+                                        <lightning-button class="slds-button slds-button_neutral btn-css" variant="base"
+                                            type="submit" label="Opslaan">
+                                        </lightning-button>
+                                        <lightning-button class="slds-button slds-button_neutral btn-css" variant="base"
+                                            type="button" label="Annuleren" onclick={hideModal}>
+                                        </lightning-button>
+                                    </center>
+                                </div>
+                            </lightning-record-edit-form>
+                            <!-- <lightning-record-form record-id={recordId} object-api-name={objectName} fields={fields}
+                        columns={columns} density="comfy" mode="edit"></lightning-record-form> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </template>
+</template>

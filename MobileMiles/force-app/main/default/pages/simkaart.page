@@ -1,0 +1,132 @@
+<apex:page controller="simkaartController" showHeader="false" sidebar="false" docType="html-5.0">
+  <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+<head>
+<title> Contact Us </title>
+</head>
+<style>
+    .slds-scope .slds-card{
+        background: rgb(239, 239, 239);
+    }
+    .slds-scope .slds-button_brand:active {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button_brand {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button .slds-button_brand {
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-button .slds-button_brand{
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+        .slds-scope .slds-button--brand, .slds-scope .slds-button_brand{
+            color: #09f;
+            border-color: aliceblue;
+            border: 1px solid #09f;
+            padding: 10px 30px;
+            line-height: 1;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+    </style>
+    <script>
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <c:cloudstylecomponent />
+    <apex:slds />
+    <apex:outputPanel rendered="{!$User.ContactId == ''}">
+        <br/>
+        <br/>
+        <a target="_TOP" href="https://www.cloudeen.nl/s/login/?startURL=%2Fs%2Fsimkaart" class="slds-button slds-button_brand " style="color:#09f">Login om een nieuwe SIM-kaart te activeren</a> 
+    
+    </apex:outputPanel>
+    
+    <apex:form id="frm" rendered="{!$User.ContactId != ''}">
+    
+    <div class="slds-grid">
+        <div class="slds-large-size_4-of-12">
+        </div>
+        <div class="slds-large-size_4-of-12">
+            <apex:pageMessages ></apex:pageMessages>
+            <article class="slds-card slds-col">
+                <div class="slds-card__header slds-col slds-large-size_6-of-12">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                      
+                        <div class="slds-media__body">
+                            <h2>
+                            
+                                <span class="slds-text-heading_small"><b>Nieuwe SIM-kaart activeren</b></span>
+                            
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body">
+                    
+                    <!--<div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">Uw naam</label>
+                        <div class="requiredBlock"></div>
+                        <apex:inputText value="{!name}" styleClass="slds-input" required="true"/>
+                        <apex:outputText value="{!name}"/>
+                    </div> -->
+                    <!--<div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.SuppliedEmail.Label}</label>
+                        <apex:input value="{!email}" styleClass="slds-input" required="true" type="email"/>
+                        <apex:outputText value="{!email}"/>
+                    </div>-->
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.Mobiel_nummer_06_097__c.Label}</label>
+                        <!--<apex:inputText value="{!mobileNumber}" styleClass="slds-input" required="true" onkeypress="return isNumber(event)"/>-->
+                        <apex:selectList size="1" required="true" multiselect="false" value="{!mobileNumber}" styleClass="slds-input" style="padding:5px;">
+                            <apex:selectOptions value="{!porteringensList}"></apex:selectOptions>
+                        </apex:selectList>
+                    </div>
+                    <!--<div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.PUK_code__c.Label}</label>
+                        <apex:inputText value="{!pukCode}" styleClass="slds-input"   required="true" onkeypress="return isNumber(event)"/>
+                    </div>-->
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                        <label class="slds-form-element__label" for="input-01">{!$ObjectType.Case.Fields.SIM_kaartnummer__c.Label}</label>
+                        <apex:inputText value="{!simCardNumber}" styleClass="slds-input"  required="true" onkeypress="return isNumber(event)"/>
+                    </div>
+                </div>
+                <footer class="slds-card__footer slds-text-align_right">    
+                    <apex:commandButton value="Verstuur" action="{!saveCase}" styleclass="slds-button slds-button_brand "/> 
+                </footer>
+            </article>
+        </div>
+    </div>
+    </apex:form>
+</html>
+</apex:page>

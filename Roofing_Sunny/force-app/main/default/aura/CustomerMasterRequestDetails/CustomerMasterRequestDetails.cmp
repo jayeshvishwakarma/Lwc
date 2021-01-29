@@ -1,0 +1,639 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="CustomerOnboardingController">
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="newActRec" type="Account" />
+    <aura:attribute name="originalActRec" type="Account" />
+    <aura:attribute name="request" type="Case"/>   
+    <aura:attribute name="pricesheetVal" type="String"/>
+    <aura:attribute name="soldActNo" type="String"/>
+    <aura:attribute name="shipToActName" type="String"/>
+    <aura:attribute name="customerregion" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+    <aura:attribute name="loggedinUser" type="User"/>  
+    <div class="slds-text-heading--large slds-text-align--center">{!v.request.Type}</div>   
+    
+    <div class="slds-form-element__row">
+        <div class="slds-form-element slds-size--1-of-1">                
+            <aura:if isTrue="{!equals(v.request.Type, 'New Ship-To Account Request')}"> 
+                <aura:if isTrue="{!or(or(and((v.loggedinUser.Profile.Name == 'Customer Service' || v.loggedinUser.Profile.Name == 'Customer Service - Manager'), (v.request.Status == 'Submitted to EXIM CSR Queue' || v.request.Status == 'Submitted to Canadian Customer Service Queue' || v.request.Status == 'Submitted to CSR Queue' || v.request.Status == 'Rejected')),  v.loggedinUser.Profile.Name == 'System Administrator'), and(v.loggedinUser.Id == v.request.Sales_Rep__c, v.request.Status == 'Submitted to Territory Manager'))}">                    
+                    <c:NewAccountCreation aura:id="newAccount" recordId="{!v.recordId}"/>
+                    <aura:set attribute="else">
+                        <lightning:recordViewForm recordId="{!v.request.AccountId}" objectApiName="Account">  
+                            <div style="background-color:white; padding-left: 20px;padding-bottom: 10px;">
+                                <fieldset class="slds-form--compound">                                
+                                    <div class="form-element__group">     
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--1-of-3">       
+                                                <span class="slds-form-element__label">Sales Org</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Sales_Org__c" />
+                                            </div>  
+                                            <aura:if isTrue="{!v.request.Origin != null}">                                          
+                                                <div class="slds-form-element slds-size--1-of-3">       
+                                                    <span class="slds-form-element__label">Sales Region</span>
+                                                    <br/>{!v.customerregion}                                                    
+                                                </div>                                             
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.request.Sales_Rep__c != null}">                                              
+                                                <div class="slds-form-element slds-size--1-of-3">       
+                                                    <span class="slds-form-element__label">Territory Manager</span>
+                                                    <lightning:outputField variant="label-hidden" fieldName="Territory_Manager__c" />
+                                                </div>                                                                                   
+                                            </aura:if>
+                                        </div>                                        
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--1-of-3"> 
+                                                <span class="slds-form-element__label">Customer Origin</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Customer_Origin__c" />                                                 
+                                            </div> 
+                                            <!--<div class="slds-form-element slds-size-2-of-3"> 
+                                                <span class="slds-form-element__label">Continue with setup with SAP # already existing</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Cont_setup_with_SAP_already_existing__c" />                                                 
+                                            </div> -->
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--1-of-2">  
+                                                <div class="form-element__group">
+                                                    <div class="slds-form-element__row">
+                                                        <div class="slds-form-element slds-size--5-of-5 slds-form-element__label" >  
+                                                            Is your customer?
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element__row">
+                                                        <div class="slds-form-element slds-size--1-of-5">                         
+                                                            <span class="slds-form-element__label">Solar</span>
+                                                            <lightning:outputField variant="label-hidden" fieldName="Solar__c" />                                                 
+                                                        </div> 
+                                                        <div class="slds-form-element slds-size--1-of-5">                       
+                                                            <span class="slds-form-element__label">Job Site</span>
+                                                            <lightning:outputField variant="label-hidden" fieldName="Job_Site__c"/> 
+                                                        </div>
+                                                        <div class="slds-form-element slds-size--1-of-5">                         
+                                                            <span class="slds-form-element__label">EDI</span>
+                                                            <lightning:outputField variant="label-hidden" fieldName="Will_Customer_Use_EDI__c"/>                                                 
+                                                        </div> 
+                                                        <div class="slds-form-element slds-size--1-of-5">                       
+                                                            <span class="slds-form-element__label">EDPAR #</span>
+                                                            <lightning:outputField variant="label-hidden" fieldName="EDPAR__c" /> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        
+                                        <div class="slds-form-element__row">
+                                            <aura:if isTrue="{!and(and(v.newActRec.ShippingCountry !=undefined,v.newActRec.ShippingCountry !=''), or(and(v.newActRec.LOB__c == '1102',v.newActRec.ShippingCountry!='CANADA'), and(v.newActRec.LOB__c == '1501',v.newActRec.ShippingCountry!='UNITED STATES')))}">
+                                                <div class="slds-form-element slds-size--1-of-3"> 
+                                                    <span class="slds-form-element__label">AEB Check Completed?</span>
+                                                    <lightning:outputField variant="label-hidden" fieldName="AEB_Check_Completed__c" /> 
+                                                </div>
+                                            </aura:if>
+                                            <div class="slds-form-element slds-size--1-of-3"> 
+                                                <span class="slds-form-element__label">ACCT AT CUST</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="SFDCCMID__c" /> 
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--2-of-2">      
+                                                <span class="slds-form-element__label">Sold-to Account for Partnering</span>
+                                                <br/>{!v.soldActNo}                                                
+                                            </div>                                          
+                                        </div>                                                                
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--1-of-3">
+                                                <span class="slds-form-element__label">Account Name</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Name" />                        
+                                            </div>     
+                                            
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--1-of-3">
+                                                <span class="slds-form-element__label">Address</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="ShippingStreet" /> 
+                                            </div>                                             
+                                        </div>
+                                        <div class="slds-form-element__row"> 
+                                            <div class="slds-form-element slds-size--3-of-8">          
+                                                <span class="slds-form-element__label">City</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="ShippingCity" /> 
+                                            </div>                                                                                 
+                                            <div class="slds-form-element slds-size--1-of-8">                        
+                                                <span class="slds-form-element__label">State</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="ShippingState" /> 
+                                            </div>
+                                            <div class="slds-form-element slds-size--1-of-8">                        
+                                                <span class="slds-form-element__label">Postal Code</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="ShippingPostalCode" /> 
+                                            </div> 
+                                            <div class="slds-form-element slds-size--3-of-8">                        
+                                                <span class="slds-form-element__label">Last 4 digits could not be found on USPS</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Last_4_digits_could_not_be_found_on_USPS__c" /> 
+                                            </div> 
+                                            
+                                        </div>                                       
+                                        <div class="slds-form-element__row">                                           
+                                            <div class="slds-form-element slds-size--1-of-3">
+                                                <span class="slds-form-element__label">Country</span>
+                                                <lightning:outputField variant="label-hidden"   fieldName="ShippingCountry" />                                                                                               
+                                            </div>                                            
+                                            
+                                        </div>   
+                                        <div class="slds-form-element__row">                                           
+                                            <div class="slds-form-element slds-size--1-of-3">
+                                                <span class="slds-form-element__label">Phone Number</span>
+                                                <!--<lightning:outputField variant="label-hidden" fieldName="Phone" />-->
+                                                <br/>{!v.request.Account.Phone}    
+                                            </div>
+                                            
+                                        </div>                                                                                
+                                        <div class="slds-form-element__row">   
+                                            <div class="slds-form-element slds-size--1-of-3">                         
+                                                <span class="slds-form-element__label">Delivery Plant</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Default_Warehouse__c" />                                                       
+                                            </div>
+                                            <div class="slds-form-element slds-size--2-of-3">               
+                                                <span class="slds-form-element__label">No. of deliveries customer can accept per day</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="No_of_deliveries_Accepted_per_day__c" />
+                                            </div>                                             
+                                        </div>                                       
+                                        <div class="slds-form-element__row">   
+                                            <div class="slds-form-element slds-size--1-of-4">                         
+                                                <span class="slds-form-element__label">Customer Group</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Customer_Group__c" />                         
+                                            </div>
+                                            <div class="slds-form-element slds-size--1-of-4">                         
+                                                <span class="slds-form-element__label">Shipping Condition</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Freight_Type__c" />                         
+                                            </div>
+                                            <div class="slds-form-element slds-size--1-of-4">                         
+                                                <span class="slds-form-element__label">Order Type</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Order_Type__c" />                         
+                                            </div>
+                                        </div>        
+                                        <aura:if isTrue="{!and(and(v.newActRec.ShippingCountry !=undefined,v.newActRec.ShippingCountry !=''), or(and(v.newActRec.LOB__c == '1102',v.newActRec.ShippingCountry!='CANADA'), and(v.newActRec.LOB__c == '1501',v.newActRec.ShippingCountry!='UNITED STATES')))}">  
+                                            <div class="slds-form-element__row">   
+                                                <div class="slds-form-element slds-size--1-of-3">                         
+                                                    <span class="slds-form-element__label">Broker ID</span>
+                                                    <!--<lightning:outputField variant="label-hidden" fieldName="Broker_ID__c" />-->     
+                                                    <lightning:outputField variant="label-hidden" fieldName="BrokerID__c" />
+                                                </div>                                                
+                                            </div>                            
+                                        </aura:if>
+                                        <div class="slds-form-element__row">   
+                                            <div class="slds-form-element slds-size--1-of-3">                         
+                                                <span class="slds-form-element__label">Price Sheet</span>                                                                     
+                                                <br/>{!v.pricesheetVal}
+                                            </div>
+                                            
+                                        </div>                                              
+                                        <div class="slds-form-element__row">   
+                                            <div class="slds-form-element slds-size--1-of-3">                         
+                                                <span class="slds-form-element__label">Logistic and Ship-to Notes</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="Logistic_and_Ship_to_Notes__c" />                         
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="slds-form-element__row">   
+                                            <div class="slds-form-element slds-size--1-of-3">                         
+                                                <span class="slds-form-element__label">Requested By</span>                                          
+                                                <lightning:outputField variant="label-hidden" fieldName="CreatedById" />                                                 
+                                            </div>
+                                            <div class="slds-form-element slds-size--1-of-3">                         
+                                                <span class="slds-form-element__label">Requested On</span>                                           
+                                                <lightning:outputField variant="label-hidden" fieldName="CreatedDate" />                                                                                                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>        
+                            </div>    
+                        </lightning:recordViewForm>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+            <aura:if isTrue="{!equals(v.request.Type, 'Change Ship-To Account Information Request') }"> 
+                <aura:if isTrue="{!or(or(and((v.loggedinUser.Profile.Name == 'Customer Service' || v.loggedinUser.Profile.Name == 'Customer Service - Manager'), (v.request.Status == 'Submitted to EXIM CSR Queue' || v.request.Status == 'Submitted to Canadian Customer Service Queue' || v.request.Status == 'Submitted to CSR Queue' || v.request.Status == 'Rejected')),  v.loggedinUser.Profile.Name == 'System Administrator'), and(v.loggedinUser.Id == v.request.Sales_Rep__c, v.request.Status == 'Submitted to Territory Manager'))}">
+                    <c:ChangeShipToInformation aura:id="chgShipTo" recordId="{!v.recordId}" accountId="{!v.request.AccountId}" changeaccountId="{!v.request.Change_Info_Account__c}" caseId="{!v.recordId}"/>
+                    <aura:set attribute="else">
+                        <lightning:recordViewForm recordId="{!v.request.Change_Info_Account__c}" objectApiName="Account">  
+                            <div style="background-color:white; padding-left: 20px;padding-bottom: 10px;" class="parent">
+                                <fieldset class="slds-form--compound">                                
+                                    <div class="form-element__group">   
+                                        <legend class="slds-text-heading--small slds-p-vertical--medium">Account Shipping Information</legend>                    
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--1-of-3">       
+                                                <span class="slds-form-element__label">Sales Org</span>
+                                                <div style="{!if(v.newActRec.LOB__c != v.originalActRec.LOB__c, 'background-color: #FFFF00','')}" >
+                                                <lightning:outputField variant="label-hidden" fieldName="Sales_Org__c" />
+                                                </div>
+                                            </div>   
+                                            <aura:if isTrue="{!v.request.Origin != null}">                                          
+                                                <div class="slds-form-element slds-size--1-of-3">       
+                                                    <span class="slds-form-element__label">Sales Region</span>
+                                                    
+                                                    <br/>{!v.customerregion}
+                                                </div>                                             
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.request.Sales_Rep__c != null}">
+                                                
+                                                <div class="slds-form-element slds-size--1-of-3">       
+                                                    <span class="slds-form-element__label">Territory Manager</span>
+                                                    <lightning:outputField variant="label-hidden" fieldName="Territory_Manager__c" />
+                                                </div>                                         
+                                                
+                                            </aura:if>
+                                        </div>                                        
+                                        <div class="slds-form-element__row">
+                                            <aura:if isTrue ="{!v.newActRec.Customer_Origin__c != null}">
+                                                <div class="slds-form-element slds-size--1-of-3"> 
+                                                    <span class="slds-form-element__label">Customer Origin</span>
+                                                    <div style="{!if(v.newActRec.Customer_Origin__c != v.originalActRec.Customer_Origin__c, 'background-color: #FFFF00','')}" >
+                                                    <lightning:outputField variant="label-hidden" fieldName="Customer_Origin__c" />                                      
+                                                    </div>
+                                                </div> 
+                                            </aura:if>
+                                           <!-- <aura:if isTrue ="{!v.newActRec.Cont_setup_with_SAP_already_existing__c != null}">
+                                                <div class="slds-form-element slds-size-2-of-3"> 
+                                                    <span class="slds-form-element__label">Continue with setup with SAP # already existing</span>
+                                                    <lightning:outputField variant="label-hidden" fieldName="Cont_setup_with_SAP_already_existing__c" />                                                 
+                                                </div> 
+                                            </aura:if> -->
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--1-of-2">  
+                                                <div class="form-element__group">
+                                                    <div class="slds-form-element__row">
+                                                        <div class="slds-form-element slds-size--5-of-5 slds-form-element__label" >  
+                                                            Is your customer?
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-form-element__row">
+                                                        <aura:if isTrue ="{!v.newActRec.Solar__c != null}">
+                                                            <div class="slds-form-element slds-size--1-of-5">                         
+                                                                <span class="slds-form-element__label">Solar</span>
+                                                                <div style="{!if(v.newActRec.Solar__c != v.originalActRec.Solar__c, 'background-color: #FFFF00','')}" >
+                                                                <lightning:outputField variant="label-hidden" fieldName="Solar__c" />                                  
+                                                                </div>
+                                                            </div> 
+                                                        </aura:if>
+                                                        <aura:if isTrue ="{!v.newActRec.Job_Site__c != null}">
+                                                            <div class="slds-form-element slds-size--1-of-5">                       
+                                                                <span class="slds-form-element__label">Job Site</span>
+                                                                <div style="{!if(v.newActRec.Job_Site__c != v.originalActRec.Job_Site__c, 'background-color: #FFFF00','')}" >
+                                                                <lightning:outputField variant="label-hidden" fieldName="Job_Site__c" /> 
+                                                                </div>
+                                                            </div>
+                                                        </aura:if>
+                                                        <aura:if isTrue ="{!v.newActRec.Will_Customer_Use_EDI__c != null}">
+                                                            <div class="slds-form-element slds-size--1-of-5">                         
+                                                                <span class="slds-form-element__label">EDI</span>
+                                                                 <div style="{!if(v.newActRec.Will_Customer_Use_EDI__c != v.originalActRec.Will_Customer_Use_EDI__c, 'background-color: #FFFF00','')}" >
+                                                                <lightning:outputField variant="label-hidden" fieldName="Will_Customer_Use_EDI__c" />                                                 
+                                                                </div>
+                                                            </div> 
+                                                        </aura:if>
+                                                         <aura:if isTrue ="{!v.newActRec.EDPAR__c != null}">
+                                                             <div class="slds-form-element slds-size--1-of-5">                       
+                                                                 <span class="slds-form-element__label">EDPAR #</span>
+                                                                 <div style="{!if(v.newActRec.EDPAR__c != v.originalActRec.EDPAR__c, 'background-color: #FFFF00','')}" >
+                                                                 <lightning:outputField variant="label-hidden" fieldName="EDPAR__c" /> 
+                                                                 </div>
+                                                             </div>
+                                                             
+                                                        </aura:if>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                        
+                                        
+                                        <div class="slds-form-element__row">
+                                            <aura:if isTrue="{!and(and(v.newActRec.ShippingCountry !=undefined,v.newActRec.ShippingCountry !=''), or(and(v.newActRec.LOB__c == '1102',v.newActRec.ShippingCountry!='CANADA'), and(v.newActRec.LOB__c == '1501',v.newActRec.ShippingCountry!='UNITED STATES')))}">
+                                                <aura:if isTrue ="{!v.newActRec.AEB_Check_Completed__c != null}">    
+                                                    <div class="slds-form-element slds-size--1-of-2"> 
+                                                        <span class="slds-form-element__label">AEB Check Completed?</span>
+                                                        <div style="{!if(v.newActRec.AEB_Check_Completed__c != v.originalActRec.AEB_Check_Completed__c, 'background-color: #FFFF00','')}" >
+                                                        <lightning:outputField variant="label-hidden" fieldName="AEB_Check_Completed__c" /> 
+                                                        </div>
+                                                    </div>
+                                                </aura:if>
+                                            </aura:if>
+                                            <div class="slds-form-element slds-size--1-of-2"> 
+                                                <span class="slds-form-element__label">ACCT AT CUST</span>
+                                                <lightning:outputField variant="label-hidden" fieldName="SFDCCMID__c" /> 
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-form-element slds-size--2-of-2">      
+                                                <span class="slds-form-element__label">Ship-to Account</span>
+                                                <br/>{!v.shipToActName}                                                
+                                            </div>                                          
+                                        </div> 
+                                        
+                                        <aura:if isTrue ="{!v.newActRec.Name != null}"> 
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size--1-of-2">
+                                                    <span class="slds-form-element__label">Account Name</span>
+                                                    <div style="{!if(v.newActRec.Name != v.originalActRec.Name, 'background-color: #FFFF00','')}" >
+                                                    <lightning:outputField variant="label-hidden" fieldName="Name" />                        
+                                                    </div>
+                                                </div>     
+                                                
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue ="{!v.newActRec.ShippingStreet != null}"> 
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size--1-of-2">
+                                                    <span class="slds-form-element__label">Address</span>
+                                                    <div style="{!if(v.newActRec.ShippingStreet != v.originalActRec.ShippingStreet, 'background-color: #FFFF00','')}" >
+                                                    <lightning:outputField variant="label-hidden" fieldName="ShippingStreet" /> 
+                                                    </div>
+                                                </div>                                             
+                                            </div>
+                                        </aura:if>
+                                        <div class="slds-form-element__row"> 
+                                            <aura:if isTrue ="{!v.newActRec.ShippingCity != null}"> 
+                                                
+                                                <div class="slds-form-element slds-size--4-of-6">          
+                                                    <span class="slds-form-element__label">City</span>
+                                                    <div style="{!if(v.newActRec.ShippingCity != v.originalActRec.ShippingCity, 'background-color: #FFFF00','')}" >
+                                                    <lightning:outputField variant="label-hidden" fieldName="ShippingCity" /> 
+                                                    </div>
+                                                </div>   
+                                                
+                                            </aura:if>
+                                            <aura:if isTrue ="{!v.newActRec.ShippingState != null}"> 
+                                                
+                                                <div class="slds-form-element slds-size--1-of-6">                        
+                                                    <span class="slds-form-element__label">State</span>
+                                                    <div style="{!if(v.newActRec.ShippingState != v.originalActRec.ShippingState, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="ShippingState" /> 
+                                                    </div>
+                                                </div>
+                                                
+                                            </aura:if>
+                                            <aura:if isTrue ="{!v.newActRec.ShippingPostalCode != null}">   
+                                                
+                                                <div class="slds-form-element slds-size--1-of-6">                        
+                                                    <span class="slds-form-element__label">Postal Code</span>
+                                                    <div style="{!if(v.newActRec.ShippingPostalCode != v.originalActRec.ShippingPostalCode, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="ShippingPostalCode" /> 
+                                                    </div>
+                                                </div>            
+                                                
+                                                
+                                            </aura:if>
+                                        </div>  
+                                        <aura:if isTrue ="{!v.newActRec.ShippingCountry != null}"> 
+                                            <div class="slds-form-element__row">                                           
+                                                <div class="slds-form-element slds-size--1-of-2">
+                                                    <span class="slds-form-element__label">Country</span>
+                                                    <div style="{!if(v.newActRec.ShippingCountry != v.originalActRec.ShippingCountry, 'background-color: #FFFF00','')}" >                                                          
+                                                    <lightning:outputField variant="label-hidden"   fieldName="ShippingCountry" />                                                                                               
+                                                    </div>
+                                                </div>                                            
+                                                
+                                            </div>   
+                                        </aura:if>
+                                        <aura:if isTrue ="{!v.newActRec.Phone != null}"> 
+                                            <div class="slds-form-element__row">                                           
+                                                <div class="slds-form-element slds-size--1-of-2">
+                                                    <span class="slds-form-element__label">Phone Number</span>
+                                                    <!--<lightning:outputField variant="label-hidden" fieldName="Phone" />-->
+                                                     <div style="{!if(v.newActRec.Phone != v.originalActRec.Phone, 'background-color: #FFFF00','')}" >  
+                                                    <br/>{!v.newActRec.Phone}
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </aura:if>  
+                                        <legend class="slds-text-heading--small slds-p-vertical--medium">Account Shipping Information</legend>                    
+                                        <aura:if isTrue ="{!v.newActRec.Default_Plant__c != null}"> 
+                                            <div class="slds-form-element__row">   
+                                                <div class="slds-form-element slds-size--1-of-2">                         
+                                                    <span class="slds-form-element__label">Delivery Plant</span>
+                                                     <div style="{!if(v.newActRec.Default_Plant__c != v.originalActRec.Default_Plant__c, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="Default_Warehouse__c" />                                                 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </aura:if>                                  
+                                        <aura:if isTrue ="{!v.newActRec.Structus_Price_Code__c != null}"> 
+                                            <div class="slds-form-element__row">   
+                                                <div class="slds-form-element slds-size--1-of-2">                         
+                                                    <span class="slds-form-element__label">Customer Group</span>
+                                                    <div style="{!if(v.newActRec.Structus_Price_Code__c != v.originalActRec.Structus_Price_Code__c, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="Customer_Group__c" />                         
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>        
+                                        </aura:if>    
+                                        <aura:if isTrue="{!and(and(v.newActRec.ShippingCountry !=undefined,v.newActRec.ShippingCountry !=''), or(and(v.newActRec.LOB__c == '1102',v.newActRec.ShippingCountry!='CANADA'), and(v.newActRec.LOB__c == '1501',v.newActRec.ShippingCountry!='UNITED STATES')))}">  
+                                            <aura:if isTrue ="{!v.newActRec.Broker_ID__c != null}"> 
+                                                <div class="slds-form-element__row">   
+                                                    <div class="slds-form-element slds-size--1-of-2">                         
+                                                        <span class="slds-form-element__label">Broker ID</span>
+                                                        <div style="{!if(v.newActRec.Broker_ID__c != v.originalActRec.Broker_ID__c, 'background-color: #FFFF00','')}" >  
+                                                        <lightning:outputField variant="label-hidden" fieldName="Broker_ID__c" />                         
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>                            
+                                            </aura:if>
+                                        </aura:if>
+                                        <aura:if isTrue ="{!v.pricesheetVal != null}"> 
+                                            <div class="slds-form-element__row">   
+                                                <div class="slds-form-element slds-size--1-of-2">                         
+                                                    <span class="slds-form-element__label">Price Sheet</span>                                                                     
+                                                    <br/>
+                                                     <div style="{!if(v.newActRec.Price_Sheet__c != v.originalActRec.Price_Sheet__c, 'background-color: #FFFF00','')}" >  
+                                                    {!v.pricesheetVal}
+                                                    </div>
+                                                </div>                                        
+                                            </div>     
+                                        </aura:if>                                  
+                                        <aura:if isTrue ="{!v.newActRec.Freight_Type__c != null}"> 
+                                            <div class="slds-form-element__row">   
+                                                <div class="slds-form-element slds-size--1-of-2">                         
+                                                    <span class="slds-form-element__label">Shipping Condition</span>
+                                                    <div style="{!if(v.newActRec.Freight_Type__c != v.originalActRec.Freight_Type__c, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="Freight_Type__c" />             
+                                                    </div>
+                                                </div>                                        
+                                            </div>
+                                        </aura:if>                                   
+                                        
+                                        <aura:if isTrue ="{!v.newActRec.Delete_all_notes__c != null}"> 
+                                            <div class="slds-form-element__row">                                            
+                                                <div class="slds-form-element slds-size--1-of-2" style="padding-top: 20px;">    
+                                                    <span class="slds-form-element__label">DELETE ALL EXISTING CUSTOMER LOGISTIC/SHIP TO NOTES</span>
+                                                    <div style="{!if(v.newActRec.Delete_all_notes__c != v.originalActRec.Delete_all_notes__c, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="Delete_all_notes__c" />      
+                                                    </div>
+                                                </div>      
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue ="{!v.newActRec.Delete_all_notes_and_add_notes__c != null}"> 
+                                            <div class="slds-form-element__row">                                             
+                                                <div class="slds-form-element slds-size--1-of-2" style="padding-top: 20px;">  
+                                                    <span class="slds-form-element__label">DELETE ALL EXISTING CUSTOMER LOGISTIC NOTES AND ADD NOTES FROM THE BELOW TEXT BOX</span>
+                                                    <div style="{!if(v.newActRec.Delete_all_notes_and_add_notes__c != v.originalActRec.Delete_all_notes_and_add_notes__c, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="Delete_all_notes_and_add_notes__c" />                         
+                                                    </div>
+                                                </div>      
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue ="{!v.newActRec.Keep_existing_notes_and_add_notes__c != null}"> 
+                                            <div class="slds-form-element__row">                                              
+                                                <div class="slds-form-element slds-size--1-of-2" style="padding-top: 20px;">      
+                                                    <span class="slds-form-element__label">KEEP ALL EXISTING CUSTOMER LOGISTIC NOTES AND ADD NOTES FROM THE BELOW TEXT BOX</span>
+                                                    <div style="{!if(v.newActRec.Keep_existing_notes_and_add_notes__c != v.originalActRec.Keep_existing_notes_and_add_notes__c, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="Keep_existing_notes_and_add_notes__c" />            
+                                                    </div>
+                                                </div>      
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue ="{!v.newActRec.Delivery_Instructions_1__c != null}">  
+                                            <div class="slds-form-element__row">   
+                                                <div class="slds-form-element slds-size--1-of-2">                         
+                                                    <span class="slds-form-element__label">Logistic and Ship-to Notes</span>
+                                                    <div style="{!if(v.newActRec.Delivery_Instructions_1__c != v.originalActRec.Delivery_Instructions_1__c, 'background-color: #FFFF00','')}" >  
+                                                    <lightning:outputField variant="label-hidden" fieldName="Logistic_and_Ship_to_Notes__c" /> 
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                        </aura:if>
+                                        <div class="slds-form-element__row">   
+                                            <div class="slds-form-element slds-size--1-of-2">                         
+                                                <span class="slds-form-element__label">Requested By</span>                                          
+                                                <lightning:outputField variant="label-hidden" fieldName="CreatedById" />                                                 
+                                            </div>
+                                            <div class="slds-form-element slds-size--1-of-2">                         
+                                                <span class="slds-form-element__label">Requested On</span>                                           
+                                                <lightning:outputField variant="label-hidden" fieldName="CreatedDate" />                                                                                                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>        
+                            </div>
+                        </lightning:recordViewForm>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+            <aura:if isTrue="{!or(equals(v.request.Type, 'Activate a Ship-To Account Request'), equals(v.request.Type, 'Deactivate a Ship-To Account Request'))}">  
+                <lightning:recordViewForm recordId="{!v.request.Id}" objectApiName="Case">  
+                    <div style="background-color:white; padding-left: 20px;padding-bottom: 10px;">
+                        <fieldset class="slds-form--compound">                                
+                            <div class="form-element__group">   
+                                <legend class="slds-text-heading--small slds-p-vertical--medium">Account Shipping Information</legend>                                                       
+                                <div class="slds-form-element__row">
+                                    <div class="slds-form-element slds-size--1-of-1">   
+                                        <aura:if isTrue="{!equals(v.request.Type, 'Deactivate a Ship-To Account Request')}">  
+                                            <span class="slds-form-element__label">Ship-To Account to DeActivate</span>
+                                            <aura:set attribute="else">
+                                                <span class="slds-form-element__label">Ship-To Account to Activate</span>
+                                            </aura:set>
+                                        </aura:if>
+                                        <br/>                                                
+                                        {!v.request.Account.BPCS_Account_ID__c}  <lightning:outputField variant="label-hidden" fieldName="AccountId" />                                                 
+                                    </div> 
+                                </div>
+                                <div class="slds-form-element__row">
+                                    <div class="slds-form-element slds-size--1-of-1">                         
+                                        <span class="slds-form-element__label">Reason</span>
+                                        <lightning:outputField variant="label-hidden" fieldName="Reason" />                                                 
+                                    </div> 
+                                </div>
+                                <div class="slds-form-element__row">
+                                    <div class="slds-form-element slds-size--1-of-1">                         
+                                        <span class="slds-form-element__label">Reason Text</span>
+                                        <lightning:outputField variant="label-hidden" fieldName="Comments__c" />                                                 
+                                    </div> 
+                                </div>
+                                <div class="slds-form-element__row">   
+                                    <div class="slds-form-element slds-size--1-of-2">                         
+                                        <span class="slds-form-element__label">Requested By</span>                                          
+                                        <lightning:outputField variant="label-hidden" fieldName="CreatedById" />                                                 
+                                    </div>
+                                    <div class="slds-form-element slds-size--1-of-2">                         
+                                        <span class="slds-form-element__label">Requested On</span>                                           
+                                        <lightning:outputField variant="label-hidden" fieldName="CreatedDate" />                                                                                                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>        
+                    </div>
+                </lightning:recordViewForm>
+            </aura:if>              
+            <aura:if isTrue="{!or(equals(v.request.Type, 'Partner Ship-To Account Request'), equals(v.request.Type, 'Un-Partner Ship-To Account Request'))}"> 
+                <lightning:recordViewForm recordId="{!v.request.Id}" objectApiName="Case">  
+                    <div style="background-color:white; padding-left: 20px;padding-bottom: 10px;">
+                        <fieldset class="slds-form--compound">                                
+                            <div class="form-element__group">   
+                                <legend class="slds-text-heading--small slds-p-vertical--medium">Account Shipping Information</legend>                                                       
+                               
+                                <div class="slds-form-element__row">
+                                    <div class="slds-form-element slds-size--1-of-1">   
+                                        <aura:if isTrue="{!equals(v.request.Type, 'Partner Ship-To Account Request')}">  
+                                            <span class="slds-form-element__label">Partner To Sold-To Account</span>
+                                            <aura:set attribute="else">
+                                                <span class="slds-form-element__label">UnPartner from Sold-To Account</span>
+                                            </aura:set>
+                                        </aura:if>
+                                        <br/>                                                
+                                        {!v.request.PartnerTo_UnPartner_from_Sold_To_Account__r.BPCS_Account_ID__c}  <lightning:outputField variant="label-hidden" fieldName="PartnerTo_UnPartner_from_Sold_To_Account__c" />                                                 
+                                    </div> 
+                                </div>  
+                                 <div class="slds-form-element__row">
+                                    <div class="slds-form-element slds-size--1-of-1">                                                   
+                                        <span class="slds-form-element__label">Ship-To Account</span>                                                    
+                                        <br/>                                                
+                                        {!v.request.Account.BPCS_Account_ID__c}  <lightning:outputField variant="label-hidden" fieldName="AccountId" />                                                 
+                                    </div> 
+                                </div>
+                                <div class="slds-form-element__row">   
+                                    <div class="slds-form-element slds-size--1-of-2">                         
+                                        <span class="slds-form-element__label">Requested By</span>                                          
+                                        <lightning:outputField variant="label-hidden" fieldName="CreatedById" />                                                 
+                                    </div>
+                                    <div class="slds-form-element slds-size--1-of-2">                         
+                                        <span class="slds-form-element__label">Requested On</span>                                           
+                                        <lightning:outputField variant="label-hidden" fieldName="CreatedDate" />                                                                                                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>        
+                    </div>
+                </lightning:recordViewForm>
+            </aura:if>               
+            <aura:if isTrue="{!equals(v.request.Type, 'Customer Master Inquiry Request')}">  
+                <lightning:recordViewForm recordId="{!v.request.Id}" objectApiName="Case">  
+                    <div style="background-color:white; padding-left: 20px;padding-bottom: 10px;">
+                        <fieldset class="slds-form--compound">                                
+                            <div class="form-element__group">                                       
+                                <div class="slds-form-element__row">
+                                    <div class="slds-form-element slds-size--1-of-1">                                                   
+                                        <span class="slds-form-element__label">Inquiry Text</span>                                                    
+                                        <lightning:outputField variant="label-hidden" fieldName="Description" />                                                 
+                                    </div> 
+                                </div>
+                                <div class="slds-form-element__row">   
+                                    <div class="slds-form-element slds-size--1-of-2">                         
+                                        <span class="slds-form-element__label">Requested By</span>                                          
+                                        <lightning:outputField variant="label-hidden" fieldName="CreatedById" />                                                 
+                                    </div>
+                                    <div class="slds-form-element slds-size--1-of-2">                         
+                                        <span class="slds-form-element__label">Requested On</span>                                           
+                                        <lightning:outputField variant="label-hidden" fieldName="CreatedDate" />                                                                                                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </lightning:recordViewForm>
+            </aura:if>            
+        </div>           
+    </div>         
+</aura:component>

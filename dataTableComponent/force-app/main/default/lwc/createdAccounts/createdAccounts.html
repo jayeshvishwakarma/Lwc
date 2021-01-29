@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="Recent Accounts" icon-name="standard:account">
+    <div class="slds-m-around__large">
+        <lightning-datatable 
+            key-field="Id" 
+            data={MYDATA} 
+            columns={fieldColumns} 
+            onrowaction={handleRowActions} 
+            show-row-number-column="true"
+            hide-checkbox-column="true"
+            onsave={handleSave}
+            draft-values={draftValues}
+            >
+
+        </lightning-datatable>
+    </div>
+</lightning-card>
+</template>

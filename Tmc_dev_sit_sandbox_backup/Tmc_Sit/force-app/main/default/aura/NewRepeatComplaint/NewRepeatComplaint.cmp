@@ -1,0 +1,10 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasSObjectName,force:hasRecordId,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="message" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+   
+	<c:newRepeatComplaintLWC recordId="{!v.recordId}" 
+                             onclose="{!c.handelClose}"
+                             message="{!v.message}" 
+                             recodtypeDevName="Repeat_Complaint"/>
+</aura:component>

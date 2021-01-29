@@ -1,0 +1,23 @@
+<template>
+  <div class="slds-p-left_large slds-p-right_large slds-p-top_large">
+  <lightning-record-edit-form object-api-name="MI_Communication_Request__c" onsuccess={handleSuccess}
+    onsubmit={handleSubmit}>
+    <lightning-input-field field-name="Case_Number__c" name="Case_Number__c" value={caseNumber} disabled>
+    </lightning-input-field>
+    <lightning-input-field field-name="Template_Name__c" name="Template_Name__c" required data-id="tempName">
+    </lightning-input-field>
+    <lightning-input-field field-name="Claim_Number__c" name="Claim_Number__c" data-id="claimNum">
+    </lightning-input-field>
+    <!--End of Fields Section-->
+    <lightning-button class="submit-btn slds-hide" type="submit" label="submit">
+    </lightning-button>
+  </lightning-record-edit-form>
+  </div>
+  <div class="slds-is-relative slds-p-vertical_xx-large" if:true={loading}>
+    <lightning-spinner alternative-text="Loading" variant="brand" size="small"></lightning-spinner>
+  </div>
+  <lightning-button if:true={loaded} class="slds-m-horizontal--xxx-small slds-align_absolute-center" variant="brand" label="Save"
+    onclick={handleApiCallout}>
+  </lightning-button>
+  
+</template>

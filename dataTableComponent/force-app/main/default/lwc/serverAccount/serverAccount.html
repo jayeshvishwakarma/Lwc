@@ -1,0 +1,17 @@
+<template>
+    <lightning-card label="Account" icon-name="standard:Account">
+        <template if:true={lstAccountRecords.data}>
+            <template for:each={lstAccountRecords.data} for:item="objAccount">
+                <div class="slds-grid slds-gutters" key={objAccount.id}>
+                    <div class="slds-col slds-size_2-of-4">
+                        <p>{objAccount.Name}</p>
+                    </div>
+                    <div class="slds-col slds-size_2-of-4">
+                        <p>{objAccount.Phone}</p>
+                    </div>
+                </div>
+            </template>
+        </template> 
+    </lightning-card>
+    
+</template>

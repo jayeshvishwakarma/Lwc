@@ -1,0 +1,26 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickActionWithoutHeader">
+    <aura:attribute name="record" type="Object" />    
+    <aura:attribute name="recordSaveError" type="String" default=""/>
+    <aura:attribute name="complete" type="Boolean" default="false" />
+    
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+     <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+    <force:recordData aura:id="recordData"                     
+                      fields="OwnerId"
+                      recordId="{!v.recordId}"                      
+                      targetFields="{!v.record}"
+                      targetError="{!v.recordSaveError}"                   
+                      recordUpdated="{!c.recordLoaded}" 
+                      mode="EDIT"/>
+     <aura:if isTrue="{!v.Spinner}">
+    <div aura:id="spinnerId" class="slds-spinner_container">
+       <div class="slds-spinner--brand  slds-spinner slds-spinner--large" role="alert">
+         <span class="slds-assistive-text">Processing, Please Wait...</span>
+         <div class="slds-spinner__dot-a"></div>
+         <div class="slds-spinner__dot-b"></div>
+       </div>
+    </div>
+ </aura:if>
+</aura:component>

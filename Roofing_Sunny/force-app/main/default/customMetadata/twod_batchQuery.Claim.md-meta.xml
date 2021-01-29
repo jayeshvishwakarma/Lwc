@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Claim</label>
+    <protected>false</protected>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Criteria__c</field>
+        <value xsi:type="xsd:string">twod__Claim_Status__c IN (&apos;Closed&apos;) AND Sales_Org__c = null AND CreatedDate &lt; 2004-01-01T00:00:01z</value>
+    </values>
+    <values>
+        <field>Field_Set__c</field>
+        <value xsi:type="xsd:string">Id,Country_BL__c,Sales_Org__c,Currency__c,isClassAction__c,SAP_Vendor_Number__c</value>
+    </values>
+    <values>
+        <field>Object__c</field>
+        <value xsi:type="xsd:string">twod__Claim__c</value>
+    </values>
+    <values>
+        <field>Roofing_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,73 @@
+<template>
+    <template if:true={isSpinnerShow}>
+        <lightning-spinner size="small" variant="brand" alternative-text="loading"></lightning-spinner>
+    </template>
+    <template if:true={isValidApprover}>
+        <lightning-card>
+            <div slot="title" class="slds-align_absolute-center">Approval Request</div>
+            <div id="card-body" >
+                <!-- Approver List -->
+                
+                <div if:true={isTableShow}  id="table">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Approver">Approver</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Decision">Decision</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Workshop Reason">Workshop Reason</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Remarks">Remarks</div>
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={approverData} for:item="app">
+                                <tr key={app.approverId}>
+                                    <td data-label="Approver">
+                                        <div class="slds-truncate" title={app.approver}>{app.approver}</div>
+                                    </td>
+                                    <td data-label="Decision">
+                                        <div class="slds-truncate" title={app.decision}>{app.decision}</div>
+                                    </td>
+                                    <td data-label="Workshop Reason">
+                                        <div class="slds-truncate" title={app.workshopReason}>{app.workshopReason}</div>
+                                    </td>
+                                    <td data-label="Remarks">
+                                        <div class="slds-truncate" title={app.remarks}>{app.remarks}</div>
+                                    </td> 
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>    
+                <!-- Current Approver action -->
+                <lightning-layout multiple-rows class="slds-p-top--medium"  if:true={isEditTrue}>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+                        <lightning-combobox class="input" label="Decision" value={decision} options={decisionOption} onchange={handleDecisionChange} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+                        <lightning-combobox class="input" label="Workshop Reason" value={workshopReason} options={reasonOption} onchange={handleReasonChange} required disabled={isReasonDisabled}></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+                        <lightning-textarea class="input" label="Remarks" value={remarks} onchange={handleRemarksChange} ></lightning-textarea>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+            <!-- FOOTER BUTTONS -->
+            <div slot="footer" class="slds-float_right" if:true={isEditTrue}>
+                <lightning-button label="Save" title="Save" onclick={handleSave} variant="brand"></lightning-button>
+                <lightning-button label="Cancel" title="Cancel" onclick={handleCancel} class="slds-p-left_xxx-small"></lightning-button>
+                </div>
+        </lightning-card>
+    </template>
+    <template if:false={isValidApprover}>
+        <div class="slds-required slds-align_absolute-center">You are not authorized/ Or Nothing for Approval </div>
+    </template>
+
+</template>

@@ -1,0 +1,22 @@
+.THIS .panel-thumbnail {
+    background-color : #fff !important;
+}
+.THIS .title{
+    color:#003366;
+    white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+    margin-top:5px;
+  
+}
+
+.THIS .desc{
+    padding-top:10px;
+    text-align:left;
+}
+
+.THIS .img-company{
+    width:150px !important;
+    height: 150px !important;
+    padding:5px;
+}

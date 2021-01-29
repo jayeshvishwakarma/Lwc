@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <interviewLabel>Add Bellis Case Team {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Add Bellis Case Team</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Case_Team_Member_CSR</name>
+        <label>Case Team Member - CSR</label>
+        <locationX>173</locationX>
+        <locationY>196</locationY>
+        <connector>
+            <targetReference>Case_Team_Member_Service_Supervisor</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>MemberId</field>
+            <value>
+                <elementReference>OwnerID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ParentId</field>
+            <value>
+                <elementReference>CaseID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>TeamRoleId</field>
+            <value>
+                <stringValue>0B7f1000000007f</stringValue>
+            </value>
+        </inputAssignments>
+        <object>CaseTeamMember</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Case_Team_Member_Service_Supervisor</name>
+        <label>Case Team Member - Service Supervisor</label>
+        <locationX>170</locationX>
+        <locationY>299</locationY>
+        <inputAssignments>
+            <field>MemberId</field>
+            <value>
+                <stringValue>005j000000CKR5h</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ParentId</field>
+            <value>
+                <elementReference>CaseID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>TeamRoleId</field>
+            <value>
+                <stringValue>0B7f1000000007k</stringValue>
+            </value>
+        </inputAssignments>
+        <object>CaseTeamMember</object>
+    </recordCreates>
+    <startElementReference>Case_Team_Member_CSR</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>CaseID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Used to assign Serive Supervisor team member</description>
+        <name>OwnerID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,19 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+	 <aura:html tag="style">
+    	.cuf-scroller-content{
+        	background:#fff;
+        }
+        .slds-modal__container { 
+            width: 65%;
+           max-width: 55rem; 
+        }
+    </aura:html>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="deviceFormFactor" type="String"/>
+    <c:followUpActionPlan recordId="{!v.recordId}" 
+                          deviceFormFactor="{!v.deviceFormFactor}" 
+                          onCloseCmp="{!c.onClosePopUp}"
+                          onSubmitReq="{!c.onSubmit}"/>
+     
+</aura:component>

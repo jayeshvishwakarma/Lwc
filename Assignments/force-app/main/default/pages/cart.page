@@ -1,0 +1,171 @@
+<apex:page lightningStylesheets="true" controller="CartController">
+    <style>
+        .column {
+        float: left;
+        width: 33.33%;
+        padding: 0px;
+        height: 70px;
+        }
+        
+        .column2 {
+        float: left;
+        width: 49.5%;
+        padding: 0px;
+        height: auto;
+        }
+        
+    </style>
+    
+    <apex:slds />
+    <apex:form id="form" >
+        <apex:pageBlock id="mainPgBlock">
+            
+            
+            <apex:pageBlock id="pgBlock1">
+                <div class="column" style="background-color:yellow" >
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                    <apex:commandLink action="{!backToHome}" ><i class="fa fa-arrow-circle-left" style="font-size:40px;Padding:12px;color:black;"></i>
+                    </apex:commandLink>
+                </div>
+                
+                <div class="column" align="center" style="background-color:yellow" >
+                    <h1 style="font-weight: bold;font-size:46px;">E-MarT</h1>
+                </div>
+                
+                <div class="column" style="background-color:yellow"><br/>
+                </div>
+            </apex:pageBlock>
+            
+            <apex:pageMessages />
+            
+            <apex:pageBlock id="pgBlock" rendered="{!isPgBlock}" >
+                
+                <div class="slds-grid">
+                    
+                    <div id="col1" class="slds-col slds-size_4-of-6">
+                        <apex:pageBlock >
+                            <h1 style="font-weight: bold;font-size:22px;">My CarT ({!countOfProducts})</h1>
+                            <apex:pageblock >
+                                
+                                <apex:repeat value="{!lstProducts}" var="objProduct">
+                                    <apex:pageBlock >
+                                        <apex:repeat value="{!objProduct.ContentDocumentLinks}" var="objImage" >
+                                            
+                                            <div class="column2">
+                                                <div align="center">
+                                                    <apex:image url="/sfc/servlet.shepherd/version/download/{!objImage.ContentDocument.LatestPublishedVersionId}" width="30%" height="30%" />
+                                                </div>
+                                            </div>
+                                        </apex:repeat>
+                                        <div class="column2">
+                                            
+                                            <h2 align="center"  style="font-weight: bold;font-size:20px;">
+                                                {!objProduct.Product_name__c}
+                                            </h2><br/>
+                                            <h2 align="center" style="font-weight: bold;font-size:20px;">
+                                                INR-{!objProduct.Price__c}/-
+                                            </h2><br/>
+                                            
+                                            <h2 style="font-size:15px;margin-left:15px;">
+                                                Brand : {!objProduct.Company__c}
+                                            </h2><br/>
+                                            
+                                            <h2  style="font-size:15px;margin-left:15px;">
+                                                Warranty : 1 Year
+                                            </h2><br/>
+                                        </div>
+                                        
+                                        <apex:repeat value="{!lstCarts}" var="objCart" >
+                                         <div align="Right">
+                                           <apex:commandButton style="font-weight:bold;height:33px;" action="{!decreaseQuantity}" value="-" reRender="form" rendered="{!if(objCart.productId__r.id==objProduct.id,true,false)}">
+                                             <apex:param value="{!objProduct.id}" assignTo="{!productIdForQuantity}" name="" />   
+                                             </apex:commandButton>
+                                             <apex:inputText style="height:10%;width:5%" value="{!objCart.Quantity__c}" rendered="{!if(objCart.productId__r.id==objProduct.id,true,false)}" />
+                                             <apex:commandButton style="font-weight:bold;height:30px;" action="{!increaseQuantity}" value="+" reRender="form" rendered="{!if(objCart.productId__r.id==objProduct.id,true,false)}">
+                                              <apex:param value="{!objProduct.id}" assignTo="{!productIdForQuantity}" name="" />
+                                             </apex:commandButton>
+                                        </div><br/>
+                                        </apex:repeat>
+                                        <div align="Right">
+                                            <apex:commandButton styleClass="slds-button slds-button_text-destructive"  value="Remove" action="{!Remove}" oncomplete="location.reload()" reRender="form">
+                                                <apex:param value="{!objProduct.id}" assignTo="{!RemoveObj}" name="" /></apex:commandButton><br/>
+                                            
+                                        </div>
+                                        
+                                    </apex:pageBlock>
+                                        
+                                    
+                                </apex:repeat>
+                                
+                            </apex:pageblock>
+                            
+                            <div align="Center">
+                                <apex:commandButton style="width:150px;height:50px;font-size:20px;color:white;background-color:orange;" value="Place Order" action="{!placeOrder}">
+                                </apex:commandButton><br/><br/>
+                                
+                            </div>
+                            
+                        </apex:pageBlock>
+                        
+                    </div>
+                    <div id="col2" class="slds-col slds-size_2-of-6" >
+                        <apex:pageblock >
+                            
+                            <apex:repeat value="{!lstCarts}" var="objCart">
+                                
+                                <apex:pageBlockSection title="Price Details" collapsible="false" />
+                                <div class="column2">
+                                    <h2 style="font-size:17px;">
+                                        Price : 
+                                    </h2>
+                                    <h2 style="font-size:16px;">
+                                        Delivery Charges :  
+                                    </h2>
+                                    <h2 style="font-size:16px;">
+                                        GST :  
+                                    </h2>
+                                    <h2 style="font-size:16px;">
+                                        SGST :  
+                                    </h2>
+                                    
+                                </div>
+                                <div class="column2">
+                                    <h2  style="font-size:17px;margin-left:90px;">
+                                        INR-{!objCart.ProductId__r.Price__c * objCart.Quantity__c}/-
+                                    </h2>
+                                    <h2  style="font-size:16px;margin-left:90px;">
+                                        FREE
+                                    </h2>
+                                    <h2  style="font-size:17px;margin-left:90px;">
+                                        4%
+                                    </h2>
+                                    <h2  style="font-size:17px;margin-left:90px;">
+                                        2.3%
+                                    </h2>
+                                    
+                                </div> 
+                            </apex:repeat>
+                            
+                        </apex:pageblock>
+                        <apex:pageBlock >
+                            <div class="column2">
+                                <h2 style="font-size:17px;">
+                                    TOTAL AMOUNT : 
+                                </h2>
+                            </div>
+                            <div class="column2">
+                                <h2 style="font-size:17px;">
+                                    INR-{!TotalAmount}/-
+                                </h2>
+                            </div>
+                            
+                        </apex:pageBlock>
+                    </div>
+                </div>
+            </apex:pageBlock>
+           
+        </apex:pageBlock>
+        
+    </apex:form>
+
+</apex:page>

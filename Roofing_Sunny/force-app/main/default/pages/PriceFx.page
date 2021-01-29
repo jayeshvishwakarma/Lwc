@@ -1,0 +1,4 @@
+<apex:page >
+ <apex:canvasApp applicationName="PriceFx" height="700px" width="100%"
+   border="0" scrolling="yes"/>
+</apex:page>

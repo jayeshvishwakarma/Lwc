@@ -1,0 +1,79 @@
+<apex:page standardController="Contact" extensions="LoginContactControllerExtension" lightningStylesheets="true" tabStyle="Contact">
+    <apex:slds />
+    <apex:form id="form1" >
+        <apex:actionFunction name="passwordMatched" action="{!createContact}" rendered="{!isLoginSection}">
+            <apex:param assignTo="{!Contact.Password__c}" name="password1" value=""/>
+        </apex:actionFunction>
+        <apex:pageMessages />
+        <div class="slds-box slds-theme_shade slds-theme_alert-texture">
+            
+            <apex:pageBlock id="pgBlock">
+                
+                <apex:pageBlockSection id="pgBlockSection1" collapsible="true" columns="1"  rendered="{!isLoginSection}">
+                    
+                    <apex:sectionHeader title="User" subtitle="Login" />
+                    
+                    <apex:inputText label="Email" value="{!Contact.email}" />
+                    <apex:inputSecret label="Password" value="{!Contact.Password__c}" id="passwordFromLogin"/>
+                    
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel ></apex:outputPanel>
+                        <apex:commandButton styleClass="slds-button slds-button_brand" value="Login" action="{!login}" />
+                    </apex:pageBlockSectionItem>
+                    
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel ></apex:outputPanel>
+                        <apex:commandButton styleClass="slds-button slds-button_outline-brand" value="SignUp" action="{!SignUptable}" />
+                    </apex:pageBlockSectionItem>
+                    
+                    <apex:commandButton styleClass="slds-button slds-button_text-destructive" value="ForgotPassword" action="{!ForgotPasswordsectionEnable}" />
+                    
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection id="pgBlockSection2"  collapsible="true" columns="1" rendered="{!isSignUpSection}">
+                    <apex:sectionHeader title="Create" subtitle="User" />
+                    <apex:inputField value="{!Contact.FirstName}" />
+                    <apex:inputField value="{!Contact.LastName}" />
+                    <apex:inputField rendered="true" value="{!Contact.Email}" />
+                    <apex:inputField value="{!Contact.Phone}" />
+                    <apex:inputSecret required="true" value="{!Contact.Password__c}" />
+                    <apex:commandButton styleClass="slds-button slds-button_outline-brand" value="SignUp" action="{!createContact}" />
+                    <apex:commandButton value="Back to Login" action="{!backToLogin}" immediate="true" />
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection id="pgBlockSection3"  collapsible="true" columns="1" rendered="{!isForgotPasswordsectionEnable}">
+                    <apex:sectionHeader title="Forgot" subtitle="Password" />
+                    <apex:inputField required="true" value="{!Contact.Email}" />
+                    <apex:commandButton styleClass="slds-button slds-button_success" value="Validate Email ID" action="{!ValidateEmail}" /><br/>
+                    <apex:commandButton value="Back to Login" action="{!backToLogin}" immediate="true" />
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection id="pgBlockSection4"  collapsible="true" columns="1" rendered="{!isResetPasswordSection}">
+                    <apex:sectionHeader title="Forgot" subtitle="Password" />
+                    <apex:inputField required="true" value="{!Contact.Password__c}" />
+                    <apex:commandButton styleClass="slds-button slds-button_success" value="Reset Password" action="{!ResetPassword}" />
+                    <apex:commandButton value="Back to Login" action="{!backToLogin}" immediate="true" />
+                </apex:pageBlockSection> 
+                
+            </apex:pageBlock>
+        </div>
+    </apex:form>
+    
+    <!------- <script>
+function checkValidation()
+{
+    var password1=document.getElementById('passwordValue1').value;
+    var password2=document.getElementById('passwordValue2').value;
+    if(password1==password2)
+    {
+        passwordMatched(password1);
+    }
+    else
+    {
+        alert('Password is not Matched');
+    }
+    
+}
+
+</script>--------->
+</apex:page>

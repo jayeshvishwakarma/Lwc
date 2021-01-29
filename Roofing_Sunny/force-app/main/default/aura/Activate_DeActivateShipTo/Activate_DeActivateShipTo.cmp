@@ -1,0 +1,36 @@
+<aura:component controller="CustomerOnboardingController">
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="caseId" type="String"/>
+    <aura:attribute name="activateInd" type="Boolean" default="false"/>  
+    <aura:attribute name="reason" type="String"/> 
+    <aura:attribute name="reasonText" type="String"/> 
+     <aura:attribute name="requiredError" type="Boolean" default="false"/> 
+     <aura:attribute name="requiredSuc" type="Boolean" default="false"/>
+    <aura:attribute name="successMsg" type="String" />
+    <aura:attribute name="errorMessage" type="String" />     
+    <aura:method name="savesubmitActivateorDeactivate" action="{!c.createActivateorDeactivateAccount}">
+        <aura:attribute name="isSubmitted" type="Boolean"/>     
+    </aura:method>
+    
+    <!--<aura:if isTrue="{!v.activateInd}">
+    	 <div class="slds-text-heading-large slds-text-align-center">Activate a Ship-To Account Request</div>        
+         <aura:set attribute="else">
+    		<div class="slds-text-heading-large slds-text-align-center">Deactivate a Ship-To Account Request</div>           
+         </aura:set>
+    </aura:if> -->   
+     <aura:if isTrue="{!v.requiredSuc}">
+        <div>
+            <ui:message title="Confirmation" severity="confirm" closable="true">                          
+                <aura:unescapedHtml value="{!v.successMsg}" />
+            </ui:message>
+        </div>
+    </aura:if>
+     <aura:if isTrue="{!v.requiredError}">
+          <div class="recordError">
+              <ui:message title="Error" severity="error" closable="true">
+                  <aura:unescapedHtml value="{!v.errorMessage}" />
+              </ui:message>
+          </div>
+    </aura:if>
+    <c:AccountDetailsView aura:id="actDetailView" accountId="{!v.accountId}" caseId="{!v.caseId}" activationInd="{!v.activateInd}" reason="{!v.reason}" reasonText="{!v.reasonText}"/>
+</aura:component>

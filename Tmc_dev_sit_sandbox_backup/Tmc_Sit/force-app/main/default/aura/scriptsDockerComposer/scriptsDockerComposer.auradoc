@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Scripts Docker Component</aura:description>
+	<aura:example name="ScriptsDockerComposer" ref="ScriptsDockerComposer" label="ScriptsDockerComposer">
+		Component to show scripts in community
+	</aura:example>
+</aura:documentation>
